@@ -3,9 +3,7 @@ import { SEO } from "astro-seo";
 import Footer from "@components/footer.astro";
 import Navbar from "@components/navbar/navbar.astro";
 import "@fontsource-variable/inter/index.css";
-import '@fontsource-variable/bricolage-grotesque';
-
-
+import "@fontsource-variable/bricolage-grotesque";
 
 export interface Props {
   title: string;
@@ -20,12 +18,10 @@ const resolvedImageWithDomain = new URL(
 
 const { title } = Astro.props;
 
-const makeTitle = title
-  ? title + " | " + "Astroship"
-  : "Astroship - Starter Template for Astro with Tailwind CSS";
+const makeTitle = title ? title + " | " + "8Labs" : "8Labs - CloudLabs for You";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -36,22 +32,22 @@ const makeTitle = title
     <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
     <SEO
       title={makeTitle}
-      description="Astroship is a starter website template for Astro built with TailwindCSS."
+      description="8Labs offers robust, secure, and scalable cloud hosting solutions tailored for home lab enthusiasts. Enjoy seamless networking, versatile OS support, and full control over your virtual machines."
       canonical={canonicalURL}
       twitter={{
-        creator: "@surjithctly",
-        site: "@web3templates",
+        creator: "@mraskaa_",
+        site: "@mraskaa_",
         card: "summary_large_image",
       }}
       openGraph={{
         basic: {
           url: canonicalURL,
           type: "website",
-          title: `Astroship - Starter Template for Astro`,
+          title: "8Labs - CloudLabs",
           image: resolvedImageWithDomain,
         },
         image: {
-          alt: "Astroship Homepage Screenshot",
+          alt: "8Labs Homepage Screenshot",
         },
       }}
     />

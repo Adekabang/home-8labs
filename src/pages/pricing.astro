@@ -10,11 +10,11 @@ const pricing = [
     price: "Free",
     popular: false,
     features: [
-      "Lifetime free",
-      "Up to 3 users",
-      "Unlimited Pages",
-      "Astro Sub domain",
-      "Basic Integrations",
+      "KVM Based Virtual Machine",
+      "2 vCPU",
+      "4GB of Memory",
+      "50GB of Storage",
+      "Public IPv6, Private IPv4",
       "Community Support",
     ],
     button: {
@@ -23,42 +23,37 @@ const pricing = [
     },
   },
   {
-    name: "Startup",
-    price: {
-      monthly: "$19",
-      annual: "$16",
-      discount: "10%",
-      original: "$24",
-    },
+    name: "Researcher",
+    price: "Zero Cost",
     popular: true,
     features: [
-      "All Free Features",
-      "Up to 20 users",
-      "20 Custom domains",
-      "Unlimited Collaborators",
-      "Advanced Integrations",
-      "Priority Support",
+      "KVM Based Virtual Machine",
+      "2 vCPU",
+      "4GB of Memory",
+      "50GB of Storage",
+      "Public IPv6, Private IPv4",
+      "Community Support",
     ],
     button: {
       text: "Get Started",
-      link: "#",
+      link: "/",
     },
   },
   {
-    name: "Enterprise",
-    price: "Custom",
+    name: "Technician",
+    price: "Rp 0",
     popular: false,
     features: [
-      "All Pro Features",
-      "Unlimited Custom domains",
-      "99.99% Uptime SLA",
-      "SAML & SSO Integration",
-      "Dedicated Account Manager",
-      "24/7 Phone Support",
+      "KVM Based Virtual Machine",
+      "2 vCPU",
+      "4GB of Memory",
+      "50GB of Storage",
+      "Public IPv6, Private IPv4",
+      "Community Support",
     ],
     button: {
-      text: "Contact us",
-      link: "/contact",
+      text: "Get Started",
+      link: "/",
     },
   },
 ];
@@ -67,7 +62,9 @@ const pricing = [
 <Layout title="Pricing">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Pricing</Fragment>
+      <Fragment slot="title"
+        ><span class="line-through decoration-red-700">Pricing</span></Fragment
+      >
       <Fragment slot="desc">
         Simple & Predictable pricing. No Surprises.
       </Fragment>

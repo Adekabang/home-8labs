@@ -5,7 +5,7 @@ import Button from "./ui/button.astro";
 <!-- To make this contact form work, create your free access key from https://web3forms.com/
      Then you will get all form submissions in your email inbox. -->
 <form
-  action="https://api.web3forms.com/submit"
+  action="https://api.8labs.id/submit"
   method="POST"
   id="form"
   class="needs-validation"
@@ -93,7 +93,7 @@ import Button from "./ui/button.astro";
 
     result.innerHTML = "Sending...";
 
-    fetch("https://api.web3forms.com/submit", {
+    fetch("https://api.8labs.id/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +114,7 @@ import Button from "./ui/button.astro";
       })
       .catch((error) => {
         console.log(error);
-        result.innerHTML = "Something went wrong!";
+        result.innerHTML = "Something went wrong! Better contact me via x";
       })
       .then(function () {
         form.reset();
