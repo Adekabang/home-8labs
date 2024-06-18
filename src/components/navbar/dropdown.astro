@@ -38,6 +38,11 @@ const { title, lastItem, children } = Astro.props;
                 target={item.target ? "_blank" : "_self"}
                 class="py-1 text-gray-600 hover:text-gray-900">
                 {item.title}
+                {item.badge && (
+                  <span class="ml-1 px-2 py-0.5 text-[10px] animate-pulse font-semibold uppercase text-white bg-indigo-600 rounded-full">
+                    {item.badge}
+                  </span>
+                )}
               </a>
             ))
           }

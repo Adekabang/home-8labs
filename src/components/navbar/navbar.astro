@@ -9,8 +9,17 @@ const menuitems = [
     title: "Home",
     path: "#",
     children: [
-      { title: "Client Panel", path: "https://my.8labs.id", target: true },
-      { title: "Cloud Panel", path: "https://cloud.8labs.id", target: true },
+      {
+        title: "Client Panel",
+        path: "https://my.8labs.id",
+        target: true,
+      },
+      {
+        title: "Cloud Panel",
+        path: "https://cloud.8labs.id",
+        target: true,
+        badge: "Beta",
+      },
     ],
   },
   {
@@ -63,7 +72,7 @@ const menuitems = [
                       <span> {item.title}</span>
                       {item.badge && (
                         <span class="ml-1 px-2 py-0.5 text-[10px] animate-pulse font-semibold uppercase text-white bg-indigo-600 rounded-full">
-                          New
+                          {item.badge}
                         </span>
                       )}
                     </a>
