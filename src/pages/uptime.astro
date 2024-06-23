@@ -16,9 +16,9 @@ import Layout from "@layouts/Layout.astro";
   </Container>
 </Layout>
 <script is:inline>
-  console.log("hej!");
   window.onload = (e) => {
-    console.log("loaded!");
-    window.location.href = "https://uptime.8labs.id/status/services";
+    setTimeout(() => {
+      window.location.href = "https://uptime.8labs.id/status/services";
+    }, 5000);
   };
 </script>

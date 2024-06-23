@@ -1,8 +1,6 @@
 ---
 import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
-
-return Astro.redirect("https://my.8labs.id");
 ---
 
 <Layout title="Client Panel">
@@ -17,3 +15,10 @@ return Astro.redirect("https://my.8labs.id");
     </div>
   </Container>
 </Layout>
+<script is:inline>
+  window.onload = (e) => {
+    setTimeout(() => {
+      window.location.href = "https://my.8labs.id";
+    }, 5000);
+  };
+</script>
