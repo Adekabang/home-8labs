@@ -1,9 +1,7 @@
 ---
 import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
-await new Promise((resolve) => setTimeout(resolve, 3000)).then(() => {
-  return Astro.redirect("https://uptime.8labs.id/status/services");
-}); // 3 sec
+return Astro.redirect("https://uptime.8labs.id/status/services");
 ---
 
 <Layout title="Status">
@@ -18,3 +16,10 @@ await new Promise((resolve) => setTimeout(resolve, 3000)).then(() => {
     </div>
   </Container>
 </Layout>
+<script is:inline>
+  console.log("hej!");
+  window.onload = (e) => {
+    console.log("loaded!");
+    return Astro.redirect("https://uptime.8labs.id/status/services");
+  };
+</script>
