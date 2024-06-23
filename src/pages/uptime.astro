@@ -2,10 +2,11 @@
 import Container from "@components/container.astro";
 import Layout from "@layouts/Layout.astro";
 
+await new Promise((resolve) => setTimeout(resolve, 3000)); // 3 sec
 return Astro.redirect("https://uptime.8labs.id/status/services");
 ---
 
-<Layout title="Uptime">
+<Layout title="Status">
   <Container>
     <div class="min-h-[calc(100vh-16rem)] flex items-center justify-center">
       <div class="mt-16 text-center">
