@@ -31,9 +31,19 @@ const teamCollection = defineCollection({
   }),
 });
 
+const legalCollection = defineCollection({
+  schema: z.object({
+    draft: z.boolean(),
+    type: z.string(),
+    title: z.string(),
+    language: z.string(),
+  }),
+});
+
 // 3. Export a single `collections` object to register your collection(s)
 //    This key should match your collection directory name in "src/content"
 export const collections = {
   blog: blogCollection,
   team: teamCollection,
+  legal: legalCollection,
 };

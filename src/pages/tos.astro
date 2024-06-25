@@ -1,0 +1,44 @@
+---
+import { getCollection } from "astro:content";
+import { Picture } from "astro:assets";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/container.astro";
+import Sectionhead from "@components/sectionhead.astro";
+
+// Filter team entries with 'draft: false' & date before current date
+const publishedLegal = await getCollection("legal", ({ data }) => {
+  return !data.draft && data.type === "tos";
+});
+
+// Get the entry directly from the prop on render
+const { data: dataEN } = publishedLegal[0];
+const { Content: ContentEN } = await publishedLegal[0].render();
+const { data: dataID } = publishedLegal[1];
+const { Content: ContentID } = await publishedLegal[1].render();
+---
+
+<Layout title="Terms of Services">
+  <Container>
+    <Sectionhead>
+      <Fragment slot="title">{dataEN.title}</Fragment>
+      <Fragment slot="desc"> </Fragment>
+    </Sectionhead>
+
+    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
+      <div class="mx-auto prose prose-lg mt-6 max-w-3xl">
+        <ContentEN />
+      </div>
+    </div>
+
+    <Sectionhead>
+      <Fragment slot="title">{dataID.title}</Fragment>
+      <Fragment slot="desc"> </Fragment>
+    </Sectionhead>
+
+    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
+      <div class="mx-auto prose prose-lg mt-6 max-w-3xl">
+        <ContentID />
+      </div>
+    </div>
+  </Container>
+</Layout>
