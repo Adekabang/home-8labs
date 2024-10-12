@@ -1,26 +1,42 @@
-<footer class="my-20">
-  <p class="text-center text-sm text-slate-600">
-    Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-700"
-      >.</span
-    > All rights reserved.
-    <a
-      href="/privacy-policy"
-      class="items-center text-slate-500 hover:text-gray-900 hover:underline">
-      <span>Privacy Policy.</span>
-    </a>
+---
+import Container from "@components/container.astro";
+---
 
-    <a
-      href="/tos"
-      class="items-center text-slate-500 hover:text-gray-900 hover:underline">
-      <span>Terms and Services.</span>
-    </a>
-  </p>
-  <!--
+<footer class="my-20">
+  <!-- Indie Friends -->
+  <Container>
+    <div class="mb-10">
+      <h2 class="text-center text-slate-500 my-2">Indie Friends 👨‍💻</h2>
+      <div
+        class="custom-autobacklink grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 justify-center">
+      </div>
+    </div>
+    <Container />
+
+    <!-- Copyright -->
+    <p class="text-center text-sm text-slate-600">
+      Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-700"
+        >.</span
+      > All rights reserved.
+      <a
+        href="/privacy-policy"
+        class="items-center text-slate-500 hover:text-gray-900 hover:underline">
+        <span>Privacy Policy.</span>
+      </a>
+
+      <a
+        href="/tos"
+        class="items-center text-slate-500 hover:text-gray-900 hover:underline">
+        <span>Terms and Services.</span>
+      </a>
+    </p>
+
+    <!--
     Can we ask you a favor 🙏
     Please keep this backlink on your website if possible.
     or Purchase a commercial license from https://web3templates.com
   -->
-  <!-- <p class="text-center text-xs text-slate-500 mt-1">
+    <!-- <p class="text-center text-xs text-slate-500 mt-1">
     Made by <a
       href="https://web3templates.com"
       target="_blank"
@@ -29,4 +45,5 @@
       Web3Templates
     </a>
   </p> -->
+  </Container>
 </footer>
