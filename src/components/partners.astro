@@ -1,0 +1,42 @@
+---
+import { Picture } from "astro:assets";
+import genreJatengImage from "assets/genre-jateng.webp";
+
+const partners = [
+  {
+    name: "Genre Jawa Tengah",
+    image: genreJatengImage,
+    url: "https://genrejateng.or.id",
+  },
+];
+---
+
+<div class="mt-24">
+  <h2 class="text-center text-slate-500">Trusted by</h2>
+  <div
+    class="flex gap-8 md:gap-20 items-center justify-center mt-5 flex-wrap bg-black p-5 md:px-10 md:py-10 mx-auto max-w-5xl rounded-lg text-center">
+    {
+      partners.map((partner) => (
+        <a
+          href={partner.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-transform hover:scale-110"
+          title={partner.name}>
+          {/* <img
+            src={partner.image}
+            class="h-12 md:h-16 w-auto object-contain"
+            loading="lazy"
+          /> */}
+          <Picture
+            src={partner.image}
+            alt={partner.name}
+            class="h-12 md:h-16 w-auto object-contain"
+            loading="eager"
+            format="webp"
+          />
+        </a>
+      ))
+    }
+  </div>
+</div>
