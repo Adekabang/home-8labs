@@ -6,38 +6,38 @@ const features = [
   {
     title: "Seamless Networking",
     description:
-      "Enjoy the flexibility of public IPv6 and private IPv4 addressing, ensuring your lab is both accessible and secure.",
-    icon: "bx:network-chart",
+      "Public IPv6 & private IPv4 addressing for secure, accessible labs.",
+    icon: "bx:wifi",
   },
   {
     title: "Versatile OS Support",
     description:
-      "Leverage KVM-based virtualization with support for popular Linux distributions including Debian, Ubuntu, CentOS Stream, RockyLinux, AlmaLinux, and FreeBSD.",
-    icon: "bx:bxs-invader",
+      "KVM virtualization with Debian, Ubuntu, CentOS, Rocky, Alma & FreeBSD.",
+    icon: "bx:server",
   },
   {
     title: "Blazing Fast Connectivity",
     description:
-      "Benefit from up to 1Gbps local network speeds and up to 100Mbps international connectivity, ensuring fast and reliable access to your home lab resources.",
-    icon: "bx:bxs-rocket",
+      "Up to 1Gbps local & 100Mbps international speeds for rapid access.",
+    icon: "bx:rocket",
   },
   {
     title: "User-Friendly Console",
     description:
-      "Manage your virtual machines effortlessly with our intuitive console panel, featuring noVNC for remote desktop access and xTerm.js for advanced terminal emulation.",
-    icon: "bx:bxs-server",
+      "Intuitive VM management with noVNC desktop & xTerm.js terminal.",
+    icon: "bx:desktop",
   },
   {
-    title: "Reliable and Managed",
+    title: "Reliable & Managed",
     description:
-      "With a 99% SLA, our platform ensures high availability. Plus, our automated policies help manage and clean up orphaned machines, shutting down idle instances in the first week and deleting stopped machines in the second week.",
-    icon: "bx:bxs-shapes",
+      "99% SLA with automated cleanup policies for optimal performance.",
+    icon: "bx:shield",
   },
   {
     title: "Complete Control",
     description:
-      "Gain full administrative access to your virtual machines, giving you the freedom to configure and customize your environment to your exact needs.",
-    icon: "bx:bxs-user-badge",
+      "Full admin access to configure your environment exactly as needed.",
+    icon: "bx:cog",
   },
 ];
 ---
@@ -55,17 +55,15 @@ const features = [
   </p>
 </div>
 
-<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-8">
   {
     features.map((item) => (
-      <div class="flex gap-4 items-start">
-        <div class="mt-1 bg-black rounded-full  p-2 w-8 h-8 shrink-0">
-          <Icon class="text-white" name={item.icon} />
+      <div class="group hover:bg-slate-50 p-6 rounded-xl transition-all duration-300 hover:shadow-lg border border-transparent hover:border-slate-200">
+        <div class="bg-black rounded-lg p-3 w-12 h-12 flex items-center justify-center mb-4 group-hover:bg-red-700 transition-colors duration-300">
+          <Icon class="text-white w-6 h-6" name={item.icon} />
         </div>
-        <div>
-          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
-          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
-        </div>
+        <h3 class="font-semibold text-lg mb-2 text-slate-900">{item.title}</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">{item.description}</p>
       </div>
     ))
   }
