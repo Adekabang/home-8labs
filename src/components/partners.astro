@@ -1,6 +1,6 @@
 ---
 import { Picture } from "astro:assets";
-import genreJatengImage from "assets/genre-jateng.webp";
+import genreJatengImage from "assets/genre-jateng.png";
 
 const partners = [
   {
@@ -14,7 +14,7 @@ const partners = [
 <div class="mt-10">
   <h2 class="text-center text-slate-500">Trusted by</h2>
   <div
-    class="flex gap-8 md:gap-20 items-center justify-center mt-5 flex-wrap bg-black p-5 md:px-10 md:py-10 mx-auto max-w-5xl rounded-lg text-center">
+    class="flex gap-8 md:gap-20 items-center justify-center mt-5 flex-wrap bg-black p-5 md:px-10 md:py-6 mx-auto max-w-5xl rounded-lg text-center">
     {
       partners.map((partner) => (
         <a
@@ -31,9 +31,9 @@ const partners = [
           <Picture
             src={partner.image}
             alt={partner.name}
-            class="h-12 md:h-16 w-auto object-contain"
+            class="h-24 md:h-28 w-auto object-contain"
             loading="eager"
-            format="webp"
+            format="png"
           />
         </a>
       ))
