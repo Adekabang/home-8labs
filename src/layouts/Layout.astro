@@ -13,7 +13,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 
 const resolvedImageWithDomain = new URL(
   "/opengraph.jpg",
-  Astro.site
+  Astro.site,
 ).toString();
 
 const { title } = Astro.props;
@@ -68,23 +68,5 @@ const makeTitle = title ? title + " | " + "8Labs" : "8Labs - CloudLabs for You";
       defer
       src="https://beacon.8labs.id/script.js"
       data-website-id="2f166e07-ce01-415b-9b24-5e2d9290e058"></script>
-    <!-- Indie Friends -->
-    <script src="https://autoback.link/autobacklink.js?ref=8labs.id" defer async
-    ></script>
-    <!-- Stagewise Toolbar (Development only) -->
-    <script src="../scripts/stagewise.ts"></script>
-    <script>
-      window.onBacklinksLoaded = function (data) {
-        const el = document.querySelector(".custom-autobacklink");
-        if (el) {
-          el.innerHTML = data
-            .map(
-              (link) =>
-                `<a class="rounded-full text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200 px-3 py-2 text-slate-500 hover:bg-black hover:text-white border-2 border m-1" href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`
-            )
-            .join("\n");
-        }
-      };
-    </script>
   </body>
 </html>
