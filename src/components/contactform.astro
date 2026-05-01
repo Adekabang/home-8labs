@@ -91,7 +91,7 @@ import Button from "./ui/button.astro";
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
 
-    result.innerHTML = "Sending...";
+    result.textContent = "Sending...";
 
     fetch("https://api.8labs.id/submit", {
       method: "POST",
@@ -105,16 +105,16 @@ import Button from "./ui/button.astro";
         let json = await response.json();
         if (response.status == 200) {
           result.classList.add("text-green-500");
-          result.innerHTML = json.message;
+          result.textContent = json.message;
         } else {
           console.log(response);
           result.classList.add("text-red-500");
-          result.innerHTML = json.message;
+          result.textContent = json.message;
         }
       })
       .catch((error) => {
         console.log(error);
-        result.innerHTML = "Something went wrong! Better contact me via Telegram";
+        result.textContent = "Something went wrong! Better contact me via Telegram";
       })
       .then(function () {
         form.reset();

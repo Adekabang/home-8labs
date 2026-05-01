@@ -79,6 +79,7 @@ const menuitems = [
                     <a
                       href={item.path}
                       target={item.target ? "_blank" : "_self"}
+                      rel={item.target ? "noopener noreferrer" : undefined}
                       class="flex lg:px-3 py-2 items-center text-gray-600 hover:text-gray-900">
                       <span> {item.title}</span>
                       {item.badge && (
