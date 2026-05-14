@@ -3,21 +3,22 @@ import Link from "./ui/link.astro";
 ---
 
 <div
-  class="bg-black p-8 md:px-20 md:py-20 mt-20 mx-auto max-w-5xl rounded-lg flex flex-col items-center text-center">
-  <h2 class="text-white text-4xl md:text-6xl tracking-tight">
-    Ready to build your next lab?
-  </h2>
-  <p class="text-slate-400 mt-4 text-lg md:text-xl">
-    Continue to the client panel to browse live products, stock, pricing, and
-    billing units. If you are still exploring, start with docs and confirm backup
-    expectations before putting important data on any lab.
-  </p>
-  <div class="flex flex-col sm:flex-row mt-5 gap-3">
-    <Link href="https://my.8labs.id" style="inverted" target="_blank" rel="noopener noreferrer">
-      Open Client Panel
-    </Link>
-    <Link href="https://docs.8labs.id" style="outline" target="_blank" rel="noopener noreferrer">
-      Read Documentation
-    </Link>
+  class="relative overflow-hidden bg-zinc-950 p-8 md:px-20 md:py-20 mt-24 mx-auto max-w-5xl rounded-[2rem] flex flex-col items-center text-center shadow-[0_30px_100px_-55px_rgba(0,0,0,0.8)]">
+  <div class="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_30%_20%,rgba(220,38,38,.35),transparent_35%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,.16),transparent_32%)]"></div>
+  <div class="relative">
+    <h2 class="text-white text-4xl font-bold tracking-[-0.05em] md:text-6xl">
+      Ready to build your next lab?
+    </h2>
+    <p class="mx-auto mt-5 max-w-3xl text-lg leading-8 text-zinc-300 md:text-xl">
+      Continue to the client panel to browse live products, stock, pricing, and billing units. If you are still exploring, start with docs and confirm backup expectations before putting important data on any lab.
+    </p>
+    <div class="flex flex-col sm:flex-row mt-7 gap-3 justify-center">
+      <Link href="https://my.8labs.id" style="inverted" target="_blank" rel="noopener noreferrer" class="rounded-full">
+        Open Client Panel
+      </Link>
+      <Link href="https://docs.8labs.id" style="outline" target="_blank" rel="noopener noreferrer" class="rounded-full border-white/20 bg-white/[0.03] text-white hover:bg-white/10">
+        Read Documentation
+      </Link>
+    </div>
   </div>
 </div>

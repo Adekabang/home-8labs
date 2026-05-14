@@ -3,63 +3,118 @@ import { Picture } from "astro:assets";
 import heroImage from "assets/hero.png";
 import Link from "@components/ui/link.astro";
 import { Icon } from "astro-icon/components";
+
+const nodes = [
+  { label: "Virtual Labs", tone: "bg-red-600", x: "left-[8%]", y: "top-[18%]" },
+  { label: "CloudLabs", tone: "bg-zinc-950", x: "right-[10%]", y: "top-[24%]" },
+  { label: "Elastic NAT", tone: "bg-zinc-700", x: "left-[16%]", y: "bottom-[24%]" },
+  { label: "Docs", tone: "bg-white text-zinc-950", x: "right-[18%]", y: "bottom-[18%]" },
+];
 ---
 
-<main
-  class="grid lg:grid-cols-2 place-items-center pt-16 pb-8 md:pt-12 md:pb-24">
-  <div class="py-6 md:order-1 hidden md:block">
-    <Picture
-      src={heroImage}
-      alt="8Labs cloud lab illustration"
-      widths={[200, 400, 600]}
-      sizes="(max-width: 800px) 100vw, 620px"
-      loading="eager"
-      format="avif"
-    />
-  </div>
-  <div>
-    <p class="font-semibold text-red-700 uppercase tracking-wide text-sm mb-3">
-      Virtual labs for ngoprek, learning, and small workloads
-    </p>
-    <h1
-      class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
-      Experiment fearlessly with 8Labs<span class="text-red-700">.</span>
-    </h1>
-    <p class="text-lg mt-4 text-slate-600 max-w-xl">
-      Spin up cloud-based lab environments for development, homelab projects,
-      classes, and infrastructure experiments. Choose from Virtual Labs,
-      Virtual Dedicated Labs, CloudLabs, ElasticLabs, and NAT-based labs in the
-      client panel.
-    </p>
-    <div class="mt-6 flex flex-col sm:flex-row gap-3">
-      <Link
-        href="https://my.8labs.id"
-        target="_blank"
-        class="flex gap-1 items-center justify-center"
-        rel="noopener noreferrer">
-        <Icon class="text-white w-5 h-5" name="bx:bxs-hand-up" />
-        Open Client Panel
-      </Link>
-      <Link
-        size="lg"
-        style="outline"
-        rel="noopener noreferrer"
-        href="https://my.8labs.id/products/virtual-labs"
-        class="flex gap-1 items-center justify-center"
-        target="_blank">
-        <Icon class="text-black w-4 h-4" name="bx:cart" />
-        Browse Products
-      </Link>
-      <Link
-        size="lg"
-        style="outline"
-        rel="noopener noreferrer"
-        href="https://docs.8labs.id"
-        class="flex gap-1 items-center justify-center"
-        target="_blank">
-        <Icon class="text-black w-4 h-4" name="bx:book" />
-        Documentation
-      </Link>
-    </div>
+<main class="relative isolate overflow-hidden rounded-[2rem] bg-zinc-950 text-white mt-6 shadow-[0_30px_120px_-50px_rgba(0,0,0,0.8)]">
+  <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(185,28,28,0.36),transparent_30%),radial-gradient(circle_at_80%_12%,rgba(255,255,255,0.12),transparent_25%),linear-gradient(135deg,#050505,#18181b_45%,#050505)]"></div>
+  <div class="absolute inset-0 -z-10 opacity-[0.18] [background-image:linear-gradient(rgba(255,255,255,.18)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.18)_1px,transparent_1px)] [background-size:44px_44px]"></div>
+  <div class="absolute left-1/2 top-0 -z-10 h-px w-3/4 -translate-x-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+
+  <div class="grid min-h-[720px] lg:grid-cols-[1.02fr_0.98fr] items-center gap-8 px-6 py-12 md:px-10 lg:px-14 lg:py-16">
+    <section>
+      <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <span class="h-1.5 w-1.5 rounded-full bg-red-500 shadow-[0_0_18px_rgba(239,68,68,0.9)]"></span>
+        Virtual labs for ngoprek, learning, and small workloads
+      </div>
+
+      <h1 class="mt-6 max-w-5xl text-5xl font-bold leading-[0.95] tracking-[-0.06em] text-white sm:text-6xl lg:text-7xl xl:text-[5.8rem]">
+        Spin up a lab, break things safely, rebuild faster<span class="text-red-500">.</span>
+      </h1>
+
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-zinc-300 md:text-xl">
+        8Labs routes developers, students, IT professionals, and homelab users into cloud-based lab environments—Virtual Labs, Virtual Dedicated Labs, CloudLabs, ElasticLabs, and NAT labs—through the client panel.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <Link
+          href="https://my.8labs.id"
+          target="_blank"
+          class="flex items-center justify-center gap-2 rounded-full bg-white text-black hover:bg-zinc-200 border-white px-6 shadow-[0_16px_50px_-22px_rgba(255,255,255,0.9)]"
+          rel="noopener noreferrer">
+          <Icon class="h-5 w-5 text-black" name="bx:bxs-hand-up" />
+          Open Client Panel
+        </Link>
+        <Link
+          size="lg"
+          style="outline"
+          rel="noopener noreferrer"
+          href="https://my.8labs.id/products/virtual-labs"
+          class="flex items-center justify-center gap-2 rounded-full border-white/15 bg-white/[0.03] text-white hover:bg-white/10"
+          target="_blank">
+          <Icon class="h-4 w-4 text-white" name="bx:cart" />
+          Browse Products
+        </Link>
+        <Link
+          size="lg"
+          style="outline"
+          rel="noopener noreferrer"
+          href="https://docs.8labs.id"
+          class="flex items-center justify-center gap-2 rounded-full border-white/15 bg-white/[0.03] text-white hover:bg-white/10"
+          target="_blank">
+          <Icon class="h-4 w-4 text-white" name="bx:book" />
+          Documentation
+        </Link>
+      </div>
+
+      <div class="mt-10 grid max-w-2xl grid-cols-3 divide-x divide-white/10 rounded-2xl border border-white/10 bg-white/[0.035] p-4 text-sm text-zinc-300 backdrop-blur">
+        <div class="pr-4">
+          <p class="font-semibold text-white">5 families</p>
+          <p class="mt-1 text-xs leading-5 text-zinc-400">public product routes</p>
+        </div>
+        <div class="px-4">
+          <p class="font-semibold text-white">IPv6 / IPv4 / NAT</p>
+          <p class="mt-1 text-xs leading-5 text-zinc-400">network options by plan</p>
+        </div>
+        <div class="pl-4">
+          <p class="font-semibold text-white">my.8labs.id</p>
+          <p class="mt-1 text-xs leading-5 text-zinc-400">stock, pricing, ordering</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative hidden min-h-[560px] lg:block" aria-label="8Labs product network visual">
+      <div class="absolute left-1/2 top-1/2 h-[470px] w-[470px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/10 bg-white/[0.025] shadow-[inset_0_0_80px_rgba(255,255,255,0.05)]"></div>
+      <div class="absolute left-1/2 top-1/2 h-[310px] w-[310px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-white/15"></div>
+      <div class="absolute left-1/2 top-1/2 h-[170px] w-[170px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-red-500/30 bg-red-500/10 blur-sm"></div>
+
+      <div class="absolute left-1/2 top-1/2 w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-[1.5rem] border border-white/10 bg-zinc-950/80 p-3 shadow-2xl backdrop-blur-xl">
+        <div class="rounded-[1.1rem] bg-white p-3">
+          <Picture
+            src={heroImage}
+            alt="8Labs cloud lab illustration"
+            widths={[320, 520, 720]}
+            sizes="520px"
+            loading="eager"
+            format="avif"
+            class="rounded-xl"
+          />
+        </div>
+        <div class="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-semibold uppercase tracking-wide text-zinc-400">
+          <span class="rounded-lg bg-white/5 py-2">Order</span>
+          <span class="rounded-lg bg-white/5 py-2">Deploy</span>
+          <span class="rounded-lg bg-white/5 py-2">Rebuild</span>
+        </div>
+      </div>
+
+      {nodes.map((node) => (
+        <div class={`absolute ${node.x} ${node.y} rounded-full border border-white/10 bg-white/10 p-1 shadow-2xl backdrop-blur`}>
+          <div class={`rounded-full ${node.tone} px-4 py-2 text-xs font-semibold text-white shadow-[0_16px_60px_-24px_rgba(255,255,255,0.7)]`}>
+            {node.label}
+          </div>
+        </div>
+      ))}
+
+      <div class="absolute bottom-6 right-4 max-w-[260px] rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-zinc-300 backdrop-blur">
+        <p class="font-semibold text-white">Design note</p>
+        <p class="mt-1 text-xs leading-5 text-zinc-400">Public page stays as a routing guide; live stock, billing unit, and final price remain in the client panel.</p>
+      </div>
+    </section>
   </div>
 </main>

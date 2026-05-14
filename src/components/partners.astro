@@ -11,27 +11,36 @@ const partners = [
 ];
 ---
 
-<div class="mt-10">
-  <h2 class="text-center text-slate-500">Trusted by</h2>
-  <div
-    class="flex gap-8 md:gap-20 items-center justify-center mt-5 flex-wrap bg-black p-5 md:px-10 md:py-6 mx-auto max-w-5xl rounded-lg text-center">
-    {
-      partners.map((partner) => (
-        <a
-          href={partner.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-transform hover:scale-110"
-          title={partner.name}>
-          <Picture
-            src={partner.image}
-            alt={partner.name}
-            class="h-24 md:h-28 w-auto object-contain"
-            loading="eager"
-            format="png"
-          />
-        </a>
-      ))
-    }
+<div class="mt-24">
+  <div class="mx-auto max-w-5xl overflow-hidden rounded-[2rem] border border-zinc-200 bg-white shadow-[0_30px_90px_-60px_rgba(0,0,0,0.45)]">
+    <div class="grid items-center gap-px bg-zinc-200 lg:grid-cols-[0.85fr_1.15fr]">
+      <div class="bg-zinc-950 p-8 text-white md:p-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-300">Trusted by</p>
+        <h2 class="mt-3 text-3xl font-bold tracking-[-0.04em] md:text-4xl">Verified community trust signal.</h2>
+        <p class="mt-4 text-sm leading-7 text-zinc-300">
+          Showing only verified public trust assets. No invented customers, no filler logo wall.
+        </p>
+      </div>
+      <div class="bg-white p-6 md:p-10">
+        {
+          partners.map((partner) => (
+            <a
+              href={partner.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group flex min-h-[160px] items-center justify-center rounded-3xl border border-zinc-200 bg-zinc-950 p-8 transition-transform hover:-translate-y-1"
+              title={partner.name}>
+              <Picture
+                src={partner.image}
+                alt={partner.name}
+                class="h-24 w-auto object-contain drop-shadow-[0_10px_28px_rgba(255,255,255,0.22)] md:h-28"
+                loading="eager"
+                format="png"
+              />
+            </a>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </div>

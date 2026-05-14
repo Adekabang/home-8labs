@@ -46,61 +46,67 @@ const products = [
 ];
 ---
 
-<section class="mt-20">
-  <div class="max-w-3xl">
-    <p class="font-semibold text-red-700 uppercase tracking-wide text-sm">
-      Active product catalog
-    </p>
-    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-2">
-      Choose the lab shape that matches your experiment.
-    </h2>
-    <p class="text-lg mt-4 text-slate-600">
-      8Labs centers ordering and account management in the client panel. This
-      public page is a factual routing guide: pick a product family here, then
-      confirm live stock, plan details, and billing terms on my.8labs.id.
+<section class="mt-24">
+  <div class="grid items-end gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+    <div>
+      <p class="font-semibold text-red-700 uppercase tracking-[0.2em] text-sm">
+        Active product catalog
+      </p>
+      <h2 class="mt-3 max-w-3xl text-4xl font-bold tracking-[-0.04em] text-zinc-950 lg:text-6xl">
+        Choose the lab shape that matches your experiment.
+      </h2>
+    </div>
+    <p class="text-lg leading-8 text-zinc-600 lg:max-w-xl lg:justify-self-end">
+      8Labs centers ordering and account management in the client panel. This public page is a factual routing guide: pick a product family here, then confirm live stock, plan details, and billing terms on my.8labs.id.
     </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+  <div class="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
     {
-      products.map((product) => (
+      products.map((product, index) => (
         <a
           href={product.href}
           target="_blank"
           rel="noopener noreferrer"
-          class="group border border-slate-200 rounded-xl p-6 hover:border-red-200 hover:shadow-lg transition-all bg-white">
-          <div class="flex items-center justify-between gap-4">
-            <div class="bg-black rounded-lg p-3 w-12 h-12 flex items-center justify-center group-hover:bg-red-700 transition-colors duration-300">
-              <Icon class="text-white w-6 h-6" name={product.icon} />
+          class:list={[
+            "group relative overflow-hidden rounded-3xl border border-zinc-200 bg-white p-6 shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-[0_30px_80px_-45px_rgba(0,0,0,0.55)]",
+            index < 2 ? "lg:col-span-3 min-h-[320px]" : "lg:col-span-2 min-h-[280px]",
+          ]}>
+          <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-zinc-100 to-transparent opacity-80"></div>
+          <div class="relative flex items-center justify-between gap-4">
+            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-950 text-white transition-colors duration-300 group-hover:bg-red-700">
+              <Icon class="h-6 w-6" name={product.icon} />
             </div>
-            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            <span class="rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-xs font-semibold text-zinc-600">
               {product.label}
             </span>
           </div>
-          <h3 class="font-semibold text-xl text-slate-900 mt-5">{product.title}</h3>
-          <p class="text-slate-600 text-sm leading-relaxed mt-3">
-            {product.description}
-          </p>
-          <span class="inline-flex items-center gap-1 text-sm font-semibold text-red-700 mt-5">
-            View product <Icon class="w-4 h-4" name="bx:right-arrow-alt" />
-          </span>
+          <div class="relative mt-12">
+            <h3 class="text-2xl font-bold tracking-[-0.03em] text-zinc-950">{product.title}</h3>
+            <p class="mt-4 text-sm leading-7 text-zinc-600">
+              {product.description}
+            </p>
+            <span class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-red-700">
+              View product <Icon class="h-4 w-4 transition-transform group-hover:translate-x-1" name="bx:right-arrow-alt" />
+            </span>
+          </div>
         </a>
       ))
     }
   </div>
 
-  <div class="mt-8 rounded-xl bg-slate-50 border border-slate-200 p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-    <div>
-      <h3 class="font-semibold text-slate-900">Pricing note</h3>
-      <p class="text-slate-600 text-sm mt-1">
-        Virtual Labs may use LAB Coin based usage, while other product families
-        can show IDR pricing in the client panel. Use the landing page as a
-        guide only; always confirm the final price, stock, and billing unit on
-        my.8labs.id before ordering.
-      </p>
+  <div class="mt-6 overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-950 p-6 text-white shadow-[0_30px_90px_-55px_rgba(0,0,0,0.7)]">
+    <div class="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-300">Pricing note</p>
+        <h3 class="mt-2 text-2xl font-bold tracking-[-0.03em]">Confirm live price, stock, and billing unit in the panel.</h3>
+        <p class="mt-3 max-w-3xl text-sm leading-7 text-zinc-300">
+          Virtual Labs may use LAB Coin based usage, while other product families can show IDR pricing. Use the landing page as a guide only; always confirm the final price, stock, and billing unit on my.8labs.id before ordering.
+        </p>
+      </div>
+      <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" style="inverted" class="rounded-full">
+        Open client panel
+      </Link>
     </div>
-    <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer">
-      Open client panel
-    </Link>
   </div>
 </section>
