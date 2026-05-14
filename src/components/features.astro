@@ -4,54 +4,54 @@ import { Icon } from "astro-icon/components";
 
 const features = [
   {
-    title: "Pick the network model first",
+    title: "Flexible lab environments",
     description:
-      "Public product pages distinguish public IPv6, public IPv4/IPv6, private IPv4, and NAT options. Start with the connectivity your lab actually needs.",
+      "Choose from nested Virtual Labs, straightforward Virtual Dedicated Labs, CloudLabs, ElasticLabs, or NAT-based labs depending on how much control, isolation, and networking your workload needs.",
+    icon: "bx:cube",
+  },
+  {
+    title: "IPv6, IPv4, and NAT options",
+    description:
+      "Product families expose different network models: public IPv6, public IPv4/IPv6, private IPv4, or NAT. Pick the plan that matches whether your lab needs direct public access or a lower-cost private setup.",
     icon: "bx:wifi",
   },
   {
-    title: "Use docs for first boot",
+    title: "Client panel ordering",
     description:
-      "The public docs walk through registration, ordering a Virtual Lab, and accessing it through the client or cloud portal.",
-    icon: "bx:book-open",
-  },
-  {
-    title: "Plan for provisioning time",
-    description:
-      "The getting-started docs say a Virtual Lab is typically ready within 1-15 minutes after the order flow completes.",
-    icon: "bx:time-five",
-  },
-  {
-    title: "Manage from the client panel",
-    description:
-      "Browse products, check stock, order, and manage services from my.8labs.id; use this landing page as a routing layer.",
+      "Use my.8labs.id to browse current stock, confirm pricing and billing unit, place orders, and manage services from one client panel.",
     icon: "bx:desktop",
   },
   {
-    title: "Snapshots are not external backups",
+    title: "Fast lab provisioning",
     description:
-      "Some public listings mention snapshots for recovery, while the terms say users remain responsible for important backups.",
+      "The public docs describe a registration, order, and access flow, with Virtual Labs typically ready within 1-15 minutes after the order flow completes.",
+    icon: "bx:time-five",
+  },
+  {
+    title: "Snapshots and recovery context",
+    description:
+      "Selected plans mention on-server snapshots or recovery options. For important workloads, keep your own backups because external backup is not implied.",
     icon: "bx:archive",
   },
   {
-    title: "Experiment without overclaiming",
+    title: "Docs, status, and support path",
     description:
-      "8Labs is positioned for developers, students, IT professionals, and homelab users who want practical cloud lab environments.",
-    icon: "bx:cog",
+      "Start from docs.8labs.id for usage guidance, check public status when available, and use the client panel or Telegram community for account and provisioning help.",
+    icon: "bx:support",
   },
 ];
 ---
 
 <div class="mt-20">
   <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
-    Everything You Need to Start <span
-      class="text-red-700 underline decoration-black">Ngoprek</span
+    8Labs features for practical <span
+      class="text-red-700 underline decoration-black">ngoprek</span
     >.
   </h2>
   <p class="text-lg mt-4 text-slate-600 max-w-3xl">
-    A practical cloud lab platform for developers, students, IT professionals,
-    and homelab enthusiasts who need a place to test, break, rebuild, and learn
-    without overcommitting production infrastructure.
+    Build, test, break, and rebuild in lab environments designed for developers,
+    students, IT professionals, and homelab users—without treating production
+    infrastructure as your playground.
   </p>
 </div>
 
