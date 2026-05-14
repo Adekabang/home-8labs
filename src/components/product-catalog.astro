@@ -5,36 +5,41 @@ import Link from "@components/ui/link.astro";
 const products = [
   {
     title: "Virtual Labs",
+    label: "LAB Coin usage",
     description:
-      "Nested-virtualization labs for experiments, learning, and short-lived workloads with LAB Coin based usage.",
+      "Experiment-focused nested virtualization labs. Public product pages list Small, Medium, and Large options with public IPv6, and selected plans add private IPv4.",
     href: "https://my.8labs.id/products/virtual-labs",
     icon: "bx:test-tube",
   },
   {
     title: "Virtual Dedicated Labs",
+    label: "IDR plans",
     description:
-      "Straightforward KVM virtual machines with public IPv6, on-server snapshots, and predictable IDR plans.",
+      "KVM virtual machines for predictable workloads. Public listings mention public IPv6, on-server snapshots for recovery, and no included external backup.",
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
     icon: "bx:server",
   },
   {
     title: "CloudLabs",
+    label: "Public IPv4/IPv6",
     description:
-      "High-performance cloud labs with public IPv4/IPv6, DDoS protection, and larger transfer allowance options.",
+      "Higher-bandwidth cloud lab option. The current public listing shows public IPv4 and IPv6 with an Amsterdam, NL location.",
     href: "https://my.8labs.id/products/cloudlabs",
     icon: "bx:cloud",
   },
   {
     title: "ElasticLabs",
+    label: "Growable VM tiers",
     description:
-      "Flexible VM plans where resources can grow with your workload, including Anti-DDoS and snapshot options.",
+      "Flexible VM family with public product plans that reference snapshot-based recovery and external backup not being included.",
     href: "https://my.8labs.id/products/elasticlabs",
     icon: "bx:bar-chart-alt-2",
   },
   {
     title: "ElasticLabs NAT",
+    label: "Private IPv4 NAT",
     description:
-      "Lower-cost NAT labs without a public IP, suitable for private services and port-forward-by-ticket workflows.",
+      "Lower-cost NAT lab family. Public listings mention private IPv4, disk tiers, and 5TB bandwidth on listed plans.",
     href: "https://my.8labs.id/products/elasticlabs-nat",
     icon: "bx:git-branch",
   },
@@ -50,9 +55,9 @@ const products = [
       Choose the lab shape that matches your experiment.
     </h2>
     <p class="text-lg mt-4 text-slate-600">
-      8Labs now centers ordering and account management in the client panel. The
-      public landing page should help users pick a product family, then continue
-      to the right product flow on my.8labs.id.
+      8Labs centers ordering and account management in the client panel. This
+      public page is a factual routing guide: pick a product family here, then
+      confirm live stock, plan details, and billing terms on my.8labs.id.
     </p>
   </div>
 
@@ -64,10 +69,15 @@ const products = [
           target="_blank"
           rel="noopener noreferrer"
           class="group border border-slate-200 rounded-xl p-6 hover:border-red-200 hover:shadow-lg transition-all bg-white">
-          <div class="bg-black rounded-lg p-3 w-12 h-12 flex items-center justify-center mb-5 group-hover:bg-red-700 transition-colors duration-300">
-            <Icon class="text-white w-6 h-6" name={product.icon} />
+          <div class="flex items-center justify-between gap-4">
+            <div class="bg-black rounded-lg p-3 w-12 h-12 flex items-center justify-center group-hover:bg-red-700 transition-colors duration-300">
+              <Icon class="text-white w-6 h-6" name={product.icon} />
+            </div>
+            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+              {product.label}
+            </span>
           </div>
-          <h3 class="font-semibold text-xl text-slate-900">{product.title}</h3>
+          <h3 class="font-semibold text-xl text-slate-900 mt-5">{product.title}</h3>
           <p class="text-slate-600 text-sm leading-relaxed mt-3">
             {product.description}
           </p>

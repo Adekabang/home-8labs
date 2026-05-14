@@ -3,9 +3,9 @@ import { Icon } from "astro-icon/components";
 
 const trustItems = [
   {
-    title: "Public status page",
+    title: "Status link, with fallback awareness",
     description:
-      "Service status is published at uptime.8labs.id so users can check incidents and availability before opening a ticket.",
+      "The site links to a public status route for availability checks. If that route has a certificate or availability issue, use the client panel or community path instead.",
     href: "https://uptime.8labs.id",
     label: "Open status",
     icon: "bx:pulse",
@@ -13,7 +13,7 @@ const trustItems = [
   {
     title: "Docs and support path",
     description:
-      "Product usage should start from docs.8labs.id, with account or provisioning issues handled through the client panel and Telegram community.",
+      "Product usage should start from docs.8labs.id. Account, provisioning, or incident-specific issues belong in the client panel support path.",
     href: "https://docs.8labs.id",
     label: "Read docs",
     icon: "bx:book-open",
@@ -21,15 +21,15 @@ const trustItems = [
   {
     title: "Backup expectations",
     description:
-      "Some plans include on-server snapshots, but external backup is not implied. Keep your own backups for important data.",
-    href: "https://my.8labs.id",
-    label: "Review product terms",
+      "8Labs terms state that users should perform their own backups and that backup availability or integrity is not guaranteed. Treat snapshots as convenience, not external backup.",
+    href: "https://8labs.id/tos",
+    label: "Review terms",
     icon: "bx:archive",
   },
   {
-    title: "Security and abuse reports",
+    title: "Conservative security claims",
     description:
-      "For abuse, vulnerability, or account-impacting reports, use the client panel support path so the team has the right context.",
+      "Public product pages mention DDoS or Anti-DDoS on selected product families. Security, abuse, or account-impacting reports should go through support with context.",
     href: "https://my.8labs.id",
     label: "Contact support",
     icon: "bx:shield-quarter",
@@ -48,7 +48,9 @@ const trustItems = [
       </h2>
       <p class="text-slate-300 text-lg mt-4">
         Labs are built for experimentation, but users still need to know where
-        status, docs, backup expectations, and support paths live.
+        status, docs, backup expectations, and support paths live. This copy is
+        intentionally conservative and avoids SLA or backup guarantees that are
+        not stated in the public terms.
       </p>
     </div>
 
