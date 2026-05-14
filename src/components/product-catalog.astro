@@ -1,0 +1,96 @@
+---
+import { Icon } from "astro-icon/components";
+import Link from "@components/ui/link.astro";
+
+const products = [
+  {
+    title: "Virtual Labs",
+    description:
+      "Nested-virtualization labs for experiments, learning, and short-lived workloads with LAB Coin based usage.",
+    href: "https://my.8labs.id/products/virtual-labs",
+    icon: "bx:test-tube",
+  },
+  {
+    title: "Virtual Dedicated Labs",
+    description:
+      "Straightforward KVM virtual machines with public IPv6, on-server snapshots, and predictable IDR plans.",
+    href: "https://my.8labs.id/products/virtual-dedicated-labs",
+    icon: "bx:server",
+  },
+  {
+    title: "CloudLabs",
+    description:
+      "High-performance cloud labs with public IPv4/IPv6, DDoS protection, and larger transfer allowance options.",
+    href: "https://my.8labs.id/products/cloudlabs",
+    icon: "bx:cloud",
+  },
+  {
+    title: "ElasticLabs",
+    description:
+      "Flexible VM plans where resources can grow with your workload, including Anti-DDoS and snapshot options.",
+    href: "https://my.8labs.id/products/elasticlabs",
+    icon: "bx:bar-chart-alt-2",
+  },
+  {
+    title: "ElasticLabs NAT",
+    description:
+      "Lower-cost NAT labs without a public IP, suitable for private services and port-forward-by-ticket workflows.",
+    href: "https://my.8labs.id/products/elasticlabs-nat",
+    icon: "bx:git-branch",
+  },
+];
+---
+
+<section class="mt-20">
+  <div class="max-w-3xl">
+    <p class="font-semibold text-red-700 uppercase tracking-wide text-sm">
+      Active product catalog
+    </p>
+    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight mt-2">
+      Choose the lab shape that matches your experiment.
+    </h2>
+    <p class="text-lg mt-4 text-slate-600">
+      8Labs now centers ordering and account management in the client panel. The
+      public landing page should help users pick a product family, then continue
+      to the right product flow on my.8labs.id.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+    {
+      products.map((product) => (
+        <a
+          href={product.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group border border-slate-200 rounded-xl p-6 hover:border-red-200 hover:shadow-lg transition-all bg-white">
+          <div class="bg-black rounded-lg p-3 w-12 h-12 flex items-center justify-center mb-5 group-hover:bg-red-700 transition-colors duration-300">
+            <Icon class="text-white w-6 h-6" name={product.icon} />
+          </div>
+          <h3 class="font-semibold text-xl text-slate-900">{product.title}</h3>
+          <p class="text-slate-600 text-sm leading-relaxed mt-3">
+            {product.description}
+          </p>
+          <span class="inline-flex items-center gap-1 text-sm font-semibold text-red-700 mt-5">
+            View product <Icon class="w-4 h-4" name="bx:right-arrow-alt" />
+          </span>
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="mt-8 rounded-xl bg-slate-50 border border-slate-200 p-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <div>
+      <h3 class="font-semibold text-slate-900">Pricing note</h3>
+      <p class="text-slate-600 text-sm mt-1">
+        Virtual Labs may use LAB Coin based usage, while other product families
+        can show IDR pricing in the client panel. Use the landing page as a
+        guide only; always confirm the final price, stock, and billing unit on
+        my.8labs.id before ordering.
+      </p>
+    </div>
+    <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer">
+      Open client panel
+    </Link>
+  </div>
+</section>

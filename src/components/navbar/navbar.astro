@@ -6,23 +6,32 @@ import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
 const menuitems = [
   {
-    title: "Home",
+    title: "Products",
     path: "#",
     children: [
       {
-        title: "Client Panel",
-        path: "/client",
+        title: "Virtual Labs",
+        path: "https://my.8labs.id/products/virtual-labs",
         target: true,
       },
       {
-        title: "Cloud Panel",
-        path: "/cloud",
+        title: "Virtual Dedicated Labs",
+        path: "https://my.8labs.id/products/virtual-dedicated-labs",
         target: true,
-        badge: "Beta",
       },
       {
-        title: "Community Group",
-        path: "https://t.me/virtual_8labs",
+        title: "CloudLabs",
+        path: "https://my.8labs.id/products/cloudlabs",
+        target: true,
+      },
+      {
+        title: "ElasticLabs",
+        path: "https://my.8labs.id/products/elasticlabs",
+        target: true,
+      },
+      {
+        title: "ElasticLabs NAT",
+        path: "https://my.8labs.id/products/elasticlabs-nat",
         target: true,
       },
     ],
@@ -33,7 +42,7 @@ const menuitems = [
   },
   {
     title: "Docs",
-    path: "/docs",
+    path: "https://docs.8labs.id",
     target: true,
   },
   {
@@ -42,7 +51,12 @@ const menuitems = [
   },
   {
     title: "Status",
-    path: "/uptime",
+    path: "https://uptime.8labs.id",
+    target: true,
+  },
+  {
+    title: "Community",
+    path: "https://t.me/virtual_8labs",
     target: true,
   },
 ];
@@ -95,13 +109,13 @@ const menuitems = [
           }
         </ul>
         <div class="lg:hidden flex items-center mt-3 gap-4">
-          <Link href="/client" target="_blank" size="md" block>Try Now!</Link>
+          <Link href="https://my.8labs.id" target="_blank" size="md" block>Client Panel</Link>
         </div>
       </MenuItems>
     </Astronav>
     <div>
       <div class="hidden lg:flex items-center gap-4">
-        <Link href="/client" target="_blank" size="md">Try Now!</Link>
+        <Link href="https://my.8labs.id" target="_blank" size="md">Client Panel</Link>
       </div>
     </div>
   </header>

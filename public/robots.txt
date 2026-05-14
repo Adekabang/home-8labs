@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://8labs.id/sitemap-index.xml
+Sitemap: https://8labs.id/sitemap-index.xml

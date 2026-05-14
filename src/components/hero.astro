@@ -10,7 +10,7 @@ import { Icon } from "astro-icon/components";
   <div class="py-6 md:order-1 hidden md:block">
     <Picture
       src={heroImage}
-      alt="Astronaut in the air"
+      alt="8Labs cloud lab illustration"
       widths={[200, 400, 600]}
       sizes="(max-width: 800px) 100vw, 620px"
       loading="eager"
@@ -18,30 +18,43 @@ import { Icon } from "astro-icon/components";
     />
   </div>
   <div>
+    <p class="font-semibold text-red-700 uppercase tracking-wide text-sm mb-3">
+      Virtual labs for ngoprek, learning, and small workloads
+    </p>
     <h1
       class="text-5xl lg:text-6xl xl:text-7xl font-bold lg:tracking-tight xl:tracking-tighter">
-      Revolutionize Your Cloud Experience with 8Labs<span class="text-red-700"
-        >.</span
-      >
+      Experiment fearlessly with 8Labs<span class="text-red-700">.</span>
     </h1>
     <p class="text-lg mt-4 text-slate-600 max-w-xl">
-      Scalable cloud environment for your personal projects and experiments.
+      Spin up cloud-based lab environments for development, homelab projects,
+      classes, and infrastructure experiments. Choose from Virtual Labs,
+      Virtual Dedicated Labs, CloudLabs, ElasticLabs, and NAT-based labs in the
+      client panel.
     </p>
     <div class="mt-6 flex flex-col sm:flex-row gap-3">
       <Link
-        href="#"
-        href="/client"
+        href="https://my.8labs.id"
         target="_blank"
         class="flex gap-1 items-center justify-center"
-        rel="noopener">
+        rel="noopener noreferrer">
         <Icon class="text-white w-5 h-5" name="bx:bxs-hand-up" />
-        Getting Started
+        Open Client Panel
       </Link>
       <Link
         size="lg"
         style="outline"
-        rel="noopener"
-        href="/docs"
+        rel="noopener noreferrer"
+        href="https://my.8labs.id/products/virtual-labs"
+        class="flex gap-1 items-center justify-center"
+        target="_blank">
+        <Icon class="text-black w-4 h-4" name="bx:cart" />
+        Browse Products
+      </Link>
+      <Link
+        size="lg"
+        style="outline"
+        rel="noopener noreferrer"
+        href="https://docs.8labs.id"
         class="flex gap-1 items-center justify-center"
         target="_blank">
         <Icon class="text-black w-4 h-4" name="bx:book" />

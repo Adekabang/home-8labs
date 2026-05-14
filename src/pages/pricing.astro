@@ -6,57 +6,54 @@ import PricingCard from "@components/pricing.astro";
 
 const pricing = [
   {
-    name: "🧑‍💻 Personal",
-    price: "Free",
-    popular: false,
-    features: [
-      "KVM Based Virtual Machine",
-      "2 vCPU",
-      "4GB of Memory",
-      "33GB of Storage",
-      "Public IPv6, Private IPv4",
-      "Community Support",
-      "Nested Virtualization",
-    ],
-    button: {
-      text: "Get Started",
-      link: "https://my.8labs.id/products/virtual-labs",
-    },
-  },
-  {
-    name: "🧑‍🔬 Researcher",
-    price: "Zero Cost",
+    name: "Virtual Labs",
+    price: "LAB Coin",
     popular: true,
     features: [
-      "KVM Based Virtual Machine",
-      "4 vCPU",
-      "8GB of Memory",
-      "33GB of Storage",
-      "Public IPv6",
-      "Community Support",
-      "Nested Virtualization",
+      "Experiment-focused nested virtualization labs",
+      "Small, Medium, and Large options shown in the client panel",
+      "IPv6-first options, with selected plans including IPv4",
+      "Usage is shown in LAB Coin billing units",
+      "Check current stock and final billing unit before ordering",
     ],
     button: {
-      text: "Get Started",
+      text: "View Virtual Labs",
       link: "https://my.8labs.id/products/virtual-labs",
+      target: "_blank",
     },
   },
   {
-    name: "🧑‍🔧 Technician",
-    price: "Custom",
+    name: "Virtual Dedicated Labs",
+    price: "IDR plans",
     popular: false,
     features: [
-      "KVM Based Virtual Machine",
-      "up to 16 vCPU",
-      "up to 128GB of Memory",
-      "up to 500GB of Storage",
-      "Public IPv6",
-      "Community Support",
-      "Bare Metal Virtualization",
+      "Straight-up KVM virtual machines, no nesting involved",
+      "Public IPv6 address",
+      "On-server snapshots on listed plans",
+      "External backup is not implied",
+      "Suitable for predictable VM workloads",
     ],
     button: {
-      text: "Get Started",
-      link: "https://my.8labs.id/products/virtual-labs",
+      text: "View VDL",
+      link: "https://my.8labs.id/products/virtual-dedicated-labs",
+      target: "_blank",
+    },
+  },
+  {
+    name: "Cloud & Elastic Labs",
+    price: "IDR plans",
+    popular: false,
+    features: [
+      "CloudLabs for higher bandwidth public IPv4/IPv6 options",
+      "ElasticLabs for growable disk/resource tiers",
+      "ElasticLabs NAT for lower-cost private IPv4 NAT labs",
+      "Anti-DDoS or DDoS protection where listed per product",
+      "Review product detail for location, transfer, and snapshots",
+    ],
+    button: {
+      text: "Browse Catalog",
+      link: "https://my.8labs.id",
+      target: "_blank",
     },
   },
 ];
@@ -65,16 +62,30 @@ const pricing = [
 <Layout title="Pricing">
   <Container>
     <Sectionhead>
-      <Fragment slot="title"
-        ><span class="line-through decoration-red-700">Pricing</span></Fragment
-      >
+      <Fragment slot="title">Product and pricing guide</Fragment>
       <Fragment slot="desc">
-        Simple & Predictable pricing. No Surprises.
+        8Labs pricing is finalized in the client panel. This page explains which
+        product families use LAB Coin-style usage and which ones normally show
+        IDR plans, so users know where to continue.
       </Fragment>
     </Sectionhead>
 
     <div class="grid md:grid-cols-3 gap-10 mx-auto max-w-screen-lg mt-12">
       {pricing.map((item) => <PricingCard plan={item} />)}
+    </div>
+
+    <div class="mx-auto max-w-screen-lg mt-10 rounded-xl bg-slate-50 border border-slate-200 p-6 text-slate-700">
+      <h2 class="font-semibold text-slate-900 text-xl">Before ordering</h2>
+      <p class="mt-2">
+        Product availability, stock, billing unit, and final price can change in
+        the client panel. Use this page as a routing guide, then confirm the
+        exact plan details on my.8labs.id.
+      </p>
+      <p class="mt-2 text-sm">
+        Important data should be backed up by the user unless a product
+        explicitly states otherwise. Snapshots and external backups are not the
+        same thing.
+      </p>
     </div>
   </Container>
 </Layout>

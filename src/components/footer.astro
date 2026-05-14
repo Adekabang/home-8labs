@@ -3,36 +3,24 @@ import Container from "@components/container.astro";
 ---
 
 <footer class="my-20">
-  <!-- Copyright -->
-  <p class="text-center text-sm text-slate-600">
-    Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-700"
-      >.</span
-    > All rights reserved.
-    <a
-      href="/privacy-policy"
-      class="items-center text-slate-500 hover:text-gray-900 hover:underline">
-      <span>Privacy Policy.</span>
-    </a>
-
-    <a
-      href="/tos"
-      class="items-center text-slate-500 hover:text-gray-900 hover:underline">
-      <span>Terms and Services.</span>
-    </a>
-  </p>
-
-  <!--
-    Can we ask you a favor 🙏
-    Please keep this backlink on your website if possible.
-    or Purchase a commercial license from https://web3templates.com
-  -->
-  <!-- <p class="text-center text-xs text-slate-500 mt-1">
-    Made by <a
-      href="https://web3templates.com"
-      target="_blank"
-      rel="noopener"
-      class="hover:underline">
-      Web3Templates
-    </a>
-  </p> -->
+  <Container>
+    <div class="border-t border-slate-200 pt-8 text-center text-sm text-slate-600">
+      <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 mb-4">
+        <a href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Client Panel</a>
+        <a href="https://docs.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Docs</a>
+        <a href="https://uptime.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Status</a>
+        <a href="https://t.me/virtual_8labs" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Telegram</a>
+        <a href="/privacy-policy" class="hover:text-gray-900 hover:underline">Privacy Policy</a>
+        <a href="/tos" class="hover:text-gray-900 hover:underline">Terms of Service</a>
+      </div>
+      <p>
+        Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-700">.</span>
+        All rights reserved.
+      </p>
+      <p class="mt-2 text-xs text-slate-500">
+        Product availability, price, stock, and support details are confirmed in
+        the client panel.
+      </p>
+    </div>
+  </Container>
 </footer>
