@@ -1,0 +1,88 @@
+---
+title: Install Qemu Guest Agent
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+
+The ```qemu-guest-agent``` is a daemon that runs on the guest operating system to provide enhanced communication between the host and guest. Installing this agent can help improve the performance and manageability of your Virtual Lab. Below are the steps to install qemu-guest-agent on different operating systems supported by 8Labs.
+
+
+## Preparation - Update the package list
+
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Debian, Ubuntu">
+  ```bash
+  sudo apt update
+  ```
+  </TabItem>
+  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
+  ```bash
+  sudo dnf update
+  ```
+  </TabItem>
+  <TabItem value="pkg" label="FreeBSD">
+  ```bash
+  sudo pkg update
+  ```
+  </TabItem>
+</Tabs>
+
+## Install the qemu-guest-agent
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Debian, Ubuntu">
+  ```bash
+  sudo apt install qemu-guest-agent
+  ```
+  </TabItem>
+  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
+  ```bash
+  sudo dnf install qemu-guest-agent
+  ```
+  </TabItem>
+  <TabItem value="pkg" label="FreeBSD">
+  ```bash
+  sudo pkg install qemu-guest-agent
+  ```
+  </TabItem>
+</Tabs>
+
+## Enable the service to start on boot
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Debian, Ubuntu">
+  ```bash
+  sudo systemctl enable qemu-guest-agent
+  ```
+  </TabItem>
+  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
+  ```bash
+  sudo systemctl enable qemu-guest-agent
+  ```
+  </TabItem>
+  <TabItem value="pkg" label="FreeBSD">
+  ```bash
+  sysrc qemu_guest_agent_enable="YES"
+  ```
+  </TabItem>
+</Tabs>
+
+## Start the service
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Debian, Ubuntu">
+  ```bash
+  sudo systemctl start qemu-guest-agent
+  ```
+  </TabItem>
+  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
+  ```bash
+  sudo systemctl start qemu-guest-agent
+  ```
+  </TabItem>
+  <TabItem value="pkg" label="FreeBSD">
+  ```bash
+  sudo service qemu-guest-agent start
+  ```
+  </TabItem>
+</Tabs>

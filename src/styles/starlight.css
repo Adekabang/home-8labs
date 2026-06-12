@@ -1,0 +1,120 @@
+/* 8Labs brand theme for Starlight — matches 8labs.id (Bricolage Grotesque + Inter, red accent, light & clean) */
+
+:root {
+  /* Typography: same stack as 8labs.id */
+  --sl-font: "Bricolage Grotesque Variable", "Inter Variable", "Inter",
+    ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand accent: 8Labs red */
+  --sl-color-accent-low: #ffe3e8;
+  --sl-color-accent: #e60022;
+  --sl-color-accent-high: #8a0014;
+
+  /* Light theme = default 8labs.id mood: white, zinc/slate text */
+  --sl-color-white: #0f172a; /* headings / strong text (slate-900) */
+  --sl-color-gray-1: #1e293b;
+  --sl-color-gray-2: #334155;
+  --sl-color-gray-3: #475569;
+  --sl-color-gray-4: #94a3b8;
+  --sl-color-gray-5: #e2e8f0;
+  --sl-color-gray-6: #f1f5f9;
+  --sl-color-gray-7: #f8fafc;
+  --sl-color-black: #ffffff;
+
+  --sl-color-text-accent: #e60022;
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.92);
+  --sl-color-bg-sidebar: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  --sl-color-accent-low: #43000a;
+  --sl-color-accent: #ff2a4a;
+  --sl-color-accent-high: #ffb3bf;
+
+  --sl-color-white: #f8fafc;
+  --sl-color-gray-1: #e2e8f0;
+  --sl-color-gray-2: #cbd5e1;
+  --sl-color-gray-3: #94a3b8;
+  --sl-color-gray-4: #475569;
+  --sl-color-gray-5: #334155;
+  --sl-color-gray-6: #1e293b;
+  --sl-color-gray-7: #0f172a;
+  --sl-color-black: #020617;
+
+  --sl-color-text-accent: #ff2a4a;
+  --sl-color-bg-nav: rgba(2, 6, 23, 0.92);
+}
+
+/* Headings in Bricolage Grotesque with the tight tracking used on 8labs.id */
+h1,
+h2,
+h3,
+h4,
+.sl-markdown-content h1,
+.sl-markdown-content h2,
+.sl-markdown-content h3,
+.sl-markdown-content h4,
+.site-title {
+  font-family: "Bricolage Grotesque Variable", "Inter Variable", sans-serif;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+
+/* Body copy in Inter for readability */
+.sl-markdown-content,
+.sl-markdown-content p,
+.sl-markdown-content li {
+  font-family: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Header: frosted glass like the 8labs.id navbar */
+header.header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--sl-color-gray-5);
+}
+
+/* Links inside content use the brand red */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--sl-color-text-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration: underline;
+}
+
+/* Sidebar: current page pill, rounded like 8labs.id buttons */
+.sidebar-content a[aria-current="page"] {
+  border-radius: 9999px;
+  background-color: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
+  font-weight: 600;
+}
+.sidebar-content a {
+  border-radius: 9999px;
+}
+
+/* Card hover lift — the "modern techy" touch (atlasgo/apisix style) */
+.card {
+  border-radius: 1rem;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--sl-color-accent);
+  box-shadow: 0 18px 60px -45px rgba(0, 0, 0, 0.7);
+}
+
+/* Buttons / links pills */
+.sl-link-button {
+  border-radius: 9999px;
+}
+
+/* Search button rounded */
+button[data-open-modal] {
+  border-radius: 9999px;
+}

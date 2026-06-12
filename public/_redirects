@@ -1,0 +1,17 @@
+# Old Docusaurus generated-index category URLs -> new section pages
+/docs/category/getting-started /docs/getting-started/intro 301
+/docs/category/billing--plans /docs/billing-plans/overview 301
+/docs/category/billing-plans /docs/billing-plans/overview 301
+/docs/category/faq /docs/faq/overview 301
+/docs/category/troubleshooting /docs/troubleshooting/overview 301
+/docs/category/self-hosted-panel /docs/getting-started/panel/aapanel-installation 301
+/guides/category/:slug /guides/:slug 301
+
+# Old Docusaurus tag permalink
+/blog/tags/docs-tag /blog/tags/docs 301
+
+# Old Docusaurus utility pages
+/blog/tags /blog 301
+/blog/archive /blog 301
+/markdown-page /docs 301
+/search /docs 301
