@@ -1,4 +1,7 @@
 ---
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 4
 slug: blog/setup-non-ha-kubernetes-using-k3s
 title: Setup Non HA Kubernetes using K3S
 authors: adekabang
@@ -8,17 +11,17 @@ date: 2025-02-25
 
 Last Update: 25 February 2025
 
-# K3S
+## K3S
 
 
-### Resources
+#### Resources
 
 - [Quick Start K3S](https://docs.k3s.io/quick-start)
 - [K3S: Setup dan Konfigurasi Kubernetes Cluster](https://www.youtube.com/watch?v=w7qoTksCQow)
 - [MetalLB: Installation with Helm](https://metallb.io/installation/#installation-with-helm)
 - [Helm: Installing from APT - Ubuntu/Debian](https://helm.sh/docs/intro/install/#from-apt-debianubuntu)
 
-# Non-HA Control Plan Setup and Configuration
+## Non-HA Control Plan Setup and Configuration
 
 ![Non HA Control Plane Kubernetes](00-non-ha-control-plane-kubernetes.png)
 
@@ -34,9 +37,9 @@ These three nodes will be deployed in Proxmox VE, with each specification of nod
 - 50 GB of storage
 - Ubuntu 20.04
 
-# Step by step
+## Step by step
 
-## VM Setup
+### VM Setup
 
 1. Update and upgrade the package repository to the newest version.
     
@@ -74,7 +77,7 @@ These three nodes will be deployed in Proxmox VE, with each specification of nod
     ![Check Docker Version](01-check-docker-version.png)
     
 
-## Master Node Setup
+### Master Node Setup
 
 1. Defined the K3s token. Save this token and make sure this token is the same for all nodes
     
@@ -130,7 +133,7 @@ These three nodes will be deployed in Proxmox VE, with each specification of nod
     
     
 
-## Worker Node Setup
+### Worker Node Setup
 
 Do this step for all the worker node, in this scenario will be `kube-worker-1` and `kube-worker-2`.
 
@@ -178,11 +181,11 @@ Do this step for all the worker node, in this scenario will be `kube-worker-1` a
 > curl -ks https://ipaddress:6443/ping
 > ```
 
-# Install and Configure services in the Master Node
+## Install and Configure services in the Master Node
 
 Because we disable some service in the master node. Now we are going to install it the replacement services.
 
-## HELM - Package Manager Installation
+### HELM - Package Manager Installation
 
 1. Install Helm using script below (the latest script can be seen on the Helm docs):
     
@@ -203,11 +206,11 @@ Because we disable some service in the master node. Now we are going to install 
     ![Check Helm Version](07-check-helm-version.png)
     
 
-## MetalLB - Load Balancer Installation and Configuration
+### MetalLB - Load Balancer Installation and Configuration
 
 ![Load Balancer Diagram](08-load-balancer-diagram.png)
 
-### Services
+#### Services
 
 - As default, all resources in Kubernetes are isolated, specifically pods.
 - Pods are isolated by default. To enable communication between pods or with the external network, you need to configure  Services.
@@ -216,7 +219,7 @@ Because we disable some service in the master node. Now we are going to install 
     - NodePort (Port 30000-32767) → NodePort services expose a port on each node in the cluster, allowing external access. The port range 30000-32767 is the default range.
     - LoadBalancer → LoadBalancer services provision an external load balancer that distributes traffic to multiple pods.
 
-### Installation Step by Step
+#### Installation Step by Step
 
 1. Add metallb repository to helm
     
@@ -277,7 +280,7 @@ Because we disable some service in the master node. Now we are going to install 
     ![Get All using kubectl](10-get-all-using-kubectl.png)
     
 
-### Configuration
+#### Configuration
 
 1. First, define the address pool on `ipaddresspool.yaml`
     
@@ -322,7 +325,7 @@ Because we disable some service in the master node. Now we are going to install 
     ![Apply L2 Advertisement using kubectl](12-apply-l2-advertisement-using-kubectl.png)
     
 
-### Test the Load Balancer
+#### Test the Load Balancer
 
 1. Run demo app for the testing, the demo app using nginx image.
     
@@ -349,11 +352,11 @@ Because we disable some service in the master node. Now we are going to install 
     ![Access External IP](14-access-external-ip.png)
     
 
-## Nginx - Ingress Controller Installation and Configuration
+### Nginx - Ingress Controller Installation and Configuration
 
 ![Ingress Diagram](15-ingress-diagram.png)
 
-### Installation Step by Step
+#### Installation Step by Step
 
 1. Add nginx repository to helm
     
@@ -417,7 +420,7 @@ Because we disable some service in the master node. Now we are going to install 
     ![Access External IP but Not Found](17-access-external-ip-but-not-found.png)
     
 
-### Testing the Ingress
+#### Testing the Ingress
 
 1. Add bitname repository to helm
     
@@ -485,7 +488,7 @@ Because we disable some service in the master node. Now we are going to install 
     ![Access using FQDN](19-access-using-fqdn.png)
     
 
-## CEPH CSI - StorageClass Installation and Configuration
+### CEPH CSI - StorageClass Installation and Configuration
 
 ![StorageClass Diagram](20-storageclass-diagram.png)
 

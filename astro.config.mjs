@@ -8,7 +8,7 @@ import starlightBlog from "starlight-blog";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://8Labs.id/",
+  site: "https://8labs.id/",
   integrations: [
     starlight({
       title: "8Labs Docs",
@@ -21,7 +21,8 @@ export default defineConfig({
       ],
       logo: undefined,
       components: {
-        SiteTitle: "./src/components/starlight/SiteTitle.astro",
+        Header: "./src/components/starlight/Header.astro",
+        MobileMenuFooter: "./src/components/starlight/MobileMenuFooter.astro",
       },
       social: [
         {
@@ -82,15 +83,9 @@ export default defineConfig({
                 },
               ],
             },
-            {
-              label: "Billing & Plans",
-              autogenerate: { directory: "docs/billing-plans" },
-            },
-            { label: "FAQ", autogenerate: { directory: "docs/faq" } },
-            {
-              label: "Troubleshooting",
-              autogenerate: { directory: "docs/troubleshooting" },
-            },
+            { label: "Billing & Plans", slug: "docs/billing-plans/overview" },
+            { label: "FAQ", slug: "docs/faq/overview" },
+            { label: "Troubleshooting", slug: "docs/troubleshooting/overview" },
           ],
         },
         {

@@ -1,0 +1,81 @@
+---
+// Mobile menu footer: main-site links (same set as the desktop navbar)
+// above the standard theme/social preferences row.
+import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
+import ThemeSelect from "starlight-blog/overrides/ThemeSelect.astro";
+
+const links = [
+  { title: "Home", path: "/" },
+  { title: "Pricing", path: "/pricing" },
+  { title: "Contact", path: "/contact" },
+  { title: "Status", path: "https://uptime.8labs.id", external: true },
+  { title: "Community", path: "https://t.me/virtual_8labs", external: true },
+];
+---
+
+<nav class="site-links" aria-label="Main site">
+  {
+    links.map((l) => (
+      <a
+        href={l.path}
+        target={l.external ? "_blank" : undefined}
+        rel={l.external ? "noopener noreferrer" : undefined}
+      >
+        {l.title}
+      </a>
+    ))
+  }
+  <a
+    href="https://my.8labs.id"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="client-panel">Client Panel</a
+  >
+</nav>
+<div class="mobile-preferences sl-flex">
+  <div class="social-icons">
+    <SocialIcons />
+  </div>
+  <ThemeSelect />
+</div>
+
+<style>
+  .site-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    border-top: 1px solid var(--sl-color-gray-6);
+    padding: 0.75rem 0;
+  }
+  .site-links a {
+    text-decoration: none;
+    font-size: 0.875rem;
+    color: var(--sl-color-gray-2);
+    padding: 0.375rem 0.75rem;
+    border-radius: 9999px;
+    background: var(--sl-color-gray-6);
+  }
+  .site-links a.client-panel {
+    background: var(--sl-color-white);
+    color: var(--sl-color-black);
+    font-weight: 500;
+  }
+
+  .social-icons {
+    display: flex;
+    margin-inline-end: auto;
+    gap: 1rem;
+    align-items: center;
+    padding-block: 1rem;
+  }
+  .social-icons:empty {
+    display: none;
+  }
+  .mobile-preferences {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--sl-color-gray-6);
+    column-gap: 1rem;
+    padding: 0.5rem 0;
+  }
+</style>

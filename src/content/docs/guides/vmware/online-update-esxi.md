@@ -6,7 +6,7 @@ sidebar:
 
 This guide details how to update the ESXi version using the command-line interface (CLI). CLI updates are ideal when you need a controlled, automated update process. Let's dive in!
 
-## Online ESXi Update via CLI
+### Online ESXi Update via CLI
 
 1.  **Check the ESXi Version:**
 
@@ -180,7 +180,7 @@ This guide details how to update the ESXi version using the command-line interfa
 
     ![esxi-after-upgrade.png](img/esxi-after-upgrade.png)
 
-# Reference
+## Reference
 
 -   [Updating VMware ESXi Host from the Command Line (ESXCLI)](https://woshub.com/update-vmware-esxi/)
 -   [Quick Tip - Using ESXCLI to upgrade ESXi 8.x throws MemoryError or Got no data from process](https://williamlam.com/2024/03/quick-tip-using-esxcli-to-upgrade-esxi-8-x-throws-memoryerror-or-got-no-data-from-process.html)

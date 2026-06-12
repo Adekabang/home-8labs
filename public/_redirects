@@ -22,6 +22,9 @@
 # Old Docusaurus tag permalink
 /blog/tags/docs-tag /blog/tags/docs 301
 
+# Old Docusaurus Atom feed (new site ships RSS only)
+/blog/atom.xml /blog/rss.xml 301
+
 # Old Docusaurus utility pages
 /blog/tags /blog 301
 /blog/archive /blog 301
