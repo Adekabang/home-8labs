@@ -1,4 +1,5 @@
 ---
+description: WireGuard VPN setup and configuration guides.
 title: "WireGuard"
 sidebar:
   order: 0

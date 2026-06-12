@@ -1,4 +1,5 @@
 ---
+description: How to install, configure, and deploy Caddy as a web server.
 title: "Caddy"
 sidebar:
   order: 0

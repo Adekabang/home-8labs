@@ -1,4 +1,5 @@
 ---
+description: Register, purchase a Virtual Lab, and get connected to 8Labs in less than 5 minutes.
 title: "Introduction"
 sidebar:
   order: 0

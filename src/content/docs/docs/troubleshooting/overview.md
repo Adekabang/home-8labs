@@ -1,4 +1,5 @@
 ---
+description: Common 8Labs issues and how to resolve them.
 title: "Troubleshooting"
 sidebar:
   order: 0

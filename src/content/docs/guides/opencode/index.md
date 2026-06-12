@@ -1,4 +1,5 @@
 ---
+description: OpenCode setup, configuration, workflows, and troubleshooting.
 title: "OpenCode"
 sidebar:
   order: 0

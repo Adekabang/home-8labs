@@ -1,57 +1,75 @@
 ---
 title: Guides
-description: Hands-on tutorials for virtualization, Linux, networking, and developer tooling.
+description: Hands-on tutorials for virtualization, Linux, networking, and developer tooling from the 8Labs team.
 tableOfContents: false
 ---
 
-import { CardGrid, LinkCard } from "@astrojs/starlight/components";
+Practical, battle-tested tutorials from the 8Labs team: virtualization,
+Linux, networking, and developer tooling.
 
-Practical, battle-tested guides from the 8Labs team.
-
-<CardGrid>
-  <LinkCard
-    title="Proxmox"
-    description="Proxmox VE tutorials, tips, and troubleshooting."
-    href="/guides/proxmox"
-  />
-  <LinkCard
-    title="VMware"
-    description="VMware ESXi administration and management."
-    href="/guides/vmware"
-  />
-  <LinkCard
-    title="XCP-ng"
-    description="XCP-ng deployment, hardening, and VMware coexistence."
-    href="/guides/xcp-ng"
-  />
-  <LinkCard
-    title="Rocky Linux"
-    description="Enterprise Linux configuration and best practices."
-    href="/guides/rocky-linux"
-  />
-  <LinkCard
-    title="Caddy"
-    description="Configure and deploy Caddy as a web server."
-    href="/guides/caddy"
-  />
-  <LinkCard
-    title="WireGuard"
-    description="WireGuard VPN setup and configuration."
-    href="/guides/wireguard"
-  />
-  <LinkCard
-    title="Git"
-    description="Git workflows and best practices."
-    href="/guides/git"
-  />
-  <LinkCard
-    title="Coolify"
-    description="Coolify deployment platform guides and tutorials."
-    href="/guides/coolify"
-  />
-  <LinkCard
-    title="OpenCode"
-    description="OpenCode setup, configuration, workflows, and troubleshooting."
-    href="/guides/opencode"
-  />
-</CardGrid>
+<div class="hub-grid">
+  <section class="hub-section">
+    <h3><a href="/guides/proxmox">Proxmox</a></h3>
+    <ul>
+      <li><a href="/guides/proxmox/expand-local-storage">Remove local-lvm & expand storage</a></li>
+      <li><a href="/guides/proxmox/expand-vm-disk">Expand a VM disk</a></li>
+      <li><a href="/guides/proxmox/importing-ova">Import an OVA</a></li>
+      <li><a href="/guides/proxmox/ubuntu-dhcp-not-working">Fix Ubuntu 22.04+ DHCP</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/vmware">VMware</a></h3>
+    <ul>
+      <li><a href="/guides/vmware/online-update-esxi">Update ESXi online via CLI</a></li>
+      <li><a href="/guides/vmware/reset-evaluation-trial-esxi">Reset the ESXi evaluation trial</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/xcp-ng">XCP-ng</a></h3>
+    <ul>
+      <li><a href="/guides/xcp-ng/hardening-public-facing-xcpng">Harden a public-facing host</a></li>
+      <li><a href="/guides/xcp-ng/xcp-ng-on-vmware">Run XCP-ng on VMware</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/rocky-linux">Rocky Linux</a></h3>
+    <ul>
+      <li><a href="/guides/rocky-linux/changing-repo-to-custom-mirror">Use a custom mirror repo</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/caddy">Caddy</a></h3>
+    <ul>
+      <li><a href="/guides/caddy/caddy-rockylinux-8-install">Install on Rocky Linux 8</a></li>
+      <li><a href="/guides/caddy/caddy-rockylinux-8-config">Configure sites & HTTPS</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/wireguard">WireGuard</a></h3>
+    <ul>
+      <li><a href="/guides/wireguard/wireguard-rocky">Set up WireGuard on Rocky</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/git">Git</a></h3>
+    <ul>
+      <li><a href="/guides/git/private-fork">Private fork of a public repo</a></li>
+      <li><a href="/guides/git/manual-mirror-autosync">Mirror with auto-sync</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/coolify">Coolify</a></h3>
+    <ul>
+      <li><a href="/guides/coolify/forgejo-webhook">Forgejo webhook deploys</a></li>
+    </ul>
+  </section>
+  <section class="hub-section">
+    <h3><a href="/guides/opencode">OpenCode</a></h3>
+    <ul>
+      <li><a href="/guides/opencode/overview">Overview & workflow map</a></li>
+      <li><a href="/guides/opencode/installation">Install OpenCode + CLIProxyAPI</a></li>
+      <li><a href="/guides/opencode/quick-start">Quick start</a></li>
+      <li><a href="/guides/opencode/troubleshooting">Troubleshooting</a></li>
+    </ul>
+  </section>
+</div>

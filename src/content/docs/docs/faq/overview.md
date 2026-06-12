@@ -1,4 +1,5 @@
 ---
+description: Frequently asked questions about 8Labs provisioning, networking, SLA, and support.
 title: "Frequently Asked Questions"
 sidebar:
   order: 0

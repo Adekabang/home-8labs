@@ -1,4 +1,5 @@
 ---
+description: Understand 8Labs pricing, plans, billing units, and credits.
 title: "Billing & Plans"
 sidebar:
   order: 0
