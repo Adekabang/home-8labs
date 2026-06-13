@@ -13,11 +13,12 @@ VyOS runs on any x86_64 system. Minimum: 2 GB RAM, 8 GB storage, 1 CPU core. For
 
 VyOS has three release channels:
 
-| Channel | Version | Access | Best for |
-|---------|---------|--------|----------|
-| **Rolling** | 1.5 Circinus | **Free** | Dev, testing, bleeding-edge |
-| **Stream** | 1.5 (quarterly) | **Free** | Prod without subscription, LTS preview |
-| **LTS** | 1.4 Sagitta | **Contributor/subscription** | Enterprise production |
+| Channel | Version | Status | Access | Best for |
+|---------|---------|--------|--------|----------|
+| **Rolling** | 1.5 Circinus | Active dev | **Free** | Dev, testing, bleeding-edge |
+| **Stream** | 1.5 (quarterly) | LTS preview | **Free** | Prod without subscription |
+| **LTS** | 1.4 Sagitta | Current LTS | **Contributor/subscription** | Enterprise production |
+| **LTS (old)** | 1.3 Equuleus | Maintenance only | Contributor/subscription | Existing 1.3 deployments |
 
 ### Rolling (Free)
 

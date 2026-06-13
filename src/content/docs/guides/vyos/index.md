@@ -35,13 +35,14 @@ If you've ever used EdgeOS (Ubiquiti EdgeRouter), you already know VyOS — Edge
 
 ## Release tracks
 
-| Channel | Version | Access |
-|---------|---------|--------|
-| **Rolling** | 1.5 Circinus | Free |
-| **Stream** | 1.5 (quarterly) | Free |
-| **LTS** | 1.4 Sagitta | Contributor or paid subscription |
+| Channel | Version | Status | Access |
+|---------|---------|--------|--------|
+| **Rolling** | 1.5 Circinus | Active development | Free |
+| **Stream** | 1.5 (quarterly) | LTS preview, stable | Free |
+| **LTS** | 1.4 Sagitta | Current LTS | Contributor/paid |
+| **LTS (old)** | 1.3 Equuleus | Maintenance only | Contributor/paid |
 
-This guide targets **VyOS 1.4/1.5** — current as of mid-2026. The configuration syntax changed significantly in 1.4; if you're on 1.3 (Equuleus), some commands will differ. Check the [official migration guide](https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html).
+This guide targets **VyOS 1.4/1.5** — the configuration syntax changed significantly in 1.4. If you're on 1.3 (Equuleus), some commands will differ. It's still maintained for security fixes but no new features — new deployments should start on 1.4 or 1.5. Check the [official migration guide](https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html).
 
 ## Quick reference
 
