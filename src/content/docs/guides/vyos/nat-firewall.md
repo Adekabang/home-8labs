@@ -7,7 +7,9 @@ sidebar:
 
 # NAT & Firewall
 
-VyOS uses a **zone-based firewall** model — you define zones, assign interfaces to them, then write rules between zones. This scales far better than interface-based rules.
+> **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
+
+VyOS uses a **zone-based firewall** model <sup>🟡 1.4+</sup> — you define zones, assign interfaces to them, then write rules between zones. This scales far better than interface-based rules.
 
 ## The Zone Model
 
@@ -25,6 +27,8 @@ VyOS uses a **zone-based firewall** model — you define zones, assign interface
 - **LOCAL** zone: traffic destined to the router itself (SSH, DNS, management)
 - **From LAN** zone: traffic from the LAN zone to WAN/LOCAL
 - **From WAN** zone: traffic from WAN to LAN/LOCAL
+
+> **🟢 1.3 users:** In VyOS 1.3, the firewall uses interface-based rules (no zones). Equivalent: `set firewall name WAN_IN rule ...` bound to interface with `set interfaces ethernet eth0 firewall in name WAN_IN`. The zone model in 1.4+ is a superset — same concepts, cleaner syntax.
 
 ## Firewall: Basic Setup
 
@@ -104,7 +108,7 @@ set firewall ipv4 name WAN-to-LAN rule 10 state related enable
 set zone-policy zone WAN to LAN firewall ipv4 name WAN-to-LAN
 ```
 
-## Source NAT (Masquerade)
+## Source NAT (Masquerade) <sup>🟢 1.3+</sup>
 
 For IPv4 with private LAN IPs, NAT traffic out the WAN interface:
 
@@ -128,7 +132,7 @@ set nat source rule 100 translation address masquerade
 set nat source rule 100 exclude
 ```
 
-## Destination NAT (Port Forwarding)
+## Destination NAT (Port Forwarding) <sup>🟢 1.3+</sup>
 
 Forward external port to internal host:
 
@@ -150,7 +154,7 @@ set nat destination rule 20 translation address 192.168.1.50
 set nat destination rule 20 translation port 22
 ```
 
-## Firewall Groups
+## Firewall Groups <sup>🟡 1.4+</sup>
 
 Use address/network/port groups for cleaner rules:
 

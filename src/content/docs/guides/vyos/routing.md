@@ -7,6 +7,8 @@ sidebar:
 
 # Routing
 
+> **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
+
 Routing = "where do I find this IP?" VyOS supports static routes (manual), BGP (Internet-scale dynamic), and OSPF (internal dynamic).
 
 ## Static Routes
@@ -33,7 +35,7 @@ set protocols static route 172.16.0.0/12 blackhole
 set protocols static route6 2001:db8::/32 next-hop 2001:db8:1::1
 ```
 
-## BGP (Border Gateway Protocol)
+## BGP (Border Gateway Protocol) <sup>🟢 1.3+</sup>
 
 BGP is THE Internet routing protocol. Use it for:
 - Announcing your own IP space
@@ -164,7 +166,7 @@ set protocols bgp neighbor 10.255.254.1 update-source 10.255.254.2
 set protocols bgp neighbor 10.255.254.1 next-hop-self
 ```
 
-## OSPF (Internal Dynamic Routing)
+## OSPF (Internal Dynamic Routing) <sup>🟢 1.3+</sup>
 
 For routing within your network — simpler than BGP for internal use:
 

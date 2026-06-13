@@ -7,6 +7,8 @@ sidebar:
 
 # VyOS Syslog to Graylog
 
+> **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
+
 Ship VyOS logs to Graylog for centralized search, alerting, and dashboards. This guide covers Graylog setup via Docker, VyOS syslog configuration, and log parsing with Grok extractors.
 
 Based on [brav0charlie's guide](https://web.archive.org/web/20240810210425/https://brav0charlie.hashnode.dev/sending-vyos-syslog-to-graylog) (original blog offline, preserved via Wayback Machine). Updated for Graylog 6.x and VyOS 1.4+.
@@ -185,7 +187,7 @@ volumes:
 
 > **Why port 1514?** Graylog runs non-root, can't bind to ports <1024. Docker maps host 514 → container 1514.
 
-## VyOS → Graylog: Syslog Forwarding
+## VyOS → Graylog: Syslog Forwarding <sup>🟡 1.4+</sup>
 
 ### VyOS 1.4+ Configuration
 

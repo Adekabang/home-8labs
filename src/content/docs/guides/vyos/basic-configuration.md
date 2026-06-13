@@ -7,6 +7,8 @@ sidebar:
 
 # Basic Configuration
 
+> **Version key:** <sup>🟢</sup> = 1.3+ (all versions) · <sup>🟡</sup> = 1.4+ (Sagitta/Circinus) · <sup>🟣</sup> = 1.5+ (Circinus/Stream only)
+
 Every VyOS configuration starts in **configuration mode** — a sandboxed session. No changes take effect until you `commit`.
 
 ```
@@ -159,7 +161,7 @@ set system name-server 8.8.8.8
 # DNS forwarding for LAN clients (covered in dhcp-dns guide)
 ```
 
-## IPv6 Basics
+## IPv6 Basics <sup>🟡 1.4+</sup>
 
 ```bash
 # Enable IPv6 globally
@@ -191,7 +193,7 @@ traceroute 8.8.8.8
 monitor interfaces ethernet eth0
 ```
 
-## Configuring Remotely? READ THIS
+## Configuring Remotely? READ THIS <sup>🟢 1.3+</sup>
 
 Use `commit-confirm` instead of `commit` when working remotely. The router auto-rolls back if you lose connectivity:
 

@@ -7,6 +7,8 @@ sidebar:
 
 # VPN: WireGuard & IPsec
 
+> **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
+
 VyOS supports both WireGuard (kernel-native, fast, simple) and IPsec/IKEv2 (standards-compatible, broad client support). Choose based on your needs:
 
 |  | WireGuard | IPsec IKEv2 |
@@ -18,7 +20,7 @@ VyOS supports both WireGuard (kernel-native, fast, simple) and IPsec/IKEv2 (stan
 | **Site-to-site** | Excellent | Excellent |
 | **Port** | UDP 51820 (default) | UDP 500, 4500 + ESP |
 
-## WireGuard
+## WireGuard <sup>🟢 1.3+</sup>
 
 ### Site-to-Site
 
@@ -105,7 +107,7 @@ set firewall ipv4 name WAN-to-LAN rule 20 source address 10.255.255.0/24
 set firewall ipv4 name WAN-to-LAN rule 20 destination address 192.168.1.0/24
 ```
 
-## IPsec IKEv2
+## IPsec IKEv2 <sup>🟢 1.3+</sup>
 
 ### Site-to-Site with Pre-Shared Key
 

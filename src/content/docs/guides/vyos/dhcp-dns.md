@@ -7,7 +7,9 @@ sidebar:
 
 # DHCP & DNS
 
-## DHCP Server
+> **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
+
+## DHCP Server <sup>🟢 1.3+</sup>
 
 VyOS can serve DHCP on any interface. Standard home-router setup takes ~10 lines.
 
@@ -132,7 +134,7 @@ set service dns forwarding domain googlesyndication.com server 0.0.0.0
 # Better — use a dedicated adblock container/VM
 ```
 
-## Dynamic DNS (DDNS)
+## Dynamic DNS (DDNS) <sup>🟡 1.4+</sup>
 
 Update a dynamic DNS provider when your WAN IP changes:
 

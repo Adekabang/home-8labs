@@ -7,6 +7,8 @@ sidebar:
 
 # High Availability with VRRP
 
+> **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
+
 VRRP (Virtual Router Redundancy Protocol) lets two or more VyOS routers share a **virtual IP**. If the master fails, a backup takes over — clients don't notice.
 
 ## Architecture
@@ -28,7 +30,7 @@ VRRP (Virtual Router Redundancy Protocol) lets two or more VyOS routers share a 
        └─────────────────────────┘
 ```
 
-## Basic VRRP
+## Basic VRRP <sup>🟢 1.3+</sup>
 
 **Router A (master):**
 
@@ -130,7 +132,7 @@ ssh $REMOTE_USER@$BACKUP "source /opt/vyatta/etc/functions/script-template; \
   commit; save; exit"
 ```
 
-### Cluster Config (VyOS 1.4+)
+### Cluster Config (VyOS 1.4+) <sup>🟡</sup>
 
 ```bash
 # Experimental: config-sync feature
@@ -139,7 +141,7 @@ set high-availability config-sync sync-direction master-to-backup
 set high-availability config-sync sync-on-commit
 ```
 
-## Stateful Failover (Connection Tracking Sync)
+## Stateful Failover (Connection Tracking Sync) <sup>🟡 1.4+</sup>
 
 For seamless failover of active connections (NAT, firewall states):
 
@@ -158,7 +160,7 @@ set high-availability vrrp sync-group LAN-SYNC conntrack-sync interface eth1
 # The sync interface carries state table traffic.
 ```
 
-## Monitoring & Health Checks
+## Monitoring & Health Checks <sup>🟡 1.4+</sup>
 
 ### Track Interface Status
 
