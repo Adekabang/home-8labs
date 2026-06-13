@@ -20,6 +20,8 @@ VyOS has three release channels:
 | **LTS** | 1.4 Sagitta | Current LTS | **Contributor/subscription** | Enterprise production |
 | **LTS (old)** | 1.3 Equuleus | Maintenance only | Contributor/subscription | Existing 1.3 deployments |
 
+> **1.3 is still rock-solid.** It's been battle-tested for years and receives security patches. It's arguably the most stable VyOS release. The reason we recommend 1.4+ for *new* deployments isn't stability — it's future-proofing. 1.3 uses older config syntax and will eventually reach EOL. Starting fresh? Go 1.4 or Stream. Running 1.3? It's fine, just plan your migration path.
+
 ### Rolling (Free)
 
 Nightly builds with the latest features. No stability guarantees — experimental features, breaking config changes possible. Download from [vyos.net/get](https://vyos.net/get/).
