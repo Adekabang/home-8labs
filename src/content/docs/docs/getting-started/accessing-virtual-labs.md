@@ -34,7 +34,7 @@ ssh <username>@<public_ip> -p <ssh_port>
 # example user 'root' connecting to public IPv4
 ssh root@123.321.123.321 -p 22
 # example user 'ubuntu' connecting to public IPv6
-ssh ubuntu@2403:6ac0:3:9d:20c:29ff:feb2:6e0e -p 22
+ssh ubuntu@2001:db8::1 -p 22
 ```
 
 After you run the SSH command for the first time, you will be asked about the fingerprint. You can just type "yes" to store the fingerprint.
