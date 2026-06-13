@@ -11,16 +11,29 @@ VyOS runs on any x86_64 system. Minimum: 2 GB RAM, 8 GB storage, 1 CPU core. For
 
 ## Download
 
-VyOS has two release tracks:
+VyOS has three release channels:
 
-| Track | Version | Access | Best for |
-|-------|---------|--------|----------|
-| **Rolling** | 1.5 Circinus | **Free** — [vyos.net/get](https://vyos.net/get/) | Lab, testing, latest features |
-| **LTS** | 1.4 Sagitta | **Contributor or subscription** | Production, stability-critical |
+| Channel | Version | Access | Best for |
+|---------|---------|--------|----------|
+| **Rolling** | 1.5 Circinus | **Free** | Dev, testing, bleeding-edge |
+| **Stream** | 1.5 (quarterly) | **Free** | Prod without subscription, LTS preview |
+| **LTS** | 1.4 Sagitta | **Contributor/subscription** | Enterprise production |
 
 ### Rolling (Free)
 
-Rolling/nightly builds are freely available to everyone. Download the latest ISO from [vyos.net/get](https://vyos.net/get/) — no registration needed for nightly images.
+Nightly builds with the latest features. No stability guarantees — experimental features, breaking config changes possible. Download from [vyos.net/get](https://vyos.net/get/).
+
+### Stream (Free) ★ Recommended
+
+VyOS Stream is the sweet spot: **quarterly snapshots of the rolling branch** that serve as a quality gate for the next LTS. Key guarantees:
+
+- **No breaking config changes** — forward-compatible syntax only
+- **Quarterly releases** — tested, curated snapshots
+- **Technology preview** — see what's coming in the next LTS (1.5 Circinus)
+
+Stream is free and is the best choice if you want stability without an LTS subscription. Think of it as "LTS-beta" — more stable than nightly, public, and a preview of what will become LTS.
+
+Available Stream Docker tags for building: `1.5-stream-2025-Q2`, `1.5-stream-2025-Q1`.
 
 ### LTS (Gated)
 
