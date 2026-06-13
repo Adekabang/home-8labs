@@ -14,7 +14,7 @@ VyOS runs on any x86_64 system. Minimum: 2 GB RAM, 8 GB storage, 1 CPU core. For
 **LTS (recommended for production):** VyOS 1.4 Sagitta
 **Rolling (latest features):** VyOS 1.5 Circinus
 
-Download ISO from [vyos.net/get](https://vyos.io/get/) — free registration required. Nightly builds available for subscribers.
+Download ISO from [vyos.net/get](https://vyos.net/get/) — free registration required. Nightly builds available for subscribers.
 
 ## Bare Metal / VM Installation
 
