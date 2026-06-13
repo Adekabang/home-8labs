@@ -1,6 +1,8 @@
 ---
 title: NAT & Firewall
 description: Zone-based firewall, source NAT, destination NAT (port forwarding), and stateful packet inspection on VyOS.
+sidebar:
+  order: 3
 ---
 
 # NAT & Firewall

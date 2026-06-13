@@ -1,6 +1,8 @@
 ---
 title: Syslog to Graylog
 description: Centralized logging for VyOS — set up Graylog with Docker, configure syslog forwarding, and build dashboards for firewall and routing events.
+sidebar:
+  order: 10
 ---
 
 # VyOS Syslog to Graylog

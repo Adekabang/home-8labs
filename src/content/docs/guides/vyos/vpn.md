@@ -1,6 +1,8 @@
 ---
 title: VPN — WireGuard & IPsec
 description: Site-to-site and road-warrior VPN with WireGuard and IPsec IKEv2 on VyOS. Performance comparison and when to use each.
+sidebar:
+  order: 5
 ---
 
 # VPN: WireGuard & IPsec

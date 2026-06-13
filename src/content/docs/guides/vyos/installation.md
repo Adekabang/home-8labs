@@ -1,6 +1,8 @@
 ---
 title: VyOS Installation
 description: Installing VyOS on bare metal, VMs, and cloud VPS — ISO download, initial setup, and image customization.
+sidebar:
+  order: 1
 ---
 
 # Installing VyOS

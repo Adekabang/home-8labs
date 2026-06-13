@@ -1,6 +1,8 @@
 ---
 title: Automating VyOS Image Builds
 description: Build custom VyOS ISOs with extra packages, automated monthly rebuilds, and cron-driven image pipelines.
+sidebar:
+  order: 9
 ---
 
 # Automating VyOS Image Builds

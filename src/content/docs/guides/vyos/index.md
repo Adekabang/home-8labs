@@ -1,6 +1,8 @@
 ---
 title: VyOS Crash Course
 description: Complete guide to VyOS — the open-source network OS. From installation to BGP, WireGuard, and high availability.
+sidebar:
+  order: 0
 ---
 
 # VyOS Crash Course

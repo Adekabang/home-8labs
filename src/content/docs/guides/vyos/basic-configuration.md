@@ -1,6 +1,8 @@
 ---
 title: Basic Configuration
 description: Hostname, interfaces, users, SSH, system settings — the foundation of any VyOS deployment.
+sidebar:
+  order: 2
 ---
 
 # Basic Configuration

@@ -112,6 +112,8 @@ export default defineConfig({
               collapsed: true,
               autogenerate: { directory: "guides/wireguard" },
             },
+            { label: "VyOS",
+              collapsed: true, autogenerate: { directory: "guides/vyos" } },
             { label: "Git",
               collapsed: true, autogenerate: { directory: "guides/git" } },
             { label: "Coolify",

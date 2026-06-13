@@ -1,6 +1,8 @@
 ---
 title: DHCP & DNS
 description: DHCP server configuration, static leases, DNS forwarding, dynamic DNS updates — all on VyOS.
+sidebar:
+  order: 4
 ---
 
 # DHCP & DNS
