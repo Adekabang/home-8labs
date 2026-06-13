@@ -36,6 +36,7 @@ const { title, lastItem, children } = Astro.props;
               <a
                 href={item.path}
                 target={item.target ? "_blank" : "_self"}
+                rel={item.target ? "noopener noreferrer" : undefined}
                 class="py-1 text-gray-600 hover:text-gray-900">
                 {item.title}
                 {item.badge && (

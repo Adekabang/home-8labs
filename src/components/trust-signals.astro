@@ -9,22 +9,25 @@ const trustItems = [
     href: "https://uptime.8labs.id",
     label: "Open status",
     icon: "bx:pulse",
+    external: true,
   },
   {
     title: "Docs and support path",
     description:
-      "Product usage should start from docs.8labs.id. Account, provisioning, or incident-specific issues belong in the client panel support path.",
-    href: "https://docs.8labs.id",
+      "Product usage should start from the docs at 8labs.id/docs. Account, provisioning, or incident-specific issues belong in the client panel support path.",
+    href: "/docs",
     label: "Read docs",
     icon: "bx:book-open",
+    external: false,
   },
   {
     title: "Backup expectations",
     description:
       "8Labs terms state that users should perform their own backups and that backup availability or integrity is not guaranteed. Treat snapshots as convenience, not external backup.",
-    href: "https://8labs.id/tos",
+    href: "/tos",
     label: "Review terms",
     icon: "bx:archive",
+    external: false,
   },
   {
     title: "Conservative security claims",
@@ -33,6 +36,7 @@ const trustItems = [
     href: "https://my.8labs.id",
     label: "Contact support",
     icon: "bx:shield-quarter",
+    external: true,
   },
 ];
 ---
@@ -44,10 +48,7 @@ const trustItems = [
 
     <div class="relative grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
       <div>
-        <p class="font-semibold text-red-300 uppercase tracking-[0.2em] text-sm">
-          Trust, operations, and risk notes
-        </p>
-        <h2 class="mt-3 text-4xl font-bold tracking-[-0.04em] lg:text-6xl">
+        <h2 class="text-4xl font-bold tracking-[-0.04em] lg:text-6xl">
           Clear signals before users deploy workloads.
         </h2>
       </div>
@@ -61,8 +62,8 @@ const trustItems = [
         trustItems.map((item) => (
           <a
             href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noopener noreferrer" : undefined}
             class="group rounded-3xl border border-white/10 bg-white/[0.045] p-6 transition-all hover:-translate-y-1 hover:bg-white/[0.075]">
             <div class="flex items-start gap-4">
               <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-black transition-colors group-hover:bg-red-700 group-hover:text-white">

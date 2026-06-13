@@ -1,0 +1,104 @@
+---
+title: AaPanel Installation
+sidebar:
+  order: 1
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+
+AaPanel is a free, open-source web hosting control panel designed to simplify server management. It provides a user-friendly web interface for managing websites, databases, security configurations, and web server settings (e.g., Nginx, Apache) through one-click installations and an intuitive dashboard.
+
+This tutorial provides a step-by-step guide to installing AaPanel on an IPv6-only server, with specific commands for Ubuntu, Debian, and CentOS environments. It includes preparation steps, installation commands, access instructions, and additional tips for dual-stack configurations.
+
+**Tested environment:**
+- Operating System: Ubuntu 22.04
+- Machine: [VirtualLabs Large](https://my.8labs.id/virtual-labs)
+
+
+## Preparation
+### Update the Package List
+
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Ubuntu, Debian">
+  
+  ```bash
+  sudo apt update -y && sudo apt upgrade -y
+  ```
+  
+  </TabItem>
+  <TabItem value="dnf" label="CentOS">
+  
+  ```bash
+  sudo dnf update -y && sudo dnf upgrade -y
+  ```
+  
+  </TabItem>
+</Tabs>
+
+### Note for Dual Stack
+
+If you are using VirtualLabs Medium (dual-stack), it is recommended to temporarily disable IPv4 in your network configuration before installation. This will ensure that AaPanel assigns an IPv6 public IP.
+
+To remove your private IPv4 address, use the following command:
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Ubuntu, Debian">
+  
+  ```bash
+  ip address del <your_private_IPv4>/24 dev eth0
+  ```
+  </TabItem>
+    <TabItem value="dnf" label="CentOS">
+  
+  ```bash
+  ip address del <your_private_IPv4>/24 dev eth0
+  ```
+  </TabItem>
+</Tabs>
+
+To restore your private IPv4 configuration, simply reboot the machine. Cloud-init will reconfigure both IPv4 and IPv6 automatically.
+
+## Install the AaPanel (Free Edition)
+
+The following script is provided by AaPanel. [Official Download Link](https://www.aapanel.com/new/download.html)  
+Supported Operating Systems for version 7: 
+- Ubuntu 20, 22, 24
+- Debian 11, 12
+- CentOS 9  
+
+> **Recommendation**: Use Ubuntu 22.04 LTS
+
+This script works best on a *fresh* and *clean* operating system.
+
+Run the following command in your terminal:
+<Tabs syncKey="operating-systems">
+  <TabItem value="apt" label="Ubuntu, Debian">
+  ```bash
+  URL=https://www.aapanel.com/script/install_7.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_7.0_en.sh "$URL";fi;bash install_7.0_en.sh aapanel
+  ```
+  </TabItem>
+    <TabItem value="dnf" label="CentOS">
+  ```bash
+  URL=https://www.aapanel.com/script/install_7.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_7.0_en.sh "$URL";fi;bash install_7.0_en.sh aapanel
+  ```
+  </TabItem>
+</Tabs>
+
+Once the installation is complete, it will display the access credentials. Be sure to securely store this information.
+
+- `aaPanel Internet Address`: https://[your_public_ip]:34891/random_value
+- `aaPanel Internal Address`: https://:34891/random_value
+- `Username`: random_username
+- `Password`: random_password
+
+## Access the AaPanel Dashboard
+
+You can access the AaPanel Dashboard using the URL provided by the script, labeled as the `aaPanel Internet Address`. Ensure your connection supports IPv6.
+
+Log in with the credentials (`username` & `password`).
+
+## Onboarding Dashboard
+
+After logging in, you will see several pop-up screens:
+- Choose the Web Server Stack (Nginx or Apache) for a one-click installation
+- Log in to your AaPanel account (optional; you can skip this step)

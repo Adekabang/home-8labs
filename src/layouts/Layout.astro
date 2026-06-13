@@ -4,6 +4,7 @@ import Footer from "@components/footer.astro";
 import Navbar from "@components/navbar/navbar.astro";
 import "@fontsource-variable/inter/index.css";
 import "@fontsource-variable/bricolage-grotesque";
+import "../styles/global.css";
 
 export interface Props {
   title: string;
@@ -53,8 +54,11 @@ const makeTitle = title ? title + " | " + "8Labs" : "8Labs - Virtual & Cloud Lab
     />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <Navbar />
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
     <Footer />
     <style is:global>
       /* Improve Page speed */

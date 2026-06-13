@@ -1,20 +1,21 @@
 ---
-import { getCollection } from "astro:content";
-import { Picture } from "astro:assets";
+import { getCollection, render } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import Container from "@components/container.astro";
 import Sectionhead from "@components/sectionhead.astro";
 
 // Filter team entries with 'draft: false' & date before current date
-const publishedLegal = await getCollection("legal", ({ data }) => {
-  return !data.draft && data.type === "tos";
-});
+const publishedLegal = (
+  await getCollection("legal", ({ data }) => {
+    return !data.draft && data.type === "tos";
+  })
+).sort((a, b) => a.id.localeCompare(b.id));
 
 // Get the entry directly from the prop on render
 const { data: dataEN } = publishedLegal[0];
-const { Content: ContentEN } = await publishedLegal[0].render();
+const { Content: ContentEN } = await render(publishedLegal[0]);
 const { data: dataID } = publishedLegal[1];
-const { Content: ContentID } = await publishedLegal[1].render();
+const { Content: ContentID } = await render(publishedLegal[1]);
 ---
 
 <Layout title="Terms of Services">

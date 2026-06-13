@@ -1,0 +1,32 @@
+# Legacy URLs from before the docs/guides split (carried over from docs.8labs.id)
+/docs/cloudlabs-101/* /docs/getting-started/:splat 301
+/docs/proxmox/* /guides/proxmox/:splat 301
+/docs/VMware/* /guides/vmware/:splat 301
+/docs/XCP-ng/* /guides/xcp-ng/:splat 301
+/docs/rocky-linux/* /guides/rocky-linux/:splat 301
+/docs/wireguard/* /guides/wireguard/:splat 301
+/docs/git/* /guides/git/:splat 301
+/docs/coolify/* /guides/coolify/:splat 301
+/docs/caddy-101/* /guides/caddy/:splat 301
+/docs/opencode/* /guides/opencode/:splat 301
+
+# Old Docusaurus generated-index category URLs -> new section pages
+/docs/category/getting-started /docs/getting-started/intro 301
+/docs/category/billing--plans /docs/billing-plans/overview 301
+/docs/category/billing-plans /docs/billing-plans/overview 301
+/docs/category/faq /docs/faq/overview 301
+/docs/category/troubleshooting /docs/troubleshooting/overview 301
+/docs/category/self-hosted-panel /docs/getting-started/panel/aapanel-installation 301
+/guides/category/:slug /guides/:slug 301
+
+# Old Docusaurus tag permalink
+/blog/tags/docs-tag /blog/tags/docs 301
+
+# Old Docusaurus Atom feed (new site ships RSS only)
+/blog/atom.xml /blog/rss.xml 301
+
+# Old Docusaurus utility pages
+/blog/tags /blog 301
+/blog/archive /blog 301
+/markdown-page /docs 301
+/search /docs 301
