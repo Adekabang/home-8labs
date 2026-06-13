@@ -206,4 +206,4 @@ This has saved more network engineers than any other single command.
 
 ## Next
 
-[NAT & Firewall →](./nat-firewall)
+[NAT & Firewall →](../nat-firewall)

@@ -45,11 +45,30 @@ docker run --rm --privileged \
   sudo ./build-vyos-image iso
 ```
 
-Available LTS Docker tags: `sagitta` (latest), `1.4.4`, `1.4.3`, `1.4.2`.
+Available LTS Docker tags:
+
+| Tag | Version | Date |
+|-----|---------|------|
+| `sagitta` | Latest LTS (rolling) | Updated regularly |
+| `1.4.4` | 1.4.4 (stable) | Dec 2025 |
+| `1.4.3` | 1.4.3 (stable) | Jul 2025 |
+| `1.4.2` | 1.4.2 (stable) | Apr 2025 |
+
+To build a **specific LTS point release** — recommended for production:
+
+```bash
+# Build VyOS 1.4.4 specifically
+docker run --rm --privileged \
+  -v $(pwd):/vyos -w /vyos \
+  vyos/vyos-build:1.4.4 \
+  sudo ./build-vyos-image iso
+```
+
+> Prefer a specific version tag (`1.4.4`) over `sagitta` for production — you get a known-good point release instead of whatever the latest LTS branch HEAD happens to be.
 
 This produces the same LTS code that subscribers get — just without commercial support. The `sagitta` branch still receives backported fixes (last updated June 2026).
 
-> Build takes 10-20 minutes. Works on any Linux with Docker. See [Image Automation](./image-automation) for automating this with cron/CI.
+> Build takes 10-20 minutes. Works on any Linux with Docker. See [Image Automation](../image-automation) for automating this with cron/CI.
 
 ### "Stable Rolling" Strategy
 
@@ -151,4 +170,4 @@ Custom config can be injected via `config.boot.default` in the ISO root.
 
 ## Next
 
-[Basic Configuration →](./basic-configuration)
+[Basic Configuration →](../basic-configuration)

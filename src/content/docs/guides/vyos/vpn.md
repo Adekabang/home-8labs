@@ -212,4 +212,4 @@ show vpn ipsec statistics
 
 ## Next
 
-[Routing →](./routing)
+[Routing →](../routing)

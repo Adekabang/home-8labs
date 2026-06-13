@@ -32,7 +32,7 @@ VyOS Router                          Git Server (Gitea/GitHub/GitLab)
 
 The default VyOS ISO does **not** include Git. You have two options:
 
-1. **Build a custom image** with Git included (see [Image Automation](./image-automation))
+1. **Build a custom image** with Git included (see [Image Automation](../image-automation))
 2. **Install Git on a running system** (won't survive upgrades):
 
 ```bash

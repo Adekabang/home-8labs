@@ -205,4 +205,4 @@ show log firewall
 
 ## Next
 
-[DHCP & DNS →](./dhcp-dns)
+[DHCP & DNS →](../dhcp-dns)

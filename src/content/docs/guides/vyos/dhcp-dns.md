@@ -203,4 +203,4 @@ set service dns forwarding cache-size 5000
 
 ## Next
 
-[VPN →](./vpn)
+[VPN →](../vpn)
