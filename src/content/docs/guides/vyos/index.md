@@ -33,9 +33,14 @@ If you've ever used EdgeOS (Ubiquiti EdgeRouter), you already know VyOS — Edge
 9. **[Image Automation](./image-automation)** — custom ISO builds, cron pipelines, CI/CD
 10. **[Syslog to Graylog](./syslog-graylog)** — centralized logging, Grok extractors, dashboards
 
-## Version note
+## Release tracks
 
-This guide targets **VyOS 1.4 LTS (Sagitta)** and **1.5 (Circinus)** — current as of mid-2026. The configuration syntax changed significantly in 1.4; if you're on 1.3 (Equuleus), some commands will differ. Check the [official migration guide](https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html).
+| Track | Version | Access |
+|-------|---------|--------|
+| **Rolling** | 1.5 Circinus | Free |
+| **LTS** | 1.4 Sagitta | Contributor or paid subscription |
+
+This guide targets **VyOS 1.4/1.5** — current as of mid-2026. The configuration syntax changed significantly in 1.4; if you're on 1.3 (Equuleus), some commands will differ. Check the [official migration guide](https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html).
 
 ## Quick reference
 

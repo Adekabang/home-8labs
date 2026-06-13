@@ -11,10 +11,25 @@ VyOS runs on any x86_64 system. Minimum: 2 GB RAM, 8 GB storage, 1 CPU core. For
 
 ## Download
 
-**LTS (recommended for production):** VyOS 1.4 Sagitta
-**Rolling (latest features):** VyOS 1.5 Circinus
+VyOS has two release tracks:
 
-Download ISO from [vyos.net/get](https://vyos.net/get/) — free registration required. Nightly builds available for subscribers.
+| Track | Version | Access | Best for |
+|-------|---------|--------|----------|
+| **Rolling** | 1.5 Circinus | **Free** — [vyos.net/get](https://vyos.net/get/) | Lab, testing, latest features |
+| **LTS** | 1.4 Sagitta | **Contributor or subscription** | Production, stability-critical |
+
+### Rolling (Free)
+
+Rolling/nightly builds are freely available to everyone. Download the latest ISO from [vyos.net/get](https://vyos.net/get/) — no registration needed for nightly images.
+
+### LTS (Gated)
+
+LTS ISOs are not publicly downloadable. Two ways to get them:
+
+1. **Become an active contributor** — code, docs, testing, or community work. Active contributors get free LTS access. [Start contributing →](https://vyos.net/community/)
+2. **LTS subscription** — paid access with support. [Pricing →](https://vyos.net/subscriptions/)
+
+> If you're just learning or running a homelab, the rolling release is perfectly fine. Many production users run rolling too — VyOS rolling is more stable than most vendors' "stable".
 
 ## Bare Metal / VM Installation
 
