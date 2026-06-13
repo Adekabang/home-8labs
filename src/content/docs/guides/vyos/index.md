@@ -29,6 +29,7 @@ If you've ever used EdgeOS (Ubiquiti EdgeRouter), you already know VyOS — Edge
 7. **[High Availability](./high-availability)** — VRRP, config sync, stateful failover
 8. **[Configuration Backup with Git](./configuration-backup)** — auto-backup config on every commit
 9. **[Image Automation](./image-automation)** — custom ISO builds, cron pipelines, CI/CD
+10. **[Syslog to Graylog](./syslog-graylog)** — centralized logging, Grok extractors, dashboards
 
 ## Version note
 
