@@ -54,8 +54,11 @@ const makeTitle = title ? title + " | " + "8Labs" : "8Labs - Virtual & Cloud Lab
     />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <Navbar />
-    <slot />
+    <main id="main-content">
+      <slot />
+    </main>
     <Footer />
     <style is:global>
       /* Improve Page speed */

@@ -14,46 +14,68 @@ import Button from "./ui/button.astro";
   <!-- Create your free access key from https://web3forms.com/ -->
   <input type="checkbox" class="hidden" style="display:none" name="botcheck" />
   <div class="mb-5">
+    <label for="full_name" class="mb-1 block text-sm font-medium text-gray-700"
+      >Full name</label
+    >
     <input
+      id="full_name"
       type="text"
-      placeholder="Full Name"
+      placeholder="Jane Doe"
       required
-      class="w-full px-4 py-3 border-2 placeholder:text-gray-800 rounded-md outline-none focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
+      aria-describedby="name_error"
+      class="w-full px-4 py-3 border-2 placeholder:text-gray-500 rounded-md outline-none focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
       name="name"
     />
-    <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
+    <div
+      id="name_error"
+      class="empty-feedback invalid-feedback text-red-600 text-sm mt-1"
+    >
       Please provide your full name.
     </div>
   </div>
   <div class="mb-5">
-    <label for="email_address" class="sr-only">Email Address</label><input
+    <label
+      for="email_address"
+      class="mb-1 block text-sm font-medium text-gray-700">Email address</label
+    >
+    <input
       id="email_address"
       type="email"
-      placeholder="Email Address"
+      placeholder="you@example.com"
       name="email"
       required
-      class="w-full px-4 py-3 border-2 placeholder:text-gray-800 rounded-md outline-none focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
+      aria-describedby="email_empty email_invalid"
+      class="w-full px-4 py-3 border-2 placeholder:text-gray-500 rounded-md outline-none focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
     />
-    <div class="empty-feedback text-red-400 text-sm mt-1">
+    <div id="email_empty" class="empty-feedback text-red-600 text-sm mt-1">
       Please provide your email address.
     </div>
-    <div class="invalid-feedback text-red-400 text-sm mt-1">
+    <div id="email_invalid" class="invalid-feedback text-red-600 text-sm mt-1">
       Please provide a valid email address.
     </div>
   </div>
   <div class="mb-3">
+    <label for="message" class="mb-1 block text-sm font-medium text-gray-700"
+      >Message</label
+    >
     <textarea
+      id="message"
       name="message"
       required
-      placeholder="Your Message"
-      class="w-full px-4 py-3 border-2 placeholder:text-gray-800 rounded-md outline-none h-36 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
+      placeholder="How can we help?"
+      aria-describedby="message_error"
+      class="w-full px-4 py-3 border-2 placeholder:text-gray-500 rounded-md outline-none h-36 focus:ring-4 border-gray-300 focus:border-gray-600 ring-gray-100"
     ></textarea>
-    <div class="empty-feedback invalid-feedback text-red-400 text-sm mt-1">
+    <div
+      id="message_error"
+      class="empty-feedback invalid-feedback text-red-600 text-sm mt-1"
+    >
       Please enter your message.
     </div>
   </div>
-  <Button type="submit" size="lg" block>Send Message</Button>
-  <div id="result" class="mt-3 text-center"></div>
+  <Button type="submit" size="lg" block>Send message</Button>
+  <div id="result" class="mt-3 text-center" role="status" aria-live="polite">
+  </div>
 </form>
 
 <style>
@@ -91,8 +113,11 @@ import Button from "./ui/button.astro";
     const object = Object.fromEntries(formData);
     const json = JSON.stringify(object);
 
-    result.textContent = "Sending...";
+    result.classList.remove("text-green-600", "text-red-600");
+    result.style.display = "";
+    result.textContent = "Sending your message...";
 
+    let ok = false;
     fetch("https://api.8labs.id/submit", {
       method: "POST",
       headers: {
@@ -104,24 +129,27 @@ import Button from "./ui/button.astro";
       .then(async (response) => {
         let json = await response.json();
         if (response.status == 200) {
-          result.classList.add("text-green-500");
-          result.textContent = json.message;
+          ok = true;
+          result.classList.add("text-green-600");
+          result.textContent =
+            json.message || "Thanks — your message has been sent.";
         } else {
-          console.log(response);
-          result.classList.add("text-red-500");
-          result.textContent = json.message;
+          result.classList.add("text-red-600");
+          result.textContent =
+            json.message ||
+            "We could not send your message. Please try Telegram @virtual_8labs.";
         }
       })
-      .catch((error) => {
-        console.log(error);
-        result.textContent = "Something went wrong! Better contact me via Telegram";
+      .catch(() => {
+        result.classList.add("text-red-600");
+        result.textContent =
+          "Something went wrong. Please reach us on Telegram @virtual_8labs.";
       })
       .then(function () {
-        form.reset();
-        form.classList.remove("was-validated");
-        setTimeout(() => {
-          result.style.display = "none";
-        }, 2000);
+        if (ok) {
+          form.reset();
+          form.classList.remove("was-validated");
+        }
       });
   });
 </script>
