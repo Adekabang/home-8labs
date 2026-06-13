@@ -9,6 +9,7 @@ const trustItems = [
     href: "https://uptime.8labs.id",
     label: "Open status",
     icon: "bx:pulse",
+    external: true,
   },
   {
     title: "Docs and support path",
@@ -17,14 +18,16 @@ const trustItems = [
     href: "/docs",
     label: "Read docs",
     icon: "bx:book-open",
+    external: false,
   },
   {
     title: "Backup expectations",
     description:
       "8Labs terms state that users should perform their own backups and that backup availability or integrity is not guaranteed. Treat snapshots as convenience, not external backup.",
-    href: "https://8labs.id/tos",
+    href: "/tos",
     label: "Review terms",
     icon: "bx:archive",
+    external: false,
   },
   {
     title: "Conservative security claims",
@@ -33,6 +36,7 @@ const trustItems = [
     href: "https://my.8labs.id",
     label: "Contact support",
     icon: "bx:shield-quarter",
+    external: true,
   },
 ];
 ---
@@ -58,8 +62,8 @@ const trustItems = [
         trustItems.map((item) => (
           <a
             href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noopener noreferrer" : undefined}
             class="group rounded-3xl border border-white/10 bg-white/[0.045] p-6 transition-all hover:-translate-y-1 hover:bg-white/[0.075]">
             <div class="flex items-start gap-4">
               <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-black transition-colors group-hover:bg-red-700 group-hover:text-white">
