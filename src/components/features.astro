@@ -45,32 +45,40 @@ const features = [
 <div class="mt-24">
   <div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
     <div>
-      <p class="font-semibold text-red-700 uppercase tracking-[0.2em] text-sm">Capabilities</p>
-      <h2 class="mt-3 text-4xl font-bold tracking-[-0.04em] text-zinc-950 lg:text-6xl">
-        Practical <span class="text-red-700">ngoprek</span>, less production risk.
+      <h2
+        class="text-4xl font-bold tracking-[-0.04em] text-zinc-950 lg:text-6xl"
+      >
+        Practical <span class="text-red-700">ngoprek</span>, less production
+        risk.
       </h2>
     </div>
     <p class="max-w-2xl text-lg leading-8 text-zinc-600 lg:justify-self-end">
-      Build, test, break, and rebuild in lab environments designed for developers, students, IT professionals, and homelab users—without treating production infrastructure as your playground.
+      Build, test, break, and rebuild in lab environments designed for
+      developers, students, IT professionals, and homelab users, without
+      treating production infrastructure as your playground.
     </p>
   </div>
-</div>
 
-<div class="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-3xl bg-zinc-200 border border-zinc-200 sm:grid-cols-2 md:grid-cols-3">
-  {
-    features.map((item, index) => (
-      <div class="group min-h-[260px] bg-white p-6 transition-colors duration-300 hover:bg-zinc-950">
-        <div class="flex items-center justify-between">
-          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-950 text-white transition-colors duration-300 group-hover:bg-red-700">
-            <Icon class="h-6 w-6" name={item.icon} />
-          </div>
-          <span class="font-mono text-xs text-zinc-300 transition-colors group-hover:text-zinc-600">
-            0{index + 1}
-          </span>
+  <dl
+    class="mt-14 grid grid-cols-1 gap-x-12 gap-y-px sm:grid-cols-2 lg:grid-cols-3"
+  >
+    {
+      features.map((item) => (
+        <div class="group border-t border-zinc-200 pt-6 transition-colors hover:border-red-700">
+          <dt class="flex items-center gap-3">
+            <Icon
+              class="h-6 w-6 text-zinc-400 transition-colors group-hover:text-red-700"
+              name={item.icon}
+            />
+            <span class="text-lg font-bold tracking-[-0.02em] text-zinc-950">
+              {item.title}
+            </span>
+          </dt>
+          <dd class="mt-3 text-sm leading-7 text-zinc-600">
+            {item.description}
+          </dd>
         </div>
-        <h3 class="mt-14 text-xl font-bold tracking-[-0.03em] text-zinc-950 transition-colors group-hover:text-white">{item.title}</h3>
-        <p class="mt-3 text-sm leading-7 text-zinc-600 transition-colors group-hover:text-zinc-300">{item.description}</p>
-      </div>
-    ))
-  }
+      ))
+    }
+  </dl>
 </div>
