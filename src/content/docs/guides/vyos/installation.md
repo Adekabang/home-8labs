@@ -29,6 +29,39 @@ LTS ISOs are not publicly downloadable. Two ways to get them:
 1. **Become an active contributor** — code, docs, testing, or community work. Active contributors get free LTS access. [Start contributing →](https://vyos.net/community/)
 2. **LTS subscription** — paid access with support. [Pricing →](https://vyos.net/subscriptions/)
 
+### Build LTS ISO Yourself (Free)
+
+The LTS **source code** is fully public on GitHub. Prebuilt ISOs are gated, but you can build them yourself:
+
+```bash
+# Clone vyos-build
+git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
+cd vyos-build
+
+# Build LTS ISO using the sagitta Docker image
+docker run --rm --privileged \
+  -v $(pwd):/vyos -w /vyos \
+  vyos/vyos-build:sagitta \
+  sudo ./build-vyos-image iso
+```
+
+Available LTS Docker tags: `sagitta` (latest), `1.4.4`, `1.4.3`, `1.4.2`.
+
+This produces the same LTS code that subscribers get — just without commercial support. The `sagitta` branch still receives backported fixes (last updated June 2026).
+
+> Build takes 10-20 minutes. Works on any Linux with Docker. See [Image Automation](./image-automation) for automating this with cron/CI.
+
+### "Stable Rolling" Strategy
+
+If building from LTS source isn't an option, pin a known-good rolling release:
+
+1. Download a specific dated ISO from [vyos.net/get](https://vyos.net/get/)
+2. Test it in a VM first (interfaces, firewall, VPN — your core workflows)
+3. If stable, deploy to production and **don't auto-update**
+4. When you need to upgrade, repeat the test-then-deploy cycle
+
+This gives you reproducibility — you know exactly which build you're running, and you control when to move forward.
+
 > If you're just learning or running a homelab, the rolling release is perfectly fine. Many production users run rolling too — VyOS rolling is more stable than most vendors' "stable".
 
 ## Bare Metal / VM Installation
