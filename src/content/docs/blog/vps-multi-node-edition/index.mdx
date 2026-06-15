@@ -1,0 +1,323 @@
+---
+title: "Production-Ready VPS: Multi-Node Edition"
+description: "Scale beyond a single VPS — two nodes, Cloudflare load balancing, managed Postgres, and object storage. No shared state, no sync headaches."
+date: 2026-06-17
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+# Production-Ready VPS: Multi-Node Edition
+
+> **Part 3 of the series.** [Part 1: Traefik](/blog/vps-production-ready-rocky-ubuntu/) · [Part 2: Caddy](/blog/vps-production-ready-caddy/)
+
+A single VPS is great, until it isn't. Hardware fails. Datacenter has a bad day. Kernel panic at 3 AM. Suddenly your app is down and you're SSH'ing from bed.
+
+The fix: **two VPS nodes**. But two nodes means two copies of everything, and two copies of state is a recipe for inconsistency. This post solves that.
+
+We'll take the stack from Parts 1 & 2 and scale it across two nodes with **zero shared state** between them. No NFS, no GlusterFS, no replicated Postgres. Just clean, stateless app servers talking to external services.
+
+---
+
+## Architecture
+
+```
+                          ┌─────────────┐
+                          │ Cloudflare   │
+                          │ Load Balancer│
+                          └──────┬──────┘
+                                 │
+                    ┌────────────┴────────────┐
+                    │                         │
+              ┌─────▼─────┐             ┌─────▼─────┐
+              │   VPS-1   │             │   VPS-2   │
+              │  Traefik  │             │  Traefik  │
+              │  or Caddy │             │  or Caddy │
+              │  App x3   │             │  App x3   │
+              │ Watchtower│             │ Watchtower│
+              └─────┬─────┘             └─────┬─────┘
+                    │                         │
+                    └──────────┬──────────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │  Managed Postgres   │
+                    │  (Neon / Aiven /    │
+                    │   Supabase)         │
+                    └─────────────────────┘
+                               │
+                    ┌──────────▼──────────┐
+                    │  Object Storage     │
+                    │  (Cloudflare R2 /   │
+                    │   Backblaze B2)     │
+                    └─────────────────────┘
+```
+
+Everything inside the VPS boxes is stateless. App containers, reverse proxy, Watchtower — identical on both nodes. The only shared resources live outside, managed by someone else's SRE team.
+
+---
+
+## Step 1: Provision Two VPS Nodes
+
+Provision **two identical VPS instances**. Same specs, same OS, same region (or two regions if you want geographic redundancy).
+
+<Tabs>
+  <TabItem label="Rocky Linux 10">
+
+```bash
+# On BOTH VPS-1 and VPS-2, follow Steps 1-6 from Part 1:
+# - Create non-root user, add to wheel
+# - Harden SSH (no root, no password)
+# - Install Docker, add user to docker group
+# - Firewall: ports 22, 80, 443 open
+```
+
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
+
+```bash
+# On BOTH VPS-1 and VPS-2, follow Steps 1-6 from Part 1:
+# - Create non-root user, add to sudo
+# - Harden SSH (no root, no password)
+# - Install Docker, add user to docker group
+# - Firewall via UFW: ports 22, 80, 443 open
+```
+
+  </TabItem>
+</Tabs>
+
+> **Tip:** Set up one VPS completely, then snapshot it or use the same Docker images. Don't configure manually twice.
+
+At this point you have two identical, hardened, Docker-ready nodes. Each with their own IP.
+
+---
+
+## Step 2: Set Up Managed Postgres
+
+Running Postgres on a VPS is fine for one node. For two, you need a single source of truth.
+
+Pick one:
+
+| Provider | Free Tier | Latency to ID | Notes |
+|----------|-----------|---------------|-------|
+| **[Neon](https://neon.tech)** | 0.5 GB, 1 project | ~60ms (US) | Serverless, scales to zero, branching |
+| **[Supabase](https://supabase.com)** | 500 MB, 2 projects | ~40ms (SG) | Full Postgres + auth + realtime |
+| **[Aiven](https://aiven.io)** | $0 for 30 days | ~50ms (SG) | More traditional managed Postgres |
+| **[Railway](https://railway.app)** | $5 credit | ~40ms (SG) | Not free, but very easy |
+
+For Indonesian users, Supabase (Singapore region) or Aiven give the best latency.
+
+Create a database and grab the connection string:
+
+```
+postgresql://postgres:<password>@db.xxxx.supabase.co:5432/postgres
+```
+
+Replace your app's `DATABASE_URL` with this. That's it. Both VPS nodes point to the same database, no replication to configure.
+
+---
+
+## Step 3: Object Storage for File Uploads
+
+If your app handles file uploads, local disk won't work — VPS-1 can't read files on VPS-2.
+
+Pick one:
+
+| Provider | Free Tier | Notes |
+|----------|-----------|-------|
+| **[Cloudflare R2](https://www.cloudflare.com/r2/)** | 10 GB, 1M writes/month | Zero egress fees — big deal |
+| **[Backblaze B2](https://www.backblaze.com/b2/)** | 10 GB | $0.01/GB egress |
+| **[Tigris](https://www.tigrisdata.com)** | 5 GB | S3-compatible, no egress fees |
+
+**R2 is the default pick.** No egress fees means you don't get surprised when traffic spikes.
+
+Set up a bucket, generate an API token, and point your app's storage config to the S3-compatible endpoint:
+
+```
+S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com
+S3_BUCKET=myapp-uploads
+S3_ACCESS_KEY=<access_key>
+S3_SECRET_KEY=<secret_key>
+```
+
+Your app needs to write to S3 instead of local disk. Most frameworks have a drop-in adapter:
+
+- **Go:** `github.com/aws/aws-sdk-go-v2`
+- **Python:** `boto3`
+- **Node:** `@aws-sdk/client-s3`
+- **Rails:** Active Storage with S3
+- **Laravel:** Flysystem S3
+
+If your app currently writes to `/app/uploads`, this is the only code change you need for multi-node.
+
+> **Don't need file uploads?** Skip this step. Your app is already multi-node-ready.
+
+---
+
+## Step 4: Deploy the App on Both Nodes
+
+The `compose.yaml` is identical on both VPS nodes. The only change from Part 1/2: `DATABASE_URL` now points to your managed Postgres instead of a local container.
+
+Copy the same `compose.yaml` to both nodes and deploy:
+
+```bash
+# On VPS-1
+scp compose.yaml deployer@vps1:/home/deployer/guestbook/
+ssh deployer@vps1 "cd ~/guestbook && docker compose up -d"
+
+# On VPS-2
+scp compose.yaml deployer@vps2:/home/deployer/guestbook/
+ssh deployer@vps2 "cd ~/guestbook && docker compose up -d"
+```
+
+Both nodes now run identical app instances, pointing at the same Postgres.
+
+---
+
+## Step 5: Cloudflare Load Balancer
+
+DNS round-robin (two A records) is free but dumb — no health checks, no failover. Half your traffic hits a dead node.
+
+**Cloudflare Load Balancer** is the sweet spot:
+
+1. Add both VPS IPs as origin servers in Cloudflare dashboard
+2. Configure health checks (HTTP `GET /health` on your app)
+3. Cloudflare monitors both origins every 60 seconds
+4. Dead node gets pulled from rotation automatically
+5. Traffic splits evenly between healthy nodes
+
+**Cost:** $5/month per origin. For two nodes, that's $10/month. Far cheaper than a third VPS running HAProxy.
+
+**Alternative (free):** If your DNS is on Cloudflare, you can use **two A records** with Cloudflare's proxy (orange cloud). Cloudflare will distribute traffic, but without proper health checks. Acceptable for non-critical apps.
+
+---
+
+## Step 6: Automated Deploys — Watch Both Nodes
+
+Push a new image, Watchtower updates it. But you need Watchtower running on **both** VPS nodes.
+
+Your `compose.yaml` already includes Watchtower. Since it's identical on both nodes, just deploy:
+
+```bash
+# Push new image
+docker build -t ghcr.io/yourusername/guestbook:prod .
+docker push ghcr.io/yourusername/guestbook:prod
+
+# Wait 30 seconds. Watchtower on both nodes picks it up.
+# Rolling restart on VPS-1 and VPS-2, staggered naturally.
+```
+
+Cloudflare's health checks ensure no traffic goes to a node mid-restart. Zero-downtime deploys across two nodes.
+
+---
+
+## Step 7: Monitoring
+
+Add both VPS IPs to your uptime monitor:
+
+- **[Uptime Robot](https://uptimerobot.com)** — 50 monitors free. Add `http://vps1-ip:80/health` and `http://vps2-ip:80/health`.
+- **[Better Uptime](https://betterstack.com/better-uptime)** — heartbeat monitoring. App pings Better Uptime; if heartbeat stops, you get alerted.
+
+Also monitor your database and object storage. Supabase, Neon, and Cloudflare all have status pages and incident alerts.
+
+---
+
+## Final `compose.yaml`
+
+Same as Parts 1 & 2, minus the local Postgres service:
+
+```yaml
+services:
+  reverse-proxy:
+    image: traefik:v3.3
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=you@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt:/letsencrypt
+
+  guestbook:
+    image: ghcr.io/yourusername/guestbook:prod
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://postgres:***@db.xxxx.supabase.co:5432/postgres
+      S3_ENDPOINT: https://xxxx.r2.cloudflarestorage.com
+      S3_BUCKET: myapp-uploads
+      S3_ACCESS_KEY: ${R2_ACCESS_KEY}
+      S3_SECRET_KEY: ${R2_SECRET_KEY}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.guestbook.rule=Host(`yourdomain.com`)"
+      - "traefik.http.routers.guestbook.entrypoints=websecure"
+      - "traefik.http.routers.guestbook.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.guestbook-http.rule=Host(`yourdomain.com`)"
+      - "traefik.http.routers.guestbook-http.entrypoints=web"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.guestbook-http.middlewares=redirect-to-https"
+      - "com.centurylinklabs.watchtower.enable=true"
+    deploy:
+      replicas: 3
+
+  watchtower:
+    image: containrrr/watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--rolling-restart"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  letsencrypt:
+```
+
+Notes:
+- No more local `db` service. `DATABASE_URL` goes straight to Supabase/Neon.
+- `S3_*` env vars for object storage. Your app reads these.
+- `replicas: 3` per node = 6 total app instances across two nodes.
+- Everything else is identical to the single-node setup.
+
+---
+
+## Cost Breakdown
+
+| Service | Cost |
+|---------|------|
+| VPS 1 (2 vCPU, 4 GB) | ~$12/mo |
+| VPS 2 (2 vCPU, 4 GB) | ~$12/mo |
+| Cloudflare LB | $10/mo |
+| Managed Postgres (Supabase) | $0 (free tier) |
+| Object Storage (R2) | $0 (free tier) |
+| Uptime Monitoring (Uptime Robot) | $0 |
+| **Total** | **~$34/mo** |
+
+For $34/month you have a multi-node, auto-failover, zero-downtime-deploy production setup. A single-node setup on Railway or Fly.io with similar specs costs about the same, without the redundancy.
+
+---
+
+## Checklist
+
+- [ ] Two VPS nodes provisioned and hardened
+- [ ] Docker on both nodes
+- [ ] Managed Postgres provisioned, connection string in app
+- [ ] Object storage bucket created, credentials in app
+- [ ] Identical `compose.yaml` on both nodes
+- [ ] Cloudflare Load Balancer configured with health checks
+- [ ] Watchtower running on both nodes
+- [ ] Uptime monitoring for both nodes + database
+
+---
+
+A single VPS is where you start. Two nodes is where you stop worrying about 3 AM kernel panics. The key insight: keep the nodes stateless, push shared state to managed services, and let Cloudflare handle the traffic steering.
+
+No shared file systems. No Postgres replication. No rsync cron jobs. Just two identical app servers, one database, and one object store.
