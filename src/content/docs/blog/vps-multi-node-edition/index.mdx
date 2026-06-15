@@ -1,6 +1,6 @@
 ---
 title: "Production-Ready VPS: Multi-Node Edition"
-description: "Scale beyond a single VPS — two nodes, self-hosted Postgres replication, MinIO object storage, Cloudflare load balancing. Everything runs on your own hardware."
+description: "Scale beyond a single VPS — two nodes, self-hosted Postgres replication, MinIO object storage. Caddy reverse proxy, Cloudflare orange cloud for load distribution. Everything runs on your own hardware."
 date: 2026-06-17
 sidebar:
   order: 2
@@ -23,15 +23,15 @@ The fix: **two VPS nodes**. But two nodes means two copies of everything, and tw
 ```
                           ┌─────────────┐
                           │ Cloudflare   │
-                          │ Load Balancer│
+                          │ Orange Cloud │
+                          │ (2x A record)│
                           └──────┬──────┘
                                  │
                     ┌────────────┴────────────┐
                     │                         │
               ┌─────▼─────┐             ┌─────▼─────┐
               │   VPS-1   │             │   VPS-2   │
-              │  Traefik  │             │  Traefik  │
-              │  or Caddy │             │  or Caddy │
+              │   Caddy   │             │   Caddy   │
               │  App x3   │             │  App x3   │
               │ Watchtower│             │ Watchtower│
               │           │             │           │
@@ -56,7 +56,7 @@ Same as always. Two identical nodes. Same specs, same OS.
 ```bash
 # On BOTH VPS-1 and VPS-2, follow Steps 1-6 from Part 1:
 # - Create non-root user, add to wheel
-# - Harden SSH (no root, no password)  
+# - Harden SSH (no root, no password)
 # - Install Docker, add user to docker group
 # - Firewall: ports 22, 80, 443 open
 # - ALSO open port 5432 between nodes for Postgres replication
@@ -296,11 +296,8 @@ Your app uses the local MinIO endpoint. On each node it's always `localhost:9000
 S3_ENDPOINT=http://localhost:9000
 S3_BUCKET=uploads
 S3_ACCESS_KEY=minioadmin
-S3_SECRET_KEY=${MINIO_PASSWORD}
-S3_USE_SSL=false
-```
-
-No code changes needed between single-node and multi-node. The MinIO replication layer handles sync transparently.
+S3_SECRET_KEY=${MINI...
+No code changes needed between single-node and multi-node. MinIO replication handles sync transparently.
 
 > **Don't need file uploads?** Skip MinIO entirely. Your app is already multi-node-ready.
 
@@ -308,26 +305,32 @@ No code changes needed between single-node and multi-node. The MinIO replication
 
 ## Step 4: Deploy the App on Both Nodes
 
-The `compose.yaml` with everything together:
+We use **Caddy** as the reverse proxy, following the simpler setup from [Part 2](/blog/vps-production-ready-caddy/). Build the `caddy-docker-proxy` image on both nodes (or push to ghcr.io and pull):
+
+```dockerfile
+FROM caddy:2.9-builder AS builder
+RUN xcaddy build --with github.com/lucaslorentz/caddy-docker-proxy/v2
+FROM caddy:2.9
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
+```
+
+```bash
+docker build -t caddy-docker-proxy .
+```
+
+Now the full `compose.yaml` for **VPS-1** (primary):
 
 ```yaml
 services:
-  reverse-proxy:
-    image: traefik:v3.3
-    command:
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.email=you@example.com"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+  caddy:
+    image: caddy-docker-proxy
+    restart: always
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - letsencrypt:/letsencrypt
+      - caddy-data:/data
 
   postgres:
     image: postgres:17
@@ -367,15 +370,9 @@ services:
       S3_SECRET_KEY: ${MINIO_PASSWORD}
       S3_USE_SSL: "false"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.guestbook.rule=Host(`yourdomain.com`)"
-      - "traefik.http.routers.guestbook.entrypoints=websecure"
-      - "traefik.http.routers.guestbook.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.guestbook-http.rule=Host(`yourdomain.com`)"
-      - "traefik.http.routers.guestbook-http.entrypoints=web"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.guestbook-http.middlewares=redirect-to-https"
-      - "com.centurylinklabs.watchtower.enable=true"
+      caddy: yourdomain.com
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+      com.centurylinklabs.watchtower.enable: "true"
     deploy:
       replicas: 3
     depends_on:
@@ -392,12 +389,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
-  letsencrypt:
+  caddy-data:
   pg-data:
   minio-data:
 ```
 
-> **VPS-2 uses the same compose.yaml** but with the replica Postgres config from Step 2. Only the Postgres `command` section differs.
+**VPS-2** uses the same `compose.yaml` but with the replica Postgres config from Step 2 (different `command` on the postgres service). Everything else is identical.
 
 Deploy on both:
 
@@ -405,28 +402,39 @@ Deploy on both:
 # On VPS-1
 cd ~/guestbook && docker compose up -d
 
-# On VPS-2  
+# On VPS-2
 cd ~/guestbook && docker compose up -d
 ```
 
 ---
 
-## Step 5: Cloudflare Load Balancer
+## Step 5: Cloudflare Orange Cloud (Free Load Balancing)
 
-1. Add both VPS public IPs as origin servers in Cloudflare dashboard
-2. Configure health checks: `HTTP GET /health` on your app
-3. Cloudflare monitors origins every 60 seconds
-4. Dead node auto-removed from rotation
+Cloudflare Load Balancer costs $10/month. For two nodes, the free alternative works well enough.
 
-**Cost:** $5/month per origin. $10/month for two nodes.
+1. In Cloudflare DNS dashboard, add **two A records** for your domain
+2. Both point to `@` (root), one to each VPS public IP
+3. **Enable the orange cloud (proxy)** on both records
+4. Cloudflare distributes traffic across both origins automatically
 
-**Free alternative:** Two A records pointing to both VPS IPs. Cloudflare proxy (orange cloud) distributes traffic. No health checks, but works for non-critical setups.
+```
+Type  Name  Content       Proxy
+A     @     <VPS-1 IP>    🟧 Proxied
+A     @     <VPS-2 IP>    🟧 Proxied
+```
+
+**Limitations compared to paid LB:**
+- No active health checks. If VPS-1 goes hard down (timeout), Cloudflare eventually stops sending traffic there. But if the app returns 500s, Cloudflare won't know.
+- No weighted routing. Traffic split is roughly 50/50, not configurable.
+- Failover is reactive, not proactive.
+
+**For most projects, this is enough.** Your uptime monitor (Step 8) will catch the 500s and you can manually pull the dead node's A record. If you need 99.9% uptime with automatic failover, the $10/month Cloudflare LB is the upgrade path.
 
 ---
 
 ## Step 6: Failover — When VPS-1 Goes Down
 
-Cloudflare detects VPS-1 is unhealthy, routes all traffic to VPS-2. Your app on VPS-2 is still running, still serving. But Postgres on VPS-2 is a **read-only replica**.
+Cloudflare detects VPS-1 is unreachable, routes all traffic to VPS-2. Your app on VPS-2 is still running, still serving. But Postgres on VPS-2 is a **read-only replica**.
 
 To promote it:
 
@@ -435,34 +443,42 @@ To promote it:
 docker compose exec postgres psql -U postgres -c "SELECT pg_promote();"
 ```
 
-Now VPS-2's Postgres accepts writes. Update your app's `DATABASE_URL` to point to VPS-2 (or use the local container name since you're already on VPS-2).
+Now VPS-2's Postgres accepts writes. Update your app's `DATABASE_URL` (if it pointed to VPS-1's IP) or restart the container if using the local `postgres` hostname.
 
-When VPS-1 comes back, you can either:
+> **Also remove VPS-1's A record** from Cloudflare DNS so traffic stops going to the dead node.
+
+When VPS-1 comes back:
 - **Rebuild it as a new replica** (pg_basebackup from VPS-2)
-- **Keep it offline** until you're ready to switch back
+- Add its A record back to Cloudflare
 
-This is a **manual failover**. For automatic failover you'd need Patroni + etcd, which is a separate beast. For a two-node setup, manual promotion is pragmatic. You'll be awake anyway because your monitoring alerted you.
+This is a **manual failover**. For automatic failover you'd need Patroni + etcd, which triples the complexity. For a two-node self-hosted setup, manual promotion is pragmatic. You'll be awake anyway because your monitoring alerted you.
 
 ---
 
 ## Step 7: Automated Deploys
 
-Watchtower on both nodes. Push a new image, both nodes update within 30 seconds. Cloudflare's health checks keep traffic off nodes mid-restart.
+Watchtower on both nodes. Push a new image, both nodes update within 30 seconds.
 
 ```bash
 docker build -t ghcr.io/yourusername/guestbook:prod .
 docker push ghcr.io/yourusername/guestbook:prod
 # Wait 30s. Both VPS-1 and VPS-2 roll restart.
-# Zero downtime.
+# Zero downtime — Cloudflare routes away from restarting node.
 ```
 
 ---
 
 ## Step 8: Monitoring
 
-- **Uptime Robot**: add `http://vps1-ip/health` and `http://vps2-ip/health`
-- **Cloudflare health checks** (built into the LB)
-- **Postgres replication lag**: `docker compose exec postgres psql -U postgres -c "SELECT pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) FROM pg_stat_replication;"`
+- **Uptime Robot** (free): add `http://vps1-ip/health` and `http://vps2-ip/health`
+- **Postgres replication lag**: 
+  ```bash
+  docker compose exec postgres psql -U postgres -c "SELECT pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) FROM pg_stat_replication;"
+  ```
+- **Disk usage on both nodes**: 
+  ```bash
+  df -h /var/lib/docker/volumes
+  ```
 
 ---
 
@@ -472,11 +488,19 @@ docker push ghcr.io/yourusername/guestbook:prod
 |---------|------|
 | VPS 1 (4 vCPU, 8 GB) | ~$24/mo |
 | VPS 2 (4 vCPU, 8 GB) | ~$24/mo |
-| Cloudflare LB | $10/mo |
+| Cloudflare DNS + Proxy | $0 |
 | Uptime Robot | $0 |
-| **Total** | **~$58/mo** |
+| **Total** | **~$48/mo** |
 
-Everything self-hosted. No per-request fees. No egress charges. Two beefy nodes with Postgres + MinIO replication for under $60/month.
+Everything self-hosted. No per-request fees. No egress charges. No load balancer bills. Two beefy nodes with Postgres + MinIO replication for under $50/month.
+
+---
+
+## Traefik vs Caddy for Multi-Node
+
+If you followed Part 1 with Traefik and want to keep it, just swap the Caddy service for your Traefik config. The rest — Postgres replication, MinIO sync, Cloudflare DNS — stays exactly the same. The reverse proxy layer is independent of everything else.
+
+That said, Caddy's 3-line config is especially nice when you're managing two identical nodes. Less YAML to keep in sync.
 
 ---
 
@@ -486,12 +510,13 @@ Everything self-hosted. No per-request fees. No egress charges. Two beefy nodes 
 - [ ] Postgres primary on VPS-1, replica on VPS-2
 - [ ] Streaming replication verified
 - [ ] MinIO running on both nodes, bucket replication active
+- [ ] Caddy built and running on both nodes
 - [ ] App deployed on both nodes with identical compose.yaml
-- [ ] Cloudflare LB with health checks
+- [ ] Cloudflare DNS: two A records, orange cloud enabled
 - [ ] Watchtower on both nodes
 - [ ] Failover tested (promote replica, verify traffic flows)
 - [ ] Uptime monitoring on both nodes
 
 ---
 
-No managed databases. No S3 bills. No vendor APIs to depend on. Just two Linux boxes, Postgres replication, and MinIO sync. Everything you need for a production multi-node setup, running on your own hardware.
+No managed databases. No S3 bills. No load balancer subscription. Just two Linux boxes, Postgres replication, MinIO sync, and Cloudflare's free proxy tier. Everything you need for a production multi-node setup, running on your own hardware.
