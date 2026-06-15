@@ -1,6 +1,6 @@
 ---
-title: "Setting Up a Production-Ready VPS from Scratch — Rocky Linux 10 & Ubuntu 26.04"
-description: "Step-by-step guide to hardening and deploying a production-ready VPS on Rocky Linux 10 or Ubuntu 26.04 — SSH hardening, firewalld/UFW, Docker, Traefik, Let's Encrypt TLS, load balancing, Watchtower, and uptime monitoring."
+title: "Setting Up a Production-Ready VPS from Scratch: Rocky Linux 10 & Ubuntu 26.04"
+description: "Step-by-step guide to hardening and deploying a production-ready VPS on Rocky Linux 10 or Ubuntu 26.04: SSH hardening, firewalld/UFW, Docker, Traefik, Let's Encrypt TLS, load balancing, Watchtower, and uptime monitoring."
 date: 2026-06-16
 sidebar:
   order: 0
@@ -8,24 +8,24 @@ sidebar:
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-# Setting Up a Production-Ready VPS from Scratch — Rocky Linux 10 & Ubuntu 26.04
+# Setting Up a Production-Ready VPS from Scratch: Rocky Linux 10 & Ubuntu 26.04
 
-> Adapted from [Dreams of Code](https://dreamsofcode.io/blog/setting-up-a-production-ready-vps-from-scratch) — dual-OS guide covering both RHEL-family and Debian-family setups.
+> Adapted from [Dreams of Code](https://dreamsofcode.io/blog/setting-up-a-production-ready-vps-from-scratch), a dual-OS guide covering both RHEL-family and Debian-family setups.
 
 ---
 
-Deploying to the cloud has never been easier. Platform-as-a-Service (PaaS) options like Railway, Fly.io, and Render make going live a breeze. But PaaS isn't perfect for every use case — long-running tasks, heavy data transfer, and predictable billing often push teams toward a **VPS (Virtual Private Server)**.
+Deploying to the cloud has never been easier. Platform-as-a-Service (PaaS) options like Railway, Fly.io, and Render make going live a breeze. But PaaS isn't perfect for every use case: long-running tasks, heavy data transfer, and predictable billing often push teams toward a **VPS (Virtual Private Server)**.
 
-The perceived difficulty of hardening and configuring a raw VPS scares people off. But is it actually hard? We set out to prove it isn't — with a production-ready stack on both **Rocky Linux 10** and **Ubuntu 26.04 LTS**.
+The perceived difficulty of hardening and configuring a raw VPS scares people off. But is it actually hard? We set out to prove it isn't. Here's a production-ready stack on both **Rocky Linux 10** and **Ubuntu 26.04 LTS**.
 
 ## What "Production-Ready" Means Here
 
 - DNS pointing to the server
 - Application deployed and running (Docker)
 - HTTPS/TLS with automatic cert provisioning & renewal (Let's Encrypt)
-- Hardened SSH — no root login, no password auth
+- Hardened SSH: no root login, no password auth
 - Firewall blocking unnecessary ports
-- High availability — multiple app instances
+- High availability: multiple app instances
 - Load balancing via reverse proxy
 - Automated rolling deployments
 - Uptime monitoring with alerts
@@ -38,7 +38,7 @@ The perceived difficulty of hardening and configuring a raw VPS scares people of
 
 Pick a provider (Hetzner, Hostinger, DigitalOcean, Vultr). We used a **2 vCPU / 8 GB RAM** instance.
 
-> **💡 Hosting with a side of nasi goreng?** 🇮🇩 [8labs](https://8labs.id) offers VirtualLabs and ElasticLabs — VPS and scalable infrastructure, straight out of Indonesia. 🤙
+> **💡 Hosting with a side of nasi goreng?** 🇮🇩 [8labs](https://8labs.id) offers VirtualLabs and ElasticLabs : VPS and scalable infrastructure, straight out of Indonesia. 🤙
 
 During setup via your provider's panel:
 1. Select **Rocky Linux 10** or **Ubuntu 26.04 LTS**
@@ -92,7 +92,7 @@ sudo echo "sudo works"
   </TabItem>
 </Tabs>
 
-> **Tip:** Install `tmux` on the VPS. If your SSH drops, reattach with `tmux attach` — no lost progress.
+> **Tip:** Install `tmux` on the VPS. If your SSH drops, reattach with `tmux attach`, no lost progress.
 >
 > ```bash
 > sudo dnf install -y tmux   # Rocky
@@ -193,7 +193,7 @@ ssh deployer@<server-ip>
 ## Step 5: Firewall
 
 <Tabs>
-  <TabItem label="Rocky Linux 10 — firewalld">
+  <TabItem label="Rocky Linux 10 (firewalld)">
 
 Rocky uses `firewalld` by default (not `ufw`).
 
@@ -208,7 +208,7 @@ sudo systemctl enable --now firewalld
 # Default zones
 sudo firewall-cmd --get-default-zone   # usually 'public'
 
-# Allow SSH (CRITICAL — do this first)
+# Allow SSH (CRITICAL: do this first)
 sudo firewall-cmd --permanent --add-service=ssh
 
 # Reload to apply
@@ -219,14 +219,14 @@ sudo firewall-cmd --list-all
 ```
 
   </TabItem>
-  <TabItem label="Ubuntu 26.04 — UFW">
+  <TabItem label="Ubuntu 26.04 (UFW)">
 
 ```bash
 # Enable UFW
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
-# Allow SSH (CRITICAL — do this first)
+# Allow SSH (CRITICAL: do this first)
 sudo ufw allow 22/tcp
 
 # Enable
@@ -387,7 +387,7 @@ curl http://localhost:8080
 
 ## Step 8: Reverse Proxy with Traefik
 
-Traefik handles routing, TLS termination, and load balancing — all via Docker labels.
+Traefik handles routing, TLS termination, and load balancing, all via Docker labels.
 
 Update `compose.yaml`:
 
@@ -443,7 +443,7 @@ Now visit `http://yourdomain.com`. Traefik routes traffic to the guestbook conta
 
 ---
 
-## Step 9: Load Balancing — Run Multiple Instances
+## Step 9: Load Balancing: Run Multiple Instances
 
 Traefik automatically load-balances across containers with the same service name.
 
@@ -529,7 +529,7 @@ Redeploy:
 docker compose up -d
 ```
 
-Traefik automatically obtains and renews Let's Encrypt certificates. The `acme.json` file stores them — keep it safe (600 permissions, handled by Docker volume).
+Traefik automatically obtains and renews Let's Encrypt certificates. The `acme.json` file stores them. Keep it safe (600 permissions, handled by Docker volume).
 
 ---
 
@@ -562,7 +562,7 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
 ```
 
-Now when you push a new image to `ghcr.io/yourusername/guestbook:prod`, Watchtower picks it up within 30 seconds and performs a rolling restart — zero downtime.
+Now when you push a new image to `ghcr.io/yourusername/guestbook:prod`, Watchtower picks it up within 30 seconds and performs a rolling restart, zero downtime.
 
 ---
 
@@ -570,9 +570,9 @@ Now when you push a new image to `ghcr.io/yourusername/guestbook:prod`, Watchtow
 
 Free uptime monitoring options:
 
-- **[Uptime Robot](https://uptimerobot.com)** — 50 monitors, 5-minute checks, email alerts. Free tier.
-- **[Better Uptime](https://betterstack.com/better-uptime)** — 3-minute checks, heartbeat, status page. 10 monitors free.
-- **[Uptime Kuma](https://github.com/louislam/uptime-kuma)** — Self-hosted. Run it in Docker on the same VPS or a separate tiny instance.
+- **[Uptime Robot](https://uptimerobot.com)**: 50 monitors, 5-minute checks, email alerts. Free tier.
+- **[Better Uptime](https://betterstack.com/better-uptime)** : 3-minute checks, heartbeat, status page. 10 monitors free.
+- **[Uptime Kuma](https://github.com/louislam/uptime-kuma)**: Self-hosted. Run it in Docker on the same VPS or a separate tiny instance.
 
 Set up a monitor for `https://yourdomain.com` and configure alerting (email, Telegram, Discord, Slack).
 
@@ -707,4 +707,4 @@ Usually Docker and SELinux coexist fine on Rocky 10 with default policies. Only 
 
 ---
 
-Setting up a production-ready VPS is less intimidating than it looks. Traefik + Watchtower + Docker Compose gives you 90% of what a PaaS offers — with more control, predictable billing, and no vendor lock-in. Both Rocky Linux 10 and Ubuntu 26.04 make excellent foundations; pick the ecosystem you're most comfortable with.
+Setting up a production-ready VPS is less intimidating than it looks. Traefik + Watchtower + Docker Compose gives you 90% of what a PaaS offers : with more control, predictable billing, and no vendor lock-in. Both Rocky Linux 10 and Ubuntu 26.04 make excellent foundations; pick the ecosystem you're most comfortable with.

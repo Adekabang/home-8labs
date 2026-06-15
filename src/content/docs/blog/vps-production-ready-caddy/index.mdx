@@ -1,6 +1,6 @@
 ---
-title: "VPS Production-Ready with Caddy — The Simpler Alternative"
-description: "Same production-ready VPS stack but with Caddy instead of Traefik — simpler config, zero-touch HTTPS, fewer moving parts. Covers Rocky Linux 10 and Ubuntu 26.04."
+title: "VPS Production-Ready with Caddy : The Simpler Alternative"
+description: "Same production-ready VPS stack but with Caddy instead of Traefik : simpler config, zero-touch HTTPS, fewer moving parts. Covers Rocky Linux 10 and Ubuntu 26.04."
 date: 2026-06-16
 sidebar:
   order: 1
@@ -8,11 +8,11 @@ sidebar:
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
-# VPS Production-Ready with Caddy — The Simpler Alternative
+# VPS Production-Ready with Caddy : The Simpler Alternative
 
 > Companion to our [Traefik-based guide](/blog/vps-production-ready-rocky-ubuntu/). Same stack, simpler reverse proxy.
 
-In the [previous post](/blog/vps-production-ready-rocky-ubuntu/) we set up a production-ready VPS with Traefik — powerful, but heavy. Traefik's config sprawls across YAML labels, ACME resolvers, entrypoints, and middleware chains. For most projects, it's overkill.
+In the [previous post](/blog/vps-production-ready-rocky-ubuntu/) we set up a production-ready VPS with Traefik : powerful, but heavy. Traefik's config sprawls across YAML labels, ACME resolvers, entrypoints, and middleware chains. For most projects, it's overkill.
 
 **Caddy** does the same job with a fraction of the config. One binary, HTTPS by default, and Docker labels so clean you can read them in one breath.
 
@@ -35,7 +35,7 @@ Quick recap of where you should be:
 
 ## Step 7: Build the Caddy + Docker Proxy Image
 
-Caddy doesn't natively discover Docker containers. We need the [`caddy-docker-proxy`](https://github.com/lucaslorentz/caddy-docker-proxy) plugin — a lightweight module that watches Docker labels and generates routes automatically, just like Traefik.
+Caddy doesn't natively discover Docker containers. We need the [`caddy-docker-proxy`](https://github.com/lucaslorentz/caddy-docker-proxy) plugin : a lightweight module that watches Docker labels and generates routes automatically, just like Traefik.
 
 Create a `Dockerfile`:
 
@@ -111,7 +111,7 @@ volumes:
 
 That's it. **Three labels** replace Traefik's 8-label configuration.
 
-The `Caddyfile` is minimal — caddy-docker-proxy handles routing from Docker labels:
+The `Caddyfile` is minimal : caddy-docker-proxy handles routing from Docker labels:
 
 ```
 {
@@ -130,7 +130,7 @@ docker compose up -d
 
 ---
 
-## Step 9: Load Balancing — Auto-Discovery
+## Step 9: Load Balancing : Auto-Discovery
 
 Caddy + caddy-docker-proxy automatically discovers all containers for a service. With `replicas: 3`, Caddy round-robins across all three guestbook instances. No extra config.
 
@@ -138,11 +138,11 @@ Caddy + caddy-docker-proxy automatically discovers all containers for a service.
 docker compose up -d --scale guestbook=3
 ```
 
-> Unlike Traefik, Caddy doesn't track container health mid-request. If a container dies between discovery ticks, the next request may hit a dead backend for a few seconds. For most projects this is fine — the health check interval is configurable.
+> Unlike Traefik, Caddy doesn't track container health mid-request. If a container dies between discovery ticks, the next request may hit a dead backend for a few seconds. For most projects this is fine : the health check interval is configurable.
 
 ---
 
-## Step 10: HTTPS — Literally Nothing to Configure
+## Step 10: HTTPS : Literally Nothing to Configure
 
 This is where Caddy shines. **HTTPS works out of the box.** No ACME email, no challenge type, no certificate resolver, no storage volume for `acme.json`.
 
@@ -212,7 +212,7 @@ services:
 
 ## Step 12: Monitoring
 
-Same as Traefik guide — [Uptime Robot](https://uptimerobot.com), [Better Uptime](https://betterstack.com/better-uptime), or self-hosted [Uptime Kuma](https://github.com/louislam/uptime-kuma).
+Same as Traefik guide : [Uptime Robot](https://uptimerobot.com), [Better Uptime](https://betterstack.com/better-uptime), or self-hosted [Uptime Kuma](https://github.com/louislam/uptime-kuma).
 
 ---
 
@@ -275,7 +275,7 @@ volumes:
 
 ---
 
-## Traefik vs Caddy — Which One?
+## Traefik vs Caddy : Which One?
 
 | | Traefik | Caddy |
 |---|---|---|
@@ -289,7 +289,7 @@ volumes:
 | **Resource usage** | ~40 MB RAM | ~20 MB RAM |
 | **Best for** | Complex routing, multiple services, API gateways | Simple apps, static sites, quick deploys |
 
-**Verdict:** If you're deploying a single app or a small handful of services, Caddy wins on simplicity. If you're building a multi-service platform with complex routing rules, rate limiting, and circuit breakers — Traefik is the better tool.
+**Verdict:** If you're deploying a single app or a small handful of services, Caddy wins on simplicity. If you're building a multi-service platform with complex routing rules, rate limiting, and circuit breakers : Traefik is the better tool.
 
 Both are excellent. Pick the one that matches your complexity budget.
 
@@ -312,4 +312,4 @@ Both are excellent. Pick the one that matches your complexity budget.
 
 Caddy strips the ceremony out of reverse-proxying. Three labels, zero HTTPS config, and a single binary. For most projects shipping to a VPS, that's exactly the right amount of complexity.
 
-Already set up with Traefik? The migration is swapping the reverse proxy service and updating labels. Everything else — Docker, Postgres, Watchtower, firewall — stays the same.
+Already set up with Traefik? The migration is swapping the reverse proxy service and updating labels. Everything else : Docker, Postgres, Watchtower, firewall : stays the same.
