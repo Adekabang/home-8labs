@@ -1,6 +1,6 @@
 ---
 title: "Production-Ready VPS: Multi-Node Edition"
-description: "Scale beyond a single VPS — two nodes, Cloudflare load balancing, managed Postgres, and object storage. No shared state, no sync headaches."
+description: "Scale beyond a single VPS — two nodes, self-hosted Postgres replication, MinIO object storage, Cloudflare load balancing. Everything runs on your own hardware."
 date: 2026-06-17
 sidebar:
   order: 2
@@ -14,9 +14,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 A single VPS is great, until it isn't. Hardware fails. Datacenter has a bad day. Kernel panic at 3 AM. Suddenly your app is down and you're SSH'ing from bed.
 
-The fix: **two VPS nodes**. But two nodes means two copies of everything, and two copies of state is a recipe for inconsistency. This post solves that.
-
-We'll take the stack from Parts 1 & 2 and scale it across two nodes with **zero shared state** between them. No NFS, no GlusterFS, no replicated Postgres. Just clean, stateless app servers talking to external services.
+The fix: **two VPS nodes**. But two nodes means two copies of everything, and two databases writing independently is how you lose data. This post shows the self-hosted way: Postgres replication between nodes and MinIO for shared file storage. No managed services. No vendor lock-in. All yours.
 
 ---
 
@@ -36,30 +34,21 @@ We'll take the stack from Parts 1 & 2 and scale it across two nodes with **zero 
               │  or Caddy │             │  or Caddy │
               │  App x3   │             │  App x3   │
               │ Watchtower│             │ Watchtower│
-              └─────┬─────┘             └─────┬─────┘
-                    │                         │
-                    └──────────┬──────────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │  Managed Postgres   │
-                    │  (Neon / Aiven /    │
-                    │   Supabase)         │
-                    └─────────────────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │  Object Storage     │
-                    │  (Cloudflare R2 /   │
-                    │   Backblaze B2)     │
-                    └─────────────────────┘
+              │           │             │           │
+              │ Postgres  │◇streaming◇│ Postgres  │
+              │ (PRIMARY) │◇replication◇│ (REPLICA) │
+              │           │             │           │
+              │  MinIO    │◇◀─sync────◇│  MinIO    │
+              └───────────┘             └───────────┘
 ```
 
-Everything inside the VPS boxes is stateless. App containers, reverse proxy, Watchtower — identical on both nodes. The only shared resources live outside, managed by someone else's SRE team.
+VPS-1 is the primary: Postgres writes, MinIO writes. VPS-2 replicates both. If VPS-1 goes down, promote VPS-2 to primary. Everything lives on your own metal.
 
 ---
 
 ## Step 1: Provision Two VPS Nodes
 
-Provision **two identical VPS instances**. Same specs, same OS, same region (or two regions if you want geographic redundancy).
+Same as always. Two identical nodes. Same specs, same OS.
 
 <Tabs>
   <TabItem label="Rocky Linux 10">
@@ -67,9 +56,11 @@ Provision **two identical VPS instances**. Same specs, same OS, same region (or 
 ```bash
 # On BOTH VPS-1 and VPS-2, follow Steps 1-6 from Part 1:
 # - Create non-root user, add to wheel
-# - Harden SSH (no root, no password)
+# - Harden SSH (no root, no password)  
 # - Install Docker, add user to docker group
 # - Firewall: ports 22, 80, 443 open
+# - ALSO open port 5432 between nodes for Postgres replication
+# - ALSO open port 9000 between nodes for MinIO sync
 ```
 
   </TabItem>
@@ -81,150 +72,243 @@ Provision **two identical VPS instances**. Same specs, same OS, same region (or 
 # - Harden SSH (no root, no password)
 # - Install Docker, add user to docker group
 # - Firewall via UFW: ports 22, 80, 443 open
+# - ALSO open port 5432 between nodes for Postgres replication
+# - ALSO open port 9000 between nodes for MinIO sync
 ```
 
   </TabItem>
 </Tabs>
 
-> **Tip:** Set up one VPS completely, then snapshot it or use the same Docker images. Don't configure manually twice.
+**Firewall: allow Postgres + MinIO between nodes only:**
 
-At this point you have two identical, hardened, Docker-ready nodes. Each with their own IP.
+<Tabs>
+  <TabItem label="Rocky Linux 10">
+```bash
+# On BOTH nodes. Replace 10.0.0.2 with the OTHER node's private IP
+sudo firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=10.0.0.2 port port=5432 protocol=tcp accept"
+sudo firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=10.0.0.2 port port=9000 protocol=tcp accept"
+sudo firewall-cmd --reload
+```
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
+```bash
+# On BOTH nodes. Replace 10.0.0.2 with the OTHER node's private IP
+sudo ufw allow from 10.0.0.2 to any port 5432 proto tcp
+sudo ufw allow from 10.0.0.2 to any port 9000 proto tcp
+```
+  </TabItem>
+</Tabs>
+
+> Most VPS providers give you a private IP for inter-node communication. Use it. Don't expose Postgres or MinIO to the public internet.
 
 ---
 
-## Step 2: Set Up Managed Postgres
+## Step 2: Self-Hosted Postgres with Streaming Replication
 
-Running Postgres on a VPS is fine for one node. For two, you need a single source of truth.
+VPS-1 runs Postgres as **primary** (reads + writes). VPS-2 runs Postgres as **hot standby** (reads only, continuously synced). If VPS-1 dies, promote VPS-2.
 
-Pick one:
+### On VPS-1 (Primary)
 
-| Provider | Free Tier | Latency to ID | Notes |
-|----------|-----------|---------------|-------|
-| **[Neon](https://neon.tech)** | 0.5 GB, 1 project | ~60ms (US) | Serverless, scales to zero, branching |
-| **[Supabase](https://supabase.com)** | 500 MB, 2 projects | ~40ms (SG) | Full Postgres + auth + realtime |
-| **[Aiven](https://aiven.io)** | $0 for 30 days | ~50ms (SG) | More traditional managed Postgres |
-| **[Railway](https://railway.app)** | $5 credit | ~40ms (SG) | Not free, but very easy |
+Create a `compose.yaml` for Postgres:
 
-For Indonesian users, Supabase (Singapore region) or Aiven give the best latency.
+```yaml
+services:
+  postgres:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    command: |
+      -c wal_level=replica
+      -c max_wal_senders=3
+      -c wal_keep_size=256
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./pg-init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
 
-Create a database and grab the connection string:
+volumes:
+  pg-data:
+```
+
+Create `pg-init/01-replication-user.sql`:
+
+```sql
+CREATE ROLE replicator WITH LOGIN REPLICATION PASSWORD 'your-replication-password';
+```
+
+Deploy:
+
+```bash
+mkdir -p pg-init
+echo "CREATE ROLE replicator WITH LOGIN REPLICATION PASSWORD 'your-replication-password';" > pg-init/01-replication-user.sql
+docker compose up -d
+```
+
+### On VPS-2 (Replica)
+
+Create a `compose.yaml`:
+
+```yaml
+services:
+  postgres:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pg-data:
+```
+
+Start it once to generate the data directory, then stop it:
+
+```bash
+docker compose up -d
+docker compose stop postgres
+```
+
+Now wipe the data directory and pull a base backup from the primary:
+
+```bash
+sudo rm -rf /var/lib/docker/volumes/guestbook_pg-data/_data/*
+docker compose run --rm postgres   pg_basebackup -h 10.0.0.1 -U replicator -D /var/lib/postgresql/data -P -R
+```
+
+The `-R` flag creates a `standby.signal` file and configures the connection string automatically.
+
+Now update `compose.yaml` for VPS-2 with replication settings:
+
+```yaml
+services:
+  postgres:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    command: |
+      -c primary_conninfo='host=10.0.0.1 port=5432 user=replicator password=your-replication-password'
+      -c primary_slot_name=replica_slot
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pg-data:
+```
+
+Create a replication slot on the primary:
+
+```bash
+# On VPS-1
+docker compose exec postgres psql -U postgres -c "SELECT * FROM pg_create_physical_replication_slot('replica_slot');"
+```
+
+Start the replica:
+
+```bash
+# On VPS-2
+docker compose up -d
+```
+
+Verify replication is working:
+
+```bash
+# On VPS-1 — should show one replica connected
+docker compose exec postgres psql -U postgres -c "SELECT client_addr, state FROM pg_stat_replication;"
+```
+
+### App connection string
+
+Your app needs to know: writes go to VPS-1, reads CAN go to VPS-2:
 
 ```
-postgresql://postgres:<password>@db.xxxx.supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres:***@10.0.0.1:5432/mydb           # writes (VPS-1)
+DATABASE_REPLICA_URL=postgresql://postgres:***@10.0.0.2:5432/mydb   # reads (VPS-2)
 ```
 
-Replace your app's `DATABASE_URL` with this. That's it. Both VPS nodes point to the same database, no replication to configure.
+For most apps, just point everything at the primary. The replica is there for failover, not load distribution.
 
 ---
 
-## Step 3: Object Storage for File Uploads
+## Step 3: Self-Hosted Object Storage with MinIO
 
-If your app handles file uploads, local disk won't work — VPS-1 can't read files on VPS-2.
+MinIO is an S3-compatible object store. Run it on both nodes with bucket replication.
 
-Pick one:
+### On BOTH VPS-1 and VPS-2
 
-| Provider | Free Tier | Notes |
-|----------|-----------|-------|
-| **[Cloudflare R2](https://www.cloudflare.com/r2/)** | 10 GB, 1M writes/month | Zero egress fees — big deal |
-| **[Backblaze B2](https://www.backblaze.com/b2/)** | 10 GB | $0.01/GB egress |
-| **[Tigris](https://www.tigrisdata.com)** | 5 GB | S3-compatible, no egress fees |
+Add to your `compose.yaml`:
 
-**R2 is the default pick.** No egress fees means you don't get surprised when traffic spikes.
+```yaml
+services:
+  minio:
+    image: minio/minio:latest
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    volumes:
+      - minio-data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
 
-Set up a bucket, generate an API token, and point your app's storage config to the S3-compatible endpoint:
+volumes:
+  minio-data:
+```
+
+### Configure bucket replication
+
+Access MinIO Console at `http://vps1-ip:9001`. Create a bucket (e.g., `uploads`).
+
+Then on BOTH nodes, configure replication via `mc` (MinIO Client):
+
+```bash
+# Install mc
+curl https://dl.min.io/client/mc/release/linux-amd64/mc -o /usr/local/bin/mc
+chmod +x /usr/local/bin/mc
+
+# Add both MinIO instances
+mc alias set vps1 http://10.0.0.1:9000 minioadmin ${MINIO_PASSWORD}
+mc alias set vps2 http://10.0.0.2:9000 minioadmin ${MINIO_PASSWORD}
+
+# Create replication rule — VPS-1 → VPS-2
+mc replicate add vps1/uploads --remote-bucket vps2/uploads --priority 1
+
+# Create replication rule — VPS-2 → VPS-1 (bidirectional)
+mc replicate add vps2/uploads --remote-bucket vps1/uploads --priority 1
+```
+
+Now any file uploaded to VPS-1's MinIO is automatically replicated to VPS-2, and vice versa. Your app writes to its local MinIO, reads from the same. Both nodes always have the full file set.
+
+### App config
+
+Your app uses the local MinIO endpoint. On each node it's always `localhost:9000`:
 
 ```
-S3_ENDPOINT=https://<account>.r2.cloudflarestorage.com
-S3_BUCKET=myapp-uploads
-S3_ACCESS_KEY=<access_key>
-S3_SECRET_KEY=<secret_key>
+S3_ENDPOINT=http://localhost:9000
+S3_BUCKET=uploads
+S3_ACCESS_KEY=minioadmin
+S3_SECRET_KEY=${MINIO_PASSWORD}
+S3_USE_SSL=false
 ```
 
-Your app needs to write to S3 instead of local disk. Most frameworks have a drop-in adapter:
+No code changes needed between single-node and multi-node. The MinIO replication layer handles sync transparently.
 
-- **Go:** `github.com/aws/aws-sdk-go-v2`
-- **Python:** `boto3`
-- **Node:** `@aws-sdk/client-s3`
-- **Rails:** Active Storage with S3
-- **Laravel:** Flysystem S3
-
-If your app currently writes to `/app/uploads`, this is the only code change you need for multi-node.
-
-> **Don't need file uploads?** Skip this step. Your app is already multi-node-ready.
+> **Don't need file uploads?** Skip MinIO entirely. Your app is already multi-node-ready.
 
 ---
 
 ## Step 4: Deploy the App on Both Nodes
 
-The `compose.yaml` is identical on both VPS nodes. The only change from Part 1/2: `DATABASE_URL` now points to your managed Postgres instead of a local container.
-
-Copy the same `compose.yaml` to both nodes and deploy:
-
-```bash
-# On VPS-1
-scp compose.yaml deployer@vps1:/home/deployer/guestbook/
-ssh deployer@vps1 "cd ~/guestbook && docker compose up -d"
-
-# On VPS-2
-scp compose.yaml deployer@vps2:/home/deployer/guestbook/
-ssh deployer@vps2 "cd ~/guestbook && docker compose up -d"
-```
-
-Both nodes now run identical app instances, pointing at the same Postgres.
-
----
-
-## Step 5: Cloudflare Load Balancer
-
-DNS round-robin (two A records) is free but dumb — no health checks, no failover. Half your traffic hits a dead node.
-
-**Cloudflare Load Balancer** is the sweet spot:
-
-1. Add both VPS IPs as origin servers in Cloudflare dashboard
-2. Configure health checks (HTTP `GET /health` on your app)
-3. Cloudflare monitors both origins every 60 seconds
-4. Dead node gets pulled from rotation automatically
-5. Traffic splits evenly between healthy nodes
-
-**Cost:** $5/month per origin. For two nodes, that's $10/month. Far cheaper than a third VPS running HAProxy.
-
-**Alternative (free):** If your DNS is on Cloudflare, you can use **two A records** with Cloudflare's proxy (orange cloud). Cloudflare will distribute traffic, but without proper health checks. Acceptable for non-critical apps.
-
----
-
-## Step 6: Automated Deploys — Watch Both Nodes
-
-Push a new image, Watchtower updates it. But you need Watchtower running on **both** VPS nodes.
-
-Your `compose.yaml` already includes Watchtower. Since it's identical on both nodes, just deploy:
-
-```bash
-# Push new image
-docker build -t ghcr.io/yourusername/guestbook:prod .
-docker push ghcr.io/yourusername/guestbook:prod
-
-# Wait 30 seconds. Watchtower on both nodes picks it up.
-# Rolling restart on VPS-1 and VPS-2, staggered naturally.
-```
-
-Cloudflare's health checks ensure no traffic goes to a node mid-restart. Zero-downtime deploys across two nodes.
-
----
-
-## Step 7: Monitoring
-
-Add both VPS IPs to your uptime monitor:
-
-- **[Uptime Robot](https://uptimerobot.com)** — 50 monitors free. Add `http://vps1-ip:80/health` and `http://vps2-ip:80/health`.
-- **[Better Uptime](https://betterstack.com/better-uptime)** — heartbeat monitoring. App pings Better Uptime; if heartbeat stops, you get alerted.
-
-Also monitor your database and object storage. Supabase, Neon, and Cloudflare all have status pages and incident alerts.
-
----
-
-## Final `compose.yaml`
-
-Same as Parts 1 & 2, minus the local Postgres service:
+The `compose.yaml` with everything together:
 
 ```yaml
 services:
@@ -245,15 +329,43 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - letsencrypt:/letsencrypt
 
+  postgres:
+    image: postgres:17
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    command: |
+      -c wal_level=replica
+      -c max_wal_senders=3
+      -c wal_keep_size=256
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  minio:
+    image: minio/minio:latest
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD}
+    volumes:
+      - minio-data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
   guestbook:
     image: ghcr.io/yourusername/guestbook:prod
     restart: always
     environment:
-      DATABASE_URL: postgresql://postgres:***@db.xxxx.supabase.co:5432/postgres
-      S3_ENDPOINT: https://xxxx.r2.cloudflarestorage.com
-      S3_BUCKET: myapp-uploads
-      S3_ACCESS_KEY: ${R2_ACCESS_KEY}
-      S3_SECRET_KEY: ${R2_SECRET_KEY}
+      DATABASE_URL: postgresql://postgres:***@postgres:5432/mydb
+      S3_ENDPOINT: http://minio:9000
+      S3_BUCKET: uploads
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: ${MINIO_PASSWORD}
+      S3_USE_SSL: "false"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.guestbook.rule=Host(`yourdomain.com`)"
@@ -266,6 +378,8 @@ services:
       - "com.centurylinklabs.watchtower.enable=true"
     deploy:
       replicas: 3
+    depends_on:
+      - postgres
 
   watchtower:
     image: containrrr/watchtower
@@ -279,13 +393,76 @@ services:
 
 volumes:
   letsencrypt:
+  pg-data:
+  minio-data:
 ```
 
-Notes:
-- No more local `db` service. `DATABASE_URL` goes straight to Supabase/Neon.
-- `S3_*` env vars for object storage. Your app reads these.
-- `replicas: 3` per node = 6 total app instances across two nodes.
-- Everything else is identical to the single-node setup.
+> **VPS-2 uses the same compose.yaml** but with the replica Postgres config from Step 2. Only the Postgres `command` section differs.
+
+Deploy on both:
+
+```bash
+# On VPS-1
+cd ~/guestbook && docker compose up -d
+
+# On VPS-2  
+cd ~/guestbook && docker compose up -d
+```
+
+---
+
+## Step 5: Cloudflare Load Balancer
+
+1. Add both VPS public IPs as origin servers in Cloudflare dashboard
+2. Configure health checks: `HTTP GET /health` on your app
+3. Cloudflare monitors origins every 60 seconds
+4. Dead node auto-removed from rotation
+
+**Cost:** $5/month per origin. $10/month for two nodes.
+
+**Free alternative:** Two A records pointing to both VPS IPs. Cloudflare proxy (orange cloud) distributes traffic. No health checks, but works for non-critical setups.
+
+---
+
+## Step 6: Failover — When VPS-1 Goes Down
+
+Cloudflare detects VPS-1 is unhealthy, routes all traffic to VPS-2. Your app on VPS-2 is still running, still serving. But Postgres on VPS-2 is a **read-only replica**.
+
+To promote it:
+
+```bash
+# On VPS-2 — promote the replica to primary
+docker compose exec postgres psql -U postgres -c "SELECT pg_promote();"
+```
+
+Now VPS-2's Postgres accepts writes. Update your app's `DATABASE_URL` to point to VPS-2 (or use the local container name since you're already on VPS-2).
+
+When VPS-1 comes back, you can either:
+- **Rebuild it as a new replica** (pg_basebackup from VPS-2)
+- **Keep it offline** until you're ready to switch back
+
+This is a **manual failover**. For automatic failover you'd need Patroni + etcd, which is a separate beast. For a two-node setup, manual promotion is pragmatic. You'll be awake anyway because your monitoring alerted you.
+
+---
+
+## Step 7: Automated Deploys
+
+Watchtower on both nodes. Push a new image, both nodes update within 30 seconds. Cloudflare's health checks keep traffic off nodes mid-restart.
+
+```bash
+docker build -t ghcr.io/yourusername/guestbook:prod .
+docker push ghcr.io/yourusername/guestbook:prod
+# Wait 30s. Both VPS-1 and VPS-2 roll restart.
+# Zero downtime.
+```
+
+---
+
+## Step 8: Monitoring
+
+- **Uptime Robot**: add `http://vps1-ip/health` and `http://vps2-ip/health`
+- **Cloudflare health checks** (built into the LB)
+- **Postgres replication lag**: `docker compose exec postgres psql -U postgres -c "SELECT pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) FROM pg_stat_replication;"`
 
 ---
 
@@ -293,31 +470,28 @@ Notes:
 
 | Service | Cost |
 |---------|------|
-| VPS 1 (2 vCPU, 4 GB) | ~$12/mo |
-| VPS 2 (2 vCPU, 4 GB) | ~$12/mo |
+| VPS 1 (4 vCPU, 8 GB) | ~$24/mo |
+| VPS 2 (4 vCPU, 8 GB) | ~$24/mo |
 | Cloudflare LB | $10/mo |
-| Managed Postgres (Supabase) | $0 (free tier) |
-| Object Storage (R2) | $0 (free tier) |
-| Uptime Monitoring (Uptime Robot) | $0 |
-| **Total** | **~$34/mo** |
+| Uptime Robot | $0 |
+| **Total** | **~$58/mo** |
 
-For $34/month you have a multi-node, auto-failover, zero-downtime-deploy production setup. A single-node setup on Railway or Fly.io with similar specs costs about the same, without the redundancy.
+Everything self-hosted. No per-request fees. No egress charges. Two beefy nodes with Postgres + MinIO replication for under $60/month.
 
 ---
 
 ## Checklist
 
-- [ ] Two VPS nodes provisioned and hardened
-- [ ] Docker on both nodes
-- [ ] Managed Postgres provisioned, connection string in app
-- [ ] Object storage bucket created, credentials in app
-- [ ] Identical `compose.yaml` on both nodes
-- [ ] Cloudflare Load Balancer configured with health checks
-- [ ] Watchtower running on both nodes
-- [ ] Uptime monitoring for both nodes + database
+- [ ] Two VPS nodes hardened, Docker installed
+- [ ] Postgres primary on VPS-1, replica on VPS-2
+- [ ] Streaming replication verified
+- [ ] MinIO running on both nodes, bucket replication active
+- [ ] App deployed on both nodes with identical compose.yaml
+- [ ] Cloudflare LB with health checks
+- [ ] Watchtower on both nodes
+- [ ] Failover tested (promote replica, verify traffic flows)
+- [ ] Uptime monitoring on both nodes
 
 ---
 
-A single VPS is where you start. Two nodes is where you stop worrying about 3 AM kernel panics. The key insight: keep the nodes stateless, push shared state to managed services, and let Cloudflare handle the traffic steering.
-
-No shared file systems. No Postgres replication. No rsync cron jobs. Just two identical app servers, one database, and one object store.
+No managed databases. No S3 bills. No vendor APIs to depend on. Just two Linux boxes, Postgres replication, and MinIO sync. Everything you need for a production multi-node setup, running on your own hardware.
