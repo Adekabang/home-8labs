@@ -6,6 +6,8 @@ sidebar:
   order: 0
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 # Setting Up a Production-Ready VPS from Scratch — Rocky Linux 10 & Ubuntu 26.04
 
 > Adapted from [Dreams of Code](https://dreamsofcode.io/blog/setting-up-a-production-ready-vps-from-scratch) — dual-OS guide covering both RHEL-family and Debian-family setups.
@@ -54,7 +56,8 @@ ssh root@<your-server-ip>
 
 Working as root is a bad habit. Create a regular user with `sudo`/`wheel` privileges.
 
-### Rocky Linux 10
+<Tabs>
+  <TabItem label="Rocky Linux 10">
 
 ```bash
 # Create user
@@ -69,7 +72,8 @@ su - deployer
 sudo echo "sudo works"
 ```
 
-### Ubuntu 26.04
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
 
 ```bash
 # Create user (interactive prompt)
@@ -94,6 +98,9 @@ sudo echo "sudo works"
 > ```
 
 ---
+
+  </TabItem>
+</Tabs>
 
 ## Step 3: DNS Configuration
 
@@ -145,22 +152,40 @@ Set or uncomment these lines:
 PasswordAuthentication no
 PermitRootLogin no
 PubkeyAuthentication yes
-# Rocky: also check /etc/ssh/sshd_config.d/*.conf for overrides
-# Ubuntu: also check /etc/ssh/sshd_config.d/50-cloud-init.conf
 ```
+
+<Tabs>
+  <TabItem label="Rocky Linux 10">
+```
+
+```
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
+```
+
+```
+  </TabItem>
+</Tabs>
+
 
 ### 4c. Clean up cloud-init overrides
 
 Cloud images often ship a drop-in that re-enables password auth. Check and fix:
 
+<Tabs>
+  <TabItem label="Rocky Linux 10">
 ```bash
-# Rocky: typically no cloud-init ssh override, but check:
 sudo grep -r "PasswordAuthentication" /etc/ssh/sshd_config.d/
-
-# Ubuntu: commonly ships 50-cloud-init.conf
+```
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
+```bash
 sudo vim /etc/ssh/sshd_config.d/50-cloud-init.conf
 # Comment out or delete any PasswordAuthentication yes line
 ```
+  </TabItem>
+</Tabs>
+
 
 ### 4d. Reload and Verify
 
@@ -181,7 +206,8 @@ ssh deployer@<server-ip>
 
 ## Step 5: Firewall
 
-### Rocky Linux 10 — firewalld
+<Tabs>
+  <TabItem label="Rocky Linux 10 — firewalld">
 
 Rocky uses `firewalld` by default (not `ufw`).
 
@@ -206,7 +232,8 @@ sudo firewall-cmd --reload
 sudo firewall-cmd --list-all
 ```
 
-### Ubuntu 26.04 — UFW
+  </TabItem>
+  <TabItem label="Ubuntu 26.04 — UFW">
 
 ```bash
 # Enable UFW
@@ -227,9 +254,13 @@ sudo ufw status verbose
 
 ---
 
+  </TabItem>
+</Tabs>
+
 ## Step 6: Install Docker
 
-### Rocky Linux 10
+<Tabs>
+  <TabItem label="Rocky Linux 10">
 
 ```bash
 # Remove old Docker packages if any
@@ -259,7 +290,8 @@ If `dnf config-manager` isn't available:
 sudo dnf install -y 'dnf-command(config-manager)'
 ```
 
-### Ubuntu 26.04
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
 
 ```bash
 # Remove old packages
@@ -299,6 +331,9 @@ docker compose version
 **Log out and back in** (or `newgrp docker`) for the group change to take effect.
 
 ---
+
+  </TabItem>
+</Tabs>
 
 ## Step 7: Deploy the Application Stack
 
