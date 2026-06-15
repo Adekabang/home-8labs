@@ -149,20 +149,9 @@ Set or uncomment these lines:
 PasswordAuthentication no
 PermitRootLogin no
 PubkeyAuthentication yes
+# Rocky: also check /etc/ssh/sshd_config.d/*.conf for overrides
+# Ubuntu: also check /etc/ssh/sshd_config.d/50-cloud-init.conf
 ```
-
-<Tabs>
-  <TabItem label="Rocky Linux 10">
-```
-
-```
-  </TabItem>
-  <TabItem label="Ubuntu 26.04">
-```
-
-```
-  </TabItem>
-</Tabs>
 
 
 ### 4c. Clean up cloud-init overrides
@@ -247,12 +236,10 @@ sudo ufw enable
 sudo ufw status verbose
 ```
 
-> **Docker bypass warning:** Docker manipulates `iptables` directly, which can bypass both `firewalld` and `ufw` rules for published ports. The solution: don't publish container ports directly. Use a reverse proxy (Step 7) and only expose ports 80/443 on the host.
-
----
-
   </TabItem>
 </Tabs>
+
+> **Docker bypass warning:** Docker manipulates `iptables` directly, which can bypass both `firewalld` and `ufw` rules for published ports. The solution: don't publish container ports directly. Use a reverse proxy (Step 7) and only expose ports 80/443 on the host.
 
 ## Step 6: Install Docker
 
@@ -325,12 +312,10 @@ docker --version
 docker compose version
 ```
 
-**Log out and back in** (or `newgrp docker`) for the group change to take effect.
-
----
-
   </TabItem>
 </Tabs>
+
+**Log out and back in** (or `newgrp docker`) for the group change to take effect.
 
 ## Step 7: Deploy the Application Stack
 
@@ -434,14 +419,19 @@ services:
 
 Open port 80 on the firewall:
 
+<Tabs>
+  <TabItem label="Rocky Linux 10">
 ```bash
-# Rocky
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --reload
-
-# Ubuntu
+```
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
+```bash
 sudo ufw allow 80/tcp
 ```
+  </TabItem>
+</Tabs>
 
 Redeploy:
 
@@ -519,14 +509,19 @@ services:
 
 Open port 443:
 
+<Tabs>
+  <TabItem label="Rocky Linux 10">
 ```bash
-# Rocky
 sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
-
-# Ubuntu
+```
+  </TabItem>
+  <TabItem label="Ubuntu 26.04">
+```bash
 sudo ufw allow 443/tcp
 ```
+  </TabItem>
+</Tabs>
 
 Redeploy:
 
