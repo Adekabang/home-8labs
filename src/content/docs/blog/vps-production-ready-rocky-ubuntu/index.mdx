@@ -38,7 +38,7 @@ The perceived difficulty of hardening and configuring a raw VPS scares people of
 
 Pick a provider (Hetzner, Hostinger, DigitalOcean, Vultr). We used a **2 vCPU / 8 GB RAM** instance.
 
-> **💡 Too lazy to DIY?** Grab a pre-configured VPS from [8labs](https://8labs.id) — we'll set up the whole stack for you, from firewall to Traefik to monitoring. You just ship code. 😉
+> **💡 Skip the setup grind.** [8labs](https://8labs.id) spins up ready-to-code environments — [VirtualLabs](https://8labs.id) for dev VMs and [ElasticLabs](https://8labs.id) for scalable workloads. Firewall, Docker, reverse proxy all pre-configured. You just `git push`. 😉
 
 During setup via your provider's panel:
 1. Select **Rocky Linux 10** or **Ubuntu 26.04 LTS**
@@ -89,20 +89,15 @@ su - deployer
 sudo echo "sudo works"
 ```
 
+  </TabItem>
+</Tabs>
+
 > **Tip:** Install `tmux` on the VPS. If your SSH drops, reattach with `tmux attach` — no lost progress.
 >
 > ```bash
-> # Rocky
-> sudo dnf install -y tmux
->
-> # Ubuntu
-> sudo apt install -y tmux
+> sudo dnf install -y tmux   # Rocky
+> sudo apt install -y tmux   # Ubuntu
 > ```
-
----
-
-  </TabItem>
-</Tabs>
 
 ## Step 3: DNS Configuration
 
