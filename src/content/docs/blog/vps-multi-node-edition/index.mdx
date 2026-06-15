@@ -482,17 +482,23 @@ docker push ghcr.io/yourusername/guestbook:prod
 
 ---
 
-## Cost Breakdown
+## Resources Needed
 
-| Service | Cost |
-|---------|------|
-| VPS 1 (4 vCPU, 8 GB) | ~$24/mo |
-| VPS 2 (4 vCPU, 8 GB) | ~$24/mo |
-| Cloudflare DNS + Proxy | $0 |
-| Uptime Robot | $0 |
-| **Total** | **~$48/mo** |
+What each component actually uses on your nodes:
 
-Everything self-hosted. No per-request fees. No egress charges. No load balancer bills. Two beefy nodes with Postgres + MinIO replication for under $50/month.
+| Component | vCPU | RAM | Disk | Notes |
+|-----------|------|-----|------|-------|
+| **Caddy** | 0.2 | 128 MB | — | Negligible. Single binary, ~20 MB at runtime |
+| **App (x3 replicas)** | 1.5 | 512 MB | — | Depends on your app. Go/Rust: 50 MB, Node/Python: 200+ MB per instance |
+| **Postgres** | 1 | 1 GB | scales with data | Shared buffers + WAL. 1 GB is minimum for replication |
+| **MinIO** | 0.5 | 512 MB | scales with files | Each node stores full file set. Plan accordingly |
+| **Watchtower** | 0.1 | 64 MB | — | Barely a blip |
+| **OS overhead** | 0.5 | 1 GB | 20 GB | systemd, Docker daemon, SSH |
+| **Buffer** | 1 | 1.5 GB | — | Headroom for spikes, logs, builds |
+
+**Recommendation per node:** 4 vCPU / 8 GB RAM / 80 GB SSD.
+
+For low-traffic apps, 2 vCPU / 4 GB works. For Postgres-heavy workloads, bump to 8 GB RAM and give Postgres 2-4 GB of `shared_buffers`.
 
 ---
 
