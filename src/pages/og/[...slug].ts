@@ -1,14 +1,19 @@
 import { getCollection } from "astro:content";
 import { OGImageRoute } from "astro-og-canvas";
+import { sitePages } from "../../og-pages";
 
-// One generated OG card per docs/guides/blog entry. Blog posts that set a
-// `cover` use that instead (handled in the Head override), but we still
-// generate cards for everything so non-cover pages have a branded preview.
+// One generated OG card per docs/guides/blog entry plus the landing pages.
+// Blog posts that set a `cover` use that instead (handled in the Head
+// override), but we still generate cards for everything so non-cover pages
+// have a branded preview.
 const entries = await getCollection("docs");
 
-const pages = Object.fromEntries(
-  entries.map((entry) => [entry.id, { data: entry.data }]),
-);
+const pages = {
+  ...Object.fromEntries(entries.map((entry) => [entry.id, { data: entry.data }])),
+  ...Object.fromEntries(
+    Object.entries(sitePages).map(([slug, p]) => [slug, { data: p.data }]),
+  ),
+};
 
 export const { getStaticPaths, GET } = await OGImageRoute({
   param: "slug",
