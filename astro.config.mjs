@@ -21,6 +21,7 @@ export default defineConfig({
       ],
       logo: undefined,
       components: {
+        Head: "./src/components/starlight/Head.astro",
         Header: "./src/components/starlight/Header.astro",
         MobileMenuFooter: "./src/components/starlight/MobileMenuFooter.astro",
       },

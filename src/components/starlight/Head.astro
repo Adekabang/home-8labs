@@ -1,0 +1,18 @@
+---
+// Add og:image / twitter:image to every docs & blog page. Blog posts with a
+// `cover` use that image; everything else uses the auto-generated OG card
+// from /og/<id>.png (see src/pages/og/[...slug].png.ts).
+import Default from "@astrojs/starlight/components/Head.astro";
+
+const { entry } = Astro.locals.starlightRoute;
+const cover = (entry.data as { cover?: { image?: { src: string } | string } })
+  .cover?.image;
+
+const ogImage = cover
+  ? new URL(typeof cover === "string" ? cover : cover.src, Astro.site).toString()
+  : new URL(`/og/${entry.id}.png`, Astro.site).toString();
+---
+
+<Default><slot /></Default>
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:image" content={ogImage} />
