@@ -4,6 +4,9 @@ title: Welcome
 authors: adekabang
 tags: [8labs, welcome, announcement]
 date: 2021-08-26
+cover:
+  alt: "Tomochi flipping the open sign on the new 8Labs blog"
+  image: ./cover.png
 ---
 
 8Labs is a virtual labs platform where you can experiment fearlessly with real Linux environments—no vendor lock-in, no heavy VPS bills. Launch cloud-init ready VMs, get full root access, and practice real-world workflows for systems, networking, and deployments.

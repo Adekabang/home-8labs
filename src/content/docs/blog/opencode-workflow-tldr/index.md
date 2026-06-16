@@ -4,6 +4,9 @@ title: OpenCode Workflow TL;DR - From One Giant Setup to Daily System
 authors: adekabang
 date: 2026-03-16
 tags: [docusaurus, opencode, workflow, docs, linux]
+cover:
+  alt: "Tomochi filing one giant messy scroll into neat labeled drawers"
+  image: ./cover.png
 ---
 
 I used to keep everything in one giant setup note, but in real life it was hard to use as a daily reference. Every time I needed one specific thing (provider setup, MCP, model choice, troubleshooting), I had to scroll through a giant wall of text.

@@ -4,6 +4,9 @@ title: Qemu and Virt-manager in macOS (Intel-based)
 authors: adekabang
 tags: [qemu, virt-manager, macos, virtualization, ubuntu]
 date: 2025-03-12
+cover:
+  alt: "Tomochi propping open a nested Linux VM window inside a macOS laptop"
+  image: ./cover.png
 ---
 
 So, I found this old iMac (Retina 5K, 27-inch, 2017) lying around with pretty decent specs. I'm thinking of turning it into my dedicated x86 playground since my main machine is an M1 MacBook. First thing's first: getting Qemu and Virt-manager up and running for some virtual machine action. Yeah, I know there are other VM solutions like VMware or VirtualBox, but I want to stay familiar with what's common in enterprise environments (even if nobody's running macOS in production, haha!).

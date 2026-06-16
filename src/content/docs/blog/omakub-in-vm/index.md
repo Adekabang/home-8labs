@@ -4,6 +4,9 @@ title: Installing Omakub on a Proxmox Virtual Machine
 authors: adekabang
 tags: [omakub, ubuntu, proxmox, virtualization, homelab, remote-desktop, jumphost]
 date: 2025-07-11
+cover:
+  alt: "Tomochi dropping a pre-furnished desktop into an empty VM box"
+  image: ./cover.png
 ---
 
 I recently found myself in a common homelab dilemma: I needed a dedicated machine for a jumphost and remote development environment, but all my spare hardware was already tied up with my Proxmox server running other services. So, I decided to leverage my existing Proxmox setup and install [Omakub](https://omakub.org/) inside a virtual machine.

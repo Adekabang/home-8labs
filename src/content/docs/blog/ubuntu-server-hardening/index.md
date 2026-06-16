@@ -4,6 +4,9 @@ title: Ubuntu Server Hardening - A Comprehensive Security Guide
 authors: adekabang
 date: 2026-02-25
 tags: [ubuntu, security, hardening, ssh, firewall, server, linux]
+cover:
+  alt: "Tomochi bolting padlocks and shields onto a server box, sealing open doors"
+  image: ./cover.png
 ---
 
 Securing your Ubuntu server is essential whether you're running a production web server, a homelab service, or a cloud instance. This guide covers the essential steps to harden your Ubuntu Server 22.04/24.04 LTS installation, following security best practices and CIS benchmarks.
