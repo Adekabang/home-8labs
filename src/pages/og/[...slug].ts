@@ -9,7 +9,9 @@ import { sitePages } from "../../og-pages";
 const entries = await getCollection("docs");
 
 const pages = {
-  ...Object.fromEntries(entries.map((entry) => [entry.id, { data: entry.data }])),
+  ...Object.fromEntries(
+    entries.map((entry) => [entry.id, { data: entry.data }]),
+  ),
   ...Object.fromEntries(
     Object.entries(sitePages).map(([slug, p]) => [slug, { data: p.data }]),
   ),

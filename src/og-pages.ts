@@ -32,7 +32,8 @@ export const sitePages: Record<
     path: "/contact",
     data: {
       title: "Contact — 8Labs",
-      description: "Reach 8Labs on Telegram or email — direct line, no sales layer.",
+      description:
+        "Reach 8Labs on Telegram or email — direct line, no sales layer.",
     },
   },
   cloud: {
