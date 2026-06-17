@@ -156,7 +156,32 @@ Test key-based login before proceeding:
 ssh deployer@<server-ip>
 ```
 
-### 4b. Edit sshd_config
+### 4b. Simplify with SSH config (optional)
+
+Typing `ssh deployer@203.0.113.42` every time gets old. Add an entry to your local `~/.ssh/config`:
+
+```
+Host prod-server
+    HostName 203.0.113.42
+    User deployer
+    IdentityFile ~/.ssh/id_ed25519
+
+Host myapp.com
+    HostName myapp.com
+    User deployer
+    IdentityFile ~/.ssh/id_ed25519
+```
+
+Now you can connect with just:
+
+```bash
+ssh prod-server
+ssh myapp.com
+```
+
+> **Tip:** Use short, memorable `Host` aliases. The `HostName` can be either an IP address or a domain name. If you're managing multiple servers, add an entry for each one — your fingers will thank you.
+
+### 4c. Edit sshd_config
 
 ```bash
 sudo vim /etc/ssh/sshd_config
@@ -173,7 +198,7 @@ PubkeyAuthentication yes
 ```
 
 
-### 4c. Clean up cloud-init overrides
+### 4d. Clean up cloud-init overrides
 
 Cloud images often ship a drop-in that re-enables password auth. Check and fix:
 
@@ -192,7 +217,7 @@ sudo vim /etc/ssh/sshd_config.d/50-cloud-init.conf
 </Tabs>
 
 
-### 4d. Reload and Verify
+### 4e. Reload and Verify
 
 ```bash
 sudo systemctl reload sshd
