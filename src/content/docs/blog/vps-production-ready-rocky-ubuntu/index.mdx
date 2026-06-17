@@ -723,14 +723,36 @@ docker compose up -d
 
 If SELinux blocks Docker operations (socket access, volume mounts):
 
-```bash
-# Check if SELinux is the culprit
-sudo ausearch -m avc -ts recent
+**Step 1: Find the blocked path.** Run `ausearch` to see recent SELinux denials:
 
-# Temporary (for testing): set Docker context
+```bash
+sudo ausearch -m avc -ts recent
+```
+
+Look for the `name=` field in the output. Example denial and what to look for:
+
+```
+type=AVC msg=audit(1718123456.789:1234): avc:  denied  { write } for
+pid=5678 comm="dockerd" name="postgres-data" dev="sda1" ino=12345
+scontext=system_u:system_r:container_t:s0
+tcontext=system_u:object_r:default_t:s0 tclass=dir
+```
+
+The blocked path is in the `name=` field — here it's `postgres-data`. You can also find the full path with:
+
+```bash
+sudo ausearch -m avc -ts recent | grep -oP 'name="?\K[^"\s]+'
+```
+
+**Step 2: Apply the fix.** Set the SELinux context for the blocked path(s):
+
+```bash
+# Replace /path/to/mount with the actual path from ausearch output
 sudo semanage fcontext -a -t container_file_t "/path/to/mount(/.*)?"
 sudo restorecon -Rv /path/to/mount
 ```
+
+For Docker named volumes, the path is typically under `/var/lib/docker/volumes/<volume-name>/`. For bind mounts, use the host path from your `docker-compose.yml` `volumes:` section.
 
 Usually Docker and SELinux coexist fine on Rocky 10 with default policies. Only intervene if you see `Permission denied` in container logs despite correct file permissions.
 
