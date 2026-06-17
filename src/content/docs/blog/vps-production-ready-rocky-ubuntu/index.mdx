@@ -126,13 +126,29 @@ DNS propagation takes minutes to hours. Move on to security while waiting.
 
 SSH is your front door. Lock it down.
 
-### 4a. Copy your SSH key
+### 4a. Generate and copy your SSH key
 
-From your **local machine**:
+If you don't already have an SSH key pair, generate one on your **local machine**:
+
+```bash
+ssh-keygen -t ed25519 -C "your-email@example.com"
+# Press Enter to accept the default path (~/.ssh/id_ed25519)
+# Set a passphrase (recommended) or leave empty
+```
+
+> **Ed25519 vs RSA:** Ed25519 is faster, more compact, and just as secure as RSA 4096. It is supported by OpenSSH 6.5+ (released 2014), so it works on every modern server. Only use RSA 4096 if you need to connect to legacy servers running pre-2014 OpenSSH:
+>
+> ```bash
+> ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+> ```
+
+Then copy the public key to your server:
 
 ```bash
 ssh-copy-id deployer@<server-ip>
 ```
+
+If you already have an SSH key, skip the generation step and jump straight to `ssh-copy-id`.
 
 Test key-based login before proceeding:
 
