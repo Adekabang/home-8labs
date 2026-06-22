@@ -26,7 +26,9 @@ const resolvedImageWithDomain = new URL(ogImagePath, Astro.site).toString();
 
 const { title } = Astro.props;
 
-const makeTitle = title ? title + " | " + "8Labs" : "8Labs - Virtual & Cloud Labs";
+const makeTitle = title
+  ? title + " | 8Labs"
+  : "8Labs — Virtual & Cloud Lab Environments for Developers";
 ---
 
 <!doctype html>
@@ -40,7 +42,7 @@ const makeTitle = title ? title + " | " + "8Labs" : "8Labs - Virtual & Cloud Lab
     <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
     <SEO
       title={makeTitle}
-      description="8Labs provides virtual and cloud lab environments for developers, students, IT professionals, and homelab enthusiasts, with product flows through my.8labs.id."
+      description="Virtual and cloud lab environments for developers, students, and homelabbers. Order and manage through my.8labs.id."
       canonical={canonicalURL}
       twitter={{
         creator: "@mraskaa_",
@@ -56,6 +58,9 @@ const makeTitle = title ? title + " | " + "8Labs" : "8Labs - Virtual & Cloud Lab
         },
         image: {
           alt: "8Labs Homepage Screenshot",
+        },
+        optional: {
+          siteName: "8Labs",
         },
       }}
     />
