@@ -19,10 +19,10 @@ const ogSlug = Object.entries(sitePages).find(
   ([, p]) => normalize(p.path) === currentPath,
 )?.[0];
 
-const resolvedImageWithDomain = new URL(
-  ogSlug ? `/og/${ogSlug}.png` : "/opengraph.jpg",
-  Astro.site,
-).toString();
+// Home uses a real screenshot of the landing page; other pages use generated cards.
+const ogImagePath =
+  currentPath === "/" ? "/og-home.png" : ogSlug ? `/og/${ogSlug}.png` : "/opengraph.jpg";
+const resolvedImageWithDomain = new URL(ogImagePath, Astro.site).toString();
 
 const { title } = Astro.props;
 
