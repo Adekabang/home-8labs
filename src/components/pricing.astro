@@ -5,10 +5,10 @@ import Link from "@components/ui/link.astro";
 const { plan } = Astro.props;
 ---
 
-<div>
+<div class="h-full">
   <div
     class:list={[
-      "flex flex-col w-full order-first lg:order-none border py-5 px-6 rounded-none bg-panel transition-colors",
+      "flex flex-col h-full w-full order-first lg:order-none border py-5 px-6 rounded-none bg-panel transition-colors",
       plan.popular ? "border-red-700/50" : "border-grid",
     ]}>
     <div class="text-center">
@@ -36,7 +36,7 @@ const { plan } = Astro.props;
           </li>
         ))
       }
-    </ul><div class="flex mt-8">
+    </ul><div class="flex mt-auto pt-8">
       <Link
         href={plan.button.link || "#"}
         target={plan.button.target}
