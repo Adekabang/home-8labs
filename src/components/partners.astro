@@ -1,6 +1,7 @@
 ---
 import { Picture } from "astro:assets";
 import genreJatengImage from "assets/genre-jateng.png";
+import VerificationArtifact from "@components/motifs/verification-artifact.astro";
 
 const partners = [
   {
@@ -11,31 +12,48 @@ const partners = [
 ];
 ---
 
-<div class="mt-24">
-  <div class="mx-auto grid max-w-5xl items-center gap-8 rounded-[2rem] border border-zinc-200 bg-white p-8 shadow-[0_30px_90px_-60px_rgba(0,0,0,0.25)] md:p-12 lg:grid-cols-[1.15fr_0.85fr]">
-    <div>
-      <h2 class="text-3xl font-bold tracking-[-0.04em] text-zinc-950 md:text-4xl">Verified community trust signal.</h2>
-      <p class="mt-4 max-w-md text-base leading-7 text-zinc-600">
-        Showing only verified public trust assets. No invented customers, no filler logo wall.
-      </p>
-    </div>
-    {
-      partners.map((partner) => (
-        <a
-          href={partner.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group flex min-h-[160px] items-center justify-center rounded-3xl border border-zinc-800 bg-zinc-950 p-8 transition-all hover:-translate-y-1 hover:border-zinc-700 hover:bg-zinc-900"
-          title={partner.name}>
-          <Picture
-            src={partner.image}
-            alt={partner.name}
-            class="h-24 w-auto object-contain md:h-28"
-            loading="eager"
-            format="png"
-          />
-        </a>
-      ))
-    }
+<section class="mt-32">
+  <div class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
+    <p class="micro-label">Trust Verification</p>
+    <p class="micro-label hidden sm:block">Public assets only · no filler</p>
   </div>
-</div>
+
+  <div class="mt-8 grid gap-px overflow-hidden border border-grid bg-grid lg:grid-cols-[0.9fr_1.1fr]">
+    {/* inspection artifact */}
+    <div class="relative flex items-center justify-center bg-ink p-8">
+      <div class="absolute inset-0 opacity-[0.1] blueprint-grid"></div>
+      <VerificationArtifact class="relative h-72 w-auto" />
+    </div>
+
+    {/* statement + verified asset */}
+    <div class="flex flex-col justify-center gap-6 bg-surface p-8 md:p-10">
+      <div>
+        <h2 class="text-3xl font-light tracking-[-0.03em] text-line md:text-4xl">
+          Verified community trust signal.
+        </h2>
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-cool">
+          Showing only verified public trust assets. No invented customers, no filler logo wall.
+        </p>
+      </div>
+      {
+        partners.map((partner) => (
+          <a
+            href={partner.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex items-center gap-5 border border-grid bg-ink p-5 transition-colors hover:border-red-700"
+            title={partner.name}>
+            <Picture
+              src={partner.image}
+              alt={partner.name}
+              class="h-16 w-auto object-contain"
+              loading="eager"
+              format="png"
+            />
+            <span class="micro-label">VERIFIED · {partner.name}</span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

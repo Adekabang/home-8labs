@@ -1,0 +1,90 @@
+---
+// Signal Console — four technical signal modules with waveform/status lines.
+// Clear Signals motif (wide banner).
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+const mods = [
+  { label: "STATUS", wave: "M0 14 L14 14 L20 4 L26 24 L32 14 L60 14", tone: "#C20E50" },
+  { label: "DOCS", wave: "M0 14 L18 14 L24 8 L30 20 L36 14 L60 14", tone: "#C20E50" },
+  { label: "BACKUP", wave: "M0 18 L12 18 L18 6 L24 18 L30 10 L36 18 L60 18", tone: "#C20E50" },
+  { label: "SUPPORT", wave: "M0 14 L10 14 L16 14 L22 4 L28 24 L34 14 L60 14", tone: "#C20E50" },
+];
+---
+
+<svg
+  viewBox="0 0 520 90"
+  data-motif
+  class:list={[className]}
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-labelledby="sc-t sc-d">
+  <title id="sc-t">Signal console</title>
+  <desc id="sc-d">Four technical signal modules showing waveform and status lines for status, docs, backup, and support.</desc>
+  {
+    mods.map((m, i) => {
+      const x = i * 130;
+      return (
+        <g transform={`translate(${x} 0)`}>
+          <g class="rise" style={`--i:${i}`}>
+            <rect x="6" y="10" width="118" height="70" fill="#FFFFFF" stroke="#0A0A0A" stroke-opacity="0.14"></rect>
+            <circle cx="18" cy="24" r="3" fill={m.tone} class="blip" style={`--i:${i}`}></circle>
+            <text x="32" y="27" font-family="monospace" font-size="8" letter-spacing="1.5" fill="#68727F">{m.label}</text>
+          </g>
+          <g transform="translate(34 36)">
+            <path
+              class="wave"
+              style={`--i:${i}`}
+              pathLength="1"
+              d={m.wave}
+              fill="none"
+              stroke={m.tone}
+              stroke-width="1.3"
+              stroke-linejoin="round"
+            />
+          </g>
+        </g>
+      );
+    })
+  }
+
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      .rise {
+        opacity: 0;
+        animation: sc-fade 0.5s ease forwards;
+        animation-delay: calc(var(--i) * 0.12s);
+      }
+      .wave {
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: sc-draw 1s ease forwards;
+        animation-delay: calc(0.4s + var(--i) * 0.12s);
+      }
+      .blip {
+        animation: sc-pulse 2.4s ease-in-out infinite;
+        animation-delay: calc(1s + var(--i) * 0.3s);
+      }
+    }
+    @keyframes sc-fade {
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes sc-draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+    @keyframes sc-pulse {
+      0%,
+      100% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+  </style>
+</svg>

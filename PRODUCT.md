@@ -24,12 +24,12 @@ Practical, techy, friendly. "Tukang ngoprek" energy: hands-on, no fluff, real co
 
 ## References
 
-- atlasgo.io and apisix.apache.org: modern, techy, interactive docs with strong brand presence
-- 8labs.id home: light surfaces, zinc/slate neutrals, red accent, pill-shaped controls, frosted navbar
+- Cognivis / meinGPT / Klea: light enterprise-AI blueprint, isometric line-art, technical grid
+- 8labs.id home: light blueprint system — white paper, neutral zinc ink, 8Labs red accent, sharp radius (no pills), hairline grid, crosshair registration marks, mono micro-labels, isometric SVG motifs. See DESIGN.md.
 
 ## Design Principles
 
-- Brand continuity first: docs and home must feel like one site (same fonts, same red, same pill language)
+- Brand continuity first: docs, blog, and home are one site (same fonts, same red accent, same sharp blueprint language — no pills)
 - Content is the interface: typography and code blocks carry the experience; chrome stays quiet
 - Every legacy URL keeps working: redirects are part of the product
 - Fast on cheap hardware: static output, no client framework on content pages

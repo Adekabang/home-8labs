@@ -1,0 +1,122 @@
+---
+import Link from "@components/ui/link.astro";
+// Client-panel preview — blueprint wireframe of my.8labs.id (sidebar, metric
+// row, services table). Line-art stands in for a real screenshot; swap a
+// captured PNG into the framed cell when available.
+const nav = ["Dashboard", "Products", "Services", "Billing", "Tickets"];
+const rows = [
+  { name: "virtual-lab-01", net: "IPv6", state: "Running", up: true },
+  { name: "vdl-prod-2", net: "IPv4 / v6", state: "Running", up: true },
+  { name: "elastic-nat-7", net: "NAT", state: "Provisioning", up: false },
+];
+---
+
+<section class="mt-32">
+  <div class="grid items-end gap-6 border-b border-grid pb-5 sm:grid-cols-[1fr_auto]">
+    <h2 class="max-w-xl text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
+      Order, deploy, and manage from one panel.
+    </h2>
+    <p class="max-w-xs text-sm leading-relaxed text-cool">
+      Live stock, billing unit, and final price are confirmed in the client panel before anything provisions.
+    </p>
+  </div>
+
+  <!-- framed panel cell with registration marks -->
+  <div class="relative mt-10 border border-grid bg-surface p-4 sm:p-8">
+    <span class="bp-cross absolute -left-2 -top-2 h-4 w-4"></span>
+    <span class="bp-cross absolute -right-2 -top-2 h-4 w-4"></span>
+    <span class="bp-cross absolute -bottom-2 -left-2 h-4 w-4"></span>
+    <span class="bp-cross absolute -bottom-2 -right-2 h-4 w-4"></span>
+    <span class="absolute left-4 top-2 micro-label">FIG.02 / CLIENT PANEL</span>
+
+    <div class="mx-auto mt-6 max-w-4xl overflow-hidden rounded-none border border-grid bg-ink shadow-sm">
+      <!-- window chrome -->
+      <div class="flex items-center gap-2 border-b border-grid px-4 py-2.5">
+        <span class="h-2.5 w-2.5 rounded-full border border-grid"></span>
+        <span class="h-2.5 w-2.5 rounded-full border border-grid"></span>
+        <span class="h-2.5 w-2.5 rounded-full border border-grid"></span>
+        <span class="ml-3 font-mono text-xs text-muted">my.8labs.id / dashboard</span>
+      </div>
+
+      <div class="grid grid-cols-[8rem_1fr] md:grid-cols-[11rem_1fr]">
+        <!-- sidebar -->
+        <nav class="hidden flex-col gap-1 border-r border-grid p-3 sm:flex">
+          {
+            nav.map((n, i) => (
+              <span
+                class:list={[
+                  "flex items-center gap-2 rounded-none px-2.5 py-1.5 text-sm",
+                  i === 1 ? "bg-elevated font-medium text-line" : "text-cool",
+                ]}>
+                <span
+                  class:list={[
+                    "h-1.5 w-1.5",
+                    i === 1 ? "bg-red-700" : "bg-grid",
+                  ]}
+                />
+                {n}
+              </span>
+            ))
+          }
+        </nav>
+
+        <!-- main -->
+        <div class="p-4 md:p-5">
+          <div class="grid grid-cols-3 gap-px overflow-hidden rounded-none border border-grid bg-grid">
+            {
+              [
+                { k: "Active labs", v: "12" },
+                { k: "LAB Coin", v: "340" },
+                { k: "Avg setup", v: "6 min" },
+              ].map((m) => (
+                <div class="bg-ink p-3">
+                  <p class="micro-label">{m.k}</p>
+                  <p class="mt-1 text-xl font-medium text-line">{m.v}</p>
+                </div>
+              ))
+            }
+          </div>
+
+          <div class="mt-4 overflow-x-auto">
+          <table class="w-full min-w-[20rem] border-collapse text-left">
+            <thead>
+              <tr class="border-b border-grid">
+                <th class="py-2 pr-4 font-mono text-[0.65rem] font-normal uppercase tracking-wider text-muted">Instance</th>
+                <th class="py-2 pr-4 font-mono text-[0.65rem] font-normal uppercase tracking-wider text-muted">Network</th>
+                <th class="py-2 font-mono text-[0.65rem] font-normal uppercase tracking-wider text-muted">State</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                rows.map((r) => (
+                  <tr class="border-b border-grid last:border-0">
+                    <td class="py-2.5 pr-4 font-mono text-xs text-line">{r.name}</td>
+                    <td class="py-2.5 pr-4 text-xs text-cool">{r.net}</td>
+                    <td class="py-2.5 text-xs">
+                      <span class="inline-flex items-center gap-1.5 text-cool">
+                        <span
+                          class:list={[
+                            "h-1.5 w-1.5 rounded-full",
+                            r.up ? "bg-red-700" : "border border-muted",
+                          ]}
+                        />
+                        {r.state}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mx-auto mt-6 flex max-w-4xl justify-end">
+      <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" size="md">
+        Open client panel
+      </Link>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,49 @@
+---
+// Endless perspective grid — one-point vanishing grid receding to centre, with
+// a clear masked core so headline + buttons sit in open space. Background motif.
+interface Props { class?: string }
+const { class: className } = Astro.props;
+const W = 1200, H = 600, cx = W / 2, cy = H / 2;
+
+// perimeter sample points → perspective rays from the centre
+const rays: string[] = [];
+const N = 13;
+for (let i = 0; i <= N; i++) {
+  const t = i / N;
+  rays.push(`${t * W},0`);       // top edge
+  rays.push(`${t * W},${H}`);    // bottom edge
+}
+rays.push(`0,${0.25 * H}`, `0,${0.5 * H}`, `0,${0.75 * H}`);
+rays.push(`${W},${0.25 * H}`, `${W},${0.5 * H}`, `${W},${0.75 * H}`);
+
+// nested depth rectangles growing out from the centre (endless recession)
+const rects = [] as { x: number; y: number; w: number; h: number; accent: boolean }[];
+let hw = 34, hh = 18;
+for (let i = 0; i < 9; i++) {
+  rects.push({ x: cx - hw, y: cy - hh, w: hw * 2, h: hh * 2, accent: i === 2 || i === 5 });
+  hw *= 1.62; hh *= 1.62;
+}
+---
+<svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" class:list={[className]} xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="egMask" cx="0.5" cy="0.5" r="0.62">
+      <stop offset="0" stop-color="#000" stop-opacity="0"></stop>
+      <stop offset="0.42" stop-color="#000" stop-opacity="0"></stop>
+      <stop offset="0.7" stop-color="#fff" stop-opacity="1"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="1"></stop>
+    </radialGradient>
+    <mask id="egClear"><rect width={W} height={H} fill="url(#egMask)"></rect></mask>
+  </defs>
+  <g mask="url(#egClear)">
+    <!-- perspective rays -->
+    <g stroke="#D4D4D8" stroke-width="1">
+      {rays.map((pt) => <line x1={cx} y1={cy} x2={pt.split(",")[0]} y2={pt.split(",")[1]}></line>)}
+    </g>
+    <!-- depth rectangles -->
+    {rects.map((r) => (
+      <rect x={r.x} y={r.y} width={r.w} height={r.h} fill="none"
+        stroke={r.accent ? "#C20E50" : "#A1A1AA"} stroke-width={r.accent ? "1.4" : "1"}
+        stroke-opacity={r.accent ? "0.7" : "0.55"}></rect>
+    ))}
+  </g>
+</svg>

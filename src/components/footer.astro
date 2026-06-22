@@ -4,21 +4,21 @@ import Container from "@components/container.astro";
 
 <footer class="my-20">
   <Container>
-    <div class="border-t border-slate-200 pt-8 text-center text-sm text-slate-600">
-      <div class="flex flex-wrap justify-center gap-x-5 gap-y-2 mb-4">
-        <a href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Client Panel</a>
-        <a href="/services" class="hover:text-gray-900 hover:underline">Services</a>
-        <a href="/docs" class="hover:text-gray-900 hover:underline">Docs</a>
-        <a href="https://uptime.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Status</a>
-        <a href="https://t.me/virtual_8labs" target="_blank" rel="noopener noreferrer" class="hover:text-gray-900 hover:underline">Telegram</a>
-        <a href="/privacy-policy" class="hover:text-gray-900 hover:underline">Privacy Policy</a>
-        <a href="/tos" class="hover:text-gray-900 hover:underline">Terms of Service</a>
+    <div class="border-t border-grid pt-8 text-center text-sm text-muted">
+      <div class="flex flex-wrap justify-center gap-x-2 gap-y-0 mb-3 [&>a]:inline-flex [&>a]:min-h-[2.75rem] [&>a]:items-center [&>a]:px-2">
+        <a href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-red-ink hover:underline">Client Panel</a>
+        <a href="/services" class="hover:text-red-ink hover:underline">Services</a>
+        <a href="/docs" class="hover:text-red-ink hover:underline">Docs</a>
+        <a href="https://uptime.8labs.id" target="_blank" rel="noopener noreferrer" class="hover:text-red-ink hover:underline">Status</a>
+        <a href="https://t.me/virtual_8labs" target="_blank" rel="noopener noreferrer" class="hover:text-red-ink hover:underline">Telegram</a>
+        <a href="/privacy-policy" class="hover:text-red-ink hover:underline">Privacy Policy</a>
+        <a href="/tos" class="hover:text-red-ink hover:underline">Terms of Service</a>
       </div>
       <p>
-        Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-700">.</span>
+        Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-ink">.</span>
         All rights reserved.
       </p>
-      <p class="mt-2 text-xs text-slate-500">
+      <p class="mt-2 text-xs text-muted/70">
         Product availability, price, stock, and support details are confirmed in
         the client panel.
       </p>

@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
+import SignalConsole from "@components/motifs/signal-console.astro";
 
 const trustItems = [
   {
@@ -41,44 +42,48 @@ const trustItems = [
 ];
 ---
 
-<section class="mt-24">
-  <div class="relative overflow-hidden rounded-[2rem] bg-zinc-950 p-8 text-white md:p-10">
-    <div class="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)] [background-size:48px_48px]"></div>
-    <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-red-700/30 blur-3xl"></div>
+<section class="mt-32">
+  <div class="relative overflow-hidden rounded-none border border-grid bg-surface p-8 md:p-12">
+    <div class="absolute inset-0 opacity-[0.1] blueprint-grid"></div>
+    <span class="absolute left-4 top-3 micro-label">Operational Signals</span>
 
-    <div class="relative grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-      <div>
-        <h2 class="text-4xl font-bold tracking-[-0.04em] lg:text-6xl">
-          Clear signals before users deploy workloads.
-        </h2>
-      </div>
-      <p class="max-w-2xl text-lg leading-8 text-zinc-300 lg:justify-self-end">
-        Labs are built for experimentation, but users still need to know where status, docs, backup expectations, and support paths live. This copy is intentionally conservative and avoids SLA or backup guarantees that are not stated in the public terms.
+    <div class="relative mt-8 max-w-2xl">
+      <h2 class="text-3xl font-light leading-snug tracking-[-0.03em] text-line md:text-4xl">
+        Clear signals before users deploy workloads.
+      </h2>
+      <p class="mt-4 text-sm leading-relaxed text-cool">
+        Labs are built for experimentation, not production guarantees. Status, docs, backup expectations, and support paths — stated plainly, no invented SLAs.
       </p>
     </div>
 
-    <div class="relative mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+    <!-- verification node line -->
+    <div class="relative mt-8 flex items-center gap-2">
+      <span class="h-2 w-2 border border-red-700 bg-red-700"></span>
+      <span class="h-px flex-1 bg-gradient-to-r from-red-700 via-red-700/40 to-transparent"></span>
+      <span class="micro-label shrink-0">VERIFIED · 8LABS.ID</span>
+      <span class="h-px w-10 bg-grid"></span>
+      <span class="h-2 w-2 border border-line/40"></span>
+    </div>
+
+    <SignalConsole class="relative mt-10 w-full" />
+
+    <div class="relative mt-4 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid md:grid-cols-2">
       {
-        trustItems.map((item) => (
+        trustItems.map((item, i) => (
           <a
             href={item.href}
             target={item.external ? "_blank" : undefined}
             rel={item.external ? "noopener noreferrer" : undefined}
-            class="group rounded-3xl border border-white/10 bg-white/[0.045] p-6 transition-all hover:-translate-y-1 hover:bg-white/[0.075]">
-            <div class="flex items-start gap-4">
-              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white text-black transition-colors group-hover:bg-red-700 group-hover:text-white">
-                <Icon class="h-6 w-6" name={item.icon} />
-              </div>
-              <div>
-                <h3 class="text-lg font-bold tracking-[-0.02em]">{item.title}</h3>
-                <p class="mt-2 text-sm leading-7 text-zinc-300">
-                  {item.description}
-                </p>
-                <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-red-300">
-                  {item.label} <Icon class="h-4 w-4 transition-transform group-hover:translate-x-1" name="bx:right-arrow-alt" />
-                </span>
-              </div>
-            </div>
+            class="group relative flex flex-col bg-ink p-6 transition-colors hover:bg-panel">
+            <Icon class="h-5 w-5 text-red-ink" name={item.icon} />
+            <h3 class="mt-4 text-base font-medium tracking-[-0.01em] text-line">{item.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-cool">
+              {item.description}
+            </p>
+            <span class="mt-5 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-line">
+              <span class="h-px w-6 bg-red-700 transition-all group-hover:w-10" />
+              {item.label}
+            </span>
           </a>
         ))
       }

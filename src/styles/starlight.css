@@ -1,52 +1,58 @@
-/* 8Labs brand theme for Starlight — matches 8labs.id (Bricolage Grotesque + Inter, red accent, light & clean) */
+/* 8Labs docs theme — Blueprint / ASCII-grid system (matches 8labs.id home):
+   white paper, neutral ink, 8Labs red accent, sharp radius, hairline grid. */
 
 :root {
-  /* Typography: same stack as 8labs.id */
   --sl-font: "Bricolage Grotesque Variable", "Inter Variable", "Inter",
     ui-sans-serif, system-ui, sans-serif;
 
-  /* Brand accent: 8Labs red */
-  --sl-color-accent-low: #ffe3e8;
-  --sl-color-accent: #e60022;
-  --sl-color-accent-high: #8a0014;
+  /* Single light pink: crimson #C20E50 everywhere (AA as text + fill) */
+  --sl-color-accent-low: #f7dce5;
+  --sl-color-accent: #c20e50;
+  --sl-color-accent-high: #c20e50;
 
-  /* Light theme = default 8labs.id mood: white, zinc/slate text */
-  --sl-color-white: #0f172a; /* headings / strong text (slate-900) */
-  --sl-color-gray-1: #1e293b;
-  --sl-color-gray-2: #334155;
-  --sl-color-gray-3: #475569;
-  --sl-color-gray-4: #94a3b8;
-  --sl-color-gray-5: #e2e8f0;
-  --sl-color-gray-6: #f1f5f9;
-  --sl-color-gray-7: #f8fafc;
-  --sl-color-black: #ffffff;
+  /* Neutral blueprint ramp (zinc, not slate) */
+  --sl-color-white: #0a0a0a; /* headings / strong text */
+  --sl-color-gray-1: #18181b;
+  --sl-color-gray-2: #3f3f46; /* body strong */
+  --sl-color-gray-3: #57575e; /* secondary */
+  --sl-color-gray-4: #a1a1aa;
+  --sl-color-gray-5: #e4e4e7; /* hairline borders (grid) */
+  --sl-color-gray-6: #f4f4f5;
+  --sl-color-gray-7: #fafafa;
+  --sl-color-black: #ffffff; /* page background */
 
-  --sl-color-text-accent: #e60022;
-  --sl-color-bg-nav: rgba(255, 255, 255, 0.92);
+  --sl-color-text-accent: #c20e50; /* links pass 4.5:1 on white */
+  --sl-color-bg-nav: rgba(255, 255, 255, 0.9);
   --sl-color-bg-sidebar: #ffffff;
+
+  --on-accent: #ffffff; /* button text on crimson (6:1) */
+  --sl-border-radius: 0;
 }
 
 :root[data-theme="dark"] {
-  --sl-color-accent-low: #43000a;
-  --sl-color-accent: #ff2a4a;
-  --sl-color-accent-high: #ffb3bf;
+  /* Single dark pink: hot pink #FF2D75 everywhere (AA on dark) */
+  --sl-color-accent-low: #350816;
+  --sl-color-accent: #ff2d75;
+  --sl-color-accent-high: #ff2d75;
 
-  --sl-color-white: #f8fafc;
-  --sl-color-gray-1: #e2e8f0;
-  --sl-color-gray-2: #cbd5e1;
-  --sl-color-gray-3: #94a3b8;
-  --sl-color-gray-4: #475569;
-  --sl-color-gray-5: #334155;
-  --sl-color-gray-6: #1e293b;
-  --sl-color-gray-7: #0f172a;
-  --sl-color-black: #020617;
+  --sl-color-white: #f2f5f8;
+  --sl-color-gray-1: #e4e4e7;
+  --sl-color-gray-2: #c7cdd4;
+  --sl-color-gray-3: #9aa3ad;
+  --sl-color-gray-4: #5b6470;
+  --sl-color-gray-5: #243042;
+  --sl-color-gray-6: #131c28;
+  --sl-color-gray-7: #0a131d;
+  --sl-color-black: #030b14;
 
-  --sl-color-text-accent: #ff2a4a;
-  --sl-color-bg-nav: rgba(2, 6, 23, 0.92);
-  --sl-color-bg-sidebar: #0b1120;
+  --sl-color-text-accent: #ff2d75;
+  --sl-color-bg-nav: rgba(3, 11, 20, 0.9);
+  --sl-color-bg-sidebar: #06111d;
+
+  --on-accent: #0a0a0a; /* ink text on hot pink (5.5:1) */
 }
 
-/* Headings in Bricolage Grotesque with the tight tracking used on 8labs.id */
+/* Headings: Bricolage, blueprint weight (medium, not heavy bold) */
 h1,
 h2,
 h3,
@@ -57,25 +63,26 @@ h4,
 .sl-markdown-content h4,
 .site-title {
   font-family: "Bricolage Grotesque Variable", "Inter Variable", sans-serif;
-  letter-spacing: -0.015em;
-  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  text-wrap: balance;
 }
 
-/* Body copy in Inter for readability */
 .sl-markdown-content,
 .sl-markdown-content p,
 .sl-markdown-content li {
   font-family: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  text-wrap: pretty;
 }
 
-/* Header: frosted glass like the 8labs.id navbar */
+/* Header: hairline rule, light blur (no heavy frost) */
 header.header {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--sl-color-gray-5);
 }
 
-/* Links inside content use the brand red */
+/* Content links use red-ink */
 .sl-markdown-content a:not(:where(.not-content *)) {
   color: var(--sl-color-text-accent);
   text-decoration: none;
@@ -85,39 +92,32 @@ header.header {
   text-decoration: underline;
 }
 
-/* Sidebar: current page pill, rounded like 8labs.id buttons */
+/* Sidebar: sharp current-page marker (no pill) */
+.sidebar-content a {
+  border-radius: 0;
+}
 .sidebar-content a[aria-current="page"] {
-  border-radius: 9999px;
   background-color: var(--sl-color-accent-low);
   color: var(--sl-color-accent-high);
   font-weight: 600;
 }
-.sidebar-content a {
-  border-radius: 9999px;
+:root[data-theme="dark"] .sidebar-content a[aria-current="page"] {
+  color: var(--sl-color-white);
 }
 
-/* Card hover lift — the "modern techy" touch (atlasgo/apisix style) */
+/* Cards: sharp, hairline, border-accent hover (no lift) */
 .card {
-  border-radius: 1rem;
-  transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
-    border-color 150ms ease;
+  border-radius: 0;
+  transition: border-color 150ms ease;
 }
 .card:hover {
-  transform: translateY(-2px);
   border-color: var(--sl-color-accent);
-  box-shadow: 0 18px 60px -45px rgba(0, 0, 0, 0.7);
 }
 
-/* Buttons / links pills */
-.sl-link-button {
-  border-radius: 9999px;
-}
-
-/* Search button rounded */
+/* Sharp buttons + search */
+.sl-link-button,
 button[data-open-modal] {
-  border-radius: 9999px;
+  border-radius: 0;
 }
 
 /* ---- Hub landing pages (/docs, /guides) ---- */
@@ -131,17 +131,18 @@ button[data-open-modal] {
 .sl-markdown-content .hub-cta {
   display: inline-flex;
   align-items: center;
+  min-height: 2.5rem;
   padding: 0.5rem 1.125rem;
-  border-radius: 9999px;
+  border-radius: 0;
   font-size: 0.9375rem;
   font-weight: 600;
   text-decoration: none;
-  background: var(--sl-color-accent);
-  color: #fff;
-  transition: opacity 150ms ease;
+  background: var(--sl-color-accent-high);
+  color: var(--on-accent);
+  transition: background-color 150ms ease;
 }
 .sl-markdown-content .hub-cta:hover {
-  opacity: 0.88;
+  background: var(--sl-color-accent);
   text-decoration: none;
 }
 .sl-markdown-content .hub-cta-quiet {
@@ -151,7 +152,6 @@ button[data-open-modal] {
 }
 .sl-markdown-content .hub-cta-quiet:hover {
   background: var(--sl-color-gray-6);
-  opacity: 1;
 }
 
 .hub-grid {
@@ -162,12 +162,12 @@ button[data-open-modal] {
 }
 .hub-section {
   border: 1px solid var(--sl-color-gray-5);
-  border-radius: 1rem;
+  border-radius: 0;
   padding: 1.125rem 1.25rem 1.25rem;
   transition: border-color 150ms ease;
 }
 .hub-section:hover {
-  border-color: var(--sl-color-gray-4);
+  border-color: var(--sl-color-accent);
 }
 .sl-markdown-content .hub-section h3 {
   margin-top: 0;
@@ -178,7 +178,7 @@ button[data-open-modal] {
   text-decoration: none;
 }
 .sl-markdown-content .hub-section h3 a:hover {
-  color: var(--sl-color-accent);
+  color: var(--sl-color-accent-high);
   text-decoration: none;
 }
 .sl-markdown-content .hub-section p {
@@ -205,5 +205,5 @@ button[data-open-modal] {
   font-weight: 450;
 }
 .sl-markdown-content .hub-section ul a:hover {
-  color: var(--sl-color-accent);
+  color: var(--sl-color-accent-high);
 }

@@ -1,0 +1,59 @@
+---
+// Virtual Labs — an open isometric sandbox tray holding small instances, one
+// disposable lab ejecting upward out of its slot. "Break things, rebuild."
+interface Props { class?: string }
+const { class: className } = Astro.props;
+const K = 0.5;
+function cuboid(cx: number, cy: number, s: number, h: number) {
+  const wx = s * 0.866;
+  const T = [cx, cy - s * K], R = [cx + wx, cy], F = [cx, cy + s * K], L = [cx - wx, cy];
+  const R2 = [R[0], R[1] + h], F2 = [F[0], F[1] + h], L2 = [L[0], L[1] + h];
+  const p = (a: number[]) => `${a[0]},${a[1]}`;
+  return { top: [T, R, F, L].map(p).join(" "), left: [L, F, F2, L2].map(p).join(" "), right: [R, F, F2, R2].map(p).join(" ") };
+}
+const tray = cuboid(180, 214, 158, 30);
+const rim = cuboid(180, 210, 120, 0).top; // inner opening
+const seated = [cuboid(150, 196, 40, 30), cuboid(206, 200, 40, 30)];
+const lifted = cuboid(176, 150, 42, 34); // red instance, floating
+const slot = cuboid(176, 196, 42, 0).top;
+---
+<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="nsc-t nsc-d">
+  <title id="nsc-t">Sandbox tray</title>
+  <desc id="nsc-d">An open isometric sandbox tray holding lab instances, with one disposable instance lifting out.</desc>
+  <!-- tray body -->
+  <g class="rise" stroke="#0A0A0A" stroke-width="1.1" stroke-opacity="0.85" stroke-linejoin="round">
+    <polygon points={tray.left} fill="#ECECEF"></polygon>
+    <polygon points={tray.right} fill="#E4E4E7"></polygon>
+    <polygon points={tray.top} fill="#FAFAFA"></polygon>
+    <polygon points={rim} fill="#F4F4F5" stroke-opacity="0.5"></polygon>
+  </g>
+  <!-- seated instances -->
+  {seated.map((c) => (
+    <g class="rise" stroke="#0A0A0A" stroke-width="1" stroke-opacity="0.8" stroke-linejoin="round">
+      <polygon points={c.left} fill="#F4F4F5"></polygon>
+      <polygon points={c.right} fill="#ECECEF"></polygon>
+      <polygon points={c.top} fill="#FFFFFF"></polygon>
+    </g>
+  ))}
+  <!-- empty slot + lift path -->
+  <polygon class="frame" points={slot} fill="none" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="3 3"></polygon>
+  <line class="frame" x1="176" y1="170" x2="176" y2="194" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="2 3"></line>
+  <!-- ejecting red instance -->
+  <g class="lift" stroke="#C20E50" stroke-width="1.3" stroke-linejoin="round">
+    <polygon points={lifted.left} fill="#EFC4D2"></polygon>
+    <polygon points={lifted.right} fill="#E6ABBE"></polygon>
+    <polygon points={lifted.top} fill="#F7DCE5"></polygon>
+  </g>
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      .rise { opacity: 0; transform-box: fill-box; animation: u 0.5s cubic-bezier(0.22,1,0.36,1) forwards }
+      .rise:nth-of-type(2) { animation-delay: 0.12s }
+      .rise:nth-of-type(3) { animation-delay: 0.2s }
+      .frame { opacity: 0; animation: f 0.4s ease forwards 0.45s }
+      .lift { opacity: 0; transform-box: fill-box; animation: l 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.5s }
+    }
+    @keyframes u { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
+    @keyframes l { from { opacity: 0; transform: translateY(20px) } to { opacity: 1; transform: translateY(0) } }
+    @keyframes f { to { opacity: 1 } }
+  </style>
+</svg>
