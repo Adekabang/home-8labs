@@ -1,6 +1,6 @@
 ---
 title: Expand Disk on VM
-description: Expand the disk of a Proxmox VM running Ubuntu, resizing the partition and LVM volume so the guest sees and uses the added storage space.
+description: Expand the disk of a Proxmox VM running Ubuntu, resizing the partition and LVM volume so the guest uses the added storage.
 sidebar:
   order: 3
 ---

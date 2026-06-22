@@ -1,6 +1,6 @@
 ---
 title: Use RTK to Reduce Token Usage
-description: Use the RTK Rust CLI proxy to compress common command outputs before they reach your coding agent context, cutting token usage on dev operations.
+description: Use the RTK Rust CLI proxy to compress common command output before it reaches your coding agent, cutting tokens on dev work.
 sidebar:
   order: 12
 ---

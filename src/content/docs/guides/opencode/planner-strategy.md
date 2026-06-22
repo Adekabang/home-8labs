@@ -1,6 +1,6 @@
 ---
 title: Use Planner Strategy to Save Tokens
-description: Separate planning from execution in OpenCode to get better output with less wasted context, using a planner step before running implementation.
+description: Separate planning from execution in OpenCode for better output with less wasted context, using a planner step before build.
 sidebar:
   order: 9
 ---

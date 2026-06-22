@@ -1,6 +1,6 @@
 ---
 title: DHCP & DNS
-description: DHCP server configuration, static leases, DNS forwarding, dynamic DNS updates — all on VyOS.
+description: Configure the VyOS DHCP server with static leases, DNS forwarding, and dynamic DNS updates for a complete edge network set.
 sidebar:
   order: 4
 ---

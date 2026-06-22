@@ -1,6 +1,6 @@
 ---
 title: ESXi Version Update
-description: Update VMware ESXi from the command line for a controlled, automated upgrade process, covering the CLI steps to apply a new ESXi version.
+description: Update VMware ESXi from the command line for a controlled, automated upgrade, covering the CLI steps to apply a new build.
 sidebar:
   order: 2
 ---

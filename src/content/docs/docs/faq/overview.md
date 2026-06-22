@@ -1,5 +1,5 @@
 ---
-description: Frequently asked questions about 8Labs provisioning, networking, SLA, and support.
+description: Frequently asked questions about 8Labs covering provisioning, IPv6 networking, billing, SLA, and how to reach support fast.
 title: "Frequently Asked Questions"
 sidebar:
   order: 0

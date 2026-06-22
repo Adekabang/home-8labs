@@ -1,6 +1,6 @@
 ---
 title: Basic Configuration
-description: Hostname, interfaces, users, SSH, system settings — the foundation of any VyOS deployment.
+description: Configure hostname, interfaces, users, SSH, and core system settings on VyOS, the foundation of any reliable router build.
 sidebar:
   order: 2
 ---

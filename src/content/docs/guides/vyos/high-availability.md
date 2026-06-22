@@ -1,6 +1,6 @@
 ---
 title: High Availability
-description: VRRP (Virtual Router Redundancy Protocol), configuration sync, and stateful failover with VyOS.
+description: Set up VRRP virtual router redundancy, configuration sync, and stateful failover on VyOS for a resilient high-available edge.
 sidebar:
   order: 7
 ---

@@ -1,6 +1,6 @@
 ---
 title: Automate Project Workflow with AGENTS.md
-description: Use an AGENTS.md file as a project-local rules injector so OpenCode behaves consistently without repeating the same instructions every session.
+description: Use an AGENTS.md file as a project-local rules injector so OpenCode behaves consistently without repeating instructions.
 sidebar:
   order: 7
 ---

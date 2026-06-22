@@ -1,5 +1,5 @@
 ---
-description: How 8Labs billing works with the LAB Coin system, where you buy coins and spend them on virtual lab plans with no subscription or commitment.
+description: How 8Labs billing works with the LAB Coin system, where you buy coins and spend them on virtual lab plans, no subscription.
 title: "Billing & Plans"
 sidebar:
   order: 0

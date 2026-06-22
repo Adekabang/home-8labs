@@ -1,6 +1,6 @@
 ---
 title: Configure MCP Tools
-description: How Model Context Protocol fits into the OpenCode tools used in this repository, with config to add MCP servers to your coding agent.
+description: How Model Context Protocol fits into the OpenCode tools used in this repository, with config to add MCP servers to agents.
 sidebar:
   order: 6
 ---

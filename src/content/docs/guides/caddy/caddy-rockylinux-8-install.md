@@ -1,6 +1,6 @@
 ---
 title: Install Caddy on Rocky Linux 8.x
-description: Install the Caddy web server on Rocky Linux 8.x as an alternative to Apache and Nginx, with the package repo and service setup steps.
+description: Install the Caddy web server on Rocky Linux 8.x as an alternative to Apache and Nginx, with package repo and service setup.
 sidebar:
   order: 1
 ---

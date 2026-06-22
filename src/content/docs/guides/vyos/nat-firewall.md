@@ -1,6 +1,6 @@
 ---
 title: NAT & Firewall
-description: Zone-based firewall, source NAT, destination NAT (port forwarding), and stateful packet inspection on VyOS.
+description: Configure a zone-based firewall, source NAT, destination NAT port forwarding, and stateful packet inspection on VyOS routers.
 sidebar:
   order: 3
 ---

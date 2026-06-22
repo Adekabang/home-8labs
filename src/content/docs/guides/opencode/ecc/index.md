@@ -1,6 +1,6 @@
 ---
 title: "ECC — Everything Claude Code"
-description: ECC is an AI coding plugin and agent harness with 64 agents, 262 skills, 84 slash commands, and hook workflows built for daily multi-harness use.
+description: ECC is an AI coding plugin and agent harness with 64 agents, 262 skills, 84 slash commands, and hooks built for daily use.
 sidebar:
   order: 0
 ---

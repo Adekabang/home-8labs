@@ -1,6 +1,6 @@
 ---
 title: Configuration Caddy
-description: Sample Caddyfile configurations for using Caddy as a web server and reverse proxy, with examples you can adapt to fit your own sites.
+description: Sample Caddyfile configurations for using Caddy as a web server and reverse proxy, with examples you can adapt to your sites.
 sidebar:
   order: 2
 ---

@@ -1,6 +1,6 @@
 ---
 title: Install OpenCode and CLIProxyAPI
-description: Install OpenCode with CLIProxyAPI as a local OpenAI-compatible endpoint, plus notes on using direct providers like opencode and opencode-go.
+description: Install OpenCode with CLIProxyAPI as a local OpenAI-compatible endpoint, plus notes on direct providers like opencode-go.
 sidebar:
   order: 2
 ---

@@ -1,6 +1,6 @@
 ---
 title: Quick Start for the Full Stack
-description: A short, practical Start Here guide for the OpenCode stack in this repository, getting providers, agents, and models running quickly.
+description: A short, practical Start Here guide for the OpenCode stack in this repository, getting providers, agents, and models going.
 sidebar:
   order: 2
 ---

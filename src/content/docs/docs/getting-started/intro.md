@@ -1,5 +1,5 @@
 ---
-description: Register, purchase a Virtual Lab, and get connected to 8Labs in less than 5 minutes.
+description: Register an account, purchase a Virtual Lab, and get connected to your 8Labs Linux environment in less than five minutes.
 title: "Introduction"
 sidebar:
   order: 0

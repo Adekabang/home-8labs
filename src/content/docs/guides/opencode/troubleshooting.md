@@ -1,6 +1,6 @@
 ---
 title: Troubleshoot OpenCode Setup Issues
-description: Fix the most common OpenCode and CLIProxyAPI setup problems, with quick checks to verify providers, models, and tool configuration are working.
+description: Fix the most common OpenCode and CLIProxyAPI setup problems, with quick checks to verify providers, models, and tool config.
 sidebar:
   order: 14
 ---

@@ -1,6 +1,6 @@
 ---
 title: OpenCode Overview
-description: Map of a day-to-day OpenCode setup using CLIProxyAPI and oh-my-openagent, with optional extras like Superpowers and Impeccable for coding work.
+description: Map of a day-to-day OpenCode setup using CLIProxyAPI and oh-my-openagent, with optional extras like Superpowers built in.
 sidebar:
   order: 1
 ---

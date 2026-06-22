@@ -1,6 +1,6 @@
 ---
 title: Routing — Static, BGP, OSPF
-description: Static routes, BGP peering, prefix announcement, OSPF for internal routing — all on VyOS.
+description: Configure static routes, BGP peering, prefix announcement, and OSPF internal routing on VyOS for flexible network paths now.
 sidebar:
   order: 6
 ---

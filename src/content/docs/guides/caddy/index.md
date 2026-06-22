@@ -1,6 +1,6 @@
 ---
-description: Guides to install and configure the Caddy web server and reverse proxy on Rocky Linux 8, with sample Caddyfile configurations to adapt.
-title: "Caddy"
+description: Guides to install and configure the Caddy web server and reverse proxy on Rocky Linux 8, with sample Caddyfile examples too.
+title: Caddy Web Server and Reverse Proxy Guides
 sidebar:
   order: 0
 ---

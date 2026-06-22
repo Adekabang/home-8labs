@@ -1,6 +1,6 @@
 ---
 title: Configuration Backup with Git
-description: Automatically back up VyOS config to a Git repository on every commit — versioned history, off-router storage, and easy rollback.
+description: Automatically back up VyOS config to a Git repository on every commit for versioned history, off-router storage, rollback.
 sidebar:
   order: 8
 ---

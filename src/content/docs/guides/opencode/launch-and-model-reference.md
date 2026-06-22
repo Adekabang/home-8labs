@@ -1,6 +1,6 @@
 ---
 title: Launch OpenCode and Use Model Variants
-description: The runtime flow for using OpenCode day to day after install and configuration, including how to launch it and switch between model variants.
+description: The runtime flow for using OpenCode day to day after install and config, including how to launch it and switch model types.
 sidebar:
   order: 13
 ---

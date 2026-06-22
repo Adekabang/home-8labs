@@ -1,6 +1,6 @@
 ---
-description: XCP-ng guides for running the hypervisor nested on VMware ESXi and hardening a public-facing host with OPNsense and WireGuard.
-title: "XCP-ng"
+description: XCP-ng guides for running the hypervisor nested on VMware ESXi and hardening a public-facing host with OPNsense plus VPN.
+title: XCP-ng Hypervisor Setup and Hardening Guides
 sidebar:
   order: 0
 ---

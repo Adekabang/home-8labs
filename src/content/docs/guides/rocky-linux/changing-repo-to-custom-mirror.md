@@ -1,6 +1,6 @@
 ---
 title: Changing Rocky Linux Repository to a Custom Mirror
-description: Point Rocky Linux DNF repositories at a custom mirror by editing the repo files safely, with cautions to avoid breaking package management.
+description: Point Rocky Linux DNF repositories at a custom mirror by editing the repo files safely, with cautions to avoid breaking it.
 sidebar:
   order: 1
 ---

@@ -1,6 +1,6 @@
 ---
 title: Create Custom Local Skills
-description: Turn project documentation into local, reusable OpenCode skills so your agent can apply repeatable workflows without re-reading the docs each time.
+description: Turn project documentation into local, reusable OpenCode skills so your agent applies repeatable workflows without reading.
 sidebar:
   order: 8
 ---

@@ -1,6 +1,6 @@
 ---
 title: Accessing Virtual Labs
-description: Connect to 8Labs virtual labs over public IPv6 using SSH, noVNC, and Xterm.js, including how to find your VM public IP from the cloud panel.
+description: Connect to 8Labs virtual labs over public IPv6 using SSH, noVNC, and Xterm.js, including how to find your VM public address.
 sidebar:
   order: 1
 ---

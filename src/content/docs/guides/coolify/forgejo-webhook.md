@@ -1,6 +1,6 @@
 ---
 title: "Forgejo + Coolify: Auto-Deploy on Push"
-description: Configure a Forgejo webhook to trigger automatic Coolify deployments on every git push, wiring source control to continuous deployment.
+description: Configure a Forgejo webhook to trigger automatic Coolify deployments on every git push, wiring source control to deployment.
 sidebar:
   order: 1
 ---

@@ -1,7 +1,7 @@
 ---
 slug: blog/qemu-virt-manager-macos-intel
 title: Qemu and Virt-manager in macOS (Intel-based)
-description: Set up QEMU and Virt-manager on an Intel-based macOS machine to run Linux virtual machines, turning an old iMac into an x86 virtualization playground.
+description: Set up QEMU and Virt-manager on Intel-based macOS to run Linux VMs, turning an old iMac into an x86 virtualization machine.
 authors: adekabang
 tags: [qemu, virt-manager, macos, virtualization, ubuntu]
 date: 2025-03-12

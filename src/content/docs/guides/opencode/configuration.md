@@ -1,6 +1,6 @@
 ---
 title: Configure Providers, Agents, and Models
-description: Configuration reference for this OpenCode setup, covering how to update providers, agents, and models without re-reading the whole docs section.
+description: Configuration reference for this OpenCode setup, covering how to update providers, agents, and models without reading docs.
 sidebar:
   order: 3
 ---

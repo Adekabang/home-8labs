@@ -1,6 +1,6 @@
 ---
 title: Assign Public IPv4 & IPv6 Wireguard Rocky Linux
-description: Assign public IPv4 and IPv6 addresses to a peer over a WireGuard tunnel on Rocky Linux 9, routing traffic through a VPS with a public IP.
+description: Assign public IPv4 and IPv6 addresses to a peer over a WireGuard tunnel on Rocky Linux 9, routing through a VPS with an IP.
 sidebar:
   order: 1
 ---
