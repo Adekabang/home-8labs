@@ -22,8 +22,9 @@ export const { getStaticPaths, GET } = await OGImageRoute({
   pages,
   getImageOptions: (_path, page: (typeof pages)[string]) => ({
     title: page.data.title,
-    // CTA appended to the rendered card only (meta og:description is separate)
-    description: `${page.data.description ?? "8Labs Docs"}\n\nRead the full guide at 8labs.id`,
+    description: page.data.description ?? "8Labs Docs",
+    // Crimson "READ THE GUIDE" CTA button rendered on every card.
+    logo: { path: "./public/og-cta.png", size: [240] },
     bgGradient: [
       [255, 255, 255],
       [250, 250, 250],
