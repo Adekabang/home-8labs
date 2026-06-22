@@ -1,5 +1,6 @@
 ---
 title: Remove local-lvm and expand local storage
+description: Remove the local-lvm volume and expand local storage after a fresh Proxmox VE install, tested on PVE 7 and 8, to reclaim all disk space.
 sidebar:
   order: 1
 ---

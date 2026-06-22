@@ -11,8 +11,13 @@ const cover = (entry.data as { cover?: { image?: { src: string } | string } })
 const ogImage = cover
   ? new URL(typeof cover === "string" ? cover : cover.src, Astro.site).toString()
   : new URL(`/og/${entry.id}.png`, Astro.site).toString();
+
+const twDescription = entry.data.description ?? entry.data.title;
 ---
 
 <Default><slot /></Default>
 <meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={entry.data.title} />
+<meta name="twitter:description" content={twDescription} />
 <meta name="twitter:image" content={ogImage} />

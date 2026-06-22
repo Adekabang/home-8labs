@@ -1,5 +1,6 @@
 ---
 title: Importing an OVA Virtual Machine
+description: Import an OVA appliance such as Wazuh into Proxmox VE, extracting the disk and creating a usable VM from the bundled image files.
 sidebar:
   order: 4
 ---

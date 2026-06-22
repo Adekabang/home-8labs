@@ -1,5 +1,6 @@
 ---
 title: Guide - When to Use Impeccable
+description: When to reach for the Impeccable skill in OpenCode, focused on improving quality of presentation and frontend polish rather than core functionality.
 sidebar:
   order: 13
 ---

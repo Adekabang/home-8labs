@@ -1,5 +1,6 @@
 ---
 title: "Caveman"
+description: Caveman makes AI coding agents talk in compressed caveman speech for about 75 percent fewer output tokens with no loss of technical accuracy.
 sidebar:
   order: 0
 ---

@@ -1,5 +1,6 @@
 ---
 title: Tutorial - Image to Code Workflow
+description: Use OpenCode to inspect a design image and turn it into structured implementation work, going from a UI mockup to working code.
 sidebar:
   order: 11
 ---

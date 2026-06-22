@@ -1,5 +1,5 @@
 ---
-description: OpenCode setup, configuration, workflows, and troubleshooting.
+description: OpenCode CLI guides covering install with CLIProxyAPI, provider and model configuration, MCP tools, skills, planner workflows, and troubleshooting.
 title: "OpenCode"
 sidebar:
   order: 0

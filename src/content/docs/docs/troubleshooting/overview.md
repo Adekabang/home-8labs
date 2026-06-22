@@ -1,5 +1,5 @@
 ---
-description: Common 8Labs issues and how to resolve them.
+description: Solutions to common 8Labs virtual lab problems, including connection issues over IPv6 SSH and noVNC, plus other frequent setup fixes.
 title: "Troubleshooting"
 sidebar:
   order: 0

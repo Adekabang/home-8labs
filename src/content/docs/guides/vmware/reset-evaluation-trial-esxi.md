@@ -1,5 +1,6 @@
 ---
 title: Reset Evaluation Trial ESXI
+description: Reset the VMware ESXi evaluation license back to a fresh 60-day trial for lab and testing use, with the commands to clear the current license state.
 sidebar:
   order: 1
 ---

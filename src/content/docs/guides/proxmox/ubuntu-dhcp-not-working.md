@@ -1,5 +1,6 @@
 ---
 title: DHCP not working on Ubuntu 22.04 and above template
+description: Fix DHCP failing on cloned Ubuntu 22.04 and newer VM templates by clearing the machine-id so each clone requests its own unique IP address.
 sidebar:
   order: 2
 ---

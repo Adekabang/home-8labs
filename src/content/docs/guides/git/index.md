@@ -1,5 +1,5 @@
 ---
-description: Git workflows and best practices.
+description: Git workflow guides covering private forks of public repositories and 1:1 repository mirroring with autosync using Forgejo or Gitea.
 title: "Git"
 sidebar:
   order: 0

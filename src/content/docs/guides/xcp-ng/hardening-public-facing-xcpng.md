@@ -1,5 +1,6 @@
 ---
 title: Hardening Public-Facing XCP-ng with OPNsense & WireGuard
+description: Secure a public-facing XCP-ng 8.2 host by fronting it with an OPNsense firewall and WireGuard VPN to keep management interfaces off the open internet.
 sidebar:
   order: 1
 ---

@@ -1,5 +1,6 @@
 ---
 title: Manual Mirror 1:1 and Autosync Repository
+description: Create a 1:1 mirror of an upstream Git repository including branches, tags, and refs, then enable autosync with Forgejo or Gitea.
 sidebar:
   order: 2
 ---

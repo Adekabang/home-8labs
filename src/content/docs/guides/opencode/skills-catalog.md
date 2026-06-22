@@ -1,5 +1,6 @@
 ---
 title: Reference - Superpowers Skills Catalog
+description: A practical map of the most useful Superpowers skills for OpenCode and when to reach for each one in your day-to-day coding workflow.
 sidebar:
   order: 12
 ---

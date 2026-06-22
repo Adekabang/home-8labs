@@ -1,5 +1,6 @@
 ---
 title: XCP-ng on VMware/ESXI
+description: Run XCP-ng nested inside VMware ESXi 8 for testing and lab use, with the settings needed to boot the hypervisor as a guest VM.
 sidebar:
   order: 1
 ---

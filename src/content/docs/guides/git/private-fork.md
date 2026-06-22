@@ -1,5 +1,6 @@
 ---
 title: Creating and Managing a Private Fork from a Public Repository
+description: Create a private fork of a public Git repository, make private changes, sync with upstream, and contribute fixes back to the original project.
 sidebar:
   order: 1
 ---
