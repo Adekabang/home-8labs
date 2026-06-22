@@ -12,23 +12,25 @@ const distros = [
 ];
 ---
 
-<div class="mt-16">
-  <p class="text-center text-base font-medium text-zinc-700">
-    Run the distributions you already know
-  </p>
-  <div
-    class="mt-8 flex flex-wrap items-start justify-center gap-x-10 gap-y-6 md:gap-x-16"
-  >
+<section class="mt-32">
+  <div class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
+    <p class="micro-label">Image Compatibility</p>
+    <p class="micro-label hidden sm:block">{distros.length} supported base images</p>
+  </div>
+
+  <!-- technical compatibility strip — thin rectangular cells -->
+  <div class="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-3 lg:grid-cols-6">
     {
-      distros.map((d) => (
-        <div class="group flex flex-col items-center gap-2">
+      distros.map((d, i) => (
+        <div class="group relative flex flex-col gap-3 bg-ink p-5 transition-colors hover:bg-panel">
+          <span class="absolute right-3 top-2 micro-label">{String(i + 1).padStart(2, "0")}</span>
           <Icon
-            class="size-9 text-zinc-600 transition-colors group-hover:text-zinc-900 md:size-12"
+            class="size-7 text-cool transition-colors group-hover:text-red-ink"
             name={d.icon}
           />
-          <span class="text-xs font-medium text-zinc-600">{d.name}</span>
+          <span class="text-xs font-medium uppercase tracking-[0.12em] text-line">{d.name}</span>
         </div>
       ))
     }
   </div>
-</div>
+</section>

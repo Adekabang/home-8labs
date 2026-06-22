@@ -1,36 +1,63 @@
-# Design
+# 8Labs Design System — Blueprint / ASCII-Grid / Isometric
 
-## Theme
+> Light technical blueprint: white paper, black grotesk ink, 8Labs red as the
+> single signal accent. Swiss grid, mono/ASCII registration labels, crosshair
+> marks, dashed guides, diagonal hatch bands, and isometric wireframe line-art.
 
-Light-first, clean and technical. White surfaces, zinc/slate neutrals, one red accent. Dark mode mirrors the same hierarchy on slate-950 surfaces. Pill-shaped interactive elements (buttons, nav links, search) are the signature shape; the navbar is a floating frosted pill.
+Reference lane: Cognivis / meinGPT / Klea — enterprise-AI blueprint, not dark cyber. (Replaces the previous dark "Crimson Infrastructure Matrix" direction.)
 
-## Color Palette
+## Color tokens (`tailwind.config.cjs`)
 
-- Brand red: `#e60022` (light accent), `#ff2a4a` (dark accent), home uses Tailwind `red-700` for filled CTAs
-- Brand mark: "8Labs" in near-black + red "." dot
-- Light: white background, slate-900 ink, slate-600 secondary, zinc-200 borders
-- Dark (docs): slate-950/`#020617` background, slate-100 ink, slate-400 secondary
-- Accent tint surfaces: `#ffe3e8` (light), `#43000a` (dark)
+| Token | Hex | Role |
+| --- | --- | --- |
+| `ink` | `#FFFFFF` | page background (paper) |
+| `surface` | `#FAFAFA` | section background |
+| `panel` | `#FFFFFF` | card background (+ hairline border) |
+| `elevated` | `#F4F4F5` | tinted fill / hover cell |
+| `line` | `#0A0A0A` | ink — headings, strokes, outlines |
+| `cool` | `#3F3F46` | secondary / body text (≈10:1 on white) |
+| `muted` | `#57575E` | metadata / mono micro labels (≈7:1, AA) |
+| `grid` | `#E4E4E7` | blueprint guide lines, hairline borders |
+| `red-700` / `red-ink` | `#C20E50` | **the single light-mode pink** — fills, marks, text, links, buttons |
+| `red-600` | `#A10F3A` | hover (darker crimson) |
 
-## Typography
+**One pink per mode (consistency rule):**
+- **Light mode → crimson `#C20E50` everywhere** (buttons, links, kickers, dots, iso accents, marks). Single value, AA as both text (6:1) and fill. Accent cube fills use the crimson-family pales `#F7DCE5 / #EFC4D2 / #E6ABBE`.
+- **Dark mode (docs) → hot pink `#FF2D75` everywhere** (passes AA on the dark ground). Set in `starlight.css` `[data-theme="dark"]`.
+- No mixed pinks. The old split (#FF2D75 fills + #C20E50 text) is retired.
+- **Button label on the accent flips per mode** via `--on-accent`: white on light crimson (6:1), ink on dark hot-pink (5.5:1). White-on-#FF2D75 fails AA, so dark buttons use ink text.
 
-- Display/headings: Bricolage Grotesque Variable, bold, letter-spacing -0.015em (home heroes go tighter, up to -0.05em)
-- Body: Inter Variable
-- Code: system mono (Starlight default)
-- Source: @fontsource-variable packages, self-hosted
+## Blueprint utilities (`global.css`)
 
-## Components
+- `.micro-label` — **monospace** uppercase tracked label (registration tags, FIG.0x).
+- `.blueprint-grid` — faint black grid lines on white.
+- `.bp-hatch` — diagonal hatch band (margin strips).
+- `.bp-dots` — dotted halftone matrix.
+- `.bp-cross` — crosshair (+) registration mark (pseudo-elements; place in a relative box).
+- Focus ring + skip link: red `#FF2D75`.
 
-- Home: Astroship-derived Astro components (`src/components/`) with Tailwind, heavily customized (pill navbar with backdrop-blur, dark hero on zinc-950, rounded-[2rem] CTA panels)
-- Docs (`/docs`, `/guides`, `/blog`): Starlight 0.37 themed via `src/styles/starlight.css` custom properties + `src/components/starlight/` overrides
-- Buttons: pill (`rounded-full`); filled = red-700 or black, outline = white/transparent with subtle border
+## Type & surfaces
 
-## Layout
+- Bricolage Grotesque (display) + Inter (body). Headings `font-medium`/`font-light`, `text-balance`; body `text-pretty`, `text-cool`.
+- **Sharp corners everywhere** (`rounded-none`, radius 0) — cards, panels, buttons, inputs, frames. Only status/window dots stay `rounded-full`. No pills.
+- Cards/sections: white `bg-ink`/`bg-surface`, `border-grid` hairlines, `gap-px` module grids on `bg-grid` for seamed tables.
+- Buttons (`ui/link`): `primary` = solid `bg-red-700` white text; `outline` = white + `border-grid`.
 
-- Home: centered max-w containers, generous vertical rhythm
-- Docs: Starlight three-column (sidebar / content / TOC)
-- Sticky frosted header on both registers
+## Geometry / motifs (`src/components/motifs/`, SVG line-art)
+
+Black 1px strokes, near-white faces, one red-accented element. Shared isometric cuboid helper, distinct silhouette per use (no repeated form).
+- **iso-stack** — wireframe cuboid stack + red top cube + dashed bounding box. Hero.
+- **nested-sandbox-cubes** — open sandbox tray with a disposable instance ejecting (Virtual Labs).
+- **dedicated-compute-core** — slotted server tower inside a dashed boundary cage (Dedicated).
+- **deployment-runway** — node network climbing to a red cloud node (Elastic / Cloud).
+- **signal-console** · **verification-artifact** — clear-signals / trust modules.
+- **endless-grid** — perspective vanishing grid with a radial-masked clear core; CTA background (text sits in the open centre).
+- `ready-state-runway` retired (orphaned).
 
 ## Motion
 
-Minimal and functional: 150ms ease transitions on hover (background, color, slight lift on cards). No scroll-driven animation. Reduced-motion safe.
+Build/assembly plays **once on scroll-into-view** (IntersectionObserver toggles `[data-paused]` on `svg[data-motif]`), then a **slow continuous loop**: each motif gently floats (`motif-bob`, 4.5s ease-in-out, ~12px) while in view, paused off-screen. Ambient loops (scanline/packet/pulse) per-motif. `prefers-reduced-motion` → fully static (forced `opacity:1`, no transform).
+
+## Docs + Blog (Starlight, `src/styles/starlight.css`)
+
+Same blueprint system as the marketing site: white paper, neutral zinc ramp, sharp corners (radius 0, no pills), hairline `#E4E4E7` borders, `border-color` hover (no lift). Accent `#FF2D75` for active/fills; **links + Client Panel button use `red-ink #C20E50`** (AA). Dark theme is first-class (toggle), retuned to `ink/surface/panel`. Header brand dot + Client Panel button match the home navbar.

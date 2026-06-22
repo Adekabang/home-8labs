@@ -1,23 +1,27 @@
 ---
 import Link from "./ui/link.astro";
+import EndlessGrid from "@components/motifs/endless-grid.astro";
 ---
 
 <div
-  class="relative overflow-hidden bg-zinc-950 p-8 md:px-20 md:py-20 mt-24 mx-auto max-w-5xl rounded-[2rem] flex flex-col items-center text-center shadow-[0_30px_100px_-55px_rgba(0,0,0,0.8)]">
-  <div class="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_30%_20%,rgba(220,38,38,.35),transparent_35%),radial-gradient(circle_at_70%_80%,rgba(255,255,255,.16),transparent_32%)]"></div>
+  class="relative mt-32 mx-auto max-w-5xl overflow-hidden rounded-none border border-grid bg-ink px-6 py-24 md:px-20 md:py-32 text-center">
+  <!-- Endless perspective grid: clear masked centre keeps text/buttons legible -->
+  <EndlessGrid class="pointer-events-none absolute inset-0 h-full w-full" />
+  <span class="bp-cross absolute left-1 top-1 h-4 w-4"></span>
+  <span class="bp-cross absolute right-1 top-1 h-4 w-4"></span>
+  <span class="bp-cross absolute bottom-1 left-1 h-4 w-4"></span>
+  <span class="bp-cross absolute bottom-1 right-1 h-4 w-4"></span>
   <div class="relative">
-    <h2 class="text-white text-4xl font-bold tracking-[-0.05em] md:text-6xl">
-      Ready to build your next lab?
+    <p class="micro-label">Ready state</p>
+    <h2 class="mt-4 text-line text-4xl font-light tracking-[-0.04em] md:text-6xl">
+      Build your next <span class="font-normal text-red-ink">lab</span>.
     </h2>
-    <p class="mx-auto mt-5 max-w-3xl text-lg leading-8 text-zinc-300 md:text-xl">
-      Continue to the client panel to browse live products, stock, pricing, and billing units. If you are still exploring, start with docs and confirm backup expectations before putting important data on any lab.
-    </p>
-    <div class="flex flex-col sm:flex-row mt-7 gap-3 justify-center">
-      <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" class="rounded-full bg-red-700 text-white hover:bg-red-600 border-red-700">
-        Open Client Panel
+    <div class="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+      <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" size="md" class="rounded-none">
+        Open client panel
       </Link>
-      <Link href="/docs" style="outline" class="rounded-full border-white/20 bg-white/[0.03] text-white hover:bg-white/10">
-        Read Documentation
+      <Link href="/docs" style="outline" size="md" class="rounded-none">
+        View architecture
       </Link>
     </div>
   </div>

@@ -20,15 +20,16 @@ const {
 const rel = rest.target === "_blank" ? "noopener noreferrer" : undefined;
 
 const sizes = {
-  lg: "px-5 py-2.5",
-  md: "px-4 py-2",
+  lg: "px-5 py-2.5 min-h-[2.75rem]",
+  md: "px-4 py-2.5 min-h-[2.75rem]",
 };
 
 const styles = {
-  outline: "bg-white border-2 border-black hover:bg-gray-100 text-black ",
-  primary: "bg-black text-white hover:bg-gray-800  border-2 border-transparent",
-  inverted: "bg-white text-black   border-2 border-transparent",
-  muted: "bg-gray-100 hover:bg-gray-200   border-2 border-transparent",
+  outline: "bg-ink border border-grid text-line hover:bg-elevated",
+  // red-ink bg so white label clears WCAG AA (6.05:1) vs 3.57 on #FF2D75
+  primary: "bg-red-ink text-white border border-red-ink hover:bg-red-800",
+  inverted: "bg-line text-ink border border-line",
+  muted: "bg-elevated hover:bg-grid text-line border border-grid",
 };
 ---
 
@@ -37,7 +38,7 @@ const styles = {
   rel={rel}
   {...rest}
   class:list={[
-    "rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200",
+    "inline-flex items-center justify-center gap-2 rounded-none text-center text-sm font-medium transition",
     block && "w-full",
     sizes[size],
     styles[style],

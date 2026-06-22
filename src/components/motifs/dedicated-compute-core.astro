@@ -1,0 +1,50 @@
+---
+// Dedicated Labs — an isometric slotted server tower (rack units) sealed inside
+// a dashed wireframe boundary cage. "Predictable VMs with hard boundaries."
+interface Props { class?: string }
+const { class: className } = Astro.props;
+const K = 0.5;
+function cuboid(cx: number, cy: number, s: number, h: number) {
+  const wx = s * 0.866;
+  const T = [cx, cy - s * K], R = [cx + wx, cy], F = [cx, cy + s * K], L = [cx - wx, cy];
+  const R2 = [R[0], R[1] + h], F2 = [F[0], F[1] + h], L2 = [L[0], L[1] + h];
+  const p = (a: number[]) => `${a[0]},${a[1]}`;
+  return { top: [T, R, F, L].map(p).join(" "), left: [L, F, F2, L2].map(p).join(" "), right: [R, F, F2, R2].map(p).join(" "), T, R, F, L, R2, F2, L2 };
+}
+const tower = cuboid(180, 116, 62, 132);
+const cage = cuboid(180, 92, 92, 184); // dashed boundary, encloses tower
+// rack-slot lines across the front-left + front-right faces
+const slots = [30, 56, 82, 108];
+---
+<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dcc-t dcc-d">
+  <title id="dcc-t">Caged server tower</title>
+  <desc id="dcc-d">An isometric slotted server tower enclosed by a dashed boundary cage.</desc>
+  <!-- boundary cage (dashed wireframe) -->
+  <g class="frame" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="4 3" fill="none" stroke-linejoin="round">
+    <polygon points={cage.top}></polygon>
+    <polygon points={cage.left}></polygon>
+    <polygon points={cage.right}></polygon>
+  </g>
+  <!-- server tower -->
+  <g class="lift" stroke="#0A0A0A" stroke-width="1.2" stroke-opacity="0.9" stroke-linejoin="round">
+    <polygon points={tower.left} fill="#F4F4F5"></polygon>
+    <polygon points={tower.right} fill="#ECECEF"></polygon>
+    <polygon points={tower.top} fill="#F7DCE5" stroke="#C20E50" stroke-width="1.3"></polygon>
+    {slots.map((dy) => (
+      <g stroke="#0A0A0A" stroke-opacity="0.3" stroke-width="0.9">
+        <line x1={tower.L[0]} y1={tower.L[1] + dy} x2={tower.F[0]} y2={tower.F[1] + dy}></line>
+        <line x1={tower.F[0]} y1={tower.F[1] + dy} x2={tower.R[0]} y2={tower.R[1] + dy}></line>
+      </g>
+    ))}
+    <!-- one active rack unit in red -->
+    <circle cx="180" cy={tower.F[1] + 56} r="2.4" fill="#C20E50" stroke="none"></circle>
+  </g>
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      .frame { opacity: 0; transform-box: fill-box; animation: f 0.6s ease forwards }
+      .lift { opacity: 0; transform-box: fill-box; animation: l 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.35s }
+    }
+    @keyframes l { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: translateY(0) } }
+    @keyframes f { from { opacity: 0; transform: scale(0.94) } to { opacity: 1; transform: scale(1) } }
+  </style>
+</svg>
