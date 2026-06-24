@@ -1,50 +1,97 @@
 ---
-// Dedicated Labs — an isometric slotted server tower (rack units) sealed inside
-// a dashed wireframe boundary cage. "Predictable VMs with hard boundaries."
+// Dedicated Labs — a dedicated KVM server faceplate sealed inside a solid hard
+// boundary. CPU/MEM gauges hold steady (predictable), IPv6 + snapshot glyphs, a
+// slow heartbeat LED. "Predictable VMs with hard boundaries."
+// Light blueprint aesthetic: 1px black strokes, near-white faces, crimson accent.
 interface Props { class?: string }
 const { class: className } = Astro.props;
-const K = 0.5;
-function cuboid(cx: number, cy: number, s: number, h: number) {
-  const wx = s * 0.866;
-  const T = [cx, cy - s * K], R = [cx + wx, cy], F = [cx, cy + s * K], L = [cx - wx, cy];
-  const R2 = [R[0], R[1] + h], F2 = [F[0], F[1] + h], L2 = [L[0], L[1] + h];
-  const p = (a: number[]) => `${a[0]},${a[1]}`;
-  return { top: [T, R, F, L].map(p).join(" "), left: [L, F, F2, L2].map(p).join(" "), right: [R, F, F2, R2].map(p).join(" "), T, R, F, L, R2, F2, L2 };
-}
-const tower = cuboid(180, 116, 62, 132);
-const cage = cuboid(180, 92, 92, 184); // dashed boundary, encloses tower
-// rack-slot lines across the front-left + front-right faces
-const slots = [30, 56, 82, 108];
 ---
-<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dcc-t dcc-d">
-  <title id="dcc-t">Caged server tower</title>
-  <desc id="dcc-d">An isometric slotted server tower enclosed by a dashed boundary cage.</desc>
-  <!-- boundary cage (dashed wireframe) -->
-  <g class="frame" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="4 3" fill="none" stroke-linejoin="round">
-    <polygon points={cage.top}></polygon>
-    <polygon points={cage.left}></polygon>
-    <polygon points={cage.right}></polygon>
+<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dc-t dc-d">
+  <title id="dc-t">Dedicated server in a hard boundary</title>
+  <desc id="dc-d">A dedicated server faceplate with steady CPU and memory gauges, sealed inside a solid boundary frame.</desc>
+
+  <!-- hard boundary -->
+  <g class="frame">
+    <rect x="34" y="56" width="292" height="190" rx="10" fill="none" stroke="#0A0A0A" stroke-width="1.6"></rect>
+    <rect x="42" y="64" width="276" height="174" rx="7" fill="none" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="2 3"></rect>
+    <text x="46" y="50" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1.5" fill="#A1A1AA">HARD BOUNDARY</text>
+    <!-- corner brackets -->
+    <g stroke="#C20E50" stroke-width="1.6" fill="none">
+      <path d="M34 70 L34 56 L48 56"></path>
+      <path d="M312 56 L326 56 L326 70"></path>
+      <path d="M34 232 L34 246 L48 246"></path>
+      <path d="M312 246 L326 246 L326 232"></path>
+    </g>
   </g>
-  <!-- server tower -->
-  <g class="lift" stroke="#0A0A0A" stroke-width="1.2" stroke-opacity="0.9" stroke-linejoin="round">
-    <polygon points={tower.left} fill="#F4F4F5"></polygon>
-    <polygon points={tower.right} fill="#ECECEF"></polygon>
-    <polygon points={tower.top} fill="#F7DCE5" stroke="#C20E50" stroke-width="1.3"></polygon>
-    {slots.map((dy) => (
-      <g stroke="#0A0A0A" stroke-opacity="0.3" stroke-width="0.9">
-        <line x1={tower.L[0]} y1={tower.L[1] + dy} x2={tower.F[0]} y2={tower.F[1] + dy}></line>
-        <line x1={tower.F[0]} y1={tower.F[1] + dy} x2={tower.R[0]} y2={tower.R[1] + dy}></line>
-      </g>
-    ))}
-    <!-- one active rack unit in red -->
-    <circle cx="180" cy={tower.F[1] + 56} r="2.4" fill="#C20E50" stroke="none"></circle>
+
+  <!-- faceplate -->
+  <g class="plate" stroke="#0A0A0A" stroke-width="1.2" stroke-linejoin="round">
+    <rect x="70" y="92" width="220" height="116" rx="8" fill="#FFFFFF"></rect>
+
+    <!-- header -->
+    <circle class="blink" cx="86" cy="108" r="3" fill="#C20E50" stroke="none"></circle>
+    <circle cx="96" cy="108" r="3" fill="#D4D4D8" stroke="none"></circle>
+    <text x="110" y="112" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1" fill="#0A0A0A" stroke="none">KVM-01</text>
+    <rect x="234" y="100" width="44" height="16" rx="3" fill="#C20E50" stroke="none"></rect>
+    <text x="256" y="111" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" letter-spacing="0.5" fill="#FFFFFF" stroke="none">IPv6</text>
+    <line x1="78" y1="124" x2="282" y2="124" stroke="#E4E4E7" stroke-width="1"></line>
+
+    <!-- CPU gauge -->
+    <text x="80" y="146" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1" fill="#A1A1AA" stroke="none">CPU</text>
+    <rect x="112" y="139" width="120" height="8" rx="2" fill="#F4F4F5" stroke="#E4E4E7" stroke-width="1"></rect>
+    <rect class="gauge g-cpu" x="113" y="140" width="78" height="6" rx="2" fill="#0A0A0A" stroke="none"></rect>
+
+    <!-- MEM gauge -->
+    <text x="80" y="166" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1" fill="#A1A1AA" stroke="none">MEM</text>
+    <rect x="112" y="159" width="120" height="8" rx="2" fill="#F4F4F5" stroke="#E4E4E7" stroke-width="1"></rect>
+    <rect class="gauge g-mem" x="113" y="160" width="62" height="6" rx="2" fill="#0A0A0A" stroke="none"></rect>
+
+    <!-- snapshot glyph -->
+    <g stroke-width="1">
+      <rect x="80" y="182" width="15" height="13" rx="2" fill="#FFFFFF" stroke="#0A0A0A"></rect>
+      <rect x="85" y="178" width="15" height="13" rx="2" fill="#FBE9EF" stroke="#C20E50"></rect>
+    </g>
+    <text x="108" y="190" font-family="ui-monospace,monospace" font-size="7" letter-spacing="0.5" fill="#A1A1AA" stroke="none">SNAP ·3</text>
+
+    <!-- vent fins -->
+    <g stroke="#0A0A0A" stroke-opacity="0.3" stroke-width="1">
+      {[240, 246, 252, 258, 264, 270, 276].map((x) => (
+        <line x1={x} y1="178" x2={x} y2="198"></line>
+      ))}
+    </g>
   </g>
-  <style>
-    @media (prefers-reduced-motion: no-preference) {
-      .frame { opacity: 0; transform-box: fill-box; animation: f 0.6s ease forwards }
-      .lift { opacity: 0; transform-box: fill-box; animation: l 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.35s }
-    }
-    @keyframes l { from { opacity: 0; transform: translateY(18px) } to { opacity: 1; transform: translateY(0) } }
-    @keyframes f { from { opacity: 0; transform: scale(0.94) } to { opacity: 1; transform: scale(1) } }
-  </style>
+
 </svg>
+
+<style>
+    @media (prefers-reduced-motion: no-preference) {
+      .frame { opacity: 0; transform-box: fill-box; transform-origin: center; animation: pop 0.6s cubic-bezier(0.22,1,0.36,1) forwards }
+      .plate { opacity: 0; transform-box: fill-box; animation: rise 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.3s }
+      .blink { animation: blink 2.6s ease-in-out infinite 0.8s }
+      .gauge { transform-box: fill-box; transform-origin: left center }
+      .g-cpu { animation: usage-cpu 6s ease-in-out infinite 0.9s }
+      .g-mem { animation: usage-mem 8.4s ease-in-out infinite 0.9s }
+    }
+    @keyframes pop { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
+    @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
+    /* CPU — spiky workload */
+    @keyframes usage-cpu {
+      0% { transform: scaleX(0.5) }
+      18% { transform: scaleX(0.62) }
+      36% { transform: scaleX(1.05) }
+      52% { transform: scaleX(0.8) }
+      70% { transform: scaleX(1.28) }
+      86% { transform: scaleX(0.95) }
+      100% { transform: scaleX(0.5) }
+    }
+    /* MEM — slow climb, then released */
+    @keyframes usage-mem {
+      0% { transform: scaleX(0.7) }
+      30% { transform: scaleX(0.92) }
+      55% { transform: scaleX(1.1) }
+      78% { transform: scaleX(1.32) }
+      90% { transform: scaleX(1.34) }
+      100% { transform: scaleX(0.7) }
+    }
+</style>

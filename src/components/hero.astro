@@ -1,6 +1,6 @@
 ---
 import Link from "@components/ui/link.astro";
-import IsoStack from "@components/motifs/iso-stack.astro";
+import HomelabTopology from "@components/motifs/homelab-topology.astro";
 ---
 
 <section
@@ -55,14 +55,14 @@ import IsoStack from "@components/motifs/iso-stack.astro";
     <!-- visual cell -->
     <div class="relative flex items-center justify-center border-grid bg-surface px-6 py-12 lg:border-l">
       <div class="absolute inset-0 bp-dots opacity-40 [mask-image:radial-gradient(circle_at_60%_45%,black,transparent_72%)]"></div>
-      <span class="absolute left-4 top-4 micro-label">FIG.01 / PLATFORM STACK</span>
+      <span class="absolute left-4 top-4 micro-label">FIG.01 / LAB TOPOLOGY</span>
 
-      <IsoStack class="relative z-10 w-full max-w-md" />
+      <HomelabTopology class="relative z-10 w-full max-w-md" />
 
       <!-- annotation callout with corner brackets -->
       <figure class="absolute right-5 top-12 hidden max-w-[12rem] border border-line/30 bg-ink/90 p-3 backdrop-blur-sm lg:block">
-        <figcaption class="micro-label text-line">Accent layer</figcaption>
-        <p class="mt-1 text-xs leading-snug text-cool">The active lab instance, isolated on top of the stack.</p>
+        <figcaption class="micro-label text-line">Isolated lab</figcaption>
+        <p class="mt-1 text-xs leading-snug text-cool">An experiment node, segmented from the rest of the homelab network.</p>
       </figure>
     </div>
   </div>

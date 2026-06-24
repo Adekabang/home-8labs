@@ -1,59 +1,80 @@
 ---
-// Virtual Labs — an open isometric sandbox tray holding small instances, one
-// disposable lab ejecting upward out of its slot. "Break things, rebuild."
+// Virtual Labs — a snapshot tree. A main history line of snapshots, an experiment
+// branch forking up to an isolated lab that breaks (crimson ✕ flash) then
+// respawns, and a clone branch forking down. "Break things, rebuild, repeat —
+// without touching production." Light blueprint aesthetic.
 interface Props { class?: string }
 const { class: className } = Astro.props;
-const K = 0.5;
-function cuboid(cx: number, cy: number, s: number, h: number) {
-  const wx = s * 0.866;
-  const T = [cx, cy - s * K], R = [cx + wx, cy], F = [cx, cy + s * K], L = [cx - wx, cy];
-  const R2 = [R[0], R[1] + h], F2 = [F[0], F[1] + h], L2 = [L[0], L[1] + h];
-  const p = (a: number[]) => `${a[0]},${a[1]}`;
-  return { top: [T, R, F, L].map(p).join(" "), left: [L, F, F2, L2].map(p).join(" "), right: [R, F, F2, R2].map(p).join(" ") };
-}
-const tray = cuboid(180, 214, 158, 30);
-const rim = cuboid(180, 210, 120, 0).top; // inner opening
-const seated = [cuboid(150, 196, 40, 30), cuboid(206, 200, 40, 30)];
-const lifted = cuboid(176, 150, 42, 34); // red instance, floating
-const slot = cuboid(176, 196, 42, 0).top;
+const edges = [
+  "M58 170 L102 170",
+  "M118 170 L182 170",
+  "M198 170 L262 170",
+  "M110 170 C 110 134, 124 110, 142 110",
+  "M158 110 C 178 106, 198 96, 205 93",
+  "M190 170 C 190 206, 216 230, 232 230",
+];
+const nodes = [
+  { x: 50, y: 170, d: "0s", label: "v0" },
+  { x: 110, y: 170, d: "0.1s", label: "v1" },
+  { x: 190, y: 170, d: "0.2s", label: "v2" },
+  { x: 270, y: 170, d: "0.32s", label: "v3", head: true },
+  { x: 150, y: 110, d: "0.24s", label: "" },
+  { x: 240, y: 230, d: "0.34s", label: "" },
+];
 ---
-<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="nsc-t nsc-d">
-  <title id="nsc-t">Sandbox tray</title>
-  <desc id="nsc-d">An open isometric sandbox tray holding lab instances, with one disposable instance lifting out.</desc>
-  <!-- tray body -->
-  <g class="rise" stroke="#0A0A0A" stroke-width="1.1" stroke-opacity="0.85" stroke-linejoin="round">
-    <polygon points={tray.left} fill="#ECECEF"></polygon>
-    <polygon points={tray.right} fill="#E4E4E7"></polygon>
-    <polygon points={tray.top} fill="#FAFAFA"></polygon>
-    <polygon points={rim} fill="#F4F4F5" stroke-opacity="0.5"></polygon>
+<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="st-t st-d">
+  <title id="st-t">Lab snapshot tree</title>
+  <desc id="st-d">A snapshot history line with an experiment branch forking off to an isolated lab that breaks and respawns.</desc>
+
+  <!-- edges -->
+  <g class="branch" fill="none" stroke="#A1A1AA" stroke-width="1.2">
+    {edges.map((d, i) => <path class={i === 4 ? "lab-link" : undefined} d={d} pathLength="1"></path>)}
   </g>
-  <!-- seated instances -->
-  {seated.map((c) => (
-    <g class="rise" stroke="#0A0A0A" stroke-width="1" stroke-opacity="0.8" stroke-linejoin="round">
-      <polygon points={c.left} fill="#F4F4F5"></polygon>
-      <polygon points={c.right} fill="#ECECEF"></polygon>
-      <polygon points={c.top} fill="#FFFFFF"></polygon>
+
+  <!-- snapshot nodes -->
+  {nodes.map((n) => (
+    <g class="snap" style={`animation-delay:${n.d}`}>
+      <rect x={n.x - 8} y={n.y - 8} width="16" height="16" rx="2" fill="#FFFFFF" stroke="#0A0A0A" stroke-width="1.2"></rect>
+      <rect x={n.x - 2.5} y={n.y - 2.5} width="5" height="5" rx="1" fill={n.head ? "#C20E50" : "#0A0A0A"} stroke="none"></rect>
+      {n.label && (
+        <text x={n.x} y={n.y + 22} text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1" fill="#A1A1AA" stroke="none">{n.label}</text>
+      )}
     </g>
   ))}
-  <!-- empty slot + lift path -->
-  <polygon class="frame" points={slot} fill="none" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="3 3"></polygon>
-  <line class="frame" x1="176" y1="170" x2="176" y2="194" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="2 3"></line>
-  <!-- ejecting red instance -->
-  <g class="lift" stroke="#C20E50" stroke-width="1.3" stroke-linejoin="round">
-    <polygon points={lifted.left} fill="#EFC4D2"></polygon>
-    <polygon points={lifted.right} fill="#E6ABBE"></polygon>
-    <polygon points={lifted.top} fill="#F7DCE5"></polygon>
+
+  <!-- experiment node — isolated, breaks + respawns -->
+  <g class="breaker">
+    <rect x="199" y="77" width="26" height="26" rx="3" fill="none" stroke="#C20E50" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"></rect>
+    <rect x="204" y="82" width="16" height="16" rx="2" fill="#FBE9EF" stroke="#C20E50" stroke-width="1.3"></rect>
+    <rect x="209.5" y="87.5" width="5" height="5" rx="1" fill="#C20E50" stroke="none"></rect>
+    <text x="212" y="68" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1" fill="#C20E50" stroke="none">lab</text>
+    <g class="err" stroke="#C20E50" stroke-width="1.6" fill="none">
+      <line x1="206" y1="84" x2="218" y2="96"></line>
+      <line x1="218" y1="84" x2="206" y2="96"></line>
+    </g>
   </g>
-  <style>
-    @media (prefers-reduced-motion: no-preference) {
-      .rise { opacity: 0; transform-box: fill-box; animation: u 0.5s cubic-bezier(0.22,1,0.36,1) forwards }
-      .rise:nth-of-type(2) { animation-delay: 0.12s }
-      .rise:nth-of-type(3) { animation-delay: 0.2s }
-      .frame { opacity: 0; animation: f 0.4s ease forwards 0.45s }
-      .lift { opacity: 0; transform-box: fill-box; animation: l 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.5s }
-    }
-    @keyframes u { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
-    @keyframes l { from { opacity: 0; transform: translateY(20px) } to { opacity: 1; transform: translateY(0) } }
-    @keyframes f { to { opacity: 1 } }
-  </style>
+
 </svg>
+
+<style>
+    @media (prefers-reduced-motion: no-preference) {
+      .branch path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 0.7s ease forwards 0.2s }
+      .branch path.lab-link { animation: draw 0.7s ease forwards 0.2s, labfade 4.6s ease-in-out infinite 1.1s }
+      .snap { opacity: 0; transform-box: fill-box; transform-origin: center; animation: pop 0.5s cubic-bezier(0.22,1,0.36,1) forwards }
+      .breaker { transform-box: fill-box; transform-origin: 212px 90px; animation: respawn 4.6s ease-in-out infinite 1.1s }
+      .err { opacity: 0; animation: errflash 4.6s ease-in-out infinite 1.1s }
+    }
+    @keyframes draw { to { stroke-dashoffset: 0 } }
+    @keyframes pop { from { opacity: 0; transform: scale(0) } to { opacity: 1; transform: scale(1) } }
+    @keyframes respawn {
+      0%, 42% { opacity: 1; transform: scale(1) translateX(0) }
+      46% { transform: scale(1) translateX(2px) }
+      50% { transform: scale(1) translateX(-2px) }
+      54% { transform: scale(1) translateX(2px) }
+      58% { transform: scale(1) translateX(0) }
+      68%, 78% { opacity: 0.1; transform: scale(0.8) }
+      88%, 100% { opacity: 1; transform: scale(1) }
+    }
+    @keyframes errflash { 0%, 43% { opacity: 0 } 50%, 62% { opacity: 1 } 68%, 100% { opacity: 0 } }
+    @keyframes labfade { 0%, 58% { opacity: 1 } 68%, 78% { opacity: 0.1 } 88%, 100% { opacity: 1 } }
+</style>
