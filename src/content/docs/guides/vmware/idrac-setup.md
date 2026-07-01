@@ -22,7 +22,7 @@ How to install Dell racadm on ESXi, configure iDRAC networking and NIC selection
 SSH into your ESXi host, then install the VIB from your datastore:
 
 ```bash
-esxcli software vib install -d /vmfs/volumes/ENOCP-VD2/ISO/Dell-iDRACTools-Web-ESXi.VIB-11.0.0.0-5139_A00.zip
+esxcli software vib install -d /vmfs/volumes/datastore1/ISO/Dell-iDRACTools-Web-ESXi.VIB-11.0.0.0-5139_A00.zip
 ```
 
 Verify the installation was successful:
@@ -155,7 +155,7 @@ Log in with:
 
 ```bash
 # 1. Install racadm VIB
-esxcli software vib install -d /vmfs/volumes/ENOCP-VD2/ISO/Dell-iDRACTools-Web-ESXi.VIB-11.0.0.0-5139_A00.zip
+esxcli software vib install -d /vmfs/volumes/datastore1/ISO/Dell-iDRACTools-Web-ESXi.VIB-11.0.0.0-5139_A00.zip
 
 # 2. Verify installation
 esxcli software vib list | grep racadm
