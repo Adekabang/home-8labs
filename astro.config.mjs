@@ -119,6 +119,8 @@ export default defineConfig({
               collapsed: true, autogenerate: { directory: "guides/git" } },
             { label: "Coolify",
               collapsed: true, autogenerate: { directory: "guides/coolify" } },
+            { label: "FreeIPA",
+              collapsed: true, autogenerate: { directory: "guides/freeipa" } },
             {
               label: "OpenCode",
               collapsed: true,
