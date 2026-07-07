@@ -115,6 +115,8 @@ export default defineConfig({
             },
             { label: "VyOS",
               collapsed: true, autogenerate: { directory: "guides/vyos" } },
+            { label: "OPNsense",
+              collapsed: true, autogenerate: { directory: "guides/opnsense" } },
             { label: "Git",
               collapsed: true, autogenerate: { directory: "guides/git" } },
             { label: "Coolify",
