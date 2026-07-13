@@ -581,40 +581,461 @@ tail -f /var/log/system.log | grep configd
 | `tag name expected` error | You have `}}` or `{%` in literal config content. Wrap in `{% raw %}...{% endraw %}`. |
 | API functions not found | Action methods MUST end with `Action` (e.g., `neighborAction()`, NOT `neighbor()`). |
 
-## Enhancing an Existing Plugin
+## Walkthrough A: LLDP Plugin from Scratch
 
-When you need to add features to a plugin you didn't write:
+> This 4-part walkthrough follows [@mimugmail's original series](https://www.routerperformance.net/opnsense/plugin-development/). The LLDP daemon plugin was built by copying the `collectd` plugin and adapting it. It was [merged into official plugins](https://github.com/opnsense/plugins/pull/449).
 
-1. **Find a similar feature** in the plugin (e.g., copy `Eap` to make `Ldap`)
-2. **Copy the structure:** models, controllers, views, forms — every file
-3. **Search & replace** names case-sensitively
-4. **Add new fields** to model XML + forms XML
-5. **Create a config template** for the new section
-6. **Add to `+TARGETS`** if generating a new output file
-7. **Wire up the menu** if adding a new sub-page
-8. **Test locally, submit PR**
+### Part 1: Copy & Rename
 
-### Example: Adding a checkbox to an existing form
+**Strategy:** LLDP needs one config page (like `collectd`) and one diagnostics tab to show neighbors (like `quagga` — Diagnostics → Show running-config). Both `collectd` and `lldpd` live in `net-mgmt` in the ports tree, so we stay in that category.
 
-**forms/general.xml** — add a field:
+```bash
+cd plugins
+cp -r net-mgmt/collectd net-mgmt/lldpd
+```
+
+Now rename everything, case-sensitive:
+
+```bash
+# Files and directories
+find net-mgmt/lldpd -name '*collectd*' -exec rename collectd lldpd {} \;
+find net-mgmt/lldpd -name '*Collectd*' -exec rename Collectd Lldpd {} \;
+
+# File contents
+find net-mgmt/lldpd -type f -exec sed -i '' 's/collectd/lldpd/g' {} \;
+find net-mgmt/lldpd -type f -exec sed -i '' 's/Collectd/Lldpd/g' {} \;
+```
+
+**Makefile:**
+```makefile
+PLUGIN_NAME=        lldpd
+PLUGIN_VERSION=     0.1
+PLUGIN_REVISION=    1
+PLUGIN_COMMENT=     LLDP daemon configuration
+PLUGIN_MAINTAINER=  you@example.com
+PLUGIN_DEVEL=       YES
+
+.include "../../Mk/plugins.mk"
+```
+
+**pkg-descr:** Copy the LLDPD project description from its website.
+
+**Service control** (`src/etc/inc/plugins.inc.d/lldpd.inc`): Check the correct PID file location for `lldpd`. Replace all `collectd` references.
+
+**setup.sh** (`src/opnsense/scripts/OPNsense/Lldpd/setup.sh`): Check the ports tree's `pkg-*` files for `/var` directories that `lldpd` creates. Add them so they survive reboot when `/var` is a ramdisk.
+
+### Part 2: Templates, Actions, MVC Files
+
+**`src/opnsense/service/templates/OPNsense/Lldpd/+TARGETS`:**
+```
+lldpd:/usr/local/etc/rc.d/lldpd
+lldpd.conf:/usr/local/etc/lldpd.conf
+```
+
+The `lldpd` file controls auto start/stop of the daemon. Remove everything between the first `if` and last `endif`, replace `collectd` with `lldpd`.
+
+**`src/opnsense/service/conf/actions.d/actions_lldpd.conf`:** Rename from `actions_collectd.conf`. This registers the daemon in configd:
+```
+[start]
+command:/usr/local/etc/rc.d/lldpd start
+parameters:
+type:script
+message:starting lldpd
+
+[stop]
+command:/usr/local/etc/rc.d/lldpd stop
+parameters:
+type:script
+message:stopping lldpd
+```
+
+**MVC files** — search & replace in every file under `src/opnsense/mvc/app/`:
+
+| Directory | Key Files | What to do |
+|-----------|-----------|------------|
+| `views/OPNsense/Lldpd/` | `general.volt` | UI content — just search & replace |
+| `models/OPNsense/Lldpd/` | `General.php`, `General.xml` | Replace `Collectd` → `Lldpd`; model XML done in part 3 |
+| `models/OPNsense/Lldpd/ACL/` | `ACL.xml` | Defines URLs for access control |
+| `models/OPNsense/Lldpd/Menu/` | `Menu.xml` | Sidebar placement + icon (use [Font Awesome](http://fontawesome.io/icons/)) |
+| `controllers/OPNsense/Lldpd/` | `GeneralController.php` | Page definition — search & replace |
+| `controllers/OPNsense/Lldpd/Api/` | `*Controller.php` | API + service actions — search & replace |
+| `controllers/OPNsense/Lldpd/forms/` | `general.xml` | Field definitions — done in part 3 |
+
+### Part 3: Forms, Model, and Templating
+
+LLDPD works via CLI arguments (e.g., `-c` enables CDP). No traditional `.conf` file — just command-line flags.
+
+**`forms/general.xml`** — checkboxes for each protocol:
+```xml
+<form>
+    <field>
+        <id>lldpd.general.Enabled</id>
+        <label>Enable LLDPD</label>
+        <type>checkbox</type>
+        <help>Enable the LLDP daemon.</help>
+    </field>
+    <field>
+        <id>lldpd.general.cdp</id>
+        <label>Enable CDP</label>
+        <type>checkbox</type>
+        <help>Enable Cisco Discovery Protocol support.</help>
+    </field>
+    <field>
+        <id>lldpd.general.sonmp</id>
+        <label>Enable SONMP</label>
+        <type>checkbox</type>
+        <help>Enable SONMP protocol support.</help>
+    </field>
+    <field>
+        <id>lldpd.general.edp</id>
+        <label>Enable EDP</label>
+        <type>checkbox</type>
+    </field>
+    <field>
+        <id>lldpd.general.fdp</id>
+        <label>Enable FDP</label>
+        <type>checkbox</type>
+    </field>
+</form>
+```
+
+**Model `General.xml`:**
+```xml
+<model>
+    <mount>//OPNsense/lldpd</mount>
+    <description>LLDP daemon configuration</description>
+    <items>
+        <general>
+            <Enabled type="BooleanField">
+                <default>1</default>
+                <Required>Y</Required>
+            </Enabled>
+            <cdp type="BooleanField">
+                <default>0</default>
+                <Required>N</Required>
+            </cdp>
+            <sonmp type="BooleanField">
+                <default>0</default>
+                <Required>N</Required>
+            </sonmp>
+            <edp type="BooleanField">
+                <default>0</default>
+                <Required>N</Required>
+            </edp>
+            <fdp type="BooleanField">
+                <default>0</default>
+                <Required>N</Required>
+            </fdp>
+        </general>
+    </items>
+</model>
+```
+
+**Template `lldpd.conf`** — generates CLI arguments (all on one line):
+```jinja2
+{% if helpers.exists('OPNsense.lldpd.general.cdp') and OPNsense.lldpd.general.cdp == '1' %}-c {% endif %}
+{% if helpers.exists('OPNsense.lldpd.general.sonmp') and OPNsense.lldpd.general.sonmp == '1' %}-s {% endif %}
+{% if helpers.exists('OPNsense.lldpd.general.edp') and OPNsense.lldpd.general.edp == '1' %}-e {% endif %}
+{% if helpers.exists('OPNsense.lldpd.general.fdp') and OPNsense.lldpd.general.fdp == '1' %}-f {% endif %}
+```
+
+**Verification:** After saving, check `System > Log Files > General`:
+```
+Dec 27 13:44:23 OPNsense lldpd[22894]: protocol LLDP enabled
+Dec 27 13:44:23 OPNsense lldpd[22894]: protocol CDPv1 enabled
+Dec 27 13:44:23 OPNsense lldpd[22894]: protocol CDPv2 enabled
+Dec 27 13:44:23 OPNsense lldpd[22894]: protocol SONMP enabled
+Dec 27 13:44:23 OPNsense lldpd[22894]: protocol EDP enabled
+Dec 27 13:44:23 OPNsense lldpd[22894]: protocol FDP disabled
+```
+
+### Part 4: Adding a Diagnostics Tab
+
+Now we want a tab showing `lldpcli show neighbors` output — similar to how the Quagga plugin shows "Show running-config" in a text box.
+
+**Step 1: Register the command** in `actions_lldpd.conf`:
+```
+[neighbor]
+command:/usr/local/sbin/lldpcli show neighbors
+parameters:
+type:script_output
+message:show lldp neighbors
+```
+
+**Step 2: Create API endpoint** in `Api/ServiceController.php`:
+```php
+/**
+ * show lldpd neighbors
+ * @return array
+ */
+public function neighborAction()
+{
+    $backend = new Backend();
+    $response = $backend->configdRun("lldpd neighbor");
+    return array("response" => $response);
+}
+```
+
+> **Pattern:** Look at existing plugins for reference. This was copied from `plugins/net/quagga/src/opnsense/mvc/app/controllers/OPNsense/Quagga/Api/DiagnosticsController.php` (line 63). Method names MUST end with `Action`.
+
+**Step 3: Wire up the UI** in `general.volt`:
+
+Add Bootstrap tabs:
+```html
+<ul class="nav nav-tabs" data-tabs="tabs" id="maintabs">
+    <li class="active"><a data-toggle="tab" href="#general">{{ lang._('General') }}</a></li>
+    <li><a data-toggle="tab" href="#neighbor">{{ lang._('Neighbors') }}</a></li>
+</ul>
+```
+
+Add the API call:
+```javascript
+ajaxCall(url="/api/lldpd/service/neighbor", sendData={}, callback=function(data,status) {
+    $("#listneighbor").text(data['response']);
+});
+```
+
+Add the output container:
+```html
+<div id="neighbor" class="tab-pane fade in">
+    <pre id="listneighbor"></pre>
+</div>
+```
+
+**Step 4: Build and test:**
+```bash
+git clone https://github.com/<user>/plugins
+cd plugins
+git checkout lldpd        # if using a branch
+cd net-mgmt/lldpd
+make package
+pkg install work/pkg/os-*.txz
+```
+
+**Result:** A plugin with two tabs — General (config) and Neighbors (live output from `lldpcli`). [View the final merged code](https://github.com/opnsense/plugins/blob/master/net-mgmt/lldpd/src/opnsense/mvc/app/views/OPNsense/Lldpd/general.volt).
+
+> **From mimugmail:** "If you're wondering how I figured out the API call pattern — I just looked at the Quagga controller code. And when I was stuck on templating the daemon CLI arguments, I asked in a [GitHub issue](https://github.com/opnsense/core/issues/2022)."
+
+---
+
+## Walkthrough B: Enhancing FreeRADIUS with LDAP Support
+
+> This 4-part walkthrough follows [@mimugmail's original series](https://www.routerperformance.net/opnsense/plugin-development/). The goal: add an LDAP submenu to the existing FreeRADIUS plugin with full UI configuration.
+
+### Part 1: Verify Dependencies & Scaffold the MVC
+
+**First, verify LDAP works with FreeRADIUS on the system:**
+```bash
+cd /usr/local/etc/raddb/mods-enabled
+ln -s ../mods-available/ldap .
+service radiusd stop
+radiusd -X
+```
+
+Output shows the LDAP module loads correctly (just can't connect since no server configured yet):
+```
+rlm_ldap (ldap): Initialising connection pool
+rlm_ldap (ldap): Bind with (anonymous) to ldap://localhost:389 failed: Can't contact LDAP server
+```
+
+Good — all FreeRADIUS LDAP dependencies are met.
+
+**Add the menu entry** in `models/OPNsense/Freeradius/Menu/Menu.xml`:
+```xml
+<LDAP url="/ui/freeradius/ldap/index" order="50"/>
+```
+
+**Scaffold the Model:** Copy `Eap.xml` and `Eap.php` → `Ldap.xml` and `Ldap.php`. Replace `EAP` → `LDAP`, `eap` → `ldap`, `Eap` → `Ldap` (case-sensitive).
+
+**Scaffold the Controllers:**
+- Copy `controllers/OPNsense/Freeradius/EapController.php` → `LdapController.php`
+- Copy `controllers/OPNsense/Freeradius/Api/EapController.php` → `Api/LdapController.php`
+- Replace `Eap` → `Ldap` everywhere
+
+**Scaffold the View:** Copy `views/OPNsense/Freeradius/eap.volt` → `ldap.volt`. Search & replace.
+
+Now you have the (M)odel, (C)ontroller, and (V)iew skeleton.
+
+> **From mimugmail:** "No PHP knowledge needed. Just search & replace FTW!"
+
+### Part 2: Define Fields (Forms + Model)
+
+Looking at `/usr/local/etc/raddb/mods-enabled/ldap`, the interesting config values are:
+`server`, `port`, `identity`, `password`, `base_dn`.
+
+Since the `server` config supports both `ldap://` and `ldaps://` URIs, we can combine protocol+host into a dropdown + text field instead of a separate port field.
+
+**`forms/ldap.xml`:**
+```xml
+<form>
+    <field>
+        <id>freeradius.ldap.protocol</id>
+        <label>Protocol</label>
+        <type>dropdown</type>
+    </field>
+    <field>
+        <id>freeradius.ldap.server</id>
+        <label>Server</label>
+        <type>text</type>
+        <help>IP address or hostname of LDAP server</help>
+    </field>
+    <field>
+        <id>freeradius.ldap.identity</id>
+        <label>Identity</label>
+        <type>text</type>
+        <help>Bind DN for LDAP connection</help>
+    </field>
+    <field>
+        <id>freeradius.ldap.password</id>
+        <label>Password</label>
+        <type>password</type>
+    </field>
+    <field>
+        <id>freeradius.ldap.base_dn</id>
+        <label>Base DN</label>
+        <type>text</type>
+        <help>Search base for user lookups</help>
+    </field>
+</form>
+```
+
+**Model `Ldap.xml`:**
+```xml
+<model>
+    <mount>//OPNsense/freeradius/ldap</mount>
+    <description>FreeRADIUS LDAP configuration</description>
+    <items>
+        <protocol type="OptionField">
+            <default>ldap</default>
+            <Required>Y</Required>
+            <OptionValues>
+                <ldap>LDAP</ldap>
+                <ldaps>LDAPS</ldaps>
+            </OptionValues>
+        </protocol>
+        <server type="TextField">
+            <Required>Y</Required>
+        </server>
+        <identity type="TextField">
+            <Required>Y</Required>
+        </identity>
+        <password type="TextField">
+            <Required>Y</Required>
+        </password>
+        <base_dn type="TextField">
+            <Required>Y</Required>
+        </base_dn>
+    </items>
+</model>
+```
+
+### Part 3: Configuration Template
+
+The LDAP module config at `/usr/local/etc/raddb/mods-enabled/ldap` needs to be generated from the UI values. Copy the existing `mods-enabled/ldap` content into `templates/OPNsense/Freeradius/mods-enabled-ldap`.
+
+**`+TARGETS`:**
+```
+mods-enabled-ldap:/usr/local/etc/raddb/mods-enabled/ldap
+```
+
+**Template logic** — use Jinja2 conditionals to only output values when set:
+```jinja2
+{% if helpers.exists('OPNsense.freeradius.general.enabled') and OPNsense.freeradius.general.enabled == '1' %}
+{%   if helpers.exists('OPNsense.freeradius.general.ldap_enabled') and OPNsense.freeradius.general.ldap_enabled == '1' %}
+
+{% if helpers.exists('OPNsense.freeradius.ldap.server') and OPNsense.freeradius.ldap.server != "" %}
+server = '{{ OPNsense.freeradius.ldap.protocol }}://{{ OPNsense.freeradius.ldap.server }}'
+{% endif %}
+
+{% if helpers.exists('OPNsense.freeradius.ldap.identity') and OPNsense.freeradius.ldap.identity != "" %}
+identity = '{{ OPNsense.freeradius.ldap.identity }}'
+{% endif %}
+
+{% if helpers.exists('OPNsense.freeradius.ldap.password') and OPNsense.freeradius.ldap.password != "" %}
+password = {{ OPNsense.freeradius.ldap.password }}
+{% endif %}
+
+{% if helpers.exists('OPNsense.freeradius.ldap.base_dn') and OPNsense.freeradius.ldap.base_dn != "" %}
+base_dn = '{{ OPNsense.freeradius.ldap.base_dn }}'
+{% endif %}
+
+{%   endif %}
+{% endif %}
+```
+
+**Template pattern:**
+- `!= ""` for text fields → only output when user filled something in
+- `== '1'` for checkboxes → only output when enabled
+- The outer `if` checks FreeRADIUS is enabled; inner `if` checks LDAP sub-feature is enabled
+
+### Part 4: Add Enable Checkbox, Build, and Debug
+
+We need a checkbox in the General tab to toggle LDAP on/off, so LDAP config is only generated when the user explicitly enables it.
+
+**Add field to `forms/general.xml`** (third field):
 ```xml
 <field>
-    <id>mynewplugin.general.NewFeature</id>
-    <label>Enable New Feature</label>
+    <id>freeradius.general.ldap_enabled</id>
+    <label>Enable LDAP</label>
     <type>checkbox</type>
-    <help>This enables the new experimental feature.</help>
+    <help>This allows you to bind to an external LDAP server. Use the LDAP submenu for configuration.</help>
 </field>
 ```
 
-**Model `<PluginName>.xml`** — add the field definition:
+**Add to model `General.xml`** (third field):
 ```xml
-<NewFeature type="BooleanField">
+<ldap_enabled type="BooleanField">
     <default>0</default>
     <Required>N</Required>
-</NewFeature>
+</ldap_enabled>
 ```
 
-That's it — the UI automagically picks it up. No Volt template changes needed for simple fields.
+No Volt template changes needed for a simple checkbox.
+
+**Build and install:**
+```bash
+pkg install git
+git clone https://github.com/mimugmail/plugins
+cd plugins
+git checkout frldap                    # if using a branch
+cd net/freeradius
+make package
+pkg install work/pkg/os-*.txz
+```
+
+> If the stable `os-freeradius` package is already installed, remove it first: `pkg remove os-freeradius`
+
+**Common error during `make package`:**
+```
+OPNsense configd.py: Inline action failed with OPNsense/Freeradius
+OPNsense/Freeradius/mods-enabled-ldap tag name expected
+```
+
+**Cause:** The original `mods-enabled/ldap` contains `}}` in its config:
+```
+user {
+    base_dn = "${..base_dn}"
+    filter = "(uid=%{%{Stripped-User-Name}:-%{User-Name}})"
+}
+```
+
+The `}}` is interpreted as a Jinja2 closing tag. **Fix:** Wrap the entire default config content in `{% raw %}...{% endraw %}` — but keep the conditional `if/endif` blocks outside the raw block:
+```jinja2
+{% if helpers.exists('OPNsense.freeradius.general.ldap_enabled') and OPNsense.freeradius.general.ldap_enabled == '1' %}
+{% raw %}
+ldap {
+    server = ...
+    # ... all the standard FreeRADIUS LDAP module config ...
+}
+{% endraw %}
+{% endif %}
+```
+
+After this fix, `make package` succeeds and the plugin installs cleanly.
+
+**Final result:** FreeRADIUS now has a working LDAP submenu with protocol, server, identity, password, and base_dn fields. All values are persisted to config.xml and templated into `/usr/local/etc/raddb/mods-enabled/ldap` on save.
+
+---
 
 ## Submitting a Pull Request
 
@@ -625,20 +1046,7 @@ That's it — the UI automagically picks it up. No Volt template changes needed 
 5. Push to your fork
 6. Create PR against `opnsense/plugins`
 
-> **From mimugmail:** "If you are nearly complete, you can also create a PR and ask the guys via GitHub to help. I had no idea how to manage templating either — here's the issue where I asked: https://github.com/opnsense/core/issues/2022"
-
-## Real-World Example: LLDP Plugin
-
-The LLDP daemon plugin (now merged into official plugins) was built from scratch following this guide. Here's a summary of what each part did:
-
-| Part | What it covered |
-|------|----------------|
-| 1 | Fork plugins repo, copy `collectd` → `lldpd`, rename everything, Makefile, pkg-descr, service control template, setup.sh |
-| 2 | Templates (`+TARGETS`, RC file, config), actions file (`actions_lldpd.conf`), Volt template (`general.volt`), models, controllers |
-| 3 | Form XML (`general.xml` with checkboxes for LLDP/CDP/SONMP/EDP/FDP protocols), model XML, Jinja2 templating for CLI arguments |
-| 4 | Diagnostic tab: register `lldpcli show neighbors` in actions, create API endpoint in `ServiceController`, wire up tab + AJAX call in Volt |
-
-**Discussion archive:** https://github.com/opnsense/plugins/pull/449
+> **From mimugmail:** "If you are nearly complete, you can also create a PR and ask the guys via GitHub to help. I had no idea how to manage templating either — here's the issue where I asked: https://github.com/opnsense/core/issues/2022. As you can see, it doesn't have to be perfect from the beginning."
 
 ## Multi-language Support
 
