@@ -1107,6 +1107,186 @@ os-helloworld-1.4_2.pkg
 - `PLUGIN_VERSION`: Your plugin version. Semantic versioning encouraged.
 - `PLUGIN_REVISION`: Bump when the packaging changes but code is the same. Reset to 1 on version bump.
 
+## Hosting Your Own Plugin Repository
+
+You don't need to submit your plugin to the official `opnsense/plugins` repo. You can manage everything in your own Git repository and distribute it via a custom package repository — just like [mimugmail's community repo](https://www.routerperformance.net/opnsense-repo/).
+
+Three approaches, from simplest to most production-ready:
+
+### Option A: Manual Install (No Repo)
+
+Build and install directly — best for single firewalls or testing.
+
+```bash
+# On your build machine
+cd your-plugins-repo/net-mgmt/myplugin
+make package
+# Output: work/pkg/os-myplugin-0.1_1.pkg
+
+# Copy to firewall
+scp work/pkg/os-*.pkg root@firewall:/tmp/
+ssh root@firewall pkg install /tmp/os-*.pkg
+```
+
+**Pros:** Zero infrastructure. **Cons:** Manual updates, no version tracking.
+
+### Option B: Self-Hosted pkg Repository
+
+Create a proper FreeBSD package repository that users add to their OPNsense. This is the standard approach.
+
+**Step 1: Build all your plugin packages**
+
+```bash
+# In your plugins repo
+cd /path/to/your-plugins
+for dir in category/*/; do
+    make -C "$dir" package
+done
+
+# Collect all built packages
+mkdir -p /tmp/repo-packages
+find . -name 'os-*.pkg' -exec cp {} /tmp/repo-packages/ \;
+```
+
+**Step 2: Generate the repository metadata**
+
+```bash
+pkg repo /tmp/repo-packages
+```
+
+This creates:
+```
+/tmp/repo-packages/
+├── packagesite.txz     # Package catalog
+├── packagesite.yaml    # Human-readable index
+├── meta.txz            # Repository metadata
+├── meta.conf            # Repo config
+├── digests.txz          # Package checksums
+├── filesite.txz         # File listing
+└── All/                 # All .pkg files
+    └── os-myplugin-0.1_1.pkg
+```
+
+**Step 3: Host on a web server**
+
+Upload the entire directory to any static file host:
+
+| Host | Example URL |
+|------|------------|
+| Nginx/Apache on your server | `https://repo.example.com/opnsense/` |
+| Cloudflare R2 | `https://pub-xxx.r2.dev/opnsense/` |
+| GitHub Releases | Upload as release assets |
+| AWS S3 + CloudFront | `https://cdn.example.com/opnsense/` |
+
+**Critical:** The server MUST support HTTP range requests (for partial package downloads).
+
+**Step 4: Create a repo config file**
+
+Create `myrepo.conf`:
+```
+myrepo: {
+  url: "https://repo.example.com/opnsense/${ABI}",
+  priority: 5,
+  enabled: yes
+}
+```
+
+- `${ABI}` resolves to the OPNsense ABI string (e.g., `FreeBSD:14:amd64`)
+- Place packages at `https://repo.example.com/opnsense/FreeBSD:14:amd64/`
+
+**Step 5: Users install the repo**
+
+```bash
+# On the OPNsense firewall
+fetch -o /usr/local/etc/pkg/repos/myrepo.conf https://repo.example.com/myrepo.conf
+pkg update
+```
+
+**Step 6: Install your plugin**
+
+```bash
+pkg install os-myplugin
+```
+
+Your plugin now appears in the OPNsense UI immediately after install — no reboot needed.
+
+**Keeping your repo updated:**
+
+```bash
+# 1. Rebuild packages with new PLUGIN_VERSION
+make package
+
+# 2. Copy new .pkg to repo directory, remove old versions
+cp work/pkg/os-myplugin-1.0_1.pkg /var/www/repo/FreeBSD:14:amd64/All/
+rm /var/www/repo/FreeBSD:14:amd64/All/os-myplugin-0.9_*.pkg
+
+# 3. Regenerate repo metadata
+pkg repo /var/www/repo/FreeBSD:14:amd64/
+```
+
+> **Real-world example:** [mimugmail's opn-repo](https://github.com/mimugmail/opn-repo) uses this exact pattern. Their repo config: `https://www.routerperformance.net/mimugmail.conf`. Install command: `fetch -o /usr/local/etc/pkg/repos/mimugmail.conf https://www.routerperformance.net/mimugmail.conf`
+
+### Option C: Keep Source in Your Own Git Repo
+
+You don't need to fork `opnsense/plugins` at all. Structure your own repo following the same layout:
+
+```
+your-opnsense-plugins/
+├── Makefile              # Root Makefile (optional, for batch builds)
+├── README.md
+├── Mk/
+│   └── plugins.mk        # Copy from opnsense/plugins
+├── net-mgmt/
+│   └── myplugin/
+│       ├── Makefile
+│       ├── pkg-descr
+│       └── src/opnsense/...
+├── security/
+│   └── myfirewall/
+│       ├── Makefile
+│       └── src/opnsense/...
+└── www/
+    └── myproxy/
+        ├── Makefile
+        └── src/opnsense/...
+```
+
+**Build with OPNsense tools:**
+
+The `Mk/plugins.mk` from `opnsense/plugins` includes all the build logic. Copy it to your repo. To build, you still need the OPNsense build environment (FreeBSD 14 VM with `opnsense/tools`).
+
+**CI/CD approach:**
+
+If you set up a FreeBSD build VM, you can automate the entire pipeline:
+
+```yaml
+# .github/workflows/build.yml (runs on self-hosted FreeBSD runner)
+steps:
+  - run: |
+      cd your-plugins
+      for dir in */*/; do make -C "$dir" package; done
+  - run: |
+      mkdir -p repo/FreeBSD:14:amd64
+      find . -name 'os-*.pkg' -exec cp {} repo/FreeBSD:14:amd64/All/ \;
+      pkg repo repo/FreeBSD:14:amd64/
+  - uses: actions/upload-artifact@v4
+    with:
+      path: repo/
+```
+
+Then sync the artifacts to your web server or serve directly from GitHub Releases.
+
+> **GitHub Actions on FreeBSD note:** You'll need a self-hosted runner on FreeBSD since GitHub's hosted runners are Linux/macOS/Windows only. Alternatively, build in a FreeBSD VM and upload manually.
+
+### Quick Comparison
+
+| Approach | Setup time | Maintenance | Best for |
+|----------|-----------|-------------|----------|
+| Manual install | 5 min | Manual every update | 1-2 firewalls, internal tools |
+| Self-hosted repo | 30 min | Update + `pkg repo` per release | Team/department deployment |
+| Git repo + CI/CD | 2-3 hours | Push → build → deploy | Production, multiple users/customers |
+| Official PR | Days (review) | Zero (OPNsense team maintains) | General-purpose plugins |
+
 ## References
 
 - [Official OPNsense Plugin Example Source](https://github.com/opnsense/plugins/tree/master/devel/helloworld)
