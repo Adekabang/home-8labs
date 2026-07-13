@@ -170,7 +170,9 @@ class Mynewplugin extends BaseModel
 }
 ```
 
-**`<PluginName>.xml`** — defines where data lives in config.xml and what fields exist:
+**`<PluginName>.xml`** — defines where data lives in config.xml and what fields exist.
+
+Each model should include a `<version>` tag (current convention):
 
 ```xml
 <model>
@@ -178,10 +180,11 @@ class Mynewplugin extends BaseModel
     <description>
         My New Plugin — manages something useful
     </description>
+    <version>1.0.0</version>
     <items>
         <general>
             <Enabled type="BooleanField">
-                <default>1</default>
+                <Default>1</Default>
                 <Required>Y</Required>
             </Enabled>
             <ServerAddress type="NetworkField">
@@ -189,12 +192,12 @@ class Mynewplugin extends BaseModel
                 <ValidationMessage>Please enter a valid IP address.</ValidationMessage>
             </ServerAddress>
             <Port type="PortField">
-                <default>8080</default>
+                <Default>8080</Default>
                 <Required>Y</Required>
             </Port>
             <Protocol type="OptionField">
                 <Required>Y</Required>
-                <default>http</default>
+                <Default>http</Default>
                 <OptionValues>
                     <http>HTTP</http>
                     <https>HTTPS</https>
@@ -204,6 +207,8 @@ class Mynewplugin extends BaseModel
     </items>
 </model>
 ```
+
+> **Note:** `<Default>` uses a capital D. `<Required>` can be `Y` or `N`. The `<version>` tag is optional but present in all current plugins.
 
 Available field types from `/usr/local/opnsense/mvc/app/models/OPNsense/Base/FieldTypes/`:
 
@@ -222,7 +227,12 @@ Available field types from `/usr/local/opnsense/mvc/app/models/OPNsense/Base/Fie
 
 ### 5. Forms — UI Layout
 
-`forms/general.xml` defines what the user sees:
+`forms/general.xml` defines what the user sees. Field `<id>` paths are relative to the model mount point:
+
+| Mount path | Form ID example | Resolves to |
+|-----------|----------------|-------------|
+| `//OPNsense/mynewplugin` | `mynewplugin.general.Enabled` | `//OPNsense/mynewplugin/general/Enabled` |
+| `//OPNsense/lldpd/general` | `general.cdp` | `//OPNsense/lldpd/general/cdp` |
 
 ```xml
 <form>
@@ -306,9 +316,9 @@ use \OPNsense\Core\Backend;
 
 class ServiceController extends ApiMutableServiceControllerBase
 {
-    protected static $internalServiceClass = 'OPNsense\Mynewplugin\Mynewplugin';
+    protected static $internalServiceClass = '\OPNsense\Mynewplugin\Mynewplugin';
     protected static $internalServiceTemplate = 'OPNsense/Mynewplugin';
-    protected static $internalServiceEnabled = 'general.Enabled';
+    protected static $internalServiceEnabled = 'general.Enabled';  // path relative to model mount
     protected static $internalServiceName = 'mynewplugin';
 
     public function reloadAction()
@@ -665,34 +675,33 @@ message:stopping lldpd
 
 LLDPD works via CLI arguments (e.g., `-c` enables CDP). No traditional `.conf` file — just command-line flags.
 
-**`forms/general.xml`** — checkboxes for each protocol:
+**`forms/general.xml`** — checkboxes for each protocol (IDs relative to mount `//OPNsense/lldpd/general`):
 ```xml
 <form>
     <field>
-        <id>lldpd.general.Enabled</id>
-        <label>Enable LLDPD</label>
+        <id>general.enabled</id>
+        <label>Enable LLDP Daemon</label>
         <type>checkbox</type>
-        <help>Enable the LLDP daemon.</help>
+        <help>This will activate the LLDPD service.</help>
     </field>
     <field>
-        <id>lldpd.general.cdp</id>
+        <id>general.cdp</id>
         <label>Enable CDP</label>
         <type>checkbox</type>
-        <help>Enable Cisco Discovery Protocol support.</help>
+        <help>This will activate the Cisco Discovery Protocol.</help>
     </field>
     <field>
-        <id>lldpd.general.sonmp</id>
+        <id>general.sonmp</id>
         <label>Enable SONMP</label>
         <type>checkbox</type>
-        <help>Enable SONMP protocol support.</help>
     </field>
     <field>
-        <id>lldpd.general.edp</id>
+        <id>general.edp</id>
         <label>Enable EDP</label>
         <type>checkbox</type>
     </field>
     <field>
-        <id>lldpd.general.fdp</id>
+        <id>general.fdp</id>
         <label>Enable FDP</label>
         <type>checkbox</type>
     </field>
@@ -702,34 +711,35 @@ LLDPD works via CLI arguments (e.g., `-c` enables CDP). No traditional `.conf` f
 **Model `General.xml`:**
 ```xml
 <model>
-    <mount>//OPNsense/lldpd</mount>
+    <mount>//OPNsense/lldpd/general</mount>
     <description>LLDP daemon configuration</description>
+    <version>1.0.1</version>
     <items>
-        <general>
-            <Enabled type="BooleanField">
-                <default>1</default>
-                <Required>Y</Required>
-            </Enabled>
-            <cdp type="BooleanField">
-                <default>0</default>
-                <Required>N</Required>
-            </cdp>
-            <sonmp type="BooleanField">
-                <default>0</default>
-                <Required>N</Required>
-            </sonmp>
-            <edp type="BooleanField">
-                <default>0</default>
-                <Required>N</Required>
-            </edp>
-            <fdp type="BooleanField">
-                <default>0</default>
-                <Required>N</Required>
-            </fdp>
-        </general>
+        <enabled type="BooleanField">
+            <Default>1</Default>
+            <Required>Y</Required>
+        </enabled>
+        <cdp type="BooleanField">
+            <Default>0</Default>
+            <Required>Y</Required>
+        </cdp>
+        <sonmp type="BooleanField">
+            <Default>0</Default>
+            <Required>Y</Required>
+        </sonmp>
+        <edp type="BooleanField">
+            <Default>0</Default>
+            <Required>Y</Required>
+        </edp>
+        <fdp type="BooleanField">
+            <Default>0</Default>
+            <Required>Y</Required>
+        </fdp>
     </items>
 </model>
 ```
+
+> **Note:** Fields sit directly under `<items>` (no `<general>` container) because the mount path itself ends at `general`. Form IDs use `general.cdp` (relative to mount), not `lldpd.general.cdp`.
 
 **Template `lldpd.conf`** — generates CLI arguments (all on one line):
 ```jinja2
@@ -762,17 +772,30 @@ type:script_output
 message:show lldp neighbors
 ```
 
-**Step 2: Create API endpoint** in `Api/ServiceController.php`:
+**Step 2: Create API endpoint** in `Api/ServiceController.php` (exact code from the [merged plugin](https://github.com/opnsense/plugins/blob/master/net-mgmt/lldpd/src/opnsense/mvc/app/controllers/OPNsense/Lldpd/Api/ServiceController.php)):
 ```php
-/**
- * show lldpd neighbors
- * @return array
- */
-public function neighborAction()
+namespace OPNsense\Lldpd\Api;
+
+use OPNsense\Base\ApiMutableServiceControllerBase;
+use OPNsense\Core\Backend;
+
+class ServiceController extends ApiMutableServiceControllerBase
 {
-    $backend = new Backend();
-    $response = $backend->configdRun("lldpd neighbor");
-    return array("response" => $response);
+    protected static $internalServiceClass = '\OPNsense\Lldpd\General';
+    protected static $internalServiceTemplate = 'OPNsense/Lldpd';
+    protected static $internalServiceEnabled = 'enabled';
+    protected static $internalServiceName = 'lldpd';
+
+    /**
+     * show lldpd neighbors
+     * @return array
+     */
+    public function neighborAction()
+    {
+        $backend = new Backend();
+        $response = $backend->configdRun("lldpd neighbor");
+        return array("response" => $response);
+    }
 }
 ```
 
@@ -904,9 +927,10 @@ Since the `server` config supports both `ldap://` and `ldaps://` URIs, we can co
 <model>
     <mount>//OPNsense/freeradius/ldap</mount>
     <description>FreeRADIUS LDAP configuration</description>
+    <version>1.0.0</version>
     <items>
         <protocol type="OptionField">
-            <default>ldap</default>
+            <Default>ldap</Default>
             <Required>Y</Required>
             <OptionValues>
                 <ldap>LDAP</ldap>
@@ -985,7 +1009,7 @@ We need a checkbox in the General tab to toggle LDAP on/off, so LDAP config is o
 **Add to model `General.xml`** (third field):
 ```xml
 <ldap_enabled type="BooleanField">
-    <default>0</default>
+    <Default>0</Default>
     <Required>N</Required>
 </ldap_enabled>
 ```
