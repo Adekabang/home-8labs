@@ -1382,7 +1382,30 @@ class RepoManager extends BaseModel
 </model>
 ```
 
-This creates a repeatable array of repo entries. Each entry has: name, URL, priority, enabled toggle.
+This creates a repeatable array of repo entries. Each entry has: name, URL, priority, enabled toggle, and optional authentication credentials.
+
+**Private repo support:** Add a `credentials` container for repos that require authentication:
+```xml
+<credentials type="ContainerField">
+    <Required>N</Required>
+    <username type="TextField">
+        <Required>N</Required>
+    </username>
+    <password type="TextField">
+        <Required>N</Required>
+    </password>
+</credentials>
+```
+
+The Python script then embeds credentials in the URL if provided:
+```python
+if creds.find('username') is not None and creds.find('username').text:
+    from urllib.parse import quote
+    user = creds.find('username').text
+    pw = creds.find('password').text if creds.find('password') is not None else ''
+    # Embed in URL for basic auth
+    url_text = url_text.replace('://', f'://{quote(user)}:{quote(pw)}@')
+```
 
 ### Step 3: Forms
 
@@ -1415,19 +1438,24 @@ This creates a repeatable array of repo entries. Each entry has: name, URL, prio
         <type>text</type>
         <help>Lower number = higher priority. Default is 5.</help>
     </field>
+    <field>
+        <id>repomanager.repos.repo.credentials.username</id>
+        <label>Username (optional)</label>
+        <type>text</type>
+        <help>For private/authenticated repos. Leave empty for public repos.</help>
+    </field>
+    <field>
+        <id>repomanager.repos.repo.credentials.password</id>
+        <label>Password (optional)</label>
+        <type>password</type>
+        <help>Repo password or access token.</help>
+    </field>
 </form>
 ```
 
 ### Step 4: Template — Generate .conf Files
 
-**`service/templates/OPNsense/RepoManager/+TARGETS`:**
-```
-repo.conf:/usr/local/etc/pkg/repos/{{ repo_name }}.conf
-```
-
-Wait — the `+TARGETS` file maps statically. For dynamic filenames (one per repo), we need a different approach. Instead of using the template system, we'll use a **configd script** that iterates the repos and writes files.
-
-**Better approach — use a Python script triggered by configd.**
+Since we need dynamic filenames (one `.conf` per repo), the standard `+TARGETS` approach won't work. We use a **configd Python script** instead that reads config.xml and writes each `.conf` file directly.
 
 **`service/conf/actions.d/actions_repomanager.conf`:**
 ```
@@ -1474,15 +1502,27 @@ for repo in repos:
     name = repo.find('name')
     url = repo.find('url')
     priority = repo.find('priority')
+    creds = repo.find('credentials')
 
     if enabled is None or name is None or url is None:
         continue
     if enabled.text != '1':
         continue
 
+    url_text = url.text
+    # Embed credentials if provided (for private repos)
+    if creds is not None:
+        cred_user = creds.find('username')
+        cred_pass = creds.find('password')
+        if cred_user is not None and cred_user.text:
+            from urllib.parse import quote
+            user = quote(cred_user.text, safe='')
+            pw = quote(cred_pass.text, safe='') if cred_pass is not None and cred_pass.text else ''
+            url_text = url_text.replace('://', f'://{user}:{pw}@')
+
     conf_path = os.path.join(REPO_DIR, f"{name.text}.conf")
     content = f"""{name.text}: {{
-  url: "{url.text}",
+  url: "{url_text}",
   priority: {priority.text or '5'},
   enabled: yes
 }}
