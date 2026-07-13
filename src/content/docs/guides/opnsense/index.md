@@ -15,6 +15,8 @@ Two ways to extend OPNsense beyond stock packages:
 
 2. **[Building Custom Packages](./building-packages)** — the advanced way. Use OPNsense's official `tools.git` to build your own packages from ports, for when you need something not in any repo.
 
+3. **[Plugin Development](./plugin-development)** — the native way. Build your own OPNsense plugins with full UI integration using the MVC framework, configd backend, and API endpoints.
+
 ## Why not just install FreeBSD packages?
 
 OPNsense is based on HardenedBSD, not vanilla FreeBSD. Installing FreeBSD binary packages will break things. Even HardenedBSD packages have compatibility issues. The only safe approaches are:
