@@ -1287,6 +1287,373 @@ Then sync the artifacts to your web server or serve directly from GitHub Release
 | Git repo + CI/CD | 2-3 hours | Push → build → deploy | Production, multiple users/customers |
 | Official PR | Days (review) | Zero (OPNsense team maintains) | General-purpose plugins |
 
+---
+
+## Walkthrough C: Repository Manager Plugin
+
+> A plugin that lets you manage custom pkg repositories from the OPNsense web UI — no SSH needed. Inspired by the [m.a.x. it professional plugins](https://opnsense.max-it.de/professional-content/freie-videos/). This is a practical project that ties together everything from the guide above.
+
+**What it does:** Instead of manually creating `/usr/local/etc/pkg/repos/*.conf` files and running `pkg update` via SSH, you get a UI panel to add, edit, enable/disable, and remove custom repos.
+
+### Design
+
+This plugin is simpler than LLDP or FreeRADIUS — no daemon to control, no complex config generation. Just:
+
+1. **Form** — name, URL, priority, enabled toggle
+2. **Model** — stores repo list in config.xml
+3. **Template** — generates `.conf` files from model data
+4. **configd action** — runs `pkg update` after changes
+
+```
+┌─────────────────────────────────────┐
+│  Services → Repo Manager            │
+│                                      │
+│  ┌──────────────────────────────┐   │
+│  │ [+] Add Repository           │   │
+│  │                               │   │
+│  │  ☑ myrepo    https://...  [✎] │   │
+│  │  ☐ testrepo  https://...  [✎] │   │
+│  │                               │   │
+│  │  [Save]  [Update All Repos]   │   │
+│  └──────────────────────────────┘   │
+│                                      │
+│  ┌─ Output ─────────────────────┐   │
+│  │ pkg update output here...    │   │
+│  └──────────────────────────────┘   │
+└─────────────────────────────────────┘
+```
+
+### Step 1: Directory Setup
+
+```bash
+mkdir -p src/opnsense/mvc/app/{controllers,models,views}/OPNsense/RepoManager
+mkdir -p src/opnsense/mvc/app/controllers/OPNsense/RepoManager/{Api,forms}
+mkdir -p src/opnsense/mvc/app/models/OPNsense/RepoManager/{ACL,Menu}
+mkdir -p src/opnsense/service/{conf/actions.d,templates/OPNsense/RepoManager}
+```
+
+### Step 2: Model
+
+**`models/OPNsense/RepoManager/RepoManager.php`:**
+```php
+<?php
+namespace OPNsense\RepoManager;
+
+use OPNsense\Base\BaseModel;
+
+class RepoManager extends BaseModel
+{
+}
+```
+
+**`models/OPNsense/RepoManager/RepoManager.xml`:**
+```xml
+<model>
+    <mount>//OPNsense/repomanager</mount>
+    <description>Custom pkg repository manager</description>
+    <version>1.0.0</version>
+    <items>
+        <repos>
+            <repo type="ArrayField">
+                <Required>N</Required>
+                <enabled type="BooleanField">
+                    <Default>1</Default>
+                    <Required>Y</Required>
+                </enabled>
+                <name type="TextField">
+                    <Required>Y</Required>
+                    <mask>/^[a-zA-Z0-9_-]{1,32}$/u</mask>
+                    <ValidationMessage>Only alphanumeric, dash, underscore. Max 32 chars.</ValidationMessage>
+                </name>
+                <url type="TextField">
+                    <Required>Y</Required>
+                    <mask>/^https?:\/\/.+/u</mask>
+                    <ValidationMessage>Must be a valid HTTP(S) URL.</ValidationMessage>
+                </url>
+                <priority type="IntegerField">
+                    <Default>5</Default>
+                    <Required>Y</Required>
+                    <MinimumValue>1</MinimumValue>
+                    <MaximumValue>20</MaximumValue>
+                </priority>
+            </repo>
+        </repos>
+    </items>
+</model>
+```
+
+This creates a repeatable array of repo entries. Each entry has: name, URL, priority, enabled toggle.
+
+### Step 3: Forms
+
+**`controllers/OPNsense/RepoManager/forms/general.xml`:**
+```xml
+<form>
+    <field>
+        <id>repomanager.repos.repo.enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable or disable this repository.</help>
+    </field>
+    <field>
+        <id>repomanager.repos.repo.name</id>
+        <label>Name</label>
+        <type>text</type>
+        <help>Short name for the repo (used as the .conf filename).</help>
+        <hint>e.g. myrepo</hint>
+    </field>
+    <field>
+        <id>repomanager.repos.repo.url</id>
+        <label>URL</label>
+        <type>text</type>
+        <help>Repository URL. Use ${ABI} for ABI-dependent paths.</help>
+        <hint>https://repo.example.com/opnsense/${ABI}</hint>
+    </field>
+    <field>
+        <id>repomanager.repos.repo.priority</id>
+        <label>Priority</label>
+        <type>text</type>
+        <help>Lower number = higher priority. Default is 5.</help>
+    </field>
+</form>
+```
+
+### Step 4: Template — Generate .conf Files
+
+**`service/templates/OPNsense/RepoManager/+TARGETS`:**
+```
+repo.conf:/usr/local/etc/pkg/repos/{{ repo_name }}.conf
+```
+
+Wait — the `+TARGETS` file maps statically. For dynamic filenames (one per repo), we need a different approach. Instead of using the template system, we'll use a **configd script** that iterates the repos and writes files.
+
+**Better approach — use a Python script triggered by configd.**
+
+**`service/conf/actions.d/actions_repomanager.conf`:**
+```
+[generate]
+command:/usr/local/opnsense/scripts/repomanager/generate_repos.py
+parameters:
+type:script_output
+message:generating repo config files
+
+[update]
+command:/usr/sbin/pkg update
+parameters:
+type:script_output
+message:updating pkg repositories
+```
+
+**`scripts/repomanager/generate_repos.py`:**
+```python
+#!/usr/local/bin/python3
+"""Generate /usr/local/etc/pkg/repos/*.conf from config.xml"""
+import xml.etree.ElementTree as ET
+import json
+import os
+
+CONFIG = '/conf/config.xml'
+REPO_DIR = '/usr/local/etc/pkg/repos'
+
+# Parse config.xml
+tree = ET.parse(CONFIG)
+root = tree.getroot()
+
+# Find repomanager section
+repos = root.findall(".//repomanager/repos/repo")
+
+# Remove old conf files
+for f in os.listdir(REPO_DIR):
+    if f.endswith('.conf') and f not in ['OPNsense.conf']:
+        # Only remove files that match our managed repos
+        pass  # Be careful here
+
+# Generate new ones
+for repo in repos:
+    enabled = repo.find('enabled')
+    name = repo.find('name')
+    url = repo.find('url')
+    priority = repo.find('priority')
+
+    if enabled is None or name is None or url is None:
+        continue
+    if enabled.text != '1':
+        continue
+
+    conf_path = os.path.join(REPO_DIR, f"{name.text}.conf")
+    content = f"""{name.text}: {{
+  url: "{url.text}",
+  priority: {priority.text or '5'},
+  enabled: yes
+}}
+"""
+    with open(conf_path, 'w') as f:
+        f.write(content)
+
+print(json.dumps({"status": "ok", "generated": len(repos)}))
+```
+
+### Step 5: Controllers
+
+**`controllers/OPNsense/RepoManager/IndexController.php`:**
+```php
+<?php
+namespace OPNsense\RepoManager;
+
+class IndexController extends \OPNsense\Base\IndexController
+{
+    public function indexAction()
+    {
+        $this->view->generalForm = $this->getForm("general");
+        $this->view->pick('OPNsense/RepoManager/index');
+    }
+}
+```
+
+**`controllers/OPNsense/RepoManager/Api/SettingsController.php`:**
+```php
+<?php
+namespace OPNsense\RepoManager\Api;
+
+use \OPNsense\Base\ApiMutableModelControllerBase;
+
+class SettingsController extends ApiMutableModelControllerBase
+{
+    protected static $internalModelClass = '\OPNsense\RepoManager\RepoManager';
+    protected static $internalModelName = 'repomanager';
+}
+```
+
+**`controllers/OPNsense/RepoManager/Api/ServiceController.php`:**
+```php
+<?php
+namespace OPNsense\RepoManager\Api;
+
+use \OPNsense\Base\ApiControllerBase;
+use \OPNsense\Core\Backend;
+
+class ServiceController extends ApiControllerBase
+{
+    public function generateAction()
+    {
+        if ($this->request->isPost()) {
+            $backend = new Backend();
+            $response = $backend->configdRun("repomanager generate");
+            return json_decode($response, true) ?: ["status" => "error"];
+        }
+        return ["status" => "failed"];
+    }
+
+    public function updateAction()
+    {
+        if ($this->request->isPost()) {
+            $backend = new Backend();
+            $response = $backend->configdRun("repomanager update");
+            return ["output" => $response];
+        }
+        return ["output" => ""];
+    }
+}
+```
+
+### Step 6: View
+
+**`views/OPNsense/RepoManager/index.volt`:**
+```html
+<script type="text/javascript">
+    $( document ).ready(function() {
+        // Load repo list
+        mapDataToFormUI({'frm_repos':"/api/repomanager/settings/get"});
+
+        // Save to config.xml
+        $("#saveAct").click(function(){
+            saveFormToEndpoint("/api/repomanager/settings/set",'frm_repos',function(){
+                // After save, regenerate .conf files
+                ajaxCall(url="/api/repomanager/service/generate", sendData={},callback=function(data,status) {
+                    $("#genStatus").html(data['status'] == 'ok' ? '✓ Configs generated' : '✗ Error');
+                });
+            });
+        });
+
+        // Update pkg repos
+        $("#updateAct").click(function(){
+            $("#updateOutput").html("Running pkg update...");
+            ajaxCall(url="/api/repomanager/service/update", sendData={},callback=function(data,status) {
+                $("#updateOutput").text(data['output']);
+            });
+        });
+    });
+</script>
+
+<div class="col-md-12">
+    <button class="btn btn-primary" id="saveAct" type="button">
+        <b>{{ lang._('Save') }}</b>
+    </button>
+    <button class="btn btn-default" id="updateAct" type="button">
+        <b>{{ lang._('Update Repositories') }}</b>
+    </button>
+    <span id="genStatus" style="margin-left:10px;"></span>
+</div>
+
+<br/>
+{{ partial("layout_partials/base_form",['fields':generalForm,'id':'frm_repos'])}}
+
+<br/>
+<div><pre id="updateOutput" style="max-height:300px;overflow-y:scroll;"></pre></div>
+```
+
+### Step 7: Menu & ACL
+
+**`models/OPNsense/RepoManager/Menu/Menu.xml`:**
+```xml
+<menu>
+    <System order="60">
+        <RepoManager VisibleName="Repo Manager" url="/ui/repomanager/" cssClass="fa fa-database fa-fw"/>
+    </System>
+</menu>
+```
+
+**`models/OPNsense/RepoManager/ACL/ACL.xml`:**
+```xml
+<acl>
+    <page-system-repomanager>
+        <name>WebCfg - System: Repo Manager</name>
+        <description>Allow access to the custom repository manager</description>
+        <patterns>
+            <pattern>ui/repomanager/*</pattern>
+            <pattern>api/repomanager/*</pattern>
+        </patterns>
+    </page-system-repomanager>
+</acl>
+```
+
+### Step 8: Makefile
+
+```makefile
+PLUGIN_NAME=        repomanager
+PLUGIN_VERSION=     1.0
+PLUGIN_REVISION=    1
+PLUGIN_COMMENT=     Manage custom pkg repositories from the web UI
+PLUGIN_MAINTAINER=  you@example.com
+PLUGIN_DEVEL=       YES
+
+.include "../../Mk/plugins.mk"
+```
+
+### Result
+
+After installing `os-repomanager`, users get:
+
+- **Add/remove custom repos** from the web UI
+- **Enable/disable** repos without deleting them
+- **Regenerate** `.conf` files on save
+- **Run `pkg update`** with one click and see output inline
+- **No SSH needed** for repo management
+
+This is a ~200 line plugin. The core logic is the Python script that reads config.xml and writes `.conf` files — the rest is standard MVC boilerplate.
+
+> **Extension ideas:** Add a "Test connection" button, show last `pkg update` timestamp, support for repo fingerprints/signing keys, batch enable/disable.
+
 ## References
 
 - [Official OPNsense Plugin Example Source](https://github.com/opnsense/plugins/tree/master/devel/helloworld)
