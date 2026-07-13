@@ -1694,6 +1694,404 @@ This is a ~200 line plugin. The core logic is the Python script that reads confi
 
 > **Extension ideas:** Add a "Test connection" button, show last `pkg update` timestamp, support for repo fingerprints/signing keys, batch enable/disable.
 
+---
+
+## Appendix: Hello World Plugin — Full Source Listing
+
+> Complete, build-ready source for a minimal OPNsense plugin. Every file shown in full — copy into your plugins directory, fetch the real `Mk/plugins.mk`, and `make package`. This is the simplest possible plugin with the entire MVC + configd stack working end-to-end.
+
+### File Tree
+
+```
+plugins/devel/helloworld/
+├── Makefile
+├── pkg-descr
+└── src/opnsense/
+    ├── mvc/app/
+    │   ├── controllers/OPNsense/HelloWorld/
+    │   │   ├── IndexController.php
+    │   │   ├── Api/
+    │   │   │   ├── SettingsController.php
+    │   │   │   └── ServiceController.php
+    │   │   └── forms/general.xml
+    │   ├── models/OPNsense/HelloWorld/
+    │   │   ├── HelloWorld.php
+    │   │   ├── HelloWorld.xml
+    │   │   ├── ACL/ACL.xml
+    │   │   └── Menu/Menu.xml
+    │   └── views/OPNsense/HelloWorld/
+    │       └── index.volt
+    ├── scripts/helloworld/
+    │   └── test_message.py
+    └── service/
+        ├── conf/actions.d/
+        │   └── actions_helloworld.conf
+        └── templates/OPNsense/HelloWorld/
+            ├── +TARGETS
+            └── helloworld.conf
+```
+
+### Source Code
+
+**`Makefile`** — plugin metadata:
+
+```makefile
+PLUGIN_NAME=        helloworld
+PLUGIN_VERSION=     1.0
+PLUGIN_REVISION=    1
+PLUGIN_COMMENT=     Hello World test plugin — says hello from configd
+PLUGIN_MAINTAINER=  dev@example.com
+PLUGIN_DEVEL=       YES
+
+.include "../../Mk/plugins.mk"
+```
+
+**`pkg-descr`** — package description:
+
+```
+A simple Hello World plugin for OPNsense, demonstrating the MVC + configd
+architecture. Includes a form, service control, and a configd-powered action
+that returns JSON.
+```
+
+**`src/opnsense/mvc/app/models/OPNsense/HelloWorld/HelloWorld.php`** — model class:
+
+```php
+<?php
+namespace OPNsense\HelloWorld;
+
+use OPNsense\Base\BaseModel;
+
+class HelloWorld extends BaseModel
+{
+}
+```
+
+**`src/opnsense/mvc/app/models/OPNsense/HelloWorld/HelloWorld.xml`** — data schema:
+
+```xml
+<model>
+    <mount>//OPNsense/helloworld</mount>
+    <description>Hello World test plugin</description>
+    <version>1.0.0</version>
+    <items>
+        <general>
+            <Enabled type="BooleanField">
+                <Default>1</Default>
+                <Required>Y</Required>
+            </Enabled>
+            <Greeting type="TextField">
+                <Default>Hello from OPNsense!</Default>
+                <Required>Y</Required>
+            </Greeting>
+            <Mood type="OptionField">
+                <Default>happy</Default>
+                <Required>Y</Required>
+                <OptionValues>
+                    <happy>😊 Happy</happy>
+                    <excited>🚀 Excited</excited>
+                    <debugging>🐛 Debugging</debugging>
+                </OptionValues>
+            </Mood>
+        </general>
+    </items>
+</model>
+```
+
+**`src/opnsense/mvc/app/models/OPNsense/HelloWorld/ACL/ACL.xml`** — access control:
+
+```xml
+<acl>
+    <page-user-helloworld>
+        <name>WebCfg - Users: Hello World!</name>
+        <description>Allow access to the Hello World module</description>
+        <patterns>
+            <pattern>ui/helloworld/*</pattern>
+            <pattern>api/helloworld/*</pattern>
+        </patterns>
+    </page-user-helloworld>
+</acl>
+```
+
+**`src/opnsense/mvc/app/models/OPNsense/HelloWorld/Menu/Menu.xml`** — sidebar entry:
+
+```xml
+<menu>
+    <User order="99">
+        <HelloWorld
+            VisibleName="Hello World"
+            url="/ui/helloworld/"
+            cssClass="fa fa-smile-o fa-fw"
+        />
+    </User>
+</menu>
+```
+
+**`src/opnsense/mvc/app/controllers/OPNsense/HelloWorld/IndexController.php`** — page routing:
+
+```php
+<?php
+namespace OPNsense\HelloWorld;
+
+class IndexController extends \OPNsense\Base\IndexController
+{
+    public function indexAction()
+    {
+        $this->view->generalForm = $this->getForm("general");
+        $this->view->pick('OPNsense/HelloWorld/index');
+    }
+}
+```
+
+**`src/opnsense/mvc/app/controllers/OPNsense/HelloWorld/forms/general.xml`** — UI form:
+
+```xml
+<form>
+    <field>
+        <id>helloworld.general.Enabled</id>
+        <label>Enabled</label>
+        <type>checkbox</type>
+        <help>Enable the Hello World service.</help>
+    </field>
+    <field>
+        <id>helloworld.general.Greeting</id>
+        <label>Greeting Message</label>
+        <type>text</type>
+        <help>The message to greet with.</help>
+    </field>
+    <field>
+        <id>helloworld.general.Mood</id>
+        <label>Mood</label>
+        <type>dropdown</type>
+        <help>Current developer mood.</help>
+    </field>
+</form>
+```
+
+**`src/opnsense/mvc/app/controllers/OPNsense/HelloWorld/Api/SettingsController.php`** — config get/set:
+
+```php
+<?php
+namespace OPNsense\HelloWorld\Api;
+
+use \OPNsense\Base\ApiMutableModelControllerBase;
+
+class SettingsController extends ApiMutableModelControllerBase
+{
+    protected static $internalModelClass = '\OPNsense\HelloWorld\HelloWorld';
+    protected static $internalModelName = 'helloworld';
+}
+```
+
+**`src/opnsense/mvc/app/controllers/OPNsense/HelloWorld/Api/ServiceController.php`** — backend actions:
+
+```php
+<?php
+namespace OPNsense\HelloWorld\Api;
+
+use \OPNsense\Base\ApiControllerBase;
+use \OPNsense\Core\Backend;
+
+class ServiceController extends ApiControllerBase
+{
+    /**
+     * reload template
+     */
+    public function reloadAction()
+    {
+        $status = "failed";
+        if ($this->request->isPost()) {
+            $status = strtolower(trim(
+                (new Backend())->configdRun('template reload OPNsense/HelloWorld')
+            ));
+        }
+        return ["status" => $status];
+    }
+
+    /**
+     * run the test action via configd
+     */
+    public function testAction()
+    {
+        if ($this->request->isPost()) {
+            $result = json_decode(
+                trim((new Backend())->configdRun("helloworld test")),
+                true
+            );
+            if ($result !== null) {
+                return $result;
+            }
+        }
+        return ["message" => "unable to run config action"];
+    }
+}
+```
+
+**`src/opnsense/mvc/app/views/OPNsense/HelloWorld/index.volt`** — page template:
+
+```html
+<script type="text/javascript">
+    $( document ).ready(function() {
+        // Load saved data into form
+        mapDataToFormUI({'frm_GeneralSettings':"/api/helloworld/settings/get"});
+
+        // Save button
+        $("#saveAct").click(function(){
+            saveFormToEndpoint("/api/helloworld/settings/set",'frm_GeneralSettings',function(){
+                ajaxCall(url="/api/helloworld/service/reload", sendData={},callback=function(data,status) {
+                    console.log("Template reload: " + data['status']);
+                });
+            });
+        });
+
+        // Test button — runs configd action and displays JSON result
+        $("#testAct").SimpleActionButton({
+            onAction: function(data) {
+                $("#responseMsg").removeClass("hidden").html(
+                    "<strong>" + data['message'] + "</strong><br/>" +
+                    "Greeting: " + data['greeting'] + "<br/>" +
+                    "Mood: " + data['mood']
+                );
+            }
+        });
+    });
+</script>
+
+<div class="col-md-12">
+    <button class="btn btn-primary" id="saveAct" type="button">
+        <b>{{ lang._('Save') }}</b>
+    </button>
+    <button class="btn btn-default" id="testAct"
+        data-endpoint="/api/helloworld/service/test"
+        data-label="{{ lang._('Test') }}">
+    </button>
+</div>
+
+<br/>
+<div class="alert alert-info hidden" role="alert" id="responseMsg"></div>
+
+{{ partial("layout_partials/base_form",['fields':generalForm,'id':'frm_GeneralSettings'])}}
+```
+
+**`src/opnsense/scripts/helloworld/test_message.py`** — configd worker that reads config and returns JSON:
+
+```python
+#!/usr/local/bin/python3
+"""Hello World test script — reads config and returns JSON."""
+import xml.etree.ElementTree as ET
+import json
+
+CONFIG = '/conf/config.xml'
+
+tree = ET.parse(CONFIG)
+root = tree.getroot()
+
+# Defaults
+enabled = "0"
+greeting = "Hello from OPNsense!"
+mood = "unknown"
+
+# Read our config from config.xml
+node = root.find(".//helloworld/general")
+if node is not None:
+    e = node.find("Enabled")
+    if e is not None and e.text:
+        enabled = e.text
+    g = node.find("Greeting")
+    if g is not None and g.text:
+        greeting = g.text
+    m = node.find("Mood")
+    if m is not None and m.text:
+        mood = m.text
+
+result = {
+    "message": f"Hello World plugin is {'enabled' if enabled == '1' else 'disabled'}!",
+    "greeting": greeting,
+    "mood": mood
+}
+
+print(json.dumps(result))
+```
+
+**`src/opnsense/service/conf/actions.d/actions_helloworld.conf`** — configd action registry:
+
+```
+[test]
+command:/usr/local/opnsense/scripts/helloworld/test_message.py
+parameters:
+type:script_output
+message:hello world test action
+```
+
+**`src/opnsense/service/templates/OPNsense/HelloWorld/+TARGETS`** — template output mapping:
+
+```
+helloworld.conf:/usr/local/etc/helloworld/helloworld.conf
+```
+
+**`src/opnsense/service/templates/OPNsense/HelloWorld/helloworld.conf`** — Jinja2 config generator:
+
+```jinja2
+{% if helpers.exists('OPNsense.helloworld.general.Enabled') and OPNsense.helloworld.general.Enabled == '1' %}
+# HelloWorld Configuration
+# Generated by OPNsense configd
+enabled=1
+greeting={{ OPNsense.helloworld.general.Greeting|default("Hello!") }}
+mood={{ OPNsense.helloworld.general.Mood|default("happy") }}
+{% endif %}
+```
+
+### Setup on First Use
+
+```bash
+# Clone (or copy these files) into your plugins directory
+mkdir -p /usr/plugins/devel/helloworld
+# ... copy all files above ...
+
+# One-time: get the real build infrastructure
+fetch -o /usr/plugins/Mk/plugins.mk \
+  https://raw.githubusercontent.com/opnsense/plugins/master/Mk/plugins.mk
+
+# Build
+cd /usr/plugins/devel/helloworld
+make package
+
+# Install
+pkg install work/pkg/os-helloworld-*.pkg
+
+# Clear caches (first install only)
+rm -f /tmp/opnsense_menu_cache.xml
+rm -f /tmp/opnsense_acl_cache.json
+```
+
+Browse to `https://<firewall>/ui/helloworld/`. You'll see:
+
+- A form with **Enabled** (checkbox), **Greeting** (text), **Mood** (dropdown 😊🚀🐛)
+- **Save** button — persists to config.xml, triggers template regeneration
+- **Test** button — fires the configd action, displays JSON result inline
+
+### What This Plugin Demonstrates
+
+| Layer | File(s) | What it shows |
+|-------|---------|--------------|
+| Model | `HelloWorld.php` + `.xml` | Minimal `BaseModel`, mount path, field types (`BooleanField`, `TextField`, `OptionField` with values) |
+| View | `index.volt` | Standard OPNsense JS patterns: `mapDataToFormUI`, `saveFormToEndpoint`, `SimpleActionButton` |
+| Controller | `IndexController.php` | Page routing, form injection |
+| API — Settings | `SettingsController.php` | `ApiMutableModelControllerBase` auto-generates get/set endpoints |
+| API — Service | `ServiceController.php` | Manual actions: template reload + configd invocation with JSON parsing |
+| Forms | `general.xml` | Field IDs matching model mount path |
+| ACL | `ACL.xml` | URL patterns for UI + API, unique ACL key |
+| Menu | `Menu.xml` | Sidebar placement, Font Awesome icon |
+| configd | `actions_helloworld.conf` | Action type `script_output`, registering Python scripts |
+| Script | `test_message.py` | Reading `config.xml` from disk, parsing XML, returning JSON to configd |
+| Template | `helloworld.conf` + `+TARGETS` | Jinja2 conditionals, `helpers.exists()`, `|default()` filter, output path mapping |
+
+**From here**, you can adapt this exact skeleton to build your real plugin:
+- Add more fields to the form and model
+- Replace `test_message.py` with your actual backend logic
+- Switch `ApiControllerBase` → `ApiMutableServiceControllerBase` if you need daemon control
+- Add more tabs to the volt template for multi-page plugins
+
 ## References
 
 - [Official OPNsense Plugin Example Source](https://github.com/opnsense/plugins/tree/master/devel/helloworld)
