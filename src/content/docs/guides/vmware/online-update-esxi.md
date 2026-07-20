@@ -1,213 +1,71 @@
 ---
 title: ESXi Update Guide (Online & Offline)
-description: "Update VMware ESXi via command line: both online (direct from Broadcom depot) and offline (patch file on datastore). Covers ESXi 6, 7, 8, and 9."
+description: "Update VMware ESXi via command line using offline patch files from the Broadcom portal. Covers ESXi 6, 7, 8, and 9."
 sidebar:
   order: 2
 ---
 
-This guide covers updating VMware ESXi using the command-line interface (ESXCLI), with both **online** (direct from Broadcom depot) and **offline** (patch file on datastore) methods. Since Broadcom acquired VMware in 2023, the download portal and account requirements have changed : this guide reflects the current Broadcom-era workflow.
+This guide covers updating VMware ESXi using the command-line interface (ESXCLI). Since Broadcom acquired VMware, the public online depot (`hostupdate.vmware.com`) has been shut down. All updates now go through the **Broadcom Support Portal** using offline patch files uploaded to a datastore.
 
 > **Version key:** 🟢 = ESXi 6.x · 🔵 = ESXi 7.x · 🟣 = ESXi 8.x · 🟠 = ESXi 9.x
 
-## Broadcom-Era Prerequisites
+## What Changed After Broadcom Acquisition
 
-Since the Broadcom acquisition, you need a **Broadcom Support account** to download ESXi patches and ISOs:
+The old `hostupdate.vmware.com` online depot **no longer exists** : the domain has no DNS resolution and returns nothing. This means:
 
-1. Register at [support.broadcom.com](https://support.broadcom.com)
-2. After login, navigate to **Software** → **VMware vSphere** → **ESXi**
-3. Select your ESXi version and download the latest patch bundle (`.zip`) or offline depot
+- `esxcli software profile update -d https://hostupdate.vmware.com/...` no longer works
+- You must download patch bundles manually from the [Broadcom Support Portal](https://support.broadcom.com)
+- The **offline datastore method** is now the only supported approach via ESXCLI
+- A Broadcom account with valid VMware entitlements is required to download patches
 
-For the online method, the legacy VMware depot URL still works but may eventually require authentication tokens. Both methods are covered below.
-
----
-
-## Method 1: Online Update (Broadcom Depot)
-
-The online method downloads updates directly from Broadcom's update servers. It is the faster option when the ESXi host has internet access.
-
-### Step 1: SSH into ESXi and Check Current Version 🟢🔵🟣🟠
-
-Enable SSH (Host → Actions → Services → Enable Secure Shell), then connect:
-
-```bash
-ssh root@192.168.0.100  # adjust username and IP
-vmware -v
-
-### Example output
-# VMware ESXi 8.0.2 build-23825572
-```
-
-Check the installation date:
-
-```bash
-esxcli software vib list | grep 'Install\|esx-base'
-
-### Example output
-# Name       Version                    Vendor   Acceptance Level   Install Date   Platforms
-# esx-base   8.0.2-0.40.23825572        VMware   VMwareCertified    2024-05-24     host
-```
-
-Verify the current profile:
-
-```bash
-esxcli software profile get
-```
-
-### Step 2: Enable HTTP Client Firewall Rule 🟢🔵🟣🟠
-
-Allow the ESXi host to reach the online depot:
-
-```bash
-esxcli network firewall ruleset set -e true -r httpClient
-```
-
-### Step 3: List Available Profiles 🟢🔵🟣🟠
-
-Query the Broadcom/VMware online depot for available image profiles:
-
-```bash
-esxcli software sources profile list --depot=https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-```
-
-Or use the direct script (avoids memory issues on ESXi 8.x):
-
-```bash
-LANG=en_US.UTF-8 /usr/lib/vmware/esxcli-software sources.profile.list -d "https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml"
-```
-
-> ⚠️ **MemoryError on ESXi 8.x+**
->
-> ESXCLI has a default 300MB memory limit that may overflow with the large depot index.
->
-> Check the current limit:
-> ```bash
-> grep 'mem=' /usr/lib/vmware/esxcli-software
-> # #!/usr/bin/python ++group=esximage,mem=300
-> ```
->
-> Increase it to 500MB:
-> ```bash
-> esxcli system settings advanced set -o /VisorFS/VisorFSPristineTardisk -i 0
-> cp /usr/lib/vmware/esxcli-software /usr/lib/vmware/esxcli-software.bak
-> sed -i 's/mem=300/mem=500/g' /usr/lib/vmware/esxcli-software.bak
-> mv /usr/lib/vmware/esxcli-software.bak /usr/lib/vmware/esxcli-software -f
-> esxcli system settings advanced set -o /VisorFS/VisorFSPristineTardisk -i 1
-> ```
->
-> Then rerun the profile list command.
-
-### Step 4: Filter Profiles (Optional) 🟢🔵🟣🟠
-
-The profile list is large. Filter with `grep`:
-
-```bash
-esxcli software sources profile list --depot=https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml | grep 2025
-```
-
-### Step 5: Enter Maintenance Mode 🟢🔵🟣🟠
-
-**Shut down all VMs first**, then:
-
-```bash
-esxcli system maintenanceMode set --enable=true
-```
-
-### Step 6: Apply the Online Update 🟢🔵
-
-> **🟣🟠 ESXi 8.0U2+:** the `esxcli software vib update` command is **deprecated**. Always use `esxcli software profile update`.
-
-```bash
-esxcli software profile update \
-  -p ESXi-8.0U3d-24585383-standard \
-  -d https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-```
-
-Replace `ESXi-8.0U3d-24585383-standard` with your target profile name from Step 3.
-
-If you get a `[HardwareError]` (unsupported CPU warning), add `--no-hardware-warning`:
-
-```bash
-esxcli software profile update \
-  -p ESXi-8.0U3d-24585383-standard \
-  -d https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml \
-  --no-hardware-warning
-```
-
-> 🟢 **ESXi 6.x note:** `esxcli software vib update` is still supported. Use:
-> ```bash
-> esxcli software vib update -d https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/vmw-depot-index.xml
-> ```
-
-Wait for the update to complete. It may take several minutes.
-
-### Step 7: Post-Update Tasks 🟢🔵🟣🟠
-
-Disable the HTTP client firewall rule:
-
-```bash
-esxcli network firewall ruleset set -e false -r httpClient
-```
-
-Reboot:
-
-```bash
-reboot
-```
-
-After reboot, re-enable SSH via the web interface, then exit maintenance mode:
-
-```bash
-esxcli system maintenanceMode set --enable=false
-```
-
-Verify the update:
-
-```bash
-esxcli software profile get
-vmware -v
-```
+> If your host has internet access, you can set up a **self-hosted HTTP depot** using `nginx` or Python's `http.server` and point ESXCLI at it. See [Method 2](#method-2-self-hosted-http-depot-optional) below.
 
 ---
 
-## Method 2: Offline Update (Datastore Patch)
+## Method 1: Offline Update (Datastore Patch) : Primary
 
-The offline method is ideal for air-gapped environments, hosts without internet access, or when you want full control over the patch version.
+This is the standard method: download the patch from Broadcom, upload to a datastore, and apply via ESXCLI.
 
 ### Step 1: Download the Patch from Broadcom 🟢🔵🟣🟠
 
 1. Log in to [support.broadcom.com](https://support.broadcom.com)
 2. Go to **Software** → **VMware vSphere** → **ESXi**
 3. Choose your ESXi version (e.g., 8.0, 7.0, 6.7)
-4. Download the patch bundle ZIP (not the ISO). The filename looks like:
+4. Download the **Offline Bundle** (depot ZIP). Filenames look like:
+
    ```
    VMware-ESXi-8.0U3d-24585383-depot.zip
    ```
-   or for earlier versions:
+   or for earlier/update bundles:
    ```
    ESXi800-202503001.zip
    update-from-esxi8.0-8.0U3d.zip
    ```
 
-> 🟠 **ESXi 9.x:** the Broadcom portal structure is the same. Look under **VMware vSphere** → **ESXi 9.x**.
+> 🟠 **ESXi 9.x:** the portal structure is the same. Look under **VMware vSphere** → **ESXi 9.x**.
 
 ### Step 2: Upload Patch to a Datastore 🟢🔵🟣🟠
 
-Upload the ZIP to an ESXi datastore using one of these methods:
+Upload the ZIP to an ESXi datastore. **SCP is recommended** for large files:
 
-**Option A: vSphere Client Datastore Browser**
-Navigate to Storage → your datastore → Files → Upload.
-
-**Option B: SCP (recommended for large files)**
 ```bash
 scp VMware-ESXi-8.0U3d-24585383-depot.zip root@192.168.0.100:/vmfs/volumes/datastore1/patches/
 ```
 
+Or use the vSphere Client: Storage → datastore → Files → Upload.
+
 > Create a dedicated `patches/` directory on the datastore to keep things organized.
 
-### Step 3: SSH into ESXi 🟢🔵🟣🟠
+### Step 3: SSH into ESXi and Check Current Version 🟢🔵🟣🟠
+
+Enable SSH (Host → Actions → Services → Enable Secure Shell), then connect:
 
 ```bash
 ssh root@192.168.0.100
+vmware -v
+
+### Example output
+# VMware ESXi 8.0.2 build-23825572
 ```
 
 Verify the patch file is accessible:
@@ -224,7 +82,7 @@ Power off all VMs on the host, then:
 esxcli system maintenanceMode set --enable=true
 ```
 
-Alternatively, use `vim-cmd`:
+Or with `vim-cmd`:
 
 ```bash
 vim-cmd /hostsvc/maintenance_mode_enter
@@ -233,7 +91,7 @@ vim-cmd /hostsvc/hostsummary | grep inMaintenanceMode   # verify
 
 ### Step 5: List Profiles in the Patch Bundle 🟢🔵🟣🟠
 
-List the image profiles contained in the offline bundle:
+List the image profiles inside the offline bundle:
 
 ```bash
 esxcli software sources profile list -d /vmfs/volumes/datastore1/patches/VMware-ESXi-8.0U3d-24585383-depot.zip
@@ -247,9 +105,9 @@ ESXi-8.0U3d-24585383-standard      VMware, Inc.  PartnerSupported
 ESXi-8.0U3d-24585383-no-tools      VMware, Inc.  PartnerSupported
 ```
 
-Pick the `-standard` profile for a full update (includes VMware Tools). Use `-no-tools` for a minimal update.
+Pick `-standard` for a full update (includes VMware Tools). Use `-no-tools` for a minimal update.
 
-### Step 6: Apply the Offline Patch 🟢🔵
+### Step 6: Apply the Patch 🟢🔵
 
 > **🟣🟠 ESXi 8.0U2+:** use `esxcli software profile update`. The `esxcli software vib` commands are **deprecated** and no longer work.
 
@@ -269,14 +127,14 @@ esxcli software vib update \
   -d /vmfs/volumes/datastore1/patches/ESXi700-202503001.zip
 ```
 
-> **Dry run first (optional):** add `--dry-run` to preview the changes without applying them:
+> **Dry run first (optional):** add `--dry-run` to preview without applying:
 > ```bash
 > esxcli software profile update -p ESXi-8.0U3d-24585383-standard \
 >   -d /vmfs/volumes/datastore1/patches/VMware-ESXi-8.0U3d-24585383-depot.zip \
 >   --dry-run
 > ```
 
-If you hit the `[HardwareError]` CPU warning, add `--no-hardware-warning` (not recommended on production systems):
+If you get `[HardwareError]` (unsupported CPU warning), add `--no-hardware-warning`:
 
 ```bash
 esxcli software profile update \
@@ -313,14 +171,53 @@ Power on your VMs.
 
 ---
 
-## Method 3: Offline Update via VIB File (Single Package) 🟢🔵
+## Method 2: Self-Hosted HTTP Depot (Optional)
 
-For applying individual driver updates or async VIBs (e.g., NIC drivers, HBA firmware) without a full profile update:
+If you want an "online-like" workflow (e.g., multiple hosts pulling from a central server), host the depot ZIP on an internal HTTP server:
+
+### Step 1: Serve the Depot ZIP over HTTP
+
+Extract the downloaded ZIP to a directory and serve it:
 
 ```bash
-# 🟢 ESXi 6.x only : from a VIB URL
-esxcli software vib install -v https://hostupdate.vmware.com/software/VUM/PRODUCTION/main/esx/vmw/vib20/tools-light/VMware_locker_tools-light_5.0.0-0.7.515841.vib
+# On your Linux server/workstation
+mkdir -p /srv/esxi-depot
+cd /srv/esxi-depot
+unzip /path/to/VMware-ESXi-8.0U3d-24585383-depot.zip
 
+# Serve with Python (no auth, LAN-only)
+python3 -m http.server 8080
+```
+
+Or with nginx:
+
+```nginx
+server {
+    listen 80;
+    server_name depot.internal.lan;
+    root /srv/esxi-depot;
+    autoindex on;
+}
+```
+
+### Step 2: Point ESXCLI at Your Depot
+
+On the ESXi host:
+
+```bash
+esxcli software sources profile list -d http://192.168.0.50:8080/index.xml
+esxcli software profile update -p ESXi-8.0U3d-24585383-standard -d http://192.168.0.50:8080/index.xml
+```
+
+> The depot ZIP contains an `index.xml` at the root. ESXCLI reads it to discover profiles and VIBs, same as it did with the old VMware online depot.
+
+---
+
+## Method 3: Single VIB File (Legacy Drivers) 🟢🔵
+
+For applying individual driver updates or async VIBs (e.g., NIC drivers, HBA firmware):
+
+```bash
 # 🟢🔵 ESXi 6.x & 7.x : from a local VIB file
 esxcli software vib install -v /vmfs/volumes/datastore1/drivers/DriverName.vib
 
@@ -332,15 +229,37 @@ esxcli software vib update -d /vmfs/volumes/datastore1/drivers/driver-bundle.zip
 
 ---
 
+## Legacy: MemoryError Workaround (ESXi 8.x)
+
+When listing profiles from a large depot (online or self-hosted), ESXi 8.x may throw `[MemoryError]`. The default ESXCLI memory limit is 300MB:
+
+```bash
+grep 'mem=' /usr/lib/vmware/esxcli-software
+# #!/usr/bin/python ++group=esximage,mem=300
+```
+
+Increase it to 500MB:
+
+```bash
+esxcli system settings advanced set -o /VisorFS/VisorFSPristineTardisk -i 0
+cp /usr/lib/vmware/esxcli-software /usr/lib/vmware/esxcli-software.bak
+sed -i 's/mem=300/mem=500/g' /usr/lib/vmware/esxcli-software.bak
+mv /usr/lib/vmware/esxcli-software.bak /usr/lib/vmware/esxcli-software -f
+esxcli system settings advanced set -o /VisorFS/VisorFSPristineTardisk -i 1
+```
+
+---
+
 ## Version Compatibility Summary
 
 | Feature | 🟢 ESXi 6.x | 🔵 ESXi 7.x | 🟣 ESXi 8.x | 🟠 ESXi 9.x |
 |---|---|---|---|---|
 | `esxcli software vib update` | ✅ Supported | ✅ Supported | ❌ Deprecated (8.0U2+) | ❌ Not available |
 | `esxcli software profile update` | ✅ Supported | ✅ Supported | ✅ Required (8.0U2+) | ✅ Required |
-| Online depot (`hostupdate.vmware.com`) | ✅ | ✅ | ✅ | ✅ |
 | Offline datastore patch | ✅ | ✅ | ✅ | ✅ |
+| Self-hosted HTTP depot | ✅ | ✅ | ✅ | ✅ |
 | Broadcom portal downloads | ✅ | ✅ | ✅ | ✅ |
+| Old `hostupdate.vmware.com` | ❌ Dead | ❌ Dead | ❌ Dead | ❌ Dead |
 | MemoryError workaround needed | No | No | Yes (8.x) | Yes |
 
 ---
@@ -348,9 +267,8 @@ esxcli software vib update -d /vmfs/volumes/datastore1/drivers/driver-bundle.zip
 ## Common Pitfalls
 
 - **Forgetting to shut down VMs before entering maintenance mode.** The host will refuse maintenance mode if VMs are still running.
-- **Using `esxcli software vib update` on ESXi 8.0U2+.** This returns an error : switch to `esxcli software profile update`.
+- **Using `esxcli software vib update` on ESXi 8.0U2+.** This returns an error: switch to `esxcli software profile update`.
 - **Wrong datastore path.** Use the full path: `/vmfs/volumes/DATASTORE_NAME/...` or `/vmfs/volumes/UUID/...`.
-- **MemoryError on ESXi 8.x.** Increase the ESXCLI memory limit as shown in Method 1, Step 3.
 - **Broadcom portal access.** If you cannot find your ESXi downloads, verify your Broadcom account has the correct entitlements (tied to your VMware license/support contract).
 
 ---
@@ -358,7 +276,8 @@ esxcli software vib update -d /vmfs/volumes/datastore1/drivers/driver-bundle.zip
 ## Reference
 
 - [Broadcom KB: Patching ESXi Host Using Command Line](https://knowledge.broadcom.com/external/article/343840/patching-esxi-host-using-command-line.html)
-- [Updating VMware ESXi Host from the Command Line (ESXCLI)](https://woshub.com/update-vmware-esxi/)
-- [Quick Tip - ESXCLI upgrade ESXi 8.x MemoryError](https://williamlam.com/2024/03/quick-tip-using-esxcli-to-upgrade-esxi-8-x-throws-memoryerror-or-got-no-data-from-process.html)
-- [Updating ESXi Using ESXCLI (Broadcom Tokens)](https://thenicholson.com/updating-esxi-using-esxcli-broadcom-tokens/)
 - [Broadcom Support Portal](https://support.broadcom.com)
+- [William Lam: Self-Hosted ESXi Update Depot](https://williamlam.com/2022/07/how-to-host-your-own-simple-esxi-update-depot.html)
+- [Quick Tip: ESXCLI upgrade ESXi 8.x MemoryError](https://williamlam.com/2024/03/quick-tip-using-esxcli-to-upgrade-esxi-8-x-throws-memoryerror-or-got-no-data-from-process.html)
+- [Updating ESXi Using ESXCLI with Broadcom Tokens](https://thenicholson.com/updating-esxi-using-esxcli-broadcom-tokens/)
+- [Updating VMware ESXi Host from the Command Line (ESXCLI)](https://woshub.com/update-vmware-esxi/)
