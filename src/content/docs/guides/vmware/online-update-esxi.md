@@ -22,6 +22,34 @@ The old `hostupdate.vmware.com` online depot **no longer exists** : the domain h
 
 ---
 
+## `update` vs `install`: Patch or Major Upgrade?
+
+ESXCLI has two profile commands with different behaviours:
+
+| Command | Purpose | Same-version patch | Major upgrade (6→7, 7→8) |
+|---|---|---|---|
+| `esxcli software profile update` | Apply newer content only | ✅ Yes | ❌ No |
+| `esxcli software profile install` | Full overwrite, any version | ✅ Yes (overkill) | ✅ Yes |
+
+- **`update`** applies only newer VIBs than what's currently installed. It skips packages with lower revision numbers. Use this for patching within the same major version (e.g., 8.0U2 → 8.0U3).
+- **`install`** overwrites all packages regardless of version. It can install older, newer, or entirely different versions. Use `--allow-downgrades` if the target profile has any older packages. This is what you need for **cross-version upgrades** (6.x → 7.x, 7.x → 8.x, etc.).
+
+> **Hardware compatibility check:** Always verify your hardware is supported on the target ESXi version before a major upgrade. Check the [VMware Compatibility Guide](https://www.vmware.com/resources/compatibility/search.php). ESXi 8.x dropped support for many older CPUs — upgrading a 6.x host to 8.x may fail on unsupported hardware.
+
+### Quick Decision Flow
+
+```
+Same version? (e.g. 8.0U2 → 8.0U3)
+  └─ Use: esxcli software profile update -p <profile> -d <depot.zip>
+
+Cross-version? (e.g. 7.0 → 8.0, 6.7 → 7.0)
+  └─ Use: esxcli software profile install -p <profile> -d <depot.zip> --allow-downgrades
+```
+
+All steps (download, upload, maintenance mode, reboot) are the same for both commands: only the final apply command changes.
+
+---
+
 ## Method 1: Offline Update (Datastore Patch) : Primary
 
 This is the standard method: download the patch from Broadcom, upload to a datastore, and apply via ESXCLI.
@@ -113,11 +141,24 @@ Pick `-standard` for a full update (includes VMware Tools). Use `-no-tools` for 
 
 **Profile-based (recommended for ESXi 7.0+, required for 8.0U2+):**
 
+For same-version patching (e.g., 8.0U2 → 8.0U3):
+
 ```bash
 esxcli software profile update \
   -p ESXi-8.0U3d-24585383-standard \
   -d /vmfs/volumes/datastore1/patches/VMware-ESXi-8.0U3d-24585383-depot.zip
 ```
+
+For major version upgrades (e.g., 7.0 → 8.0, 6.7 → 7.0), use `install` instead:
+
+```bash
+esxcli software profile install \
+  -p ESXi-8.0U3d-24585383-standard \
+  -d /vmfs/volumes/datastore1/patches/VMware-ESXi-8.0U3d-24585383-depot.zip \
+  --allow-downgrades
+```
+
+> `--allow-downgrades` is needed because the target profile may contain VIBs with lower revision numbers than what's installed. Without it, the install will fail if ANY VIB would be downgraded.
 
 **VIB-based (ESXi 6.x and 7.x only):**
 
