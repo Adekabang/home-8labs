@@ -8,7 +8,7 @@ sidebar:
 
 Out of the box, OPNsense caps out at around 2-3 Gbps throughput even on powerful hardware. If you have a multi-gigabit connection, you know the frustration: your ISP provisioned 6 Gbps, your server has Xeon processors and 64 GB of RAM, yet OPNsense barely uses a quarter of your line rate. Worse, a Debian VM on the same Proxmox host easily hits 9.6 Gbps without any tuning.
 
-This guide synthesizes two of the most referenced resources on this topic , [Kirk Schnable's 2022 deep dive](https://binaryimpulse.com/2022/11/opnsense-performance-tuning-for-multi-gigabit-internet/) on Binary Impulse and [Truvis Thornton's 2024 tunable-focused guide](https://medium.com/@truvis.thornton/opnsense-firewall-configuration-performance-tuning-for-multi-gigabit-internet-and-better-speeds-in-cfc80c49c544) on Medium , plus real community reports spanning 2022 through 2026. Everything below is battle-tested by people who ran into the same wall you're hitting.
+This guide synthesizes two of the most referenced resources on this topic , [Kirk Schnable's 2022 deep dive](https://binaryimpulse.com/2022/11/opnsense-performance-tuning-for-multi-gigabit-internet/) on Binary Impulse and [Truvis Thornton's 2024 tunable-focused guide](https://medium.com/@truvis.thornton/opnsense-firewall-configuration-performance-tuning-for-multi-gigabit-internet-and-better-speeds-in-cfc80c49c544) on Medium , cross-checked against the [official OPNsense performance documentation](https://docs.opnsense.org/troubleshooting/performance.html) and the FreeBSD `pf(4)` man page, plus real community reports spanning 2022 through 2026.
 
 ## The Setup: Proxmox + OPNsense
 
@@ -90,7 +90,7 @@ The pattern: enabling hardware offload on LAN interfaces would spike LAN iperf t
 Both guides converge on the same root cause: FreeBSD's conservative default `sysctl` values are tuned for 1 Gbps era hardware. The fix is a set of tunables applied under **System > Settings > Tunables**.
 
 :::note
-Most tunables here take effect immediately via `sysctl`, but several critical ones (**rss.enabled**, **rss.bits**, **vm.pmap.pti**, and **net.isr.maxthreads**) are *loader* tunables that only apply at boot. Apply them via **System > Settings > Tunables**, then reboot. Test one group at a time.
+Most tunables here take effect immediately via `sysctl`, but several critical ones are *loader* tunables that only apply at boot: **net.inet.rss.enabled**, **net.inet.rss.bits**, **vm.pmap.pti**, **net.isr.maxthreads**, **net.isr.bindthreads**, **net.pf.states_hashsize**, and **net.pf.source_nodes_hashsize**. Apply them via **System > Settings > Tunables**, then reboot. Test one group at a time.
 :::
 
 ### Group 1: CPU & Interrupt Processing
@@ -109,43 +109,44 @@ vm.pmap.pti = 0
 |---------|-------------|
 | `net.isr.maxthreads = -1` | Spawns one netisr thread per CPU core instead of the default single-threaded processing. This is the single most impactful tunable for multi-gigabit throughput. |
 | `net.isr.bindthreads = 1` | Pins each netisr thread to its own core, reducing cache misses and lock contention. |
-| `net.isr.dispatch = deferred` | Changes packet dispatch policy. Without this, the two tunables above do nothing meaningful. |
+| `net.isr.dispatch = deferred` | Changes packet dispatch policy so packets are queued to netisr threads instead of being processed in the interrupt context. This is what the community guides (Kirk, Truvis, xeome) recommend. **However**, note that per the official OPNsense docs, enabling RSS (Group 2) automatically moves the dispatch policy from `direct` to `hybrid` — the docs' recommended RSS tunable set does *not* include forcing `deferred`. If you enable RSS, consider leaving `net.isr.dispatch` at its default and letting RSS switch it to hybrid; test both and compare with `netstat -Q`. |
 | `hw.ibrs_disable = 1` | Disables Spectre V2 mitigation (Indirect Branch Restricted Speculation). Both this and `vm.pmap.pti` disable CPU-level security mitigations; only do this on a dedicated firewall appliance where the performance gain outweighs the risk. |
 | `vm.pmap.pti = 0` | Disables Kernel Page Table Isolation (Meltdown mitigation). Like IBRS, PTI adds per-syscall overhead that hurts network throughput. Only disable if this is a dedicated firewall VM, not a shared host. |
 
 ### Group 2: Receive Side Scaling (RSS)
 
-RSS distributes packet flows across CPU cores using hardware hashing of the TCP 4-tuple (src IP, src port, dst IP, dst port). This keeps flows pinned to the same core and prevents cache-line ping-pong.
+RSS distributes packet flows across CPU cores using a hash of the TCP 4-tuple (src IP, src port, dst IP, dst port) — computed in hardware when the NIC supports it, or in software. This keeps flows pinned to the same core and prevents cache-line ping-pong. Note that RSS is **disabled by default in OPNsense on purpose** because its impact is far-reaching; the official docs frame it as something to test under high load, not a guaranteed win.
 
 ```
 net.inet.rss.enabled = 1
 net.inet.rss.bits = N
 ```
 
-`net.inet.rss.bits` is the number of **binary bits** for the RSS hash bucket table — it produces `2^N` buckets, not `N` buckets. The rule: you need enough buckets to cover your cores, ideally with some headroom.
+`net.inet.rss.bits` is the number of **binary bits** for the RSS bucket table — it produces `2^N` buckets, not `N` buckets. Per the official OPNsense documentation: the *default* is already the number of bits representing your core count × 2 (intended for future load-balancing that is not yet implemented), and the **official recommendation is to set it lower — to the number of bits representing your CPU core count**:
 
-| vCPUs | Minimum rss.bits | Buckets (2^N) | Notes |
-|-------|-----------------|---------------|-------|
-| 4 | 3 | 8 | 8 buckets for 4 cores |
-| 8 | 4 | 16 | 16 buckets for 8 cores |
-| 12 | 4 | 16 | Still 4 bits; 16 ≥ 12 |
-| 16 | 5 | 32 | 32 buckets for 16 cores |
-| 24 | 5 | 32 | 5 bits = 32 buckets ≥ 24 cores |
+| vCPUs | rss.bits (official recommendation) | Buckets (2^N) |
+|-------|-----------------------------------|---------------|
+| 2 | 1 | 2 |
+| 4 | 2 | 4 |
+| 8 | 3 | 8 |
+| 12 | 4 | 16 |
+| 16 | 4 | 16 |
+| 24 | 5 | 32 |
 
-The defaults in OPNsense already scale `rss.bits` to `ceil(log2(vCPUs × 2))`, so in most cases you do **not** need to set this manually. Only override it if you are seeing uneven queue distribution under `sysctl net.inet.rss` after reboot.
+The formula: `rss.bits = ceil(log2(vCPUs))`. If you leave `rss.bits` unset, the kernel default (cores × 2 in bucket count) still works — it just allocates more buckets than the docs recommend.
 
 :::caution
-**RSS and VirtIO (vtnet).** RSS requires NIC driver-level support. VirtIO (vtnet) RSS support in FreeBSD has a long history: it was absent in FreeBSD 11, partial in 12, and improved in 13+. The driver list confirmed to support RSS (`igb`, `ixgbe`, `ixl`, `cxgbe`, `mlx5`, etc.) does *not* include vtnet. If you are virtualizing with VirtIO NICs (the setup this guide is based on), RSS may not be available or may depend on your exact FreeBSD/OPNsense version. Check with `sysctl net.inet.rss`; if `net.inet.rss.enabled` shows 0 after setting it to 1, your driver or version lacks support. In that case, leave it off and rely on `net.isr` tunables for multi-core distribution.
-:::
+**RSS requires driver-level support.** The official docs list drivers that support RSS according to source code: `em`, `igb` (tested & working), `axgbe` (tested & working), `netvsc`, `ixgbe`, `ixl`, `cxgbe`, `lio`, `mlx5`, `sfxge`. **VirtIO (`vtnet`) is not on this list** — which matters, because the setup this guide is based on uses VirtIO NICs. The docs give no guarantee that any given driver will properly handle the kernel RSS implementation.
 
-To verify RSS after reboot, use `sysctl net.inet.rss` (not `netstat -Q`, which shows netisr queues, a related but different subsystem).
+To check whether your driver exposes RSS, run `sysctl -a | grep rss` (drivers that support toggling it will expose a tunable) and `dmesg | grep vectors` (multiple MSI-X vectors indicate multiple hardware queues). NICs with no RSS and no other queue filter will most likely interrupt only CPU 0 at all times — in that case, keep `net.inet.rss.enabled = 0` and rely on the `net.isr` tunables for multi-core distribution.
+:::
 
 ### Group 3: Socket Buffers & TCP
 
 Taken from the [Calomel FreeBSD Network Tuning Guide](https://calomel.org/freebsd_network_tuning.html), these increase kernel socket buffers beyond their conservative defaults:
 
 ```
-kern.ipc.maxsockbuf = 614400000
+kern.ipc.maxsockbuf = 16777216
 net.inet.tcp.recvbuf_max = 4194304
 net.inet.tcp.recvspace = 65536
 net.inet.tcp.sendbuf_inc = 65536
@@ -156,39 +157,42 @@ net.inet.tcp.soreceive_stream = 1
 
 | Tunable | Notes |
 |---------|-------|
-| `kern.ipc.maxsockbuf` | 614400000 is the Calomel recommendation for 100 Gbps cards. For 10 Gbps, `16777216` is sufficient and less wasteful. |
+| `kern.ipc.maxsockbuf` | `16777216` is appropriate for 10 Gbps. Calomel's `614400000` figure is their recommendation for 100 Gbps cards — overkill here. |
 | `soreceive_stream = 1` | Enables the optimized kernel socket interface for TCP streams. |
 
 :::caution
 **These tunables only affect TCP connections that terminate *on the firewall itself*.** This includes the web UI, SSH, VPN tunnels (OpenVPN/WireGuard), reverse proxies, and iperf3 when run from the firewall. Routed/NAT traffic between WAN and LAN does **not** pass through the firewall's TCP socket buffers — it is forwarded at the IP layer by pf. These tunables will not improve your multi-gigabit WAN-to-LAN throughput through NAT, and this is why many users copy them without measurable effect.
 :::
 
-
 ### Group 4: PF Hash Tables
 
 ```
-net.pf.source_nodes_hashsize = 1048576
 net.pf.states_hashsize = 1048576
 ```
 
-PF maintains two separate hash tables:
+PF maintains two separate hash tables, and it is important not to confuse them (the original guides only mentioned `source_nodes_hashsize`, which led many users to tune the wrong one):
 
-| Tunable | Purpose | When it matters |
-|---------|---------|----------------|
-| `net.pf.source_nodes_hashsize` | Tracks source IPs for *source tracking* features: sticky-address, `max-src-conn`, `max-src-states`, source-based rate limiting. | Only if you use source tracking rules. For most setups without these, the default 32K is fine and setting it to 1M just wastes ~16 MB of RAM. |
-| `net.pf.states_hashsize` | Tracks every state (connection) in the state table. Default: ~32K entries. | This is the one that matters for throughput. Under high connection rates (100K+ states), a small hash table causes collisions and drops. Increase to 1M for multi-gigabit workloads. |
+| Tunable | Default (per `pf(4)`) | Purpose |
+|---------|----------------------|---------|
+| `net.pf.states_hashsize` | 131072 | Hash table for the **state table** — every tracked connection. This is the one that matters for throughput. Under high connection counts, a small hash table causes collisions and lock contention (states are locked per hash row; one or two states per row is ideal). |
+| `net.pf.source_nodes_hashsize` | 32768 | Hash table for **source tracking** only: `sticky-address`, `max-src-conn`, `max-src-states`, source-based rate limiting. If you have no source tracking rules, increasing it does nothing useful. |
 
-:::caution
-The original guides only mentioned `source_nodes_hashsize`, which led many users to tune the wrong table. Unless you have explicit source tracking rules, the tunable you actually want is `net.pf.states_hashsize`.
+Both must be powers of 2 and are loader tunables (reboot required). Size `states_hashsize` relative to your expected state count — roughly one to two states per hash row is ideal, so 1M rows comfortably covers state tables in the high hundreds of thousands.
+
+:::note
+**RAM cost:** benchmarks measuring pf's hash allocation put it at roughly 80 bytes per hash row, so `states_hashsize = 1048576` reserves on the order of 80 MB of kernel RAM. Fine on a box with 8 GB+; think twice on small appliances.
 :::
 
 ### Group 5: TCP Default MSS & Initcwnd
 
+Older versions of the community guides recommend these; we list them for reference but **do not recommend setting them** on a pure firewall:
+
 ```
-net.inet.tcp.mssdflt = 1240
-net.inet.tcp.abc_l_var = 52
-net.inet.tcp.initcwnd_segments = 52
-net.inet.tcp.minmss = 536
+# Reference only — affects firewall-local TCP connections, not forwarded traffic
+# net.inet.tcp.mssdflt = 1240
+# net.inet.tcp.abc_l_var = 52
+# net.inet.tcp.initcwnd_segments = 52
+# net.inet.tcp.minmss = 536
 ```
 
 **What `mssdflt` actually does:** This sets the *default* MSS that the firewall's own TCP stack uses when a peer does not send an MSS option during the TCP handshake. It is **not** MSS clamping for forwarded traffic. MSS clamping (limiting the MSS of connections passing *through* the firewall) is configured in the **MSS** field on each interface in OPNsense, which generates a `scrub max-mss` rule in pf. These are different mechanisms.
@@ -200,7 +204,7 @@ net.inet.tcp.minmss = 536
 The related `abc_l_var` and `initcwnd_segments` tunables control TCP congestion window behavior for connections terminating on the firewall. Like the socket buffer tunables in Group 3, they do not affect forwarded traffic.
 
 :::tip
-One commenter recommends disabling **Interface Scrub** under **Firewall > Settings > Normalization**. PF with an outgoing scrub rule re-packages packets at MTU 1460 by default, wasting CPU cycles on traffic that does not need normalization.
+One commenter reports lower CPU usage after disabling **Interface Scrub** under **Firewall > Settings > Normalization**. pf's scrub performs packet normalization (including fragment reassembly), which costs CPU cycles on every packet; if you don't need normalization, disabling it removes that per-packet work. Treat this as a community anecdote — test before and after.
 :::
 
 ### Group 6: Entropy & Queues
@@ -210,7 +214,7 @@ kern.random.fortuna.minpoolsize = 128
 net.isr.defaultqlimit = 2048
 ```
 
-`fortuna.minpoolsize` improves RNG entropy pool size , relevant if you run VPN services. `defaultqlimit` increases the per-workstream queue depth, preventing drops under bursty traffic.
+`fortuna.minpoolsize` raises the minimum entropy pool size threshold used by the Fortuna RNG before (re)seeding — potentially relevant if you run VPN services that consume a lot of randomness. `defaultqlimit` increases the per-workstream netisr queue depth, preventing drops under bursty traffic.
 
 ## Community Wisdom: What Actually Works
 
@@ -247,7 +251,7 @@ Multiple users with Intel i225 (2.5 Gbps) NICs on bare metal report unstable thr
 | **OPNsense 25.7.8 VirtIO overhaul** | Hardware offloading vastly improved per community reports |
 | **FreeBSD 15 vtnet** | Still capped at ~4.5 Gbps VM-to-VM |
 | **Linux VM routing** | Still 7-8× faster than BSD on same vSwitch |
-| **RSS support** | Now mainstream in OPNsense since 21.7, more drivers supported |
+| **RSS support** | Available since ~21.7, but still disabled by default and officially framed as experimental — enable and test, don't assume |
 
 The gap has narrowed but not closed. For sub-5 Gbps connections on bare metal or with the latest OPNsense 25.x+, the tunables in this guide will get you to line rate. For 10 Gbps+ virtualized routing, Debian or a dedicated Linux-based router distribution may still be the pragmatic choice.
 
@@ -259,13 +263,16 @@ Copy-paste ready list for **System > Settings > Tunables**:
 # CPU & Interrupt Processing
 net.isr.maxthreads = -1
 net.isr.bindthreads = 1
-net.isr.dispatch = deferred
 hw.ibrs_disable = 1
 vm.pmap.pti = 0
 
-# Receive Side Scaling (set based on your vCPU count; see Group 2 table)
+# Dispatch policy: community guides use 'deferred'. If enabling RSS below,
+# consider leaving this unset — RSS moves the policy to 'hybrid' automatically.
+# net.isr.dispatch = deferred
+
+# Receive Side Scaling — check driver support first (see Group 2)
 net.inet.rss.enabled = 1
-# net.inet.rss.bits = 5   # ← uncomment and adjust: ceil(log2(vCPUs × 2))
+# net.inet.rss.bits = 3   # ← ceil(log2(vCPUs)): 4 cores→2, 8→3, 16→4, 24→5
 
 # Socket Buffers & TCP (10 Gbps — only affects firewall-local connections)
 kern.ipc.maxsockbuf = 16777216
@@ -276,12 +283,11 @@ net.inet.tcp.sendbuf_max = 4194304
 net.inet.tcp.sendspace = 65536
 net.inet.tcp.soreceive_stream = 1
 
-# PF Hash Tables
-net.pf.source_nodes_hashsize = 1048576   # only needed with source tracking rules
-net.pf.states_hashsize = 1048576          # the one that matters for throughput
+# PF Hash Tables (defaults: states 131072, source_nodes 32768)
+net.pf.states_hashsize = 1048576              # the one that matters (~80 MB RAM)
+# net.pf.source_nodes_hashsize = 1048576      # only with source tracking rules
 
-# MSS & Queues (firewall-local TCP only; see Group 3 and 5 caveats)
-net.inet.tcp.minmss = 536
+# Queues
 net.isr.defaultqlimit = 2048
 
 # Entropy (for VPN)
@@ -293,11 +299,16 @@ kern.random.fortuna.minpoolsize = 128
 After applying tunables and rebooting:
 
 ```bash
-# Check RSS configuration and bucket distribution
+# Verify netisr thread distribution and dispatch policy.
+# With RSS enabled, the policy should read 'hybrid' (per official docs).
+netstat -Q
+
+# Inspect RSS configuration (bits, buckets, key)
 sysctl net.inet.rss
 
-# Check netisr thread distribution (related but separate subsystem)
-netstat -Q
+# Check whether your NIC driver exposes RSS and uses multiple queues
+sysctl -a | grep rss
+dmesg | grep vectors
 
 # Test LAN throughput
 iperf3 -c <lan-client-ip>
@@ -312,5 +323,8 @@ speedtest-cli
 - [Truvis Thornton , OPNsense Firewall Configuration: Performance Tuning](https://medium.com/@truvis.thornton/opnsense-firewall-configuration-performance-tuning-for-multi-gigabit-internet-and-better-speeds-in-cfc80c49c544) (2024)
 - [Emin's Notes — OPNsense Performance Tuning Guide on Proxmox](https://notes.xeome.dev/notes/OPNSense-Tuning) (2023)
 - [Calomel — FreeBSD Network Performance Tuning](https://calomel.org/freebsd_network_tuning.html)
+- [OPNsense Documentation — Performance / Receive-side scaling](https://docs.opnsense.org/troubleshooting/performance.html)
+- [FreeBSD `pf(4)` man page — hash table defaults](https://man.freebsd.org/cgi/man.cgi?query=pf&sektion=4)
+- [Olivier Cochard — Playing with FreeBSD packet filter state table limits](https://blog.cochard.me/2016/05/playing-with-freebsd-packet-filter.html) (pf hash RAM measurements)
 - [OPNsense Forum , Enabling Receive Side Scaling](https://forum.opnsense.org/index.php?topic=24409.0)
 - Community comments on the Binary Impulse post (2022–2026)
