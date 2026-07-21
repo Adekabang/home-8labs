@@ -37,6 +37,17 @@ Debian on the same hardware was 4× faster. This immediately rules out the hyper
 
 ## Proxmox VM Configuration
 
+### Machine Type & Multiqueue
+
+Use the default **i440fx** machine type (q35 offers no measurable benefit here). In the Proxmox NIC settings, two critical tweaks beyond choosing VirtIO:
+
+| Setting | Value | Why |
+|---------|-------|-----|
+| **Firewall** | Disabled | Proxmox's firewall adds a second layer of packet processing, doubling overhead. Let OPNsense handle it. |
+| **Multiqueue** | 8 (or match vCPU count) | Enables parallel packet processing across multiple vCPU queues. This works hand-in-hand with RSS and netisr thread distribution. Start with 8, or match your vCPU count. |
+
+Optionally enable **NUMA** in the VM CPU settings (Emin from xeome.dev reports no measurable performance boost, but it doesn't hurt).
+
 ### VirtIO: Still the Best Option
 
 Despite FreeBSD's rocky history with VirtIO drivers (major issues in FreeBSD 11/12, partially fixed in 13), VirtIO remains the best performing virtual NIC type for OPNsense out of the box. Every alternative tested worse.
@@ -91,6 +102,7 @@ net.isr.maxthreads = -1
 net.isr.bindthreads = 1
 net.isr.dispatch = deferred
 hw.ibrs_disable = 1
+vm.pmap.pti = 0
 ```
 
 | Tunable | What It Does |
@@ -99,6 +111,7 @@ hw.ibrs_disable = 1
 | `net.isr.bindthreads = 1` | Pins each netisr thread to its own core, reducing cache misses and lock contention. |
 | `net.isr.dispatch = deferred` | Changes packet dispatch policy. Without this, the two tunables above do nothing meaningful. |
 | `hw.ibrs_disable = 1` | Disables Spectre V2 mitigation (Indirect Branch Restricted Speculation), which imposes significant overhead on packet processing. |
+| `vm.pmap.pti = 0` | Disables Kernel Page Table Isolation (Meltdown mitigation). Like IBRS, PTI adds per-syscall overhead that hurts network throughput. Only disable if this is a dedicated firewall VM, not a shared host. |
 
 ### Group 2: Receive Side Scaling (RSS)
 
@@ -222,6 +235,7 @@ net.isr.maxthreads = -1
 net.isr.bindthreads = 1
 net.isr.dispatch = deferred
 hw.ibrs_disable = 1
+vm.pmap.pti = 0
 
 # Receive Side Scaling
 net.inet.rss.enabled = 1
@@ -269,6 +283,7 @@ speedtest-cli
 
 - [Kirk Schnable , OPNsense Performance Tuning for Multi-Gigabit Internet](https://binaryimpulse.com/2022/11/opnsense-performance-tuning-for-multi-gigabit-internet/) (2022)
 - [Truvis Thornton , OPNsense Firewall Configuration: Performance Tuning](https://medium.com/@truvis.thornton/opnsense-firewall-configuration-performance-tuning-for-multi-gigabit-internet-and-better-speeds-in-cfc80c49c544) (2024)
-- [Calomel , FreeBSD Network Performance Tuning](https://calomel.org/freebsd_network_tuning.html)
+- [Emin's Notes — OPNsense Performance Tuning Guide on Proxmox](https://notes.xeome.dev/notes/OPNSense-Tuning) (2023)
+- [Calomel — FreeBSD Network Performance Tuning](https://calomel.org/freebsd_network_tuning.html)
 - [OPNsense Forum , Enabling Receive Side Scaling](https://forum.opnsense.org/index.php?topic=24409.0)
 - Community comments on the Binary Impulse post (2022–2026)
