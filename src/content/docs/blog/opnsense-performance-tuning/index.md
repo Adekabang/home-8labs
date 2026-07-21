@@ -33,7 +33,7 @@ Kirk's baseline setup (2022):
 | OPNsense | RTL8139 | <1 Gbps |
 | OPNsense | vmxnet3 | <1 Gbps |
 
-Debian on the same hardware was 4× faster. This immediately rules out the hypervisor, NIC, and switch , the bottleneck is purely FreeBSD's network stack inside OPNsense.
+Debian on the same hardware was 4× faster. This rules out the physical NIC, switch, and host hardware. The bottleneck is in the guest's network stack — specifically the interaction between FreeBSD's kernel and the VirtIO (vtnet) driver, a theme that recurs throughout community reports from 2022 through 2026.
 
 ## Proxmox VM Configuration
 
@@ -90,7 +90,7 @@ The pattern: enabling hardware offload on LAN interfaces would spike LAN iperf t
 Both guides converge on the same root cause: FreeBSD's conservative default `sysctl` values are tuned for 1 Gbps era hardware. The fix is a set of tunables applied under **System > Settings > Tunables**.
 
 :::note
-All tunables require a reboot to take effect. Test one group at a time.
+Most tunables here take effect immediately via `sysctl`, but several critical ones (**rss.enabled**, **rss.bits**, **vm.pmap.pti**, and **net.isr.maxthreads**) are *loader* tunables that only apply at boot. Apply them via **System > Settings > Tunables**, then reboot. Test one group at a time.
 :::
 
 ### Group 1: CPU & Interrupt Processing
@@ -110,7 +110,7 @@ vm.pmap.pti = 0
 | `net.isr.maxthreads = -1` | Spawns one netisr thread per CPU core instead of the default single-threaded processing. This is the single most impactful tunable for multi-gigabit throughput. |
 | `net.isr.bindthreads = 1` | Pins each netisr thread to its own core, reducing cache misses and lock contention. |
 | `net.isr.dispatch = deferred` | Changes packet dispatch policy. Without this, the two tunables above do nothing meaningful. |
-| `hw.ibrs_disable = 1` | Disables Spectre V2 mitigation (Indirect Branch Restricted Speculation), which imposes significant overhead on packet processing. |
+| `hw.ibrs_disable = 1` | Disables Spectre V2 mitigation (Indirect Branch Restricted Speculation). Both this and `vm.pmap.pti` disable CPU-level security mitigations; only do this on a dedicated firewall appliance where the performance gain outweighs the risk. |
 | `vm.pmap.pti = 0` | Disables Kernel Page Table Isolation (Meltdown mitigation). Like IBRS, PTI adds per-syscall overhead that hurts network throughput. Only disable if this is a dedicated firewall VM, not a shared host. |
 
 ### Group 2: Receive Side Scaling (RSS)
@@ -122,20 +122,23 @@ net.inet.rss.enabled = 1
 net.inet.rss.bits = N
 ```
 
-For `net.inet.rss.bits`, set it based on your core count:
+`net.inet.rss.bits` is the number of **binary bits** for the RSS hash bucket table — it produces `2^N` buckets, not `N` buckets. The rule: you need enough buckets to cover your cores, ideally with some headroom.
 
-| CPU Cores | rss.bits Value |
-|-----------|---------------|
-| 4 | 2 |
-| 8 | 3 |
-| 16 | 4 |
-| 24 | 6 |
+| vCPUs | Minimum rss.bits | Buckets (2^N) | Notes |
+|-------|-----------------|---------------|-------|
+| 4 | 3 | 8 | 8 buckets for 4 cores |
+| 8 | 4 | 16 | 16 buckets for 8 cores |
+| 12 | 4 | 16 | Still 4 bits; 16 ≥ 12 |
+| 16 | 5 | 32 | 32 buckets for 16 cores |
+| 24 | 5 | 32 | 5 bits = 32 buckets ≥ 24 cores |
 
-The formula: `rss.bits = CPU_cores / 4`. Verify with `netstat -Q` after reboot.
+The defaults in OPNsense already scale `rss.bits` to `ceil(log2(vCPUs × 2))`, so in most cases you do **not** need to set this manually. Only override it if you are seeing uneven queue distribution under `sysctl net.inet.rss` after reboot.
 
 :::caution
-RSS requires NIC driver support. Confirmed working: `igb`, `axgbe`, `ixgbe`, `ixl`, `cxgbe`, `lio`, `mlx5`, `sfxge`. If your NIC doesn't support RSS, packets get interrupted on CPU 0 only , keep `net.inet.rss.enabled = 0`.
+**RSS and VirtIO (vtnet).** RSS requires NIC driver-level support. VirtIO (vtnet) RSS support in FreeBSD has a long history: it was absent in FreeBSD 11, partial in 12, and improved in 13+. The driver list confirmed to support RSS (`igb`, `ixgbe`, `ixl`, `cxgbe`, `mlx5`, etc.) does *not* include vtnet. If you are virtualizing with VirtIO NICs (the setup this guide is based on), RSS may not be available or may depend on your exact FreeBSD/OPNsense version. Check with `sysctl net.inet.rss`; if `net.inet.rss.enabled` shows 0 after setting it to 1, your driver or version lacks support. In that case, leave it off and rely on `net.isr` tunables for multi-core distribution.
 :::
+
+To verify RSS after reboot, use `sysctl net.inet.rss` (not `netstat -Q`, which shows netisr queues, a related but different subsystem).
 
 ### Group 3: Socket Buffers & TCP
 
@@ -154,17 +157,32 @@ net.inet.tcp.soreceive_stream = 1
 | Tunable | Notes |
 |---------|-------|
 | `kern.ipc.maxsockbuf` | 614400000 is the Calomel recommendation for 100 Gbps cards. For 10 Gbps, `16777216` is sufficient and less wasteful. |
-| `soreceive_stream = 1` | Enables the optimized kernel socket interface for TCP streams. Significantly reduces CPU usage and lock contention on fast TCP flows. |
+| `soreceive_stream = 1` | Enables the optimized kernel socket interface for TCP streams. |
 
-### Group 4: Firewall Hash Table
+:::caution
+**These tunables only affect TCP connections that terminate *on the firewall itself*.** This includes the web UI, SSH, VPN tunnels (OpenVPN/WireGuard), reverse proxies, and iperf3 when run from the firewall. Routed/NAT traffic between WAN and LAN does **not** pass through the firewall's TCP socket buffers — it is forwarded at the IP layer by pf. These tunables will not improve your multi-gigabit WAN-to-LAN throughput through NAT, and this is why many users copy them without measurable effect.
+:::
+
+
+### Group 4: PF Hash Tables
 
 ```
 net.pf.source_nodes_hashsize = 1048576
+net.pf.states_hashsize = 1048576
 ```
 
-The default PF source nodes hash table is 32,768 entries. As tracked connections approach 100K, the hash table becomes a bottleneck causing packet drops. Increasing to 1M entries sustains throughput even with millions of tracked connections.
+PF maintains two separate hash tables:
 
-### Group 5: MSS Clamping & TCP Tuning
+| Tunable | Purpose | When it matters |
+|---------|---------|----------------|
+| `net.pf.source_nodes_hashsize` | Tracks source IPs for *source tracking* features: sticky-address, `max-src-conn`, `max-src-states`, source-based rate limiting. | Only if you use source tracking rules. For most setups without these, the default 32K is fine and setting it to 1M just wastes ~16 MB of RAM. |
+| `net.pf.states_hashsize` | Tracks every state (connection) in the state table. Default: ~32K entries. | This is the one that matters for throughput. Under high connection rates (100K+ states), a small hash table causes collisions and drops. Increase to 1M for multi-gigabit workloads. |
+
+:::caution
+The original guides only mentioned `source_nodes_hashsize`, which led many users to tune the wrong table. Unless you have explicit source tracking rules, the tunable you actually want is `net.pf.states_hashsize`.
+:::
+
+### Group 5: TCP Default MSS & Initcwnd
 
 ```
 net.inet.tcp.mssdflt = 1240
@@ -173,10 +191,16 @@ net.inet.tcp.initcwnd_segments = 52
 net.inet.tcp.minmss = 536
 ```
 
-**Important warning from the comments:** Setting `mssdflt = 1240` effectively clamps the Maximum Segment Size. On standard Ethernet (MTU 1500), the correct value is `1460` (1500 − 20 byte IPv4 header). A value of 1240 may cause fragmentation and introduce latency, especially for gaming. Consider leaving this at default unless you have a specific reason (e.g., PPPoE with 1492 MTU minus overhead).
+**What `mssdflt` actually does:** This sets the *default* MSS that the firewall's own TCP stack uses when a peer does not send an MSS option during the TCP handshake. It is **not** MSS clamping for forwarded traffic. MSS clamping (limiting the MSS of connections passing *through* the firewall) is configured in the **MSS** field on each interface in OPNsense, which generates a `scrub max-mss` rule in pf. These are different mechanisms.
+
+:::note
+**MSS arithmetic:** For standard Ethernet with 1500-byte MTU, the correct MSS is **1460** = 1500 − 20 (IPv4 header) − 20 (TCP header). Setting `mssdflt` lower than this (like 1240 or 1448) does not cause fragmentation — smaller MSS actually reduces fragmentation risk — but it increases overhead (more header bytes per payload byte), which reduces effective throughput.
+:::
+
+The related `abc_l_var` and `initcwnd_segments` tunables control TCP congestion window behavior for connections terminating on the firewall. Like the socket buffer tunables in Group 3, they do not affect forwarded traffic.
 
 :::tip
-One commenter also recommends disabling **Interface Scrub** under **Firewall > Settings > Normalization**. PF with an outgoing scrub rule re-packages packets at MTU 1460 by default, overriding your `mssdflt` setting and wasting CPU cycles.
+One commenter recommends disabling **Interface Scrub** under **Firewall > Settings > Normalization**. PF with an outgoing scrub rule re-packages packets at MTU 1460 by default, wasting CPU cycles on traffic that does not need normalization.
 :::
 
 ### Group 6: Entropy & Queues
@@ -198,11 +222,13 @@ The Binary Impulse post accumulated 30 comments over 4 years. Here is what the c
 
 If you need >5 Gbps through a virtualized BSD router, the host OS matters more than any tunable. Several community members eventually gave up and switched to Debian-based routing VMs.
 
-### Jumbo Frames: The One-Toggle Fix
+### Jumbo Frames: LAN-Only Silver Bullet
 
 > "I changed the MTU on my LAN and WAN interface from 1500 to 9000. And like magic, it worked! 3.2 Gbps to 9.9 Gbps." , **Community commenter**
 
-If your entire network path supports jumbo frames (switches, clients, ISP hand-off), setting **MTU 9000** on all OPNsense interfaces can be the single most impactful change. This reduces packet processing overhead dramatically. Test with iperf first.
+Setting **MTU 9000** on LAN interfaces can dramatically improve LAN throughput by reducing per-packet processing overhead. The 3.2 → 9.9 Gbps result is almost certainly an internal iperf test between LAN hosts, not WAN throughput.
+
+**For WAN:** your ISP hand-off almost certainly uses MTU 1500. Setting MTU 9000 on the WAN interface is risky — if every hop between you and your ISP does not support jumbo frames, you will hit Path MTU Discovery black holes (packets silently dropped with no ICMP feedback). Unless your ISP explicitly documents jumbo frame support on their hand-off, leave WAN MTU at 1500.
 
 ### The Author Gave Up
 
@@ -237,11 +263,11 @@ net.isr.dispatch = deferred
 hw.ibrs_disable = 1
 vm.pmap.pti = 0
 
-# Receive Side Scaling
+# Receive Side Scaling (set based on your vCPU count; see Group 2 table)
 net.inet.rss.enabled = 1
-net.inet.rss.bits = 6
+# net.inet.rss.bits = 5   # ← uncomment and adjust: ceil(log2(vCPUs × 2))
 
-# Socket Buffers & TCP (10 Gbps)
+# Socket Buffers & TCP (10 Gbps — only affects firewall-local connections)
 kern.ipc.maxsockbuf = 16777216
 net.inet.tcp.recvbuf_max = 4194304
 net.inet.tcp.recvspace = 65536
@@ -250,10 +276,11 @@ net.inet.tcp.sendbuf_max = 4194304
 net.inet.tcp.sendspace = 65536
 net.inet.tcp.soreceive_stream = 1
 
-# PF Hash Table
-net.pf.source_nodes_hashsize = 1048576
+# PF Hash Tables
+net.pf.source_nodes_hashsize = 1048576   # only needed with source tracking rules
+net.pf.states_hashsize = 1048576          # the one that matters for throughput
 
-# MSS & Queues
+# MSS & Queues (firewall-local TCP only; see Group 3 and 5 caveats)
 net.inet.tcp.minmss = 536
 net.isr.defaultqlimit = 2048
 
@@ -266,11 +293,11 @@ kern.random.fortuna.minpoolsize = 128
 After applying tunables and rebooting:
 
 ```bash
-# Check netisr thread distribution
-netstat -Q
+# Check RSS configuration and bucket distribution
+sysctl net.inet.rss
 
-# Check RSS binding
-sysctl net.inet.rss.enabled
+# Check netisr thread distribution (related but separate subsystem)
+netstat -Q
 
 # Test LAN throughput
 iperf3 -c <lan-client-ip>
