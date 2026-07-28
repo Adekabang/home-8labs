@@ -119,6 +119,8 @@ export default defineConfig({
               collapsed: true, autogenerate: { directory: "guides/opnsense" } },
             { label: "Git",
               collapsed: true, autogenerate: { directory: "guides/git" } },
+            { label: "Neva Objects S3",
+              collapsed: true, autogenerate: { directory: "guides/neva-objects" } },
             { label: "Coolify",
               collapsed: true, autogenerate: { directory: "guides/coolify" } },
             { label: "FreeIPA",
