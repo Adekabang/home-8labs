@@ -1,5 +1,6 @@
 ---
 import { Picture } from "astro:assets";
+import blankonImage from "assets/blankon-logo.png";
 import genreJatengImage from "assets/genre-jateng.png";
 import VerificationArtifact from "@components/motifs/verification-artifact.astro";
 
@@ -8,6 +9,11 @@ const partners = [
     name: "Genre Jawa Tengah",
     image: genreJatengImage,
     url: "https://genrejateng.or.id",
+  },
+  {
+    name: "BlankOn",
+    image: blankonImage,
+    url: "https://blankon.id",
   },
 ];
 ---
@@ -41,7 +47,7 @@ const partners = [
             href={partner.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="group flex items-center gap-5 border border-grid bg-ink p-5 transition-colors hover:border-red-700"
+            class="group flex flex-col items-start gap-4 border border-grid bg-ink p-5 transition-colors hover:border-red-700 sm:flex-row sm:items-center sm:gap-5"
             title={partner.name}>
             <Picture
               src={partner.image}
