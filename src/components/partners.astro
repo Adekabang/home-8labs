@@ -1,6 +1,6 @@
 ---
-import { Picture } from "astro:assets";
-import blankonImage from "assets/blankon-logo.png";
+import { Image } from "astro:assets";
+import blankonImage from "assets/blankon-logo.svg";
 import genreJatengImage from "assets/genre-jateng.png";
 import VerificationArtifact from "@components/motifs/verification-artifact.astro";
 
@@ -49,12 +49,11 @@ const partners = [
             rel="noopener noreferrer"
             class="group flex flex-col items-start gap-4 border border-grid bg-ink p-5 transition-colors hover:border-red-700 sm:flex-row sm:items-center sm:gap-5"
             title={partner.name}>
-            <Picture
+            <Image
               src={partner.image}
               alt={partner.name}
               class="h-16 w-auto object-contain"
               loading="eager"
-              format="png"
             />
             <span class="micro-label">VERIFIED · {partner.name}</span>
           </a>
