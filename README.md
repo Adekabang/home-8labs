@@ -27,6 +27,8 @@ now 301-redirects here with identical paths.
 | `src/styles/starlight.css` | 8Labs brand theme for the docs |
 | `public/_redirects` | Cloudflare Pages redirects for legacy URLs |
 
+The trust section in `src/components/partners.astro` uses the official BlankOn Foundation `Color.svg` lockup, stored locally as `src/assets/blankon-foundation-color.svg`. The source and usage guidance are available in the [BlankOn brand guidelines](https://blankon.id/en/brand-guidelines).
+
 ## Development
 
 ```bash
