@@ -1,66 +1,58 @@
 ---
-description: Frequently asked questions about 8Labs covering provisioning, IPv6 networking, billing, SLA, and how to reach support fast.
-title: "Frequently Asked Questions"
-sidebar:
-  order: 0
+title: "Frequently asked questions"
+description: "Answers about panels, availability, access, recovery, and service terms."
+contentId: "customer-faq-overview"
+owner: "8Labs support"
+reviewedVersion: "LabsPanel 5.3.15"
+reviewedDate: "2026-11-02"
+translationStatus: "original"
 ---
 
-## General & Product Information
+## Which panel should I use?
 
-### What is 8Labs?
+Use [Client Panel](https://my.8labs.id) for purchases, invoices, and the service account.
+Use [Cloud Panel](https://cloud.8labs.id) for server runtime controls. Follow your service management link; do not assume shared passwords.
 
-8Labs provides cloud-based virtual lab environments purpose-built for experimentation. Spin up IPv6-powered labs in seconds — break things safely, learn, and rebuild faster.
+## Which product, image, and IP type are available?
 
-### What is the difference between Virtual Labs and Virtual Dedicated Labs?
+Check live stock and product details in Client Panel.
+Do not infer nested virtualization, Windows support, public IPv4, IPv6, or NAT entitlement from a different product family.
+Use the assigned endpoint shown for your actual service.
 
-**Virtual Labs** are nested virtualization environments — you can run VMs inside your lab. Ideal for experimenting with hypervisors, Proxmox, and nested setups.
+## Is a purchase free, or always paid with LAB Coin?
 
-**Virtual Dedicated Labs** are KVM-based virtual machines for predictable, stable workloads. No nested virtualization — just a solid VM for hosting, development, or testing.
+No universal free purchase or coin-only rule applies in this guide.
+Use the current checkout amount, billing unit, and renewal terms. See [billing](/docs/billing-plans/overview/).
 
-### What are ElasticLabs and ElasticLabs NAT?
+## How long does provisioning take?
 
-**ElasticLabs** are flexible VM tiers with growable resources and snapshot-based recovery. **ElasticLabs NAT** is the lower-cost variant using private IPv4 behind NAT — same flexibility, less cost.
+Check the visible order and installation states. This guide does not guarantee a time.
+A confirmed payment, queued job, and ready guest are different stages.
+If installation fails, contact support before creating another order.
 
-### What is CloudLabs?
+## Can I connect without SSH?
 
-CloudLabs are higher-bandwidth cloud lab options with public IPv4 and IPv6, hosted in Amsterdam, NL. Designed for workloads that need better international connectivity.
+An authorized [browser console](/docs/servers/console/) can work independently of guest SSH networking.
+Its availability still depends on host and console configuration. Windows RDP requires a supported image and guest setup.
 
-### What operating systems are supported?
+## Does stopping or deleting a server cancel my bill?
 
-All KVM-based labs support a wide range of Linux distributions. Each lab comes with root access and a clean base image. Ubuntu is the default, with more distributions available.
+Not necessarily. Runtime controls and provider service cancellation are separate.
+Confirm the supported cancellation procedure in Client Panel before destroying data.
 
-## Currency & Payments
+## Are snapshots the same as backups?
 
-### What is LAB Coin?
+No. A snapshot is commonly tied to the same host storage.
+An external backup can have a separate failure boundary, but its durability still depends on storage and retention policy.
+Check [backups](/docs/servers/backups/) and [snapshots](/docs/servers/snapshots/) for entitlement and recovery limits.
 
-LAB Coin is 8Labs' virtual currency. You purchase coins via bank transfer or e-wallet, then spend them on lab plans. No subscriptions, no automatic billing — you control exactly what you spend.
+## Why is a button missing?
 
-### How do I purchase LAB Coins?
+The current workspace, effective permissions, server state, or enabled hosted capability can limit controls.
+Ask the owner or support about the specific task. Organization admin status does not grant platform admin access.
 
-Purchase coins through the [Client Panel](https://my.8labs.id) checkout. Indonesian bank transfer and popular e-wallets are supported.
+## What SLA or refund policy applies?
 
-### Is there a free tier?
-
-There's no permanent free tier, but Virtual Labs Small starts at just 1 coin for 3 days — making it very affordable for quick experiments and learning.
-
-## Lab Usage & Configuration
-
-### Can I access my lab via SSH?
-
-Yes, every lab includes full SSH access via the IP address shown in your Cloud Panel. See the [Getting Started guide](/docs/getting-started/intro) for connection details.
-
-### Do you support IPv6?
-
-Yes! All Virtual Labs come with IPv6 enabled. Selected plans also include IPv4. See our [IPv6 setup guide](/docs/getting-started/install-docker-ipv6) for Docker-specific configuration.
-
-### How fast is provisioning?
-
-Labs are typically ready within 1–15 minutes after ordering. You'll receive connection details in the Client Panel once provisioning is complete.
-
-### What is the SLA?
-
-8Labs maintains a 99% uptime SLA for lab infrastructure as stated in our [Terms of Service](https://8labs.id/terms). Check the [Status Page](https://status.8labs.id) for current availability.
-
-:::tip[Still have questions?]
-If you can't find what you're looking for, check [Troubleshooting](/docs/troubleshooting/overview) or reach out via the Client Panel support path.
-:::
+Consult the applicable [terms](/tos/) and your service agreement.
+This documentation does not introduce an SLA, refund right, or backup guarantee.
+For incidents, check [status](https://uptime.8labs.id) and [contact support](/docs/help/contact/).

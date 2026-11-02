@@ -2,8 +2,9 @@
    white paper, neutral ink, 8Labs red accent, sharp radius, hairline grid. */
 
 :root {
-  --sl-font: "Bricolage Grotesque Variable", "Inter Variable", "Inter",
-    ui-sans-serif, system-ui, sans-serif;
+  --sl-font:
+    "Bricolage Grotesque Variable", "Inter Variable", "Inter", ui-sans-serif,
+    system-ui, sans-serif;
 
   /* Single light pink: crimson #C20E50 everywhere (AA as text + fill) */
   --sl-color-accent-low: #f7dce5;
@@ -206,4 +207,28 @@ button[data-open-modal] {
 }
 .sl-markdown-content .hub-section ul a:hover {
   color: var(--sl-color-accent-high);
+}
+
+/* Task guides keep the existing brand; prose, not a wall of product cards. */
+.sl-markdown-content {
+  max-width: 76ch;
+  line-height: 1.75;
+}
+.translation-note {
+  border-inline-start: 0.2rem solid var(--sl-color-accent);
+  padding: 0.75rem 1rem;
+  background: var(--sl-color-gray-6);
+}
+:focus-visible {
+  outline: 2px solid var(--sl-color-accent);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
 }

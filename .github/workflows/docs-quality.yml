@@ -1,0 +1,41 @@
+name: Documentation quality
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - name: Install exact locked dependencies
+        run: bun install --frozen-lockfile
+      - name: Exercise publication checker behavior
+        run: bun run test:docs
+      - name: Review customer content and local references
+        run: bun run check:content
+      - name: Build deployable static site with privacy gate
+        run: bun run build
+      - name: Retain the reviewed deployment artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-pages-dist
+          path: dist/
+          retention-days: 7
+  external-links:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - name: Check external URLs with finite retry policy
+        run: bun run check:external

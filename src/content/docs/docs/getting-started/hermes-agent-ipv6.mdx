@@ -5,15 +5,13 @@ sidebar:
   order: 5
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
-
-
-[Hermes Agent](https://github.com/NousResearch/hermes-agent) is an open-source AI agent framework by Nous Research. It needs **GitHub** (`git clone`) and optionally **GitHub Container Registry** (`ghcr.io`) — both of which lack IPv6. This guide covers a complete install and operational setup on an IPv6-only VPS, drawing on the solutions from the [general IPv6 tutorial](./ipv6-github-dockerhub).
+[Hermes Agent](https://github.com/NousResearch/hermes-agent) is an open-source AI agent framework by Nous Research. It needs **GitHub** (`git clone`) and optionally **GitHub Container Registry** (`ghcr.io`) — both of which lack IPv6. This guide covers a complete install and operational setup on an IPv6-only VPS, drawing on the solutions from the [general IPv6 tutorial](/docs/getting-started/ipv6-github-dockerhub/).
 
 ## Prerequisites
 
-Complete the [general IPv6 tutorial](./ipv6-github-dockerhub) first so that:
+Complete the [general IPv6 tutorial](/docs/getting-started/ipv6-github-dockerhub/) first so that:
 
 - **GitHub** is reachable via IPv6 proxy or NAT64/DNS64
 - **Docker Hub** works (if using the containerised install path)
@@ -22,15 +20,15 @@ This page assumes those are already in place.
 
 ## Dependency IPv6 Status
 
-| Service | Endpoint | IPv6 | Impact |
-|---|---|---|---|
-| Install script | `raw.githubusercontent.com` | ✅ Native | `curl | bash` works directly |
-| Git clone | `github.com` | ❌ | Needs proxy or NAT64 |
-| Python packages | `pypi.org` / `files.pythonhosted.org` | ✅ Fastly | `pip` / `uv` works directly |
-| npm packages | `registry.npmjs.org` | ✅ Cloudflare | `npm` works directly |
-| Container images | `ghcr.io` | ❌ | Needs NAT64 or proxy |
-| LLM — OpenAI | `api.openai.com` | ❌ | Use OpenRouter or NAT64 |
-| LLM — most others | Various | ✅ | Anthropic, Groq, Gemini, etc. |
+| Service           | Endpoint                              | IPv6          | Impact                        |
+| ----------------- | ------------------------------------- | ------------- | ----------------------------- | -------------------- |
+| Install script    | `raw.githubusercontent.com`           | ✅ Native     | `curl                         | bash` works directly |
+| Git clone         | `github.com`                          | ❌            | Needs proxy or NAT64          |
+| Python packages   | `pypi.org` / `files.pythonhosted.org` | ✅ Fastly     | `pip` / `uv` works directly   |
+| npm packages      | `registry.npmjs.org`                  | ✅ Cloudflare | `npm` works directly          |
+| Container images  | `ghcr.io`                             | ❌            | Needs NAT64 or proxy          |
+| LLM — OpenAI      | `api.openai.com`                      | ❌            | Use OpenRouter or NAT64       |
+| LLM — most others | Various                               | ✅            | Anthropic, Groq, Gemini, etc. |
 
 ---
 
@@ -103,7 +101,7 @@ The containerised install uses `ghcr.io/nousresearch/hermes-agent` — GitHub Co
 
 **Option A — NAT64 (recommended)**
 
-Docker daemon respects the host's DNS64 configuration. With [NAT64 + DNS64](./ipv6-github-dockerhub#solution-3-nat64--dns64) enabled:
+Docker daemon respects the host's DNS64 configuration. With [NAT64 + DNS64](/docs/getting-started/ipv6-github-dockerhub/#solution-3-nat64--dns64) enabled:
 
 ```bash
 # Pull works — DNS64 translates ghcr.io to IPv6
@@ -180,38 +178,38 @@ The gateway will connect to Telegram's API natively (Telegram supports IPv6).
 
 ### ✅ Works on IPv6-only (no changes needed)
 
-| Component | Why |
-|---|---|
-| Install script (`curl | bash`) | `raw.githubusercontent.com` has native IPv6 |
-| `pip` / `uv` packages | PyPI + Fastly dual-stack |
-| `npm` packages | npm registry via Cloudflare |
-| OpenRouter API | Cloudflare IPv6 |
-| Anthropic API | Native IPv6 |
-| Google Gemini API | Native IPv6 |
+| Component                           | Why                                   |
+| ----------------------------------- | ------------------------------------- | ------------------------------------------- |
+| Install script (`curl               | bash`)                                | `raw.githubusercontent.com` has native IPv6 |
+| `pip` / `uv` packages               | PyPI + Fastly dual-stack              |
+| `npm` packages                      | npm registry via Cloudflare           |
+| OpenRouter API                      | Cloudflare IPv6                       |
+| Anthropic API                       | Native IPv6                           |
+| Google Gemini API                   | Native IPv6                           |
 | Groq, Mistral, DeepSeek, Perplexity | Native IPv6 via Cloudflare/CloudFront |
-| Telegram/Discord gateway | Platform APIs are IPv6-ready |
-| Docker Hub pulls | Native IPv6 (`registry-1.docker.io`) |
+| Telegram/Discord gateway            | Platform APIs are IPv6-ready          |
+| Docker Hub pulls                    | Native IPv6 (`registry-1.docker.io`)  |
 
 ### ❌ Needs workaround
 
-| Component | Issue | Fix |
-|---|---|---|
-| `git clone` from GitHub | No AAAA | IPv6 proxy in `/etc/hosts` (Solution 1) |
-| `ghcr.io` container pulls | No AAAA | NAT64/DNS64 (Solution 3) or proxy |
-| OpenAI API directly | No AAAA | OpenRouter gateway or NAT64 (Solution 4) |
+| Component                 | Issue   | Fix                                      |
+| ------------------------- | ------- | ---------------------------------------- |
+| `git clone` from GitHub   | No AAAA | IPv6 proxy in `/etc/hosts` (Solution 1)  |
+| `ghcr.io` container pulls | No AAAA | NAT64/DNS64 (Solution 3) or proxy        |
+| OpenAI API directly       | No AAAA | OpenRouter gateway or NAT64 (Solution 4) |
 
 ---
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| `curl \| bash` hangs | `raw.githubusercontent.com` DNS issue | Verify AAAA: `dig AAAA raw.githubusercontent.com` |
-| Install fails at `git clone` | GitHub proxy not configured | Check `/etc/hosts` has GitHub entries |
-| `hermes update` fails | Git cannot reach `github.com` | Verify proxy: `curl -I https://github.com` |
-| `docker pull ghcr.io/...` hangs | ghcr.io has no IPv6 | Enable NAT64 or add ghcr.io to `/etc/hosts` |
-| OpenAI models return errors | Direct `api.openai.com` unreachable | Switch to OpenRouter or enable NAT64 |
-| Skills install fails | GitHub proxy not working | Test: `git ls-remote https://github.com/NousResearch/hermes-agent.git` |
+| Symptom                         | Cause                                 | Fix                                                                    |
+| ------------------------------- | ------------------------------------- | ---------------------------------------------------------------------- |
+| `curl \| bash` hangs            | `raw.githubusercontent.com` DNS issue | Verify AAAA: `dig AAAA raw.githubusercontent.com`                      |
+| Install fails at `git clone`    | GitHub proxy not configured           | Check `/etc/hosts` has GitHub entries                                  |
+| `hermes update` fails           | Git cannot reach `github.com`         | Verify proxy: `curl -I https://github.com`                             |
+| `docker pull ghcr.io/...` hangs | ghcr.io has no IPv6                   | Enable NAT64 or add ghcr.io to `/etc/hosts`                            |
+| OpenAI models return errors     | Direct `api.openai.com` unreachable   | Switch to OpenRouter or enable NAT64                                   |
+| Skills install fails            | GitHub proxy not working              | Test: `git ls-remote https://github.com/NousResearch/hermes-agent.git` |
 
 ---
 
@@ -219,7 +217,7 @@ The gateway will connect to Telegram's API natively (Telegram supports IPv6).
 
 - [Hermes Agent Docs](https://hermes-agent.nousresearch.com/docs/)
 - [Hermes Agent GitHub](https://github.com/NousResearch/hermes-agent)
-- [IPv6 Tutorial (prerequisites for this guide)](./ipv6-github-dockerhub)
+- [IPv6 Tutorial (prerequisites for this guide)](/docs/getting-started/ipv6-github-dockerhub/)
 - [OpenRouter API Docs](https://openrouter.ai/docs/api-reference/overview)
 - [Google DNS64](https://developers.google.com/speed/public-dns/docs/dns64)
 

@@ -3,20 +3,22 @@
 // above the standard theme/social preferences row.
 import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
 import ThemeSelect from "starlight-blog/overrides/ThemeSelect.astro";
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+const id = Astro.locals.starlightRoute.locale === "id";
 
 const links = [
-  { title: "Home", path: "/" },
-  { title: "Services", path: "/services" },
-  { title: "Pricing", path: "/pricing" },
-  { title: "Docs", path: "/docs" },
-  { title: "Blog", path: "/blog" },
-  { title: "Contact", path: "/contact" },
+  { title: id ? "Beranda" : "Home", path: "/" },
+  { title: id ? "Layanan" : "Services", path: "/services" },
+  { title: id ? "Harga" : "Pricing", path: "/pricing" },
+  { title: id ? "Dokumentasi" : "Docs", path: id ? "/id/docs/" : "/docs/" },
+  { title: id ? "Blog (bahasa Inggris)" : "Blog", path: "/blog" },
+  { title: id ? "Kontak" : "Contact", path: "/contact" },
   { title: "Status", path: "https://uptime.8labs.id", external: true },
-  { title: "Community", path: "https://t.me/virtual_8labs", external: true },
+  { title: id ? "Komunitas" : "Community", path: "https://t.me/virtual_8labs", external: true },
 ];
 ---
 
-<nav class="site-links" aria-label="Main site">
+<nav class="site-links" aria-label={id ? "Situs utama" : "Main site"}>
   {
     links.map((l) => (
       <a
@@ -40,6 +42,7 @@ const links = [
     <SocialIcons />
   </div>
   <ThemeSelect />
+  <LanguageSelect />
 </div>
 
 <style>

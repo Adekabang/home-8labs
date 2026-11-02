@@ -1,86 +1,51 @@
 ---
-title: Accessing Virtual Labs
-description: Connect to 8Labs virtual labs over public IPv6 using SSH, noVNC, and Xterm.js, including how to find your VM public address.
-sidebar:
-  order: 1
+title: "Choose a connection method"
+description: "Find your endpoint and choose SSH, RDP, or a browser console."
+contentId: "customer-getting-started-accessing-virtual-labs"
+owner: "8Labs support"
+reviewedVersion: "LabsPanel 5.3.15"
+reviewedDate: "2026-11-02"
+translationStatus: "original"
 ---
 
-This documentation provides a step-by-step guide for accessing virtual labs using public IPv6 addresses using SSH, noVNC, and Xterm.js. Virtual labs allow users to simulate real-world environments for learning, development, and testing purposes.
+**Audience:** an authorized server user. Have your server's address, guest username, and approved authentication method available.
+The Cloud Panel account and the operating system account are different accounts.
 
-## Accessing Virtual Labs using SSH
-### Programs for using SSH:
+## Find the endpoint
 
-- Linux → Terminal
-- macOS → Terminal, iTerm
-- Windows → CMD, Terminal, WSL
+Open **Servers**, select the server, and review its network information.
+Use the assigned address and service port, not a screenshot example or the gateway address.
+For NAT services, use the published external address and external port. A private guest address is not directly internet-routable.
+See [network addresses](/docs/servers/network/) if the assignment is missing or unclear.
 
-### Find Public IP
-You can find your public IP here. 8Labs only provides public IPv6 for virtual labs.
+<span id="accessing-virtual-labs-using-ssh"></span><span id="programs-for-using-ssh"></span><span id="find-public-ip"></span><span id="check-ipv6-connectivity"></span><span id="execute-ssh"></span>
 
-![Network Information in Cloud Panel](./img/cloud-panel-network.png)
+## Linux and other SSH guests
 
-If you cannot connect to public IPv6 because your home network doesn't have IPv6, the easiest way is to use [WARP by Cloudflare](https://one.one.one.one/) (free) as a VPN or [Tunnel Broker](https://tunnelbroker.net/) solution. 
+Use a local terminal on Linux, macOS, or Windows with an SSH client installed.
+Follow [first SSH connection](/docs/getting-started/ssh/) for key selection and host fingerprint verification.
+An IPv6-only endpoint requires working IPv6 connectivity on your client network.
+A third-party VPN or tunnel may change connectivity and privacy; it is not a guaranteed provider remedy.
 
-![WARP by Cloudflare](./img/warp.png)
+## Windows guests
 
-### Check IPv6 Connectivity
-You can check IPv6 connectivity here: [test-ipv6.com](https://test-ipv6.com/) 
+Use [first RDP connection](/docs/getting-started/rdp/) only when your purchased Windows image supports RDP.
+Confirm the guest account, password source, and approved external endpoint before connecting.
 
-![Test IPv6](./img/ipv6-score.png)
+<span id="accessing-virtual-labs-using-novnc"></span><span id="accessing-virtual-labs-using-xtermjs"></span>
 
-### Execute SSH
-Type this command in your terminal to connect to your machine:
-```bash
-ssh <username>@<public_ip> -p <ssh_port>
-# example user 'root' connecting to public IPv4
-ssh root@123.321.123.321 -p 22
-# example user 'ubuntu' connecting to public IPv6
-ssh ubuntu@2001:db8::1 -p 22
-```
+## Browser console
 
-After you run the SSH command for the first time, you will be asked about the fingerprint. You can just type "yes" to store the fingerprint.
+Open **Console** on the server page. Follow [browser console help](/docs/servers/console/).
+Graphical VNC and serial consoles depend on the server and template configuration.
+The console does not require guest SSH networking, but it still requires a functioning host connection and guest login.
+Do not assume every image has a root password or serial login prompt.
 
-![SSH Command](./img/ssh-command.png)
+<span id="troubleshooting"></span><span id="cannot-access-via-ssh"></span>
 
-Then type in your `password`. It will not appear on the terminal screen, so make sure you type it correctly.
+## If connection fails
 
-This is the landing information about your machine.
-
-![SSH Success](./img/ssh-success.png)
-
-## Accessing Virtual Labs using noVNC
-
-1. **Access from cloud.8labs.id**: Open your browser and go to [cloud.8labs.id](https://cloud.8labs.id).
-2. **Click here**: ![noVNC Image](./img/novnc.png)
-3. **Redirect to web console**: You will be redirected to the noVNC web console.
-4. **Login using credentials**: Use the default username `root` and the password you set.
-![noVNC login](./img/novnc-login.png)
-
-## Accessing Virtual Labs using Xterm.js
-
-1. **Access from cloud.8labs.id**: Open your browser and go to [cloud.8labs.id](https://cloud.8labs.id).
-2. **Click here**: ![Xterm.js Image](./img/xterm.png)
-3. **Redirect to web console**: You will be redirected to the Xterm.js web console.
-4. **Once the screen appears**: press "Enter" on your keyboard.
-![Xterm.js Screen](./img/xterm-screen.png)
-5. **Login using credentials**: Use the default username `root` and the password you set.
-![xTerm.js login](./img/xterm-login.png)
-
-By following these steps, you can seamlessly access virtual labs using SSH over public IPv6 addresses, noVNC, and Xterm.js.
-
-## Troubleshooting
-### Cannot Access via SSH
-If you encounter an error like this:
-![Permission Denied:publickey](./img/permission-denied-publickey.png)
-You can access the Virtual Labs using [Xterm.js](/docs/getting-started/accessing-virtual-labs#accessing-virtual-labs-using-xtermjs) first. Log in with your credentials and execute the following commands:
-```bash
-### Enable SSH access
-sed -i -e "s/^#Port 22/Port 22/" -e "s/^#AddressFamily any/AddressFamily any/" -e "s/^#ListenAddress 0.0.0.0/ListenAddress 0.0.0.0/" -e "s/^#ListenAddress ::/ListenAddress ::/" /etc/ssh/sshd_config
-
-### Allow PasswordAuthentication
-sed -i "/^#PasswordAuthentication[[:space:]]/cPasswordAuthentication yes" /etc/ssh/sshd_config && sed -i "/^PasswordAuthentication no/cPasswordAuthentication yes" /etc/ssh/sshd_config
-
-### Enable root SSH login
-sed -i "s/^#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config
-```
-These commands will modify the SSH configuration to enable access, allow password authentication, and permit root login.
+First distinguish timeout, refused connection, and authentication failure.
+Use the [SSH diagnostic table](/docs/getting-started/ssh/#if-connection-fails) before changing guest configuration.
+Do not enable root password login or disable host-key checks as a generic fix.
+If no method works, [contact support](/docs/help/contact/) with redacted errors and the time of failure.

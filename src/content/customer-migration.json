@@ -1,0 +1,25 @@
+{
+  "owner": "home-8labs",
+  "canonicalOrigin": "https://8labs.id",
+  "sourceRevision": "7146397728a57347e10fb4d94e135897ab343324",
+  "reviewedVersion": "LabsPanel 5.3.15",
+  "reviewedDate": "2026-11-02",
+  "sourceBase": "apps/docs/src/docs/panel/v5/client/",
+  "locales": { "en": "/docs/", "id": "/id/docs/" },
+  "articles": {
+    "overview.md": "teams/overview",
+    "organizations.md": "teams/organizations",
+    "projects.md": "teams/projects",
+    "subusers.md": "teams/subusers",
+    "invitations.md": "teams/invitations",
+    "foldering.md": "servers/folders",
+    "server-network.md": "servers/network",
+    "backups.md": "servers/backups",
+    "account-security.md": "account/security",
+    "api-keys.md": "account/api-keys",
+    "notifications.md": "account/notifications",
+    "deploying-a-server.md": "getting-started/intro",
+    "billing.md": "billing-plans/overview"
+  },
+  "boundary": "Hosted billing belongs to Client Panel. Native billing administration, application APIs, and infrastructure remain technical documentation. Legacy technical pages retain canonical human fallback and original-anchor links; no customer manual is maintained there."
+}

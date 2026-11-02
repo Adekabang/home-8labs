@@ -1,42 +1,59 @@
 ---
-description: Solutions to common 8Labs virtual lab problems, including connection issues over IPv6 SSH and noVNC, plus other setup fixes.
-title: "Troubleshooting"
-sidebar:
-  order: 0
+title: "Troubleshoot by symptom"
+description: "Find the failure boundary before changing a server or repeating a payment."
+contentId: "customer-troubleshooting-overview"
+owner: "8Labs support"
+reviewedVersion: "LabsPanel 5.3.15"
+reviewedDate: "2026-11-02"
+translationStatus: "original"
 ---
 
-Common issues and their solutions.
+Start with the observed symptom. Keep the current state and error before taking another action.
 
-## Connection Issues
+## Connection issues
 
-### Can't SSH into my Virtual Lab
+| Symptom                       | Where to check                                              | Next step                                                                                |
+| ----------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| SSH timeout                   | Your computer: endpoint and IP family; Panel: running state | Follow [SSH diagnostics](/docs/getting-started/ssh/#if-connection-fails).                |
+| SSH refused                   | Guest console: SSH service and port                         | Inspect the OS-specific service; do not open every firewall port.                        |
+| Permission denied (publickey) | Your computer: selected key; guest: authorized account      | Match the existing key and username before generating or replacing keys.                 |
+| RDP unavailable               | Guest console: Windows state and approved endpoint          | Follow [RDP diagnostics](/docs/getting-started/rdp/).                                    |
+| No console                    | Panel permission and console connection state               | Follow [console help](/docs/servers/console/).                                           |
+| No assigned IP                | Server network information                                  | Ask support; do not choose an arbitrary address from the gateway subnet.                 |
+| NAT connection fails          | External address and external port                          | NAT metadata alone does not create gateway rules. See [network](/docs/servers/network/). |
 
-- Make sure the Virtual Lab is **running** (not stopped)
-- Verify you're using the correct IP address from the Cloud Panel
-- Check that your SSH key or password is correct
-- See the [Accessing Virtual Labs](/docs/getting-started/accessing-virtual-labs) guide
+Do not disable host-key checks, enable root password login, or disable all firewall rules as generic remedies.
 
-### Permission denied (publickey)
+## Power, performance, and missing observations
 
-This usually means your SSH key isn't properly set up. Try:
-1. Generate a new key: `ssh-keygen -t ed25519`
-2. Add it to your Virtual Lab via the Cloud Panel
-3. Ensure correct permissions: `chmod 600 ~/.ssh/id_ed25519`
+| Symptom                       | Safe next action                                                                               |
+| ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| Node offline or state unknown | Record the time and contact support; avoid repeated power requests.                            |
+| Server remains busy           | Check **Activity** and wait for the current job; report a persistent failure.                  |
+| No metrics                    | Check observation freshness and selected range. Missing data is not zero usage.                |
+| Slow application              | Compare resource observations with guest-side evidence; do not assume a plan upgrade fixes it. |
+| Installation failed           | Record the progress stage and error; ask support before retrying or ordering again.            |
 
-## Performance
+See [Telemetry](/docs/servers/telemetry/) and [Power](/docs/servers/power/).
+Any guest diagnostic command runs inside the guest, not on the provider host.
+Use a tool already supported by your operating system; do not install a privileged collector for a simple report.
 
-### Virtual Lab feels slow
+## Recovery and access
 
-- Check resource usage with `htop` or `top`
-- Consider upgrading to a higher plan if you need more resources
-- Some operations (first boot, system updates) are naturally slower
+| Symptom                       | Safe next action                                                                                 |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| Backup pending                | Check busy state and quota; avoid a second overlapping request.                                  |
+| Backup failed or incomplete   | Preserve the error; do not restore an unverified archive. See [backups](/docs/servers/backups/). |
+| Snapshot unavailable          | Confirm entitlement and storage support; a snapshot is not an external backup.                   |
+| Invitation expired            | Ask the inviter for a fresh authorized invitation. Do not share the old link.                    |
+| API token expired or rejected | Check expiry, scope, and account access; rotate privately.                                       |
+| Missing server or button      | Check workspace, effective permissions, and hosted feature availability.                         |
+| Paid order still pending      | Check the invoice and contact support with its private reference; do not pay twice.              |
 
-## Docker Issues
+## Guest software tutorials
 
-### Docker won't start on IPv6-only VPS
+For Docker-specific IPv6 setup, read the existing [Docker tutorial](/docs/getting-started/install-docker-ipv6/).
+Tutorials describe guest software and do not guarantee that a particular image, route, or entitlement exists on your service.
 
-See our dedicated guide: [Install Docker and Enable IPv6](/docs/getting-started/install-docker-ipv6)
-
-:::note[Still stuck?]
-If these solutions don't help, reach out to our support team through the Client Panel.
-:::
+If the failure boundary is the host, network assignment, console broker, payment integration, or entitlement, [contact support](/docs/help/contact/).
+Send a redacted error and time zone, not credentials or full browser captures.
