@@ -123,8 +123,13 @@ async function main() {
       errors.push(...validateLocale(route, page, counterpart));
     }
     for (const href of page.links) {
-      if (/^(?:mailto:|tel:|javascript:)/.test(href)) continue;
       const url = new URL(href, `https://8labs.id${route}`);
+      if (!["http:", "https:", "mailto:", "tel:"].includes(url.protocol)) {
+        errors.push(
+          `${route}: unsupported rendered link protocol ${url.protocol}`,
+        );
+        continue;
+      }
       if (url.origin !== "https://8labs.id") continue;
       const target = url.pathname.endsWith("/")
         ? url.pathname

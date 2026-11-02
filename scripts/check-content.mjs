@@ -227,17 +227,16 @@ for (const [route, page] of pages) {
       );
   }
   for (const link of page.links) {
-    if (/^https?:/.test(link)) {
-      if (link.startsWith("https://8labs.id/"))
-        page.links.push(new URL(link).pathname + new URL(link).hash);
-      else external.add(link);
-      continue;
-    }
-    if (/^(?:mailto:|tel:|javascript:)/.test(link)) {
-      if (link.startsWith("javascript:")) errors.push(`${route}: unsafe link`);
-      continue;
-    }
     const url = new URL(link, `https://8labs.id${route}/`);
+    if (!["http:", "https:", "mailto:", "tel:"].includes(url.protocol)) {
+      errors.push(`${route}: unsupported link protocol ${url.protocol}`);
+      continue;
+    }
+    if (url.protocol === "mailto:" || url.protocol === "tel:") continue;
+    if (url.origin !== "https://8labs.id") {
+      external.add(url.href);
+      continue;
+    }
     const target = routeKey(url.pathname);
     const destination = pages.get(target);
     if (destination) {
