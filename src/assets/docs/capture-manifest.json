@@ -21,7 +21,7 @@
       "audience": "customer",
       "permission": "Authorized read-only production observation; no state-changing controls used.",
       "panelVersion": "v5.3.15",
-      "cotermVersion": null,
+      "edgetermVersion": null,
       "featureFlags": [],
       "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
       "viewport": {
@@ -89,7 +89,7 @@
       "audience": "customer",
       "permission": "Authorized read-only production observation; no state-changing controls used.",
       "panelVersion": "v5.3.15",
-      "cotermVersion": null,
+      "edgetermVersion": null,
       "featureFlags": [],
       "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
       "viewport": {
@@ -157,7 +157,7 @@
       "audience": "customer",
       "permission": "Authorized read-only production observation; no state-changing controls used.",
       "panelVersion": "v5.3.15",
-      "cotermVersion": null,
+      "edgetermVersion": null,
       "featureFlags": [],
       "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
       "viewport": {
@@ -225,7 +225,7 @@
       "audience": "customer",
       "permission": "Authorized read-only production observation; no state-changing controls used.",
       "panelVersion": "v5.3.15",
-      "cotermVersion": null,
+      "edgetermVersion": null,
       "featureFlags": [],
       "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
       "viewport": {
@@ -293,7 +293,7 @@
       "audience": "customer",
       "permission": "Authorized read-only production observation; no state-changing controls used.",
       "panelVersion": "v5.3.15",
-      "cotermVersion": null,
+      "edgetermVersion": null,
       "featureFlags": [],
       "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
       "viewport": {
@@ -361,7 +361,7 @@
       "audience": "customer",
       "permission": "Authorized read-only production observation; no state-changing controls used.",
       "panelVersion": "v5.3.15",
-      "cotermVersion": null,
+      "edgetermVersion": null,
       "featureFlags": [],
       "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
       "viewport": {
