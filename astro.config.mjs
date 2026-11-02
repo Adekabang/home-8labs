@@ -135,7 +135,6 @@ export default defineConfig({
             "docs/troubleshooting/overview",
             "docs/faq/overview",
             "docs/help/contact",
-            "docs/reference/glossary",
           ],
         },
         {

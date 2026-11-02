@@ -37,7 +37,7 @@ Simpan halaman server sebagai bookmark, bukan alamat peluncuran konsol.
 
 ![Halaman Console dengan kartu VNC Console dan Terminal Console serta tombol peluncuran.](../../../../../assets/docs/console-chooser.webp)
 
-_UI produksi yang disanitasi — pengamatan hanya-baca — LabsPanel v5.3.15. Hanya pemilih Console: VNC Console dan Terminal Console. Kedua tombol peluncuran tidak ditekan dan tidak ada sesi guest yang dibuka. Label UI tetap berbahasa Inggris; hanya keterangan gambar yang diterjemahkan._
+_Pilih konsol VNC grafis atau konsol terminal._
 
 ## Pilih jenis konsol
 

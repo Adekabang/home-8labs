@@ -14,7 +14,7 @@ Backup merekam kondisi disk server melalui hypervisor. Gunakan backup yang sudah
 
 ![Tab Backups menampilkan belum ada backup, kuota backup, dan backup otomatis yang tidak tersedia.](../../../../../assets/docs/server-backups.webp)
 
-_UI produksi yang disanitasi — pengamatan hanya-baca — LabsPanel v5.3.15. Status kosong Backups & snapshots yang teramati, dengan backup otomatis tidak tersedia. Tidak ada backup yang dibuat atau dipulihkan. Label UI tetap berbahasa Inggris; hanya keterangan gambar yang diterjemahkan._
+_Daftar cadangan dan ketersediaan cadangan otomatis._
 
 ## Pengguna, izin, dan prasyarat
 

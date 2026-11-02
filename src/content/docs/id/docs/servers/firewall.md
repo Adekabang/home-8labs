@@ -12,7 +12,7 @@ translationStatus: translated
 
 ![Halaman Firewall menampilkan panduan urutan aturan first-match dan belum ada aturan firewall.](../../../../../assets/docs/server-firewall.webp)
 
-_UI produksi yang disanitasi — pengamatan hanya-baca — LabsPanel v5.3.15. Status kosong Firewall dan peringatan urutan aturan yang teramati. Tidak ada aturan atau template yang diterapkan. Label UI tetap berbahasa Inggris; hanya keterangan gambar yang diterjemahkan._
+_Aturan firewall dan panduan urutan aturan._
 
 ## Pengguna, izin, dan prasyarat
 
