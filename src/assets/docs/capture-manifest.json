@@ -1,0 +1,424 @@
+{
+  "schemaVersion": 1,
+  "product": "LabsPanel",
+  "capturePolicy": "Sanitize DOM before capture; publish flattened metadata-free raster only. No cookies, HAR, console tickets, raw originals, production route IDs or customer data in this manifest.",
+  "captureSafety": {
+    "consoleSessionCreated": false,
+    "guestInputSent": false,
+    "stateChangingControlsUsed": false,
+    "readOnlyNetworkGuard": "After inventory capture, server pages blocked fetch/XHR methods other than GET, HEAD and OPTIONS; window.open was disabled. No console launch button was pressed.",
+    "stateObservationLimit": "Displayed Running labels and usage are observed UI values only, not an independently verified guest-health claim; blocked POST refreshes can leave an observed value stale.",
+    "sanitization": "Names, emails, hostnames, server IDs, IPs and relevant attributes were replaced in the DOM before capture. No terminal canvas, node metadata, credential, notification content or raw browser chrome was captured.",
+    "metadata": "Final WEBP containers retain only their VP8 pixel chunk; EXIF, XMP and ICC chunks are absent."
+  },
+  "captures": [
+    {
+      "id": "workspace-server-inventory",
+      "file": "workspace-server-inventory.webp",
+      "sha256": "fa5722d0c1e8bbb69236538a56d6e0395ec57008a82114e9f58674f0aa43a12f",
+      "article": "docs/servers/overview/",
+      "route": "/servers",
+      "audience": "customer",
+      "permission": "Authorized read-only production observation; no state-changing controls used.",
+      "panelVersion": "v5.3.15",
+      "cotermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "deviceScaleFactor": 1
+      },
+      "raster": {
+        "width": 1440,
+        "height": 1000
+      },
+      "theme": "light",
+      "capturedAt": "2026-11-02T07:02:41.469388+00:00",
+      "sourceType": "sanitized-production-ui",
+      "sourceLabel": {
+        "en": "Sanitized production UI — read-only observation",
+        "id": "UI produksi yang disanitasi — pengamatan hanya-baca"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Workspace server inventory with example names; the resource owner remains Personal.",
+        "id": "Inventaris server Workspace dengan nama contoh; pemilik resource tetap Personal."
+      },
+      "alt": {
+        "en": "Servers grid with four example server cards and Workspace navigation.",
+        "id": "Grid Servers berisi empat kartu server contoh dan navigasi Workspace."
+      },
+      "review_type": "independent_review",
+      "reviewer": {
+        "capture": "SafeVisualDocumentation",
+        "independent": "Main"
+      },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8 "],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "Main",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution review of all six final 1440x1000 rasters; visible identities substituted with example labels/domains.",
+            "Read actual tesseract OCR output; no real account names, addresses, resource IDs, credentials or node identity visible.",
+            "Verified RIFF WEBP metadata proof: VP8 pixel chunk only; no EXIF, XMP or ICC.",
+            "Read-only capture limitations preserved; running/usage values not independent guest-health proof; console chooser only, no guest session."
+          ]
+        }
+      },
+      "limitations": [
+        "English UI labels are preserved; Indonesian text is caption translation only.",
+        "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
+        "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
+      ]
+    },
+    {
+      "id": "workspace-owner-orientation",
+      "file": "workspace-owner-orientation.webp",
+      "sha256": "5c9d8007c58fa902c3765411b8cffddb0eb000bc172ef9b8eec310c229e1d32c",
+      "article": "docs/servers/overview/",
+      "route": "/servers/:exampleServer/firewall",
+      "audience": "customer",
+      "permission": "Authorized read-only production observation; no state-changing controls used.",
+      "panelVersion": "v5.3.15",
+      "cotermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "deviceScaleFactor": 1
+      },
+      "raster": {
+        "width": 1440,
+        "height": 1000
+      },
+      "theme": "light",
+      "capturedAt": "2026-11-02T07:07:57.039874+00:00",
+      "sourceType": "sanitized-production-ui",
+      "sourceLabel": {
+        "en": "Sanitized production UI — read-only observation",
+        "id": "UI produksi yang disanitasi — pengamatan hanya-baca"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Workspace/Admin mode and Resource owner are separate controls. The open owner menu shows the observed Personal option and Add organization action.",
+        "id": "Mode Workspace/Admin dan Resource owner adalah kontrol yang terpisah. Menu pemilik yang terbuka menampilkan opsi Personal dan tindakan Add organization yang teramati."
+      },
+      "alt": {
+        "en": "Personal resource-owner dropdown open beneath the Workspace and Admin mode buttons.",
+        "id": "Dropdown pemilik resource Personal terbuka di bawah tombol mode Workspace dan Admin."
+      },
+      "review_type": "independent_review",
+      "reviewer": {
+        "capture": "SafeVisualDocumentation",
+        "independent": "Main"
+      },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8 "],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "Main",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution review of all six final 1440x1000 rasters; visible identities substituted with example labels/domains.",
+            "Read actual tesseract OCR output; no real account names, addresses, resource IDs, credentials or node identity visible.",
+            "Verified RIFF WEBP metadata proof: VP8 pixel chunk only; no EXIF, XMP or ICC.",
+            "Read-only capture limitations preserved; running/usage values not independent guest-health proof; console chooser only, no guest session."
+          ]
+        }
+      },
+      "limitations": [
+        "English UI labels are preserved; Indonesian text is caption translation only.",
+        "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
+        "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
+      ]
+    },
+    {
+      "id": "server-overview",
+      "file": "server-overview.webp",
+      "sha256": "d1bb1d0133ea5dedbd31c9374d61eba6d4ca4ac4e9a0736beb7f16d897c1c634",
+      "article": "docs/servers/overview/",
+      "route": "/servers/:exampleServer",
+      "audience": "customer",
+      "permission": "Authorized read-only production observation; no state-changing controls used.",
+      "panelVersion": "v5.3.15",
+      "cotermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "deviceScaleFactor": 1
+      },
+      "raster": {
+        "width": 1440,
+        "height": 1000
+      },
+      "theme": "light",
+      "capturedAt": "2026-11-02T07:05:28.272104+00:00",
+      "sourceType": "sanitized-production-ui",
+      "sourceLabel": {
+        "en": "Sanitized production UI — read-only observation",
+        "id": "UI produksi yang disanitasi — pengamatan hanya-baca"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Server Overview with observed resource usage and navigation; identities are replaced with examples. No server controls were used.",
+        "id": "Overview server dengan penggunaan resource dan navigasi yang teramati; identitas diganti dengan contoh. Tidak ada kontrol server yang digunakan."
+      },
+      "alt": {
+        "en": "Example server Overview with CPU, memory, disk, uptime and resource-usage cards.",
+        "id": "Overview server contoh dengan kartu CPU, memori, disk, uptime, dan penggunaan resource."
+      },
+      "review_type": "independent_review",
+      "reviewer": {
+        "capture": "SafeVisualDocumentation",
+        "independent": "Main"
+      },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8 "],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "Main",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution review of all six final 1440x1000 rasters; visible identities substituted with example labels/domains.",
+            "Read actual tesseract OCR output; no real account names, addresses, resource IDs, credentials or node identity visible.",
+            "Verified RIFF WEBP metadata proof: VP8 pixel chunk only; no EXIF, XMP or ICC.",
+            "Read-only capture limitations preserved; running/usage values not independent guest-health proof; console chooser only, no guest session."
+          ]
+        }
+      },
+      "limitations": [
+        "English UI labels are preserved; Indonesian text is caption translation only.",
+        "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
+        "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
+      ]
+    },
+    {
+      "id": "console-chooser",
+      "file": "console-chooser.webp",
+      "sha256": "0d47202281002c8cc4fd408da716db92dfed39640da85c316ae92480b652f461",
+      "article": "docs/servers/console/",
+      "route": "/servers/:exampleServer/console",
+      "audience": "customer",
+      "permission": "Authorized read-only production observation; no state-changing controls used.",
+      "panelVersion": "v5.3.15",
+      "cotermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "deviceScaleFactor": 1
+      },
+      "raster": {
+        "width": 1440,
+        "height": 1000
+      },
+      "theme": "light",
+      "capturedAt": "2026-11-02T07:05:47.383476+00:00",
+      "sourceType": "sanitized-production-ui",
+      "sourceLabel": {
+        "en": "Sanitized production UI — read-only observation",
+        "id": "UI produksi yang disanitasi — pengamatan hanya-baca"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Console chooser only: VNC Console and Terminal Console. Neither launch button was pressed and no guest session was opened.",
+        "id": "Hanya pemilih Console: VNC Console dan Terminal Console. Kedua tombol peluncuran tidak ditekan dan tidak ada sesi guest yang dibuka."
+      },
+      "alt": {
+        "en": "Console page with VNC Console and Terminal Console cards and launch buttons.",
+        "id": "Halaman Console dengan kartu VNC Console dan Terminal Console serta tombol peluncuran."
+      },
+      "review_type": "independent_review",
+      "reviewer": {
+        "capture": "SafeVisualDocumentation",
+        "independent": "Main"
+      },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8 "],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "Main",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution review of all six final 1440x1000 rasters; visible identities substituted with example labels/domains.",
+            "Read actual tesseract OCR output; no real account names, addresses, resource IDs, credentials or node identity visible.",
+            "Verified RIFF WEBP metadata proof: VP8 pixel chunk only; no EXIF, XMP or ICC.",
+            "Read-only capture limitations preserved; running/usage values not independent guest-health proof; console chooser only, no guest session."
+          ]
+        }
+      },
+      "limitations": [
+        "English UI labels are preserved; Indonesian text is caption translation only.",
+        "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
+        "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
+      ]
+    },
+    {
+      "id": "server-backups",
+      "file": "server-backups.webp",
+      "sha256": "62b5e6cc08f1d36524de383f86c85b30c3b83eacd5c7c93bcd1e97b25d997317",
+      "article": "docs/servers/backups/",
+      "route": "/servers/:exampleServer/backups",
+      "audience": "customer",
+      "permission": "Authorized read-only production observation; no state-changing controls used.",
+      "panelVersion": "v5.3.15",
+      "cotermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "deviceScaleFactor": 1
+      },
+      "raster": {
+        "width": 1440,
+        "height": 1000
+      },
+      "theme": "light",
+      "capturedAt": "2026-11-02T07:06:11.844963+00:00",
+      "sourceType": "sanitized-production-ui",
+      "sourceLabel": {
+        "en": "Sanitized production UI — read-only observation",
+        "id": "UI produksi yang disanitasi — pengamatan hanya-baca"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Observed Backups & snapshots empty state with automatic backups unavailable. No backup was created or restored.",
+        "id": "Status kosong Backups & snapshots yang teramati, dengan backup otomatis tidak tersedia. Tidak ada backup yang dibuat atau dipulihkan."
+      },
+      "alt": {
+        "en": "Backups tab showing no backups, backup quota and unavailable automatic backups.",
+        "id": "Tab Backups menampilkan belum ada backup, kuota backup, dan backup otomatis yang tidak tersedia."
+      },
+      "review_type": "independent_review",
+      "reviewer": {
+        "capture": "SafeVisualDocumentation",
+        "independent": "Main"
+      },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8 "],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "Main",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution review of all six final 1440x1000 rasters; visible identities substituted with example labels/domains.",
+            "Read actual tesseract OCR output; no real account names, addresses, resource IDs, credentials or node identity visible.",
+            "Verified RIFF WEBP metadata proof: VP8 pixel chunk only; no EXIF, XMP or ICC.",
+            "Read-only capture limitations preserved; running/usage values not independent guest-health proof; console chooser only, no guest session."
+          ]
+        }
+      },
+      "limitations": [
+        "English UI labels are preserved; Indonesian text is caption translation only.",
+        "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
+        "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
+      ]
+    },
+    {
+      "id": "server-firewall",
+      "file": "server-firewall.webp",
+      "sha256": "84eed4186c6f0da6baad6b0c94e20dbff6cdf0288661497e5ed562ea72852342",
+      "article": "docs/servers/firewall/",
+      "route": "/servers/:exampleServer/firewall",
+      "audience": "customer",
+      "permission": "Authorized read-only production observation; no state-changing controls used.",
+      "panelVersion": "v5.3.15",
+      "cotermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "No feature flags inferred or changed; observed screen only.",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "deviceScaleFactor": 1
+      },
+      "raster": {
+        "width": 1440,
+        "height": 1000
+      },
+      "theme": "light",
+      "capturedAt": "2026-11-02T07:06:34.112265+00:00",
+      "sourceType": "sanitized-production-ui",
+      "sourceLabel": {
+        "en": "Sanitized production UI — read-only observation",
+        "id": "UI produksi yang disanitasi — pengamatan hanya-baca"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Observed Firewall empty state and rule-order warning. No rule or template was applied.",
+        "id": "Status kosong Firewall dan peringatan urutan aturan yang teramati. Tidak ada aturan atau template yang diterapkan."
+      },
+      "alt": {
+        "en": "Firewall page showing first-match rule-order guidance and no firewall rules.",
+        "id": "Halaman Firewall menampilkan panduan urutan aturan first-match dan belum ada aturan firewall."
+      },
+      "review_type": "independent_review",
+      "reviewer": {
+        "capture": "SafeVisualDocumentation",
+        "independent": "Main"
+      },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8 "],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "Main",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution review of all six final 1440x1000 rasters; visible identities substituted with example labels/domains.",
+            "Read actual tesseract OCR output; no real account names, addresses, resource IDs, credentials or node identity visible.",
+            "Verified RIFF WEBP metadata proof: VP8 pixel chunk only; no EXIF, XMP or ICC.",
+            "Read-only capture limitations preserved; running/usage values not independent guest-health proof; console chooser only, no guest session."
+          ]
+        }
+      },
+      "limitations": [
+        "English UI labels are preserved; Indonesian text is caption translation only.",
+        "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
+        "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
+      ]
+    }
+  ]
+}

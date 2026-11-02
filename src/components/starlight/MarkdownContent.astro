@@ -1,0 +1,8 @@
+---
+import Default from '@astrojs/starlight/components/MarkdownContent.astro';
+const { isFallback } = Astro.locals.starlightRoute;
+---
+{isFallback && (
+  <p class="translation-note" data-pagefind-ignore lang="id">Artikel ini belum diterjemahkan. Isi berikut berbahasa Inggris. <a href={Astro.url.pathname.replace(/^\/id(?=\/)/, '')}>Buka versi asli bahasa Inggris</a>.</p>
+)}
+<Default><slot /></Default>

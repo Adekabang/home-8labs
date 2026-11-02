@@ -7,7 +7,16 @@ import { blogSchema } from "starlight-blog/schema";
 const docsCollection = defineCollection({
   loader: docsLoader(),
   schema: docsSchema({
-    extend: (context) => blogSchema(context),
+    extend: (context) =>
+      blogSchema(context).extend({
+        contentId: z.string().optional(),
+        owner: z.string().optional(),
+        reviewedVersion: z.string().optional(),
+        reviewedDate: z.coerce.date().optional(),
+        translationStatus: z
+          .enum(["original", "translated", "reviewed"])
+          .optional(),
+      }),
   }),
 });
 

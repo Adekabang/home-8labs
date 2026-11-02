@@ -3,12 +3,18 @@
   "type": "module",
   "version": "2.2.0",
   "private": true,
+  "packageManager": "bun@1.4.2",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "bun run check:publish && astro build && bun run check:built",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check:content": "bun scripts/check-content.mjs",
+    "check:built": "bun scripts/check-built.mjs",
+    "check:external": "bun scripts/check-content.mjs --external",
+    "check:publish": "bun scripts/check-content.mjs --publish",
+    "test:docs": "bun test scripts/check-built.test.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
@@ -32,5 +38,14 @@
     "starlight-blog": "^0.25.3",
     "tailwindcss": "^3.4.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "github-slugger": "2.0.0",
+    "parse5": "7.3.0",
+    "remark-gfm": "4.0.1",
+    "remark-mdx": "3.1.1",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "yaml": "2.9.0"
+  }
 }

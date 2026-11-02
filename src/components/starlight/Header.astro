@@ -5,6 +5,12 @@
 import Search from "@astrojs/starlight/components/Search.astro";
 import SocialIcons from "@astrojs/starlight/components/SocialIcons.astro";
 import ThemeSelect from "starlight-blog/overrides/ThemeSelect.astro";
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+
+const isIndonesian = Astro.locals.starlightRoute.locale === "id";
+const labels = isIndonesian
+  ? { services: "Layanan", pricing: "Harga", docs: "Dokumentasi", contact: "Kontak", status: "Status", community: "Komunitas", products: "Produk", main: "Situs utama", home: "Beranda 8Labs", client: "Client Panel" }
+  : { services: "Services", pricing: "Pricing", docs: "Docs", contact: "Contact", status: "Status", community: "Community", products: "Products", main: "Main site", home: "8Labs home", client: "Client Panel" };
 
 const products = [
   {
@@ -24,24 +30,24 @@ const products = [
 ];
 
 const menuitems = [
-  { title: "Services", path: "/services" },
-  { title: "Pricing", path: "/pricing" },
-  { title: "Docs", path: "/docs", active: true },
-  { title: "Contact", path: "/contact" },
-  { title: "Status", path: "https://uptime.8labs.id", external: true },
-  { title: "Community", path: "https://t.me/virtual_8labs", external: true },
+  { title: labels.services, path: "/services" },
+  { title: labels.pricing, path: "/pricing" },
+  { title: labels.docs, path: isIndonesian ? "/id/docs/" : "/docs/", active: true },
+  { title: labels.contact, path: "/contact" },
+  { title: labels.status, path: "https://uptime.8labs.id", external: true },
+  { title: labels.community, path: "https://t.me/virtual_8labs", external: true },
 ];
 ---
 
 <div class="header">
   <div class="title-wrapper sl-flex">
-    <a href="/" class="brand" aria-label="8Labs home">
+    <a href="/" class="brand" aria-label={labels.home}>
       <span class="brand-name">8Labs</span><span class="brand-dot">.</span>
     </a>
-    <nav class="main-nav" aria-label="Main site">
+    <nav class="main-nav" aria-label={labels.main}>
       <details class="nav-dropdown">
         <summary>
-          Products
+          {labels.products}
           <svg
             width="10"
             height="10"
@@ -87,11 +93,12 @@ const menuitems = [
       <SocialIcons />
     </div>
     <ThemeSelect />
+    <LanguageSelect />
     <a
       href="https://my.8labs.id"
       target="_blank"
       rel="noopener noreferrer"
-      class="client-panel">Client Panel</a
+      class="client-panel">{labels.client}</a
     >
   </div>
 </div>

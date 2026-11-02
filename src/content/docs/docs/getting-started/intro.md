@@ -1,44 +1,86 @@
 ---
-description: Register an account, purchase a Virtual Lab, and get connected to your 8Labs Linux environment in less than five minutes.
-title: "Introduction"
-sidebar:
-  order: 0
+title: "Order and find your server"
+description: "Purchase through Client Panel, then open your server in Cloud Panel."
+contentId: "customer-getting-started-intro"
+owner: "8Labs support"
+reviewedVersion: "LabsPanel 5.3.15"
+reviewedDate: "2026-11-02"
+translationStatus: "original"
 ---
 
-Welcome to 8Labs! We're excited to have you on board. This documentation will guide you through the initial steps of using our platform, including registration, purchasing a Virtual Lab, and accessing your Virtual Lab. Let's discover **8Labs in less than 5 minutes**.
+**Audience:** the service account holder. **Availability:** product stock, images, prices, and features depend on your purchased service.
 
-## Registration
+## Before you order
 
-Registering with 8Labs is straightforward. Just follow these simple steps:
+Use [Client Panel](https://my.8labs.id) for hosted purchases. Review the product specification, network type, billing unit, renewal conditions, and recovery options.
+Do not pay into a Cloud Panel wallet for a Client Panel service unless support explicitly confirms that arrangement.
 
-1. Go to our [Registration Page](https://my.8labs.id/register).
-2. Enter your information:
-   - First Name
-   - Last Name
-   - Email
-   - Password
-3. Click "Register" and you're all set!
+<span id="registration"></span><span id="step-1-create-an-account"></span>
+<span id="step-1--create-an-account"></span>
 
-## How to Purchase a Virtual Lab
+## Create or recover your account
 
-Once you're registered, purchasing a Virtual Lab is quick and easy:
+1. Open Client Panel.
+2. Use its registration option if available.
+3. Enter an email address that you control.
+4. Follow any verification instructions shown there.
 
-1. [Log in](https://my.8labs.id/login) to your 8Labs account.
-2. Navigate to the "Shop > Virtual Labs" section.
-3. Choose your desired Virtual Lab plan based on your needs.
-4. Set your Virtual Lab's `Hostname`, `Operating System`, and `Password`.
-5. Complete the payment process using your preferred method (don't worry, it's free).
-6. Your Virtual Lab will be ready to use within 1-15 minutes.
+Cloud Panel public registration is a separate deployment setting and is disabled by default in LabsPanel.
+If Cloud Panel signup or recovery is unavailable, use the service management link or contact support.
+Team invitations grant scoped collaboration; they do not replace provider checkout or account ownership.
 
-## How to Access Your Virtual Lab
+<span id="step-2-verify-your-email"></span><span id="step-3-top-up-your-wallet"></span><span id="how-to-purchase-a-virtual-lab"></span><span id="step-4-configure-and-order"></span>
+<span id="step-2--verify-your-email"></span><span id="step-3--top-up-your-wallet"></span><span id="step-4--configure-and-order"></span><span id="if-the-order-cant-go-through"></span>
 
-Accessing your Virtual Lab is simple:
+## Purchase a hosted service
 
-1. Log in to your account on the [Client Portal](https://my.8labs.id/) or directly on the [Cloud Portal](https://cloud.8labs.id/) using the same account as the Client Portal (jump to step 4).
-2. Go to the "Customer Area" section to see your purchased products.
-3. Select the 👁️ (view) action button and click "Login to Product".
-4. Select the Virtual Lab you want to access.
-5. For the first time, start the Virtual Lab.
-6. Use our intuitive console panel, featuring noVNC and xTerm.js, to manage and control your Virtual Lab.
+1. Sign in to Client Panel.
+2. Open the product shop.
+3. Select an available service and location.
+4. Review the current operating system choices.
+5. Enter the requested hostname and authentication details.
+6. Review the complete order and payment terms.
+7. Complete the displayed checkout process.
 
-That's it! You're now ready to start using your 8Labs Virtual Lab and explore the endless possibilities of your home lab environment. If you have any questions or need further assistance, our support team is here to help. Happy ngoprek!
+Payment is not necessarily free. Do not copy historic prices or assume every product uses LAB Coin.
+Use only your public SSH key when a key is requested. Never paste your private key.
+Image availability does not mean every listed operating system is supported on every plan.
+
+<span id="step-5-installation"></span>
+<span id="step-5--installation"></span>
+
+## Wait for provisioning
+
+Payment confirmation and server provisioning are separate stages.
+Read the order status in Client Panel and the installation status in Cloud Panel.
+A queued request is not a ready server. There is no guaranteed provisioning time in this guide.
+
+If installation fails, record the time and visible error. Contact support before retrying or ordering another service.
+Do not assume a failed installation triggers a refund. Ask support to review the existing order first.
+
+<span id="how-to-access-your-virtual-lab"></span><span id="step-6-manage-your-server"></span>
+<span id="step-6--manage-your-server"></span>
+
+## Open your server
+
+1. Open the purchased service in Client Panel.
+2. Follow its management link, such as **Login to Product**, if shown.
+3. Confirm the expected service in Cloud Panel.
+4. Open **Servers** and select the server.
+5. Check its state and installation progress.
+6. [Choose a connection method](/docs/getting-started/accessing-virtual-labs/).
+
+The management link may use a provider sign-in integration. It does not establish that the two portals share passwords.
+If no server appears, check the selected workspace and service account before contacting support.
+
+<span id="how-billing-charges-you"></span><span id="pay-as-you-go-hourly"></span><span id="prepaid-monthly-yearly"></span><span id="when-your-balance-runs-low"></span>
+<span id="prepaid-monthly--yearly"></span><span id="see-also"></span>
+
+## Keep purchase and runtime responsibilities separate
+
+Hosted payment, renewal, suspension, and cancellation terms come from your [Client Panel order](/docs/billing-plans/overview/).
+Stopping a server does not necessarily stop charges. Deleting a runtime resource does not necessarily cancel the provider service.
+Native LabsPanel wallet billing is an optional software capability, not a second payment instruction for externally billed services.
+
+**Success:** your intended server appears in the correct workspace and its current state is available.
+For a missing service, send support the order reference privately. Never send passwords, sign-in links, or console launch URLs.
