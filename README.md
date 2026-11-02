@@ -67,7 +67,7 @@ Do not use `lastUpdated` as product-version verification.
 English follows ASD-STE100 Issue 9-informed writing, not certified compliance:
 one action per sentence, 20-word procedure and 25-word description targets.
 Indonesian uses natural direct instructions with unchanged exact UI labels.
-Use the bilingual [glossary](https://8labs.id/docs/reference/glossary/).
+Use the internal [editorial language reference](docs/editorial-language.md).
 
 Starlight owns root-English and `id` localization, language selection, and
 Pagefind. Untranslated guest tutorials, general guides, and blog posts retain

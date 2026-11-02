@@ -14,7 +14,7 @@ A backup captures server disk state through the hypervisor. Use a completed back
 
 ![Backups tab showing no backups, backup quota and unavailable automatic backups.](../../../../assets/docs/server-backups.webp)
 
-_Sanitized production UI — read-only observation — LabsPanel v5.3.15. Observed Backups & snapshots empty state with automatic backups unavailable. No backup was created or restored. English UI labels; Indonesian text is caption translation only._
+_Backup list and automatic backup availability._
 
 ## Audience, permissions, and prerequisites
 

@@ -12,7 +12,7 @@ translationStatus: original
 
 ![Firewall page showing first-match rule-order guidance and no firewall rules.](../../../../assets/docs/server-firewall.webp)
 
-_Sanitized production UI — read-only observation — LabsPanel v5.3.15. Observed Firewall empty state and rule-order warning. No rule or template was applied. English UI labels; Indonesian text is caption translation only._
+_Firewall rules and rule-order guidance._
 
 ## Audience, permissions, and prerequisites
 

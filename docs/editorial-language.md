@@ -1,17 +1,13 @@
----
-title: "Istilah produk"
-description: "Istilah Inggris dan Indonesia yang konsisten untuk tugas pelanggan 8Labs."
-contentId: "customer-reference-glossary"
-owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
-translationStatus: "translated"
----
+# Editorial language reference
 
-Gunakan label antarmuka yang persis sama saat mengikuti prosedur.
-Penjelasan Bahasa Indonesia tidak mengganti nama kontrol pada Panel yang sedang digunakan.
+Internal author guidance, not a customer task page. Keep technical definitions
+in the relevant customer workflow, especially backup versus snapshot safety.
 
-## Istilah tugas yang disepakati
+Reviewed source: LabsPanel 5.3.15, 2026-11-02. Owner: 8Labs support.
+
+Use the exact interface label when following a procedure. Indonesian explanations do not rename controls in the running Panel.
+
+## Approved task terms
 
 | English term | Istilah Indonesia        | Meaning / Makna                                                                                                   | Exact UI label      | Avoid / Hindari                                                               |
 | ------------ | ------------------------ | ----------------------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------------------- |
@@ -32,12 +28,22 @@ Penjelasan Bahasa Indonesia tidak mengganti nama kontrol pada Panel yang sedang 
 | Stale        | Kedaluwarsa              | Observation is no longer fresh / Pengamatan tidak lagi mutakhir                                                   | Telemetry           | zero or offline / nol atau mati                                               |
 | NAT mapping  | Pemetaan NAT             | Published endpoint metadata; not gateway provisioning / Metadata alamat tujuan, bukan pembuatan aturan gateway    | Network             | automatic port forwarding / penerusan port otomatis                           |
 
-## Pedoman penulisan
+## Writing policy
 
+English procedures use active verbs, one action per sentence, and a target of 20 words per procedural sentence.
+Descriptions target 25 words per sentence. Safety meaning takes priority over a word count.
+This is ASD-STE100 Issue 9-informed technical English, not a claim of certification or full dictionary compliance.
+Indonesian uses natural direct instructions and **Anda** consistently. English word limits are review prompts, not an Indonesian standard.
+
+Commands, permission identifiers, and visible UI labels remain unchanged.
+
+## Pedoman penulisan Bahasa Indonesia
+
+Gunakan label antarmuka yang persis sama saat mengikuti prosedur.
+Penjelasan Bahasa Indonesia tidak mengganti nama kontrol pada Panel yang sedang digunakan.
 Prosedur bahasa Inggris memakai kata kerja aktif, satu tindakan per kalimat, dan sasaran 20 kata untuk kalimat prosedur.
 Deskripsi menargetkan 25 kata per kalimat. Makna keselamatan lebih penting daripada jumlah kata.
 Pedoman ini mengikuti prinsip ASD-STE100 Issue 9, bukan klaim sertifikasi atau kepatuhan kamus lengkap.
 Bahasa Indonesia memakai perintah langsung yang alami dan kata **Anda** secara konsisten.
 Batas kata bahasa Inggris menjadi bahan peninjauan, bukan standar STE Bahasa Indonesia.
-
 Perintah, identitas izin, dan label antarmuka tetap dipertahankan.

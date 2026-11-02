@@ -35,7 +35,7 @@ Do not bookmark the console launch address; bookmark the server page instead.
 
 ![Console page with VNC Console and Terminal Console cards and launch buttons.](../../../../assets/docs/console-chooser.webp)
 
-_Sanitized production UI — read-only observation — LabsPanel v5.3.15. Console chooser only: VNC Console and Terminal Console. Neither launch button was pressed and no guest session was opened. English UI labels; Indonesian text is caption translation only._
+_Choose a graphical VNC console or a terminal console._
 
 ## Choose the correct console
 

@@ -12,7 +12,7 @@ translationStatus: "translated"
 
 ![Dropdown pemilik resource Personal terbuka di bawah tombol mode Workspace dan Admin.](../../../../../assets/docs/workspace-owner-orientation.webp)
 
-_UI produksi yang disanitasi — pengamatan hanya-baca — LabsPanel v5.3.15. Mode Workspace/Admin dan Resource owner adalah kontrol yang terpisah. Menu pemilik yang terbuka menampilkan opsi Personal dan tindakan Add organization yang teramati. Label UI tetap berbahasa Inggris; hanya keterangan gambar yang diterjemahkan._
+_Mode Workspace dan kepemilikan sumber daya merupakan kontrol yang terpisah._
 
 ## Pilih mode dan kepemilikan secara terpisah
 
@@ -32,7 +32,7 @@ Gunakan [folder](/id/docs/servers/folders/) untuk pengelompokan dan [proyek](/id
 
 ![Grid Servers berisi empat kartu server contoh dan navigasi Workspace.](../../../../../assets/docs/workspace-server-inventory.webp)
 
-_UI produksi yang disanitasi — pengamatan hanya-baca — LabsPanel v5.3.15. Inventaris server Workspace dengan nama contoh; pemilik resource tetap Personal. Label UI tetap berbahasa Inggris; hanya keterangan gambar yang diterjemahkan._
+_Daftar server dan navigasi Workspace._
 
 ## Gunakan navigasi lokal server
 
@@ -52,7 +52,7 @@ Sebagian bagian dan kontrol bergantung pada izin, dukungan host, serta hak layan
 
 ![Overview server contoh dengan kartu CPU, memori, disk, uptime, dan penggunaan resource.](../../../../../assets/docs/server-overview.webp)
 
-_UI produksi yang disanitasi — pengamatan hanya-baca — LabsPanel v5.3.15. Overview server dengan penggunaan resource dan navigasi yang teramati; identitas diganti dengan contoh. Tidak ada kontrol server yang digunakan. Label UI tetap berbahasa Inggris; hanya keterangan gambar yang diterjemahkan._
+_Ringkasan server, penggunaan sumber daya, dan navigasi lokal._
 
 ## Baca status sebelum bertindak
 

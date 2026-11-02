@@ -30,3 +30,9 @@
 /blog/archive /blog 301
 /markdown-page /docs 301
 /search /docs 301
+
+# Editorial terminology is internal; customer definitions remain in task guides.
+/docs/reference/glossary /docs/servers/overview/ 301
+/docs/reference/glossary/ /docs/servers/overview/ 301
+/id/docs/reference/glossary /id/docs/servers/overview/ 301
+/id/docs/reference/glossary/ /id/docs/servers/overview/ 301

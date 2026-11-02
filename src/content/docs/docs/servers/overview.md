@@ -12,7 +12,7 @@ translationStatus: "original"
 
 ![Personal resource-owner dropdown open beneath the Workspace and Admin mode buttons.](../../../../assets/docs/workspace-owner-orientation.webp)
 
-_Sanitized production UI — read-only observation — LabsPanel v5.3.15. Workspace/Admin mode and Resource owner are separate controls. The open owner menu shows the observed Personal option and Add organization action. English UI labels; Indonesian text is caption translation only._
+_Workspace mode and resource ownership are separate controls._
 
 ## Select mode and ownership separately
 
@@ -31,7 +31,7 @@ Use [folders](/docs/servers/folders/) for organization and [projects](/docs/team
 
 ![Servers grid with four example server cards and Workspace navigation.](../../../../assets/docs/workspace-server-inventory.webp)
 
-_Sanitized production UI — read-only observation — LabsPanel v5.3.15. Workspace server inventory with example names; the resource owner remains Personal. English UI labels; Indonesian text is caption translation only._
+_Server inventory and Workspace navigation._
 
 ## Use local server navigation
 
@@ -51,7 +51,7 @@ Some sections and controls depend on permissions, host support, and service enti
 
 ![Example server Overview with CPU, memory, disk, uptime and resource-usage cards.](../../../../assets/docs/server-overview.webp)
 
-_Sanitized production UI — read-only observation — LabsPanel v5.3.15. Server Overview with observed resource usage and navigation; identities are replaced with examples. No server controls were used. English UI labels; Indonesian text is caption translation only._
+_Server overview, resource usage, and local navigation._
 
 ## Read state before acting
 
