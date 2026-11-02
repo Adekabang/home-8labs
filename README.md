@@ -141,3 +141,10 @@ terminal secrets, HAR files, or private host identifiers. The capture manifest
 keeps provenance, hashes, and independent reviewer identity/role/evidence explicit.
 AI-assisted review must be identified honestly, not attributed to a human.
 A passing scanner does not replace independent privacy review.
+
+The capture manifest uses `edgetermVersion` for the console component version;
+`null` means that no component version was observed. The existing six captures
+retain their actual Panel v5.3.15 source version, dates, hashes, and privacy
+approvals. A metadata field rename is not a recapture or proof of an EdgeTerm
+deployment. Customer instructions use the visible **Console**, **VNC Console**,
+and **Terminal Console** labels rather than internal service names.
