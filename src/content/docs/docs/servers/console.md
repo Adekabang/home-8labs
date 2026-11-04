@@ -3,8 +3,8 @@ title: "Use the browser console"
 description: "Open graphical or serial console access and recover from an expired launch."
 contentId: "customer-servers-console"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 5.3.18 / EdgeTerm 1.0.4"
+reviewedDate: "2026-11-04"
 translationStatus: "original"
 ---
 
@@ -46,24 +46,57 @@ Use the connection and error states to distinguish a disconnected transport from
 
 ## Keyboard, clipboard, and display
 
-Click inside the display before typing. Browser and operating system shortcuts can be intercepted before reaching the guest.
-Use only the keyboard helpers actually shown by the console. Do not assume every local shortcut reaches the guest.
-Clipboard access depends on browser permissions and console support. Paste only material you intend to execute in the guest.
-Never paste a password or command without checking the focused destination.
-Use available scale or fit controls for VNC; they change the display, not the guest resolution or server resources.
+These instructions describe EdgeTerm 1.0.4 controls. A direct Panel broker can show different controls.
+Click inside the display before typing. Browser and operating system shortcuts can intercept keys before they reach the guest.
+
+### Use the side controls
+
+- Select **Keyboard** to focus guest input for the device keyboard.
+- Open **Keyboard shortcuts** for Esc, Tab, arrows, Backspace, Enter, and guest-specific combinations.
+- Ctrl, Alt, and Shift apply to one combination. They reset when controls close, focus changes, or the connection ends.
+- Confirm serial Ctrl+D or graphical Ctrl+Alt+Del only when you intend their guest effect.
+- Use **Move controls to left/right** to change the rail edge. Its chevron collapses the rail to a restore handle.
+- Hover or focus an icon to read its hint. Hints describe actions without sending guest input.
+
+Use available scale or fit controls for VNC. They change the display, not the guest resolution or server resources.
+Native phone keyboards, clipboard permissions, rotation, and fullscreen depend on the browser and device.
+
+### Review text before sending
+
+1. Select **Paste text**, or paste while the console has focus.
+2. Review the editable text, character count, and line count.
+3. Check the destination and every newline. Newlines can execute commands.
+4. Choose the appropriate action below, or cancel without sending.
+
+Native paste opens **Review text before sending**, including single-line text.
+Ctrl+Shift+V or ⌘V opens review in either mode. Graphical Ctrl+V also opens review.
+Serial Ctrl+V retains literal-input behavior. Use **Paste text** when the browser intercepts a shortcut.
+**Read clipboard** requests browser permission. If permission or support is unavailable, paste manually into the review field.
+Closing review, cancellation, and disconnect clear its temporary text.
+
+| Action                                | Result                                                                                                              |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Serial **Send text**                  | Sends reviewed text through the terminal's paste handling. Guest bracketed-paste support can affect interpretation. |
+| Graphical **Type text**               | Sends character keys without using the guest clipboard. Newlines send Return and tabs send Tab.                     |
+| Graphical **Copy to guest clipboard** | Synchronizes text only. It does not type text or send a guest paste shortcut.                                       |
+
+Guest keyboard and Unicode support vary. Clipboard encoding can replace unsupported characters with `?`.
+Clipboard synchronization does not guarantee that text reaches an application. No combined copy-and-Ctrl+V action is provided.
+Never paste secrets or commands without checking the focused destination.
 
 ## Expired or disconnected session
 
-| State                      | Next action                                                                                  |
-| -------------------------- | -------------------------------------------------------------------------------------------- |
-| Missing or invalid launch  | Close the console and open it from the authorized server page.                               |
-| Launch expired             | Return to Panel and request a new console session.                                           |
-| Connection interrupted     | Use reconnect if offered while the session remains valid. Otherwise launch again from Panel. |
-| Serial view empty          | Confirm serial support for the image. Use VNC if supported.                                  |
-| Panel access denied        | Ask the owner to review effective console permission.                                        |
-| Host or broker unavailable | Contact support; changing guest SSH settings will not repair the broker.                     |
+| State                      | Next action                                                                                                 |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Missing or invalid launch  | Close the console and open it from the authorized server page.                                              |
+| Launch expired             | Return to Panel and request a new console session.                                                          |
+| Connection interrupted     | Return to the authorized server page and launch a fresh console. EdgeTerm does not reconnect automatically. |
+| Serial view empty          | Confirm serial support for the image. Use VNC if supported.                                                 |
+| Panel access denied        | Ask the owner to review effective console permission.                                                       |
+| Host or broker unavailable | Contact support; changing guest SSH settings will not repair the broker.                                    |
 
-A direct Panel broker path may be used on some deployments. Follow the displayed controls rather than editing console URLs.
+A direct Panel broker path may be used on some deployments. Its controls and recovery can differ from EdgeTerm.
+Follow that deployment's displayed instructions rather than editing console URLs.
 Closing the console disconnects that browser view; it does not shut down the server or log out every guest session.
 
 ## Report a console problem safely

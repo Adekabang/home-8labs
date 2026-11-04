@@ -148,3 +148,20 @@ retain their actual Panel v5.3.15 source version, dates, hashes, and privacy
 approvals. A metadata field rename is not a recapture or proof of an EdgeTerm
 deployment. Customer instructions use the visible **Console**, **VNC Console**,
 and **Terminal Console** labels rather than internal service names.
+
+## Current Console Guidance and Task Evidence
+
+The paired EN/ID console pages describe accepted Panel5.3.18 / EdgeTerm1.0.4 controls.
+They distinguish reviewed paste, graphical **Type text**, clipboard-only synchronization, side hints and fresh launch after disconnect.
+Their `reviewedDate` records source review, not a new deployment or device qualification.
+The last recorded console acceptance is scoped to LabsPanel PR315/316. Native iOS/Android and actual guest Unicode remain separate qualification.
+
+The finite customer/operator/integrator ledger belongs to LabsPanel `apps/docs/README.md#finite-task-acceptance-ledger`, tracked by [#352](https://github.com/Adekabang/labspanel/issues/352).
+It records existing results separately from unrun provider, finance, device and current-release tasks.
+The13 customer routes in `src/content/customer-migration.json` remain unchanged. Do not duplicate technical APIs here or restore retired console routes.
+
+For this content change, run the existing source/privacy/build checks after both repositories freeze.
+Serve the resulting `dist/` with `bun run preview --host 127.0.0.1 --port 4353`.
+Review both `/docs/servers/console/` and `/id/docs/servers/console/`, then the declared width/theme/keyboard/search matrix above.
+Local preview does not prove legacy-host redirects or publication. Retain actual network failures and external-host dispositions.
+No new image is necessary for this update. Preserve historical capture metadata and independent review instead of inventing fresh screenshots.
