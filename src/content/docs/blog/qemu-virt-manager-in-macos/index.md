@@ -48,7 +48,7 @@ iMac (Retina 5K, 27-inch, 2017)
     ![Check qemu version](00-qemu-version.png)
     
 4. Let's get Ubuntu running with Qemu.
-    1. Before we dive in, grab the Ubuntu ISO. I'm going with the desktop version from here: [https://releases.ubuntu.com/24.04/](https://releases.ubuntu.com/24.04/). I'll use the desktop version ([https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso](https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso)).
+    1. Download the [historical Ubuntu 24.04.2 desktop ISO](https://old-releases.ubuntu.com/releases/24.04.2/ubuntu-24.04.2-desktop-amd64.iso) used by this example. The publisher moved this image to its old-releases archive.
     2. Create a disk image using `qemu-img`. I'm making a 20GB image in the `qcow2` format.
         
         ```bash

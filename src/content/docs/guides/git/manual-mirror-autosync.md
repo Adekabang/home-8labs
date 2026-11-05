@@ -237,5 +237,5 @@ Cara paling bersih biasanya:
 ## Reference
 
 - [Duplicating a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository)
-- [Forgejo documentation](https://forgejo.org/docs/latest/user/repo-migration/)
-- [Gitea API: repository migration](https://docs.gitea.com/api/1.21/#tag/repository/operation/repoMigrate)
+- [Repository migration guide linked by Forgejo](https://docs.codeberg.org/advanced/migrating-repos/)
+- [Gitea API: repository migration](https://docs.gitea.com/api/operations/repo-migrate/) — current publisher reference, not a qualification of older installed Gitea versions.

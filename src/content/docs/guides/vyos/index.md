@@ -42,7 +42,7 @@ If you've ever used EdgeOS (Ubiquiti EdgeRouter), you already know VyOS — Edge
 | **LTS** | 1.4 Sagitta | Current LTS | Contributor/paid |
 | **LTS (old)** | 1.3 Equuleus | Maintenance only | Contributor/paid |
 
-This guide targets **VyOS 1.4/1.5** — the configuration syntax changed significantly in 1.4. If you're on 1.3 (Equuleus), some commands will differ. It's still maintained for security fixes but no new features — new deployments should start on 1.4 or 1.5. Check the [official migration guide](https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html).
+This guide targets **VyOS 1.4/1.5**. Configuration syntax differs from 1.3 (Equuleus). The [historical 1.3 migration URL](https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html) returned HTTP 404 on 2026-11-05. No equivalent migration guide was confirmed. The [official 1.4 image-update guide](https://docs.vyos.io/en/1.4/installation/update.html) describes image management, not complete 1.3 configuration migration. Obtain version-specific migration and recovery guidance from the VyOS maintainer before upgrading a 1.3 installation.
 
 ## Quick reference
 
