@@ -193,7 +193,7 @@ If the Forgejo-specific webhook doesn't work, use a **Generic Webhook** in Cooli
 ## References
 
 - [Forgejo Webhooks Documentation](https://forgejo.org/docs/latest/user/webhooks/)
-- [Coolify Webhooks Guide](https://coolify.io/docs/knowledge-base/git-providers/webhooks)
+- [Coolify Deploy Webhooks Guide](https://coolify.io/docs/core/automation/deploy-webhooks)
 - [Deploy on Push with Forgejo and Coolify](https://www.coryd.dev/posts/2025/deploy-on-push-with-forgejo-and-coolify)
 
 ---

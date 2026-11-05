@@ -165,3 +165,42 @@ Serve the resulting `dist/` with `bun run preview --host 127.0.0.1 --port 4353`.
 Review both `/docs/servers/console/` and `/id/docs/servers/console/`, then the declared width/theme/keyboard/search matrix above.
 Local preview does not prove legacy-host redirects or publication. Retain actual network failures and external-host dispositions.
 No new image is necessary for this update. Preserve historical capture metadata and independent review instead of inventing fresh screenshots.
+
+The parent recorded native-worker search result activation for `console`, `backup`, `SSH`, `konsol`, and `cadangan` on 2026-11-05.
+Each opened the intended EN/ID destination. Console language selection preserved `/servers/console` in both directions with matching document language.
+The technical root/base previews and all 93 explicit public/operator fragment targets have recorded local acceptance in the technical ledger.
+Actual TLS requests to `docs.8labs.id` returned HTTP 403 for all 39 retained fallback variants.
+The legacy-host owner must resolve access before deployed redirect/fragment acceptance under LabsPanel issue #352. Local preview results do not remove this blocker.
+
+### External URL dispositions — 2026-11-05
+
+The authorized finite `bun run check:external` run exited 1 with these 20 errors after two GET attempts per URL.
+The run covered 137 content routes, 13 migration sources and six reviewed-asset records. It did not pass.
+Source paths below are relative to `src/content/docs/`. Corrections use publisher pages observed during this review.
+No checker exception, invented mirror or authentication bypass was added. The checker can still report retained unavailable citations and access denials.
+
+| Observed URL | Status | Referring source | Correction or owner disposition |
+| --- | --- | --- | --- |
+| `https://my.8labs.id/virtual-labs` | 404 | `docs/getting-started/panel/aapanel-installation.mdx` | Replaced with the working `https://my.8labs.id/` catalog. Keep the historical plan name as context, not current availability. |
+| `https://hermes-agent.nousresearch.com/docs/user-guide/features/s6-container-supervision` | 404 | `docs/getting-started/hermes-agent-ipv6.mdx` | Replaced with the publisher's Docker guide, `/docs/user-guide/docker#running-in-gateway-mode`. Its served text describes s6 supervision. |
+| `https://releases.ubuntu.com/24.04/ubuntu-24.04.2-desktop-amd64.iso` | 404 | `blog/qemu-virt-manager-in-macos/index.md` | Replaced with the same image under `https://old-releases.ubuntu.com/releases/24.04.2/`. The official archive index lists the exact filename. No image download or boot was claimed. |
+| `https://medium.com/@truvis.thornton/opnsense-firewall-configuration-performance-tuning-for-multi-gigabit-internet-and-better-speeds-in-cfc80c49c544` | 403 | `blog/opnsense-performance-tuning/index.md` | Retain the historical attribution. Medium controls access. The content owner must use normal browser access or contact the author if this source is needed. A 403 does not establish deletion. |
+| `https://www.cyberciti.biz/faq/how-to-generate-wireguard-qr-code-on-linux-for-mobile/` | 403 | `blog/personal-asn-ipv6-journey/index.mdx` | Retain the historical reference. The publisher controls access. Do not bypass its denial or claim current source qualification. |
+| `https://amanjuman.medium.com/setting-up-bgp-routing-with-pathvector-and-bird-on-ubuntu-3f8b92a01669` | 403 | `blog/personal-asn-ipv6-journey/index.mdx` | Retain the historical attribution. Medium controls access. Obtain normal browser access or author guidance before relying on unavailable content. |
+| `https://www.fail2ban.org/wiki/index.php/Main_Page` | 404 | `blog/ubuntu-server-hardening/index.md` | Replaced with `https://github.com/fail2ban/fail2ban/wiki`, the wiki linked by the maintained official repository. |
+| `https://gist.github.com/gjrdiesel/4e93d8743b71babb58dcba4ee049247c` | 404 | `guides/proxmox/expand-vm-disk.md` | Retain explicit historical attribution and add an unavailability warning. No replacement source was confirmed. The guide owner must obtain current procedure qualification before operational use. |
+| `https://docs.vyos.io/en/latest/installation/migrate-from-1-3.html` | 404 | `guides/vyos/index.md` | Retain the historical URL with a warning and a migration stop gate. The working official 1.4 image-update guide is supplemental, not an equivalent configuration-migration guide. Obtain version-specific migration/recovery guidance from VyOS. |
+| `https://vyos.net/community/` | 404 | `guides/vyos/installation.md` | Replaced with `https://vyos.net/contribute/`, linked by the current community homepage. Contributor eligibility remains the publisher's decision. |
+| `https://vyos.net/subscriptions/` | 404 | `guides/vyos/installation.md` | Replaced with `https://vyos.io/`, whose current subscription FAQ describes LTS access. Relabeled as subscription information, not a verified pricing page. |
+| `https://coolify.io/docs/knowledge-base/git-providers/webhooks` | 404 | `guides/coolify/forgejo-webhook.md` | Replaced with `https://coolify.io/docs/core/automation/deploy-webhooks`, found in the publisher sitemap and read for its deploy-hook content. |
+| `https://www.howtoforge.com/how-to-install-wireguard-vpn-on-rocky-linux-9/` | 403 | `guides/wireguard/wireguard-rocky.md` | Retain the historical attribution. The publisher controls access. Obtain normal browser access or publisher guidance before relying on unavailable content. |
+| `https://forum.opnsense.org/index.php?action=profile;u=...` | 403 | `guides/opnsense/community-repo.md` | Removed the incomplete profile recommendation. Preserve the maintainer name and existing repository issue channel. Do not guess a user ID. |
+| `https://forgejo.org/docs/latest/user/repo-migration/` | 404 | `guides/git/manual-mirror-autosync.md` | Replaced with `https://docs.codeberg.org/advanced/migrating-repos/`, the migration guide linked by Forgejo's current user guide. |
+| `https://docs.gitea.com/api/1.21/#tag/repository/operation/repoMigrate` | 404 | `guides/git/manual-mirror-autosync.md` | Replaced with the publisher's working `/api/operations/repo-migrate/` reference. Disclose that it is current documentation, not older installed-version qualification. |
+| `https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private` | 403 | `guides/git/private-fork.md` | Retain the historical discussion attribution. Stack Overflow controls access. Existing official duplication guidance remains separate. No mirror was invented. |
+| `https://www.npmjs.com/package/caveman-shrink` | 403 | `guides/opencode/caveman/index.md` | Retain the package reference. npm controls page access. This response does not prove that the package is absent or safe to install. The guide owner must verify publisher/package provenance before use. |
+| `https://www.dell.com/support/home/en-us/drivers/driversdetails?driverid=0c7fm` | 403 | `guides/vmware/idrac-setup.md` | Retain the exact driver identity. Dell controls access and compatibility. Obtain the driver and supported ESXi matrix through normal authorized support access before installation. |
+| `https://support.broadcom.com/` | 403 | `guides/vmware/online-update-esxi.md` | Retain the vendor portal. Use an entitled Broadcom account through normal browser access. No entitlement bypass or replacement download is authorized. |
+
+These are URL-specific dispositions for LabsPanel issue #352, not a green external-check result or guest-operation acceptance.
+The unavailable migration/gist sources remain explicit operational blockers. Publisher access denials remain external-owner boundaries.

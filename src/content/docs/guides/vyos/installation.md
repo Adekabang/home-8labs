@@ -42,8 +42,8 @@ Available Stream Docker tags for building: `1.5-stream-2025-Q2`, `1.5-stream-202
 
 LTS ISOs are not publicly downloadable. Two ways to get them:
 
-1. **Become an active contributor** — code, docs, testing, or community work. Active contributors get free LTS access. [Start contributing →](https://vyos.net/community/)
-2. **LTS subscription** — paid access with support. [Pricing →](https://vyos.net/subscriptions/)
+1. **Become an active contributor** — code, docs, testing, or community work. Active contributors can apply for LTS access under the publisher's eligibility rules. [Start contributing →](https://vyos.net/contribute/)
+2. **LTS subscription** — paid access with support. [Subscription information →](https://vyos.io/)
 
 ### Build LTS ISO Yourself (Free)
 

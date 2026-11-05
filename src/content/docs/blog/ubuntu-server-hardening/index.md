@@ -746,7 +746,7 @@ This guide provides a solid security baseline for Ubuntu servers. Remember that 
 ### References
 
 - [Ubuntu Server Security Guide](https://ubuntu.com/server/docs/security)
-- [Fail2ban Official Documentation](https://www.fail2ban.org/wiki/index.php/Main_Page)
+- [Fail2ban Official Wiki](https://github.com/fail2ban/fail2ban/wiki)
 - [SSH Server Hardening](https://www.ssh-audit.com/)
 
 ---

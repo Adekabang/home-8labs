@@ -83,4 +83,4 @@ sda                         8:0    0    1T  0 disk
   └─ubuntu--vg-ubuntu--lv 253:0    0    1T  0 lvm  /
 ```
 
-Reference: [link](https://gist.github.com/gjrdiesel/4e93d8743b71babb58dcba4ee049247c)
+Historical source: [gjrdiesel's disk-expansion gist](https://gist.github.com/gjrdiesel/4e93d8743b71babb58dcba4ee049247c). This URL returned HTTP 404 on 2026-11-05. No replacement source was confirmed. Do not treat this unavailable citation as current procedure qualification.

@@ -127,6 +127,6 @@ pkg update
 
 - GitHub: [mimugmail/opn-repo](https://github.com/mimugmail/opn-repo/issues)
 - Repo page: [routerperformance.net/opnsense-repo](https://www.routerperformance.net/opnsense-repo/)
-- Maintainer: [@mimugmail](https://forum.opnsense.org/index.php?action=profile;u=...) on OPNsense Forum
+- Maintainer: `@mimugmail`. Use the repository issues link above for project reports. The former forum profile URL contained an incomplete user ID.
 
 Package licenses are free for use. Selling these packages is prohibited.
