@@ -3,7 +3,7 @@ title: "Start and stop your server safely"
 description: "Distinguish graceful shutdown from force stop, and wait for confirmed state."
 contentId: "customer-servers-power"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 6.0.7"
+reviewedVersion: "LabsPanel 6.0.8"
 reviewedDate: "2026-11-13"
 translationStatus: "original"
 ---
@@ -46,8 +46,15 @@ An accepted request is not a completed transition. Avoid repeated clicks while t
 A machine can be running while its application is unavailable.
 
 When no power operation is recorded, the Panel shows no empty-history message.
-Pending, failed, unknown, and status-read errors still appear when applicable. No message does not prove that an action succeeded.
-Even **succeeded** confirms the matching task and server state readback, not guest OS boot or application health.
+After a successful operation, a compact summary such as **Last Start succeeded** appears below the power buttons.
+The action label matches the recorded operation. It does not always say **Start**.
+Select the summary to expand its details. With a keyboard, press **Tab** to focus it, then **Enter** or **Space**.
+The details retain the matching task result, server state readback, and guest-boot limitation.
+
+This result describes a past operation. It does not replace the current server-state badge.
+**Succeeded** confirms the matching task and its state readback, not the current server state, guest OS boot, or application health.
+Pending, failed, unknown, and status-read or recovery errors remain visible without expanding a successful result.
+No message does not prove that an action succeeded.
 
 ## If the state does not change
 

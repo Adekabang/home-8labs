@@ -3,7 +3,7 @@ title: "Nyalakan dan matikan server dengan aman"
 description: "Bedakan penghentian normal dari pemaksaan dan tunggu status yang terkonfirmasi."
 contentId: "customer-servers-power"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 6.0.7"
+reviewedVersion: "LabsPanel 6.0.8"
 reviewedDate: "2026-11-13"
 translationStatus: "translated"
 ---
@@ -48,9 +48,15 @@ Jangan menekan berulang kali saat operasi masih sibuk.
 Mesin dapat berjalan meskipun aplikasinya tidak tersedia.
 
 Jika tidak ada operasi daya yang tercatat, Panel tidak menampilkan pesan riwayat kosong.
-Status tertunda, gagal, tidak diketahui, dan kesalahan pembacaan status tetap muncul jika berlaku.
+Setelah operasi berhasil, ringkasan singkat seperti **Last Start succeeded** muncul di bawah tombol daya.
+Nama tindakan sesuai dengan operasi yang tercatat. Nama ini tidak selalu **Start**.
+Pilih ringkasan untuk membuka rinciannya. Dengan keyboard, tekan **Tab** untuk memfokuskannya, lalu **Enter** atau **Space**.
+Rincian tetap memuat hasil tugas yang cocok, pembacaan ulang status server, dan batasan bukti boot tamu.
+
+Hasil ini menjelaskan operasi sebelumnya. Hasil ini tidak menggantikan indikator status server saat ini.
+Status **succeeded** mengonfirmasi tugas yang cocok dan pembacaan ulang statusnya, bukan status server saat ini, boot OS tamu, atau kesehatan aplikasi.
+Status tertunda, gagal, tidak diketahui, serta kesalahan pembacaan status atau pemulihan tetap terlihat tanpa membuka rincian hasil yang berhasil.
 Tidak adanya pesan bukan bukti bahwa tindakan berhasil.
-Status **succeeded** hanya mengonfirmasi tugas yang cocok dan pembacaan ulang status server, bukan boot OS tamu atau kesehatan aplikasi.
 
 ## Jika status tidak berubah
 
