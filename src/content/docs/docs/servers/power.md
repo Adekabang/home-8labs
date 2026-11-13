@@ -3,8 +3,8 @@ title: "Start and stop your server safely"
 description: "Distinguish graceful shutdown from force stop, and wait for confirmed state."
 contentId: "customer-servers-power"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.7"
+reviewedDate: "2026-11-13"
 translationStatus: "original"
 ---
 
@@ -27,6 +27,10 @@ Unsaved writes and application data can be lost or corrupted. Use graceful actio
 An unavailable button can reflect missing permission, unknown state, or an operation already in progress.
 A graceful action depends on guest support; lack of immediate response is not permission to force stop blindly.
 
+The **Node action restrictions** diagnostic banner is for root administrators only. Its details are collapsed until opened.
+Hiding this banner from customers does not change capability checks or action restrictions.
+Each action's permission, state, and availability checks still determine whether you can use it.
+
 ## Request and verify an action
 
 1. Open **Servers** and select the server.
@@ -40,6 +44,10 @@ A graceful action depends on guest support; lack of immediate response is not pe
 
 An accepted request is not a completed transition. Avoid repeated clicks while the operation is busy.
 A machine can be running while its application is unavailable.
+
+When no power operation is recorded, the Panel shows no empty-history message.
+Pending, failed, unknown, and status-read errors still appear when applicable. No message does not prove that an action succeeded.
+Even **succeeded** confirms the matching task and server state readback, not guest OS boot or application health.
 
 ## If the state does not change
 
