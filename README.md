@@ -179,6 +179,11 @@ They describe **All servers**, root-administrator **Configure server**, quiet em
 The review does not demonstrate completed guest power actions or a full production customer matrix.
 Settings and troubleshooting references remain applicable and retain their existing review metadata.
 
+The paired EN/ID power pages now record a LabsPanel v6.0.8 source review dated 2026-11-13.
+They describe the compact **Last Start succeeded** summary, action-matched labels, and keyboard expansion of retained task/readback details.
+The result is historical evidence, not current server status, guest-boot proof, or application-health proof. Failure and unknown-state guidance remains visible.
+Only the power pair receives this review-version update. Other pages retain their existing review metadata.
+
 The existing `server-overview.webp` shows no obsolete capability banner, admin configuration card, or empty-history disclaimer.
 Retain this customer overview image and its v5.3.15 capture provenance, hash, date, and privacy approval unchanged.
 No screenshot was replaced or recaptured. Page source-review metadata does not change capture provenance.
