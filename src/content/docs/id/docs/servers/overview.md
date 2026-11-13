@@ -3,8 +3,8 @@ title: "Temukan server dan ruang kerja"
 description: "Pahami kepemilikan, navigasi, izin, dan status server."
 contentId: "customer-servers-overview"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.7"
+reviewedDate: "2026-11-13"
 translationStatus: "translated"
 ---
 
@@ -47,7 +47,7 @@ _Daftar server dan navigasi Workspace._
 | **Settings**            | Periksa konfigurasi, akses, instal ulang, dan pilihan penghapusan. |
 
 Gunakan pemilih sumber daya yang diizinkan untuk berpindah server tanpa tertukar bagian lokalnya.
-Gunakan **Back to list** untuk kembali ke inventaris. Pastikan nama server sebelum melakukan perubahan.
+Gunakan **All servers** untuk kembali ke inventaris. Pastikan nama server sebelum melakukan perubahan.
 Sebagian bagian dan kontrol bergantung pada izin, dukungan host, serta hak layanan.
 
 ![Overview server contoh dengan kartu CPU, memori, disk, uptime, dan penggunaan resource.](../../../../../assets/docs/server-overview.webp)
@@ -61,5 +61,7 @@ Tunggu operasi saat ini dan status akhirnya sebelum mengirim tindakan lain.
 Pengamatan kedaluwarsa atau tidak diketahui tidak membuktikan mesin mati.
 Baca [telemetri dan aktivitas](/id/docs/servers/telemetry/) serta [pemecahan masalah](/id/docs/troubleshooting/overview/).
 
-Operator platform dapat memakai **View as customer** dan **Return to admin server**.
-Kontrol tersebut mengganti tampilan, bukan model izin. Pelanggan tidak mendapat akses area admin melalui kontrol itu.
+Administrator root dapat memakai **View as customer** dari halaman admin server.
+**Configure server** tersedia di atas bagian server, baik pada tampilan server biasa maupun pratinjau admin.
+Tautan ini mempertahankan tujuan kembali admin lokal yang tervalidasi (`returnTo`). Jika tidak tersedia, tautan membuka halaman admin server tersebut.
+Tautan ini tidak mengubah izin. Pelanggan tidak mendapat akses area admin melalui tautan tersebut.

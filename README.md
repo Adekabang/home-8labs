@@ -172,6 +172,20 @@ The technical root/base previews and all 93 explicit public/operator fragment ta
 Actual TLS requests to `docs.8labs.id` returned HTTP 403 for all 39 retained fallback variants.
 The legacy-host owner must resolve access before deployed redirect/fragment acceptance under LabsPanel issue #352. Local preview results do not remove this blocker.
 
+### Server guidance source review — 2026-11-13
+
+The paired EN/ID server overview and power pages were reviewed against deployed LabsPanel v6.0.7 source `fa6290e78b5a5af809dc62257c1db949b28049c9`.
+They describe **All servers**, root-administrator **Configure server**, quiet empty power history, retained operation warnings, and administrator-only capability diagnostics.
+The review does not demonstrate completed guest power actions or a full production customer matrix.
+Settings and troubleshooting references remain applicable and retain their existing review metadata.
+
+The existing `server-overview.webp` shows no obsolete capability banner, admin configuration card, or empty-history disclaimer.
+Retain this customer overview image and its v5.3.15 capture provenance, hash, date, and privacy approval unchanged.
+No screenshot was replaced or recaptured. Page source-review metadata does not change capture provenance.
+
+Before publication, run the existing source/privacy/build checks and review both locales' overview and power routes.
+Use the declared layout, keyboard, theme, language, and search matrix above. Record publication evidence separately from source review.
+
 ### External URL dispositions — 2026-11-05
 
 The authorized finite `bun run check:external` run exited 1 with these 20 errors after two GET attempts per URL.

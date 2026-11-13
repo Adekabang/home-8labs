@@ -3,8 +3,8 @@ title: "Find your server and workspace"
 description: "Understand ownership, navigation, permissions, and current server state."
 contentId: "customer-servers-overview"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.7"
+reviewedDate: "2026-11-13"
 translationStatus: "original"
 ---
 
@@ -46,7 +46,7 @@ _Server inventory and Workspace navigation._
 | **Settings**            | Review configuration, access, reinstall, and deletion options.      |
 
 Use the authorized resource switcher to change servers without confusing their local sections.
-Use **Back to list** to return to the inventory. Confirm the server name before any mutation.
+Use **All servers** to return to the inventory. Confirm the server name before any mutation.
 Some sections and controls depend on permissions, host support, and service entitlement.
 
 ![Example server Overview with CPU, memory, disk, uptime and resource-usage cards.](../../../../assets/docs/server-overview.webp)
@@ -60,5 +60,7 @@ Wait for the current operation and its final state before submitting another act
 Stale or unknown observations do not prove that the machine is off.
 See [telemetry and activity](/docs/servers/telemetry/) and [troubleshooting](/docs/troubleshooting/overview/).
 
-Platform operators may use **View as customer** and **Return to admin server**.
-Those controls change the view, not the permission model. Customers should not expect access to the admin area.
+Root administrators can use **View as customer** from the admin server page.
+**Configure server** appears above the server sections in both ordinary server views and admin previews.
+It retains a validated local admin return destination (`returnTo`), or opens that server's admin page by default.
+These links do not change permissions. Customers should not expect access to the admin area.

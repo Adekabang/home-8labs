@@ -3,8 +3,8 @@ title: "Nyalakan dan matikan server dengan aman"
 description: "Bedakan penghentian normal dari pemaksaan dan tunggu status yang terkonfirmasi."
 contentId: "customer-servers-power"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.7"
+reviewedDate: "2026-11-13"
 translationStatus: "translated"
 ---
 
@@ -28,6 +28,10 @@ Penulisan yang belum selesai dan data aplikasi dapat hilang atau rusak. Utamakan
 Tombol yang tidak tersedia dapat menandakan izin kurang, status tidak diketahui, atau operasi yang sedang berjalan.
 Tindakan normal memerlukan dukungan tamu. Respons yang lambat bukan alasan untuk langsung mematikan paksa.
 
+Banner diagnosis **Node action restrictions** hanya untuk administrator root. Rinciannya tertutup sampai dibuka.
+Tidak menampilkan banner ini kepada pelanggan tidak mengubah pemeriksaan kapabilitas atau pembatasan tindakan.
+Pemeriksaan izin, status, dan ketersediaan pada setiap tindakan tetap menentukan apakah tindakan tersebut dapat digunakan.
+
 ## Minta tindakan dan periksa hasilnya
 
 1. Buka **Servers**, lalu pilih server.
@@ -42,6 +46,11 @@ Tindakan normal memerlukan dukungan tamu. Respons yang lambat bukan alasan untuk
 Permintaan diterima belum berarti perubahan status selesai.
 Jangan menekan berulang kali saat operasi masih sibuk.
 Mesin dapat berjalan meskipun aplikasinya tidak tersedia.
+
+Jika tidak ada operasi daya yang tercatat, Panel tidak menampilkan pesan riwayat kosong.
+Status tertunda, gagal, tidak diketahui, dan kesalahan pembacaan status tetap muncul jika berlaku.
+Tidak adanya pesan bukan bukti bahwa tindakan berhasil.
+Status **succeeded** hanya mengonfirmasi tugas yang cocok dan pembacaan ulang status server, bukan boot OS tamu atau kesehatan aplikasi.
 
 ## Jika status tidak berubah
 
