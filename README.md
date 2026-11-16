@@ -305,7 +305,7 @@ The finite external-link run reported 13 failures across the complete site, not 
 
 The site now uses Nimbus 0.20.0 and Astro 7.4.12. The final build passed source/privacy and rendered-link/locale gates: 137 source families, 300 HTML pages and 1,409 assets. All 300 historical HTML paths and authored section fragments remain available. Pagefind indexes 172 pages across English and Indonesian. Untranslated fallbacks remain excluded from discovery.
 
-Type checking reported no errors with existing non-blocking hints. Seven publication-checker tests passed. Dependency audit found no vulnerabilities. Capture manifests and migration registries retain their original hashes. The existing marketing page sources and robots policy remain unchanged.
+Type checking reported no errors with existing non-blocking hints. Seven publication-checker tests passed. Dependency audit found no vulnerabilities. Capture manifests and migration registries retain their original hashes. Marketing routes, appearance and robots policy remain preserved.
 
 Actual local browser checks confirmed native EN/ID Pagefind results, RDP language switching, search Escape focus return and responsive light/dark layouts at 390/768/1365px. Mobile section selection resynchronizes after scrolling during the suppression interval. Instrumented browser tabs still alter Pagefind worker transport, so search acceptance used a native tab without worker replacement.
 
