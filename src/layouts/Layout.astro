@@ -19,13 +19,8 @@ const ogSlug = Object.entries(sitePages).find(
   ([, p]) => normalize(p.path) === currentPath,
 )?.[0];
 
-// Home uses a real screenshot of the landing page; other pages use generated cards.
-const ogImagePath =
-  currentPath === "/"
-    ? "/og-home.png"
-    : ogSlug
-      ? `/og/${ogSlug}.png`
-      : "/opengraph.jpg";
+// Generated cards share the current page's product message.
+const ogImagePath = ogSlug ? `/og/${ogSlug}.png` : "/opengraph.jpg";
 const resolvedImageWithDomain = new URL(ogImagePath, Astro.site).toString();
 
 const { title } = Astro.props;
@@ -49,7 +44,9 @@ const makeTitle = title
     <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
     <SEO
       title={makeTitle}
-      description="Virtual and cloud lab environments for developers, students, and homelabbers. Order, deploy, and manage through my.8labs.id."
+      description={currentPath === "/"
+        ? "Virtual and cloud labs for testing, learning, and rebuilding. Compare plans, order in Client Panel, and manage your server in Cloud Panel."
+        : "Virtual and cloud lab environments for developers, students, and homelabbers. Order, deploy, and manage through my.8labs.id."}
       canonical={canonicalURL}
       twitter={{
         creator: "@mraskaa_",
@@ -64,7 +61,7 @@ const makeTitle = title
           image: resolvedImageWithDomain,
         },
         image: {
-          alt: "8Labs Homepage Screenshot",
+          alt: ogSlug ? sitePages[ogSlug].data.title : "8Labs",
         },
         optional: {
           siteName: "8Labs",

@@ -1,64 +1,40 @@
 ---
-// Architecture / system map — replaces the generic feature grid with a
-// technical infrastructure diagram (thin connectors, Roman-numeral nodes).
-const stages = [
+// Plan considerations, not a sequence of deployment steps.
+const considerations = [
   {
-    numeral: "I",
-    title: "Base lab",
-    body: "Nested or dedicated environment, provisioned in 1–15 minutes.",
+    title: "Virtualization",
+    body: "Need to run a hypervisor? Choose a nested lab. Need a VM for your stack? Compare the dedicated or cloud options.",
   },
   {
-    numeral: "II",
-    title: "Network boundary",
-    body: "Public IPv6, IPv4, or private NAT — scoped per product family.",
+    title: "Network access",
+    body: "Public IPv6, public IPv4, and private NAT are different options. Check how you will connect before ordering.",
   },
   {
-    numeral: "III",
-    title: "Provisioning layer",
-    body: "Snapshots and recovery context. Keep your own backups.",
+    title: "Recovery",
+    body: "Check which backup and snapshot controls your plan includes. An on-server snapshot is not an independent backup.",
   },
   {
-    numeral: "IV",
-    title: "Client panel",
-    body: "Stock, billing unit, ordering, and support from my.8labs.id.",
+    title: "Price and availability",
+    body: "Use the pricing guide to compare families. Client Panel confirms current stock, billing units, and the final price.",
   },
 ];
 ---
 
-<section class="mt-32">
-  <div
-    class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
-    <p class="micro-label">System Architecture</p>
-    <p class="micro-label hidden sm:block">
-      Base → Boundary → Provision → Panel
-    </p>
-  </div>
-
+<section class="mt-20 md:mt-28" aria-labelledby="plan-boundaries-heading">
   <h2
-    class="mt-10 max-w-2xl text-3xl font-light leading-snug tracking-[-0.03em] text-line md:text-4xl">
-    Structured lab infrastructure with clear boundaries before deployment.
+    id="plan-boundaries-heading"
+    class="max-w-2xl text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
+    Know what your lab includes
   </h2>
-
-  <!-- horizontal connection map -->
-  <ol
-    class="mt-14 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-2 lg:grid-cols-4">
+  <div
+    class="mt-8 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-2 lg:grid-cols-4">
     {
-      stages.map((s, i) => (
-        <li class="group relative flex flex-col bg-ink p-6 transition-colors hover:bg-panel">
-          <div class="flex items-center gap-3">
-            <span class="flex h-9 w-9 items-center justify-center border border-grid bg-surface font-mono text-sm text-red-ink">
-              {s.numeral}
-            </span>
-            {i < stages.length - 1 && (
-              <span class="hidden h-px flex-1 bg-gradient-to-r from-red-700/60 to-transparent lg:block" />
-            )}
-          </div>
-          <h3 class="mt-5 text-lg font-light tracking-[-0.01em] text-line">
-            {s.title}
-          </h3>
-          <p class="mt-2 text-sm leading-relaxed text-cool">{s.body}</p>
-        </li>
+      considerations.map((item) => (
+        <div class="flex flex-col bg-ink p-6">
+          <h3 class="text-lg font-medium text-line">{item.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-cool">{item.body}</p>
+        </div>
       ))
     }
-  </ol>
+  </div>
 </section>
