@@ -83,44 +83,6 @@ const makeTitle = title
         content-visibility: auto;
       }
     </style>
-    <!-- Finite diagram motion resumes only while its surface is visible. -->
-    <script is:inline>
-      (function () {
-        var motifs = document.querySelectorAll("svg[data-motif]");
-        if (!motifs.length) return;
-        var visible = new Set();
-        function sync() {
-          motifs.forEach(function (motif) {
-            motif.toggleAttribute(
-              "data-paused",
-              document.hidden || !visible.has(motif),
-            );
-          });
-        }
-        if (!("IntersectionObserver" in window)) {
-          motifs.forEach(function (motif) {
-            visible.add(motif);
-          });
-        } else {
-          var observer = new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (entry) {
-                if (entry.isIntersecting && entry.intersectionRatio >= 0.2)
-                  visible.add(entry.target);
-                else visible.delete(entry.target);
-              });
-              sync();
-            },
-            { threshold: 0.2 },
-          );
-          motifs.forEach(function (motif) {
-            observer.observe(motif);
-          });
-        }
-        document.addEventListener("visibilitychange", sync);
-        sync();
-      })();
-    </script>
     <!-- Analytics -->
     <script
       defer

@@ -1,65 +1,37 @@
 ---
 import { Image } from "astro:assets";
-import Link from "@components/ui/link.astro";
 import serverOverview from "../assets/docs/server-overview.webp";
 ---
 
-<section class="mt-20 md:mt-28" aria-labelledby="panel-heading">
-  <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-    <div class="lg:sticky lg:top-8">
-      <h2
-        id="panel-heading"
-        class="max-w-xl text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
-        Your lab, from first order to everyday control
-      </h2>
-      <p class="mt-5 max-w-md text-base leading-relaxed text-cool">
-        Order in Client Panel. Manage your server in Cloud Panel. Your service's
-        management link takes you to the right place.
-      </p>
-      <dl class="mt-8 space-y-6 border-t border-grid pt-6">
-        <div>
-          <dt class="text-lg font-medium text-line">Choose and order</dt>
-          <dd class="mt-2 text-sm leading-relaxed text-cool">
-            Client Panel holds plan availability, final prices, invoices, and
-            support. Review the selected plan before you order.
-          </dd>
-        </div>
-        <div>
-          <dt class="text-lg font-medium text-line">Open your server</dt>
-          <dd class="mt-2 text-sm leading-relaxed text-cool">
-            Follow the management link from your service to Cloud Panel. Find
-            your servers and their assigned resources in one workspace.
-          </dd>
-        </div>
-        <div>
-          <dt class="text-lg font-medium text-line">
-            See what needs attention
-          </dt>
-          <dd class="mt-2 text-sm leading-relaxed text-cool">
-            Inspect resource usage, open the console, or review activity.
-            Backup, snapshot, and network controls depend on your plan and
-            permissions.
-          </dd>
-        </div>
-      </dl>
-      <div class="mt-8">
-        <Link href="/docs/getting-started/intro/" style="outline" size="md"
-          >See how to get started</Link
-        >
-      </div>
-    </div>
-    <figure class="min-w-0 border border-grid bg-surface p-3 sm:p-4">
-      <Image
-        src={serverOverview}
-        alt="Cloud Panel server overview showing assigned CPU, memory and disk, usage charts, and server controls with example names."
-        widths={[390, 768, 1200, 1440]}
-        sizes="(min-width: 1024px) 60vw, 100vw"
-        class="h-auto w-full border border-grid"
-        loading="lazy"
-      />
-      <figcaption class="px-1 pt-3 text-sm leading-relaxed text-cool">
-        Cloud Panel: server resources and controls at a glance.
-      </figcaption>
-    </figure>
-  </div>
+<section
+  aria-labelledby="panel-heading"
+  class="border-t border-grid py-16 md:py-24">
+  <h2
+    id="panel-heading"
+    class="max-w-3xl text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
+    Order your lab. Open it. Get to work.
+  </h2>
+  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cool">
+    Choose and order in Client Panel. Follow your service's management link to
+    Cloud Panel to see your servers, inspect resource usage, and open the
+    console.
+  </p>
+  <figure class="mt-10">
+    <Image
+      src={serverOverview}
+      alt="Cloud Panel server overview with example names, assigned resources, usage charts, and server controls."
+      widths={[390, 768, 1200, 1440]}
+      sizes="(min-width: 1152px) 1088px, 100vw"
+      class="h-auto w-full rounded-lg border border-grid"
+      loading="lazy"
+    />
+    <figcaption class="mt-3 text-sm leading-relaxed text-muted">
+      Cloud Panel. Available controls depend on your plan and permissions.
+    </figcaption>
+  </figure>
+  <a
+    href="/docs/getting-started/intro/"
+    class="mt-6 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-line underline underline-offset-4"
+    >See how to get started</a
+  >
 </section>

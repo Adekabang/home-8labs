@@ -1,62 +1,24 @@
 ---
 import Link from "@components/ui/link.astro";
-import HomelabTopology from "@components/motifs/homelab-topology.astro";
 ---
 
-<section
-  aria-label="Introduction"
-  class="relative isolate mt-6 border border-grid bg-ink">
-  <!-- corner registration marks -->
-  <span class="bp-cross absolute -left-2 -top-2 h-4 w-4"></span>
-  <span class="bp-cross absolute -right-2 -top-2 h-4 w-4"></span>
-  <span class="bp-cross absolute -bottom-2 -left-2 h-4 w-4"></span>
-  <span class="bp-cross absolute -bottom-2 -right-2 h-4 w-4"></span>
-
-  <div class="grid min-h-[600px] lg:grid-cols-2">
-    <div
-      class="flex flex-col justify-center gap-6 px-6 py-12 md:px-12 lg:py-20">
-      <h1
-        class="max-w-xl text-4xl font-medium leading-[1.05] tracking-[-0.03em] text-line text-balance sm:text-5xl lg:text-6xl">
-        Virtual and cloud labs. Room to experiment.
-      </h1>
-
-      <p class="max-w-md text-base leading-relaxed text-cool text-pretty">
-        Test a deployment. Learn a new stack. Rebuild and try again. Choose a
-        lab for your workload, then manage your server from the browser.
-      </p>
-
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <Link href="#choose-your-lab" size="md">Explore labs</Link>
-        <Link href="/pricing/" style="outline" size="md">Compare plans</Link>
-      </div>
-
-      <p
-        class="max-w-md border-t border-grid pt-6 text-sm leading-relaxed text-cool">
-        Nested virtualization, dedicated VMs, and cloud or NAT options. Check
-        the selected plan for resources, networking, and current availability.
-      </p>
-    </div>
-
-    <!-- visual cell -->
-    <div
-      class="relative flex items-center justify-center border-grid bg-surface px-6 py-12 lg:border-l">
-      <div
-        class="absolute inset-0 bp-dots opacity-40 [mask-image:radial-gradient(circle_at_60%_45%,black,transparent_72%)]">
-      </div>
-      <span class="absolute left-4 top-4 micro-label"
-        >FIG.01 / LAB TOPOLOGY</span
-      >
-
-      <HomelabTopology class="relative z-10 w-full max-w-md" />
-
-      <!-- annotation callout with corner brackets -->
-      <figure
-        class="absolute right-5 top-12 hidden max-w-[12rem] border border-line/30 bg-ink/90 p-3 backdrop-blur-sm lg:block">
-        <figcaption class="micro-label text-line">Isolated lab</figcaption>
-        <p class="mt-1 text-xs leading-snug text-cool">
-          An experiment node, segmented from the rest of the homelab network.
-        </p>
-      </figure>
-    </div>
+<section aria-labelledby="landing-title" class="py-20 md:py-32">
+  <h1
+    id="landing-title"
+    class="max-w-4xl text-5xl font-medium leading-[1.08] tracking-[-0.04em] text-line sm:text-6xl md:text-7xl">
+    Virtual and cloud labs.<br />
+    <span class="text-cool">Room to experiment.</span>
+  </h1>
+  <p class="mt-8 max-w-xl text-lg leading-relaxed text-cool">
+    Test a deployment. Learn a new stack. Rebuild and try again. Find the right
+    lab for your work, then manage it from your browser.
+  </p>
+  <div class="mt-8 flex flex-wrap items-center gap-4">
+    <Link href="#choose-your-lab" size="md">Explore labs</Link>
+    <a
+      href="/pricing/"
+      class="inline-flex min-h-[2.75rem] items-center px-2 text-sm font-medium text-line underline underline-offset-4"
+      >Compare plans</a
+    >
   </div>
 </section>

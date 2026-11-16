@@ -1,5 +1,4 @@
 ---
-import Container from "@components/container.astro";
 import Cta from "@components/cta.astro";
 import Features from "@components/features.astro";
 import Hero from "@components/hero.astro";
@@ -8,11 +7,12 @@ import Logos from "@components/logos.astro";
 import Partners from "@components/partners.astro";
 import ProductCatalog from "@components/product-catalog.astro";
 import TrustSignals from "@components/trust-signals.astro";
+import PurchaseFaq from "@components/purchase-faq.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout title="">
-  <Container>
+  <div class="mx-auto max-w-5xl px-6">
     <Hero />
     <PanelPreview />
     <ProductCatalog />
@@ -20,6 +20,7 @@ import Layout from "@layouts/Layout.astro";
     <TrustSignals />
     <Partners />
     <Logos />
+    <PurchaseFaq />
     <Cta />
-  </Container>
+  </div>
 </Layout>

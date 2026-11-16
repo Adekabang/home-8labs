@@ -1,30 +1,22 @@
 ---
-import Link from "@components/ui/link.astro";
-import NestedSandboxCubes from "@components/motifs/nested-sandbox-cubes.astro";
-import DedicatedComputeCore from "@components/motifs/dedicated-compute-core.astro";
-import DeploymentRunway from "@components/motifs/deployment-runway.astro";
-
-const posters = [
+const products = [
   {
-    label: "Virtual Labs",
-    title: "Build a lab inside your lab",
-    body: "Nested virtualization for testing hypervisors, networks, and multi-machine setups.",
+    name: "Virtual Labs",
+    description:
+      "Nested virtualization for hypervisors, networks, and multi-machine experiments.",
     href: "https://my.8labs.id/products/virtual-labs",
-    motif: "sandbox",
   },
   {
-    label: "Virtual Dedicated Labs",
-    title: "Run a dedicated virtual machine",
-    body: "KVM virtual machines for workloads that do not need nesting. Review the plan's resources and snapshot options.",
+    name: "Virtual Dedicated Labs",
+    description:
+      "A KVM virtual machine for workloads that do not need nesting. Compare resources and recovery options.",
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
-    motif: "core",
   },
   {
-    label: "CloudLabs and ElasticLabs",
-    title: "Choose your network and room to grow",
-    body: "Compare public IPv4/IPv6, growable resource tiers, and private IPv4 NAT options. Networking differs by plan.",
+    name: "CloudLabs and ElasticLabs",
+    description:
+      "Public IPv4/IPv6, growable resource tiers, or private IPv4 NAT. Choose the network and resources your workload needs.",
     href: "/pricing/",
-    motif: "runway",
   },
 ];
 ---
@@ -32,78 +24,35 @@ const posters = [
 <section
   id="choose-your-lab"
   aria-labelledby="catalog-heading"
-  class="mt-20 scroll-mt-8 md:mt-28">
-  <div
-    class="grid gap-4 border-b border-grid pb-6 sm:grid-cols-[1fr_auto] sm:items-end">
-    <div>
-      <h2
-        id="catalog-heading"
-        class="text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
-        Choose the lab that fits your work
-      </h2>
-      <p class="mt-4 max-w-xl text-base leading-relaxed text-cool">
-        Start with what you want to run. Then compare resources, network access,
-        and billing.
-      </p>
-    </div>
-    <a
-      href="/pricing/"
-      class="text-sm font-medium text-red-ink underline underline-offset-4"
-      >Compare all plans</a
-    >
-  </div>
-
-  <div
-    class="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid md:grid-cols-3">
+  class="scroll-mt-8 border-t border-grid py-16 md:py-24">
+  <h2
+    id="catalog-heading"
+    class="text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
+    A lab for what you want to build
+  </h2>
+  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cool">
+    Start with your workload. Then compare resources, network access, and
+    billing.
+  </p>
+  <div class="mt-10 grid gap-10 md:grid-cols-3">
     {
-      posters.map((p) => (
-        <a
-          href={p.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group relative flex flex-col bg-ink p-6 transition-colors duration-300 hover:bg-panel">
-          {/* framed visual area — dominant top */}
-          <div class="relative flex h-56 items-center justify-center overflow-hidden border border-grid bg-surface lg:h-64">
-            <div class="absolute inset-0 opacity-[0.12] blueprint-grid" />
-            {p.motif === "sandbox" && (
-              <NestedSandboxCubes class="relative h-56 w-auto" />
-            )}
-            {p.motif === "core" && (
-              <DedicatedComputeCore class="relative h-56 w-auto" />
-            )}
-            {p.motif === "runway" && (
-              <DeploymentRunway class="relative h-56 w-auto" />
-            )}
-          </div>
-
-          {/* headline + copy */}
-          <div class="mt-6 flex flex-1 flex-col">
-            <p class="text-sm font-medium text-red-ink">{p.label}</p>
-            <h3 class="mt-3 text-2xl font-light leading-snug tracking-[-0.02em] text-line">
-              {p.title}
-            </h3>
-            <p class="mt-3 text-sm leading-relaxed text-cool">{p.body}</p>
-            <span class="mt-auto pt-6 text-sm font-medium text-line">
-              View plans
-            </span>
-          </div>
-        </a>
+      products.map((product) => (
+        <div class="flex flex-col items-start">
+          <h3 class="text-xl font-medium text-line">{product.name}</h3>
+          <p class="mt-4 text-base leading-relaxed text-cool">
+            {product.description}
+          </p>
+          <a
+            href={product.href}
+            class="mt-auto inline-flex min-h-[2.75rem] items-center pt-5 text-sm font-medium text-line underline underline-offset-4">
+            View plans
+          </a>
+        </div>
       ))
     }
   </div>
-
-  <div
-    class="mt-px flex flex-col gap-4 border border-t-0 border-grid bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
-    <p class="max-w-2xl text-sm leading-relaxed text-cool">
-      Virtual Labs use LAB Coin billing. Other families use IDR plans. Confirm
-      current prices, stock, and included features in Client Panel.
-    </p>
-    <Link
-      href="/pricing/"
-      style="outline"
-      size="md"
-      class="rounded-none shrink-0">
-      Compare plans
-    </Link>
-  </div>
+  <p class="mt-10 max-w-2xl text-sm leading-relaxed text-muted">
+    Billing differs by offer. Check Client Panel for current stock, LAB Coin or
+    IDR pricing, and renewal terms.
+  </p>
 </section>

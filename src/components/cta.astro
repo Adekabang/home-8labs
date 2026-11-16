@@ -1,34 +1,25 @@
 ---
 import Link from "./ui/link.astro";
-import EndlessGrid from "@components/motifs/endless-grid.astro";
 ---
 
-<div
-  class="relative mt-32 mx-auto max-w-5xl overflow-hidden rounded-none border border-grid bg-ink px-6 py-24 md:px-20 md:py-32 text-center">
-  <!-- Endless perspective grid: clear masked centre keeps text/buttons legible -->
-  <EndlessGrid class="pointer-events-none absolute inset-0 h-full w-full" />
-  <span class="bp-cross absolute left-1 top-1 h-4 w-4"></span>
-  <span class="bp-cross absolute right-1 top-1 h-4 w-4"></span>
-  <span class="bp-cross absolute bottom-1 left-1 h-4 w-4"></span>
-  <span class="bp-cross absolute bottom-1 right-1 h-4 w-4"></span>
-  <div class="relative">
-    <h2
-      class="mt-4 text-line text-4xl font-light tracking-[-0.04em] md:text-6xl">
-      Pick a lab. Make it yours.
-    </h2>
-    <p class="mx-auto mt-6 max-w-lg text-base leading-relaxed text-cool">
-      Find the right resources and network for your next experiment. Check the
-      plan details before you order.
-    </p>
-    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-      <Link href="/pricing/" size="md" class="rounded-none">Compare plans</Link>
-      <Link
-        href="/docs/getting-started/intro/"
-        style="outline"
-        size="md"
-        class="rounded-none">
-        Read the getting-started guide
-      </Link>
-    </div>
+<section
+  class="border-t border-grid py-16 md:py-24"
+  aria-labelledby="closing-heading">
+  <h2
+    id="closing-heading"
+    class="text-4xl font-medium leading-tight tracking-[-0.04em] text-line md:text-5xl">
+    Your next lab starts here.
+  </h2>
+  <p class="mt-6 max-w-xl text-lg leading-relaxed text-cool">
+    Choose your resources and network. Review the plan. Make room for your next
+    experiment.
+  </p>
+  <div class="mt-8 flex flex-wrap items-center gap-4">
+    <Link href="/pricing/" size="md">Compare plans</Link>
+    <a
+      href="/docs/getting-started/intro/"
+      class="inline-flex min-h-[2.75rem] items-center px-2 text-sm font-medium text-line underline underline-offset-4"
+      >Read the getting-started guide</a
+    >
   </div>
-</div>
+</section>
