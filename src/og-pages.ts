@@ -9,7 +9,7 @@ export const sitePages: Record<
     data: {
       title: "8Labs — Virtual & Cloud Labs",
       description:
-        "Virtual and cloud lab environments for developers, students, and homelabbers. Full root, IPv6, snapshots — no vendor lock-in.",
+        "Virtual and cloud labs. Room to experiment. Compare nested labs, dedicated VMs, and cloud or NAT options for your next project.",
     },
   },
   services: {

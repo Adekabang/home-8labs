@@ -6,39 +6,51 @@ import DeploymentRunway from "@components/motifs/deployment-runway.astro";
 
 const posters = [
   {
-    numeral: "I",
-    label: "Virtual Lab Infrastructure",
-    title: "Nested labs for controlled failure.",
-    body: "Experiment-grade environments. Break things, rebuild, repeat — without touching production.",
+    label: "Virtual Labs",
+    title: "Build a lab inside your lab",
+    body: "Nested virtualization for testing hypervisors, networks, and multi-machine setups.",
     href: "https://my.8labs.id/products/virtual-labs",
     motif: "sandbox",
   },
   {
-    numeral: "II",
-    label: "Dedicated Compute Matrix",
-    title: "Predictable VMs with hard boundaries.",
-    body: "KVM machines for steady workloads. Public IPv6, on-server snapshots, clear limits.",
+    label: "Virtual Dedicated Labs",
+    title: "Run a dedicated virtual machine",
+    body: "KVM virtual machines for workloads that do not need nesting. Review the plan's resources and snapshot options.",
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
     motif: "core",
   },
   {
-    numeral: "III",
-    label: "Elastic Deployment Layer",
-    title: "Scale paths from NAT to cloud.",
-    body: "CloudLabs, ElasticLabs, and NAT tiers. Grow disk and network as the work expands.",
-    href: "https://my.8labs.id/products/elasticlabs",
+    label: "CloudLabs and ElasticLabs",
+    title: "Choose your network and room to grow",
+    body: "Compare public IPv4/IPv6, growable resource tiers, and private IPv4 NAT options. Networking differs by plan.",
+    href: "/pricing/",
     motif: "runway",
   },
 ];
 ---
 
-<section class="mt-32">
+<section
+  id="choose-your-lab"
+  aria-labelledby="catalog-heading"
+  class="mt-20 scroll-mt-8 md:mt-28">
   <div
-    class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
-    <p class="micro-label">Product Catalog</p>
-    <p class="micro-label hidden sm:block">
-      Confirm stock & price · my.8labs.id
-    </p>
+    class="grid gap-4 border-b border-grid pb-6 sm:grid-cols-[1fr_auto] sm:items-end">
+    <div>
+      <h2
+        id="catalog-heading"
+        class="text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
+        Choose the lab that fits your work
+      </h2>
+      <p class="mt-4 max-w-xl text-base leading-relaxed text-cool">
+        Start with what you want to run. Then compare resources, network access,
+        and billing.
+      </p>
+    </div>
+    <a
+      href="/pricing/"
+      class="text-sm font-medium text-red-ink underline underline-offset-4"
+      >Compare all plans</a
+    >
   </div>
 
   <div
@@ -51,29 +63,28 @@ const posters = [
           rel="noopener noreferrer"
           class="group relative flex flex-col bg-ink p-6 transition-colors duration-300 hover:bg-panel">
           {/* framed visual area — dominant top */}
-          <div class="relative flex h-80 items-center justify-center overflow-hidden border border-grid bg-surface lg:h-96">
+          <div class="relative flex h-56 items-center justify-center overflow-hidden border border-grid bg-surface lg:h-64">
             <div class="absolute inset-0 opacity-[0.12] blueprint-grid" />
             {p.motif === "sandbox" && (
-              <NestedSandboxCubes class="relative h-72 w-auto lg:h-80" />
+              <NestedSandboxCubes class="relative h-56 w-auto" />
             )}
             {p.motif === "core" && (
-              <DedicatedComputeCore class="relative h-72 w-auto lg:h-80" />
+              <DedicatedComputeCore class="relative h-56 w-auto" />
             )}
             {p.motif === "runway" && (
-              <DeploymentRunway class="relative h-72 w-auto lg:h-80" />
+              <DeploymentRunway class="relative h-56 w-auto" />
             )}
           </div>
 
           {/* headline + copy */}
           <div class="mt-6 flex flex-1 flex-col">
-            <p class="micro-label text-red-ink">{p.label}</p>
+            <p class="text-sm font-medium text-red-ink">{p.label}</p>
             <h3 class="mt-3 text-2xl font-light leading-snug tracking-[-0.02em] text-line">
               {p.title}
             </h3>
             <p class="mt-3 text-sm leading-relaxed text-cool">{p.body}</p>
-            <span class="mt-auto pt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-line">
-              <span class="h-px w-6 bg-red-700 transition-all group-hover:w-10" />
-              View architecture
+            <span class="mt-auto pt-6 text-sm font-medium text-line">
+              View plans
             </span>
           </div>
         </a>
@@ -84,16 +95,15 @@ const posters = [
   <div
     class="mt-px flex flex-col gap-4 border border-t-0 border-grid bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
     <p class="max-w-2xl text-sm leading-relaxed text-cool">
-      Virtual Labs bill in LAB Coin — 100 free at signup. Other families bill in
-      IDR. Final price and stock are confirmed in the panel.
+      Virtual Labs use LAB Coin billing. Other families use IDR plans. Confirm
+      current prices, stock, and included features in Client Panel.
     </p>
     <Link
-      href="https://my.8labs.id"
-      target="_blank"
-      rel="noopener noreferrer"
+      href="/pricing/"
+      style="outline"
       size="md"
       class="rounded-none shrink-0">
-      Open client panel
+      Compare plans
     </Link>
   </div>
 </section>

@@ -14,50 +14,27 @@ import HomelabTopology from "@components/motifs/homelab-topology.astro";
 
   <div class="grid min-h-[600px] lg:grid-cols-2">
     <div
-      class="flex flex-col justify-center gap-7 px-6 py-16 md:px-12 lg:py-24">
-      <p class="micro-label flex items-center gap-2 text-red-ink">
-        <span class="inline-block h-2 w-2 bg-red-700"></span>
-        Provisioned lab infrastructure
-      </p>
-
+      class="flex flex-col justify-center gap-6 px-6 py-12 md:px-12 lg:py-20">
       <h1
         class="max-w-xl text-4xl font-medium leading-[1.05] tracking-[-0.03em] text-line text-balance sm:text-5xl lg:text-6xl">
-        Spin up safe labs for <span class="text-red-ink"
-          >controlled failure</span
-        >.
+        Virtual and cloud labs. Room to experiment.
       </h1>
 
       <p class="max-w-md text-base leading-relaxed text-cool text-pretty">
-        Provisioned environments for testing, learning, and controlled failure,
-        with clear boundaries before anything reaches production.
+        Test a deployment. Learn a new stack. Rebuild and try again. Choose a
+        lab for your workload, then manage your server from the browser.
       </p>
 
       <div class="flex flex-col gap-3 sm:flex-row">
-        <Link
-          href="https://my.8labs.id"
-          target="_blank"
-          rel="noopener noreferrer"
-          size="md">
-          Open client panel
-        </Link>
-        <Link href="/docs" style="outline" size="md"> Read the docs </Link>
+        <Link href="#choose-your-lab" size="md">Explore labs</Link>
+        <Link href="/pricing/" style="outline" size="md">Compare plans</Link>
       </div>
 
-      <dl
-        class="mt-2 flex flex-wrap gap-x-10 gap-y-4 border-t border-grid pt-6">
-        <div>
-          <dt class="micro-label">Families</dt>
-          <dd class="mt-1 text-2xl font-medium text-line">5</dd>
-        </div>
-        <div>
-          <dt class="micro-label">Network</dt>
-          <dd class="mt-1 text-2xl font-medium text-line">v6 / v4 / NAT</dd>
-        </div>
-        <div>
-          <dt class="micro-label">Setup</dt>
-          <dd class="mt-1 text-2xl font-medium text-line">1&ndash;15 min</dd>
-        </div>
-      </dl>
+      <p
+        class="max-w-md border-t border-grid pt-6 text-sm leading-relaxed text-cool">
+        Nested virtualization, dedicated VMs, and cloud or NAT options. Check
+        the selected plan for resources, networking, and current availability.
+      </p>
     </div>
 
     <!-- visual cell -->

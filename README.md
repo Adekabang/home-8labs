@@ -18,6 +18,10 @@ not configure that host or prove its current runtime behavior.
 - Documentation wordmark: `8Labs.` with the primary brand's crimson (`#C20E50`) terminal dot.
 - Documentation headers group portal/help links separately from language and reader tools. Keep 8px link padding and a visible group separator.
 
+The landing page names the product before its benefits: virtual and cloud labs for testing, learning, and rebuilding. Hero actions lead to product exploration and plan comparison. Client Panel remains the ordering, billing and support portal. Cloud Panel owns server runtime controls. Do not combine them into a one-panel claim.
+
+The product section reuses the approved `server-overview.webp` capture with its original provenance and hash. Do not replace it with invented dashboard metrics. Plan networking, backup and snapshot availability remain conditional. Homepage social previews use the generated card and current product description rather than an outdated landing screenshot. Messaging reference: [Nimbus](https://nimbus-docs.com/), not its visual identity.
+
 ## Structure
 
 | Path                                    | What lives there                                             |
