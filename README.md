@@ -22,6 +22,8 @@ The landing page names the product before its benefits: virtual and cloud labs f
 
 The product section reuses the approved `server-overview.webp` capture with its original provenance and hash. Do not replace it with invented dashboard metrics. Plan networking, backup and snapshot availability remain conditional. Homepage social previews use the generated card and current product description rather than an outdated landing screenshot. Messaging reference: [Nimbus](https://nimbus-docs.com/), not its visual identity.
 
+Landing motion is finite and explanatory. The hero traces one uplink-to-lab route, then settles. The experiment branch draws once, and capacity nodes appear once. Compute gauges and trust illustrations remain static. Do not restore global floating, fake live telemetry, repeated error/respawn, or perpetual pulses. Off-screen and hidden-document sequences pause without restarting. Reduced-motion users see the complete static diagrams without traffic particles. Keep the existing real panel capture instead of adding decorative generated imagery or an animation player dependency.
+
 ## Structure
 
 | Path                                    | What lives there                                             |

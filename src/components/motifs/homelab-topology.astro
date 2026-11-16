@@ -1,15 +1,11 @@
 ---
-// Homelab network topology — uplink → router → switch fanning out to nodes
-// (Proxmox host, NAS, Pi, and an isolated lab VM in crimson). Traffic pulses
-// flow down the links, the active lab node blinks behind a dashed boundary.
-// Light blueprint aesthetic: 1px black strokes, near-white faces, crimson accent.
-// ponytail: pure CSS/SVG, no JS — offset-path drives the traffic pulses.
+// Static network topology with one finite uplink-to-lab traffic sequence.
 interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
 
-// link geometry — reused verbatim in the <style> offset-path rules
+// Link geometry is shared with the finite packet paths below.
 const L_TRUNK = "M260 124 L260 160";
 const L_N1 = "M210 200 C 150 235, 74 252, 74 292";
 const L_N3 = "M280 200 C 295 246, 330 252, 330 292";
@@ -33,7 +29,8 @@ const nodes = [
   <title id="ht-t">Homelab network topology</title>
   <desc id="ht-d"
     >An uplink feeding a router and switch that fans out to a Proxmox host, NAS,
-    Pi, and an isolated lab VM, with traffic pulses flowing along the links.</desc
+    Pi, and an isolated lab VM. One traffic sequence follows the route to the
+    lab.</desc
   >
 
   <!-- links -->
@@ -46,13 +43,11 @@ const nodes = [
     <path d={L_N4} pathLength="1"></path>
   </g>
 
-  <!-- traffic pulses (switch distributing down the fan) -->
-  <g fill="#C20E50">
-    <circle class="pkt k1" r="2.8"></circle>
-    <circle class="pkt k2" r="2.8"></circle>
-    <circle class="pkt k3" r="2.8"></circle>
-    <circle class="pkt k4" r="2.8"></circle>
-    <circle class="pkt k5" r="2.8"></circle>
+  <!-- One route: uplink → router → switch → isolated lab. -->
+  <g fill="#C20E50" aria-hidden="true">
+    <circle class="pkt uplink" r="2.8"></circle>
+    <circle class="pkt trunk" r="2.8"></circle>
+    <circle class="pkt lab-route" r="2.8"></circle>
   </g>
 
   <!-- uplink -->
@@ -172,15 +167,8 @@ const nodes = [
     <!-- port-bank fins -->
     <g fill="#0A0A0A" stroke="none">
       {
-        [266, 272, 278, 284, 294, 300, 306, 312].map((px, i) => (
-          <rect
-            class="fin"
-            style={`animation-delay:${1 + i * 0.12}s`}
-            x={px}
-            y="167"
-            width="3"
-            height="22"
-          />
+        [266, 272, 278, 284, 294, 300, 306, 312].map((px) => (
+          <rect x={px} y="167" width="3" height="22" />
         ))
       }
     </g>
@@ -416,127 +404,46 @@ const nodes = [
   }
 </svg>
 
-<style>
+<style
+  define:vars={{ trunkPath: `path("${L_TRUNK}")`, labPath: `path("${L_N4}")` }}
+>
   .pkt {
     opacity: 0;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .node {
-      opacity: 0;
-      transform-box: fill-box;
-      animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    .node:nth-of-type(3) {
-      animation-delay: 0.08s;
-    }
-    .node:nth-of-type(4) {
-      animation-delay: 0.16s;
-    }
-    .node:nth-of-type(5) {
-      animation-delay: 0.3s;
-    }
-    .node:nth-of-type(6) {
-      animation-delay: 0.38s;
-    }
-    .node:nth-of-type(7) {
-      animation-delay: 0.46s;
-    }
-    .node:nth-of-type(8) {
-      animation-delay: 0.54s;
-    }
-    .node:nth-of-type(9) {
-      animation-delay: 0.62s;
-    }
-    .link path {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: draw 0.8s ease forwards 0.3s;
-    }
-    .fin {
-      opacity: 0.25;
-      animation: flicker 1.8s ease-in-out infinite;
-    }
-    .b-b {
-      animation-delay: 2.3s;
-    }
-
     .pkt {
       offset-rotate: 0deg;
-      animation: hop 2.6s linear infinite 1s;
+      animation: traffic 320ms linear both;
     }
-    .k1 {
-      offset-path: path("M260 124 L260 160");
+    .uplink {
+      offset-path: path("M260 52 L260 84");
+      animation-delay: 300ms;
     }
-    .k2 {
-      offset-path: path("M210 200 C 150 235, 74 252, 74 292");
-      animation-delay: 1.7s;
+    .trunk {
+      offset-path: var(--trunkPath);
+      animation-duration: 360ms;
+      animation-delay: 720ms;
     }
-    .k3 {
-      offset-path: path("M280 200 C 295 246, 330 252, 330 292");
-      animation-delay: 2s;
-    }
-    .k4 {
-      offset-path: path("M310 200 C 380 235, 452 252, 452 292");
-      animation-delay: 2.3s;
-    }
-    .k5 {
-      offset-path: path("M240 200 C 225 246, 202 252, 202 292");
-      animation-delay: 1.85s;
-    }
-
-    .blink {
-      animation: blink 2.2s ease-in-out infinite 1.2s;
+    .lab-route {
+      offset-path: var(--labPath);
+      animation-duration: 1600ms;
+      animation-delay: 1180ms;
     }
   }
-  @keyframes rise {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes draw {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  @keyframes hop {
+  @keyframes traffic {
     0% {
       offset-distance: 0%;
       opacity: 0;
     }
-    6% {
+    8% {
       opacity: 1;
     }
-    34% {
-      offset-distance: 100%;
+    92% {
       opacity: 1;
     }
-    38%,
     100% {
       offset-distance: 100%;
       opacity: 0;
-    }
-  }
-  @keyframes blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.25;
-    }
-  }
-  @keyframes flicker {
-    0%,
-    100% {
-      opacity: 0.25;
-    }
-    50% {
-      opacity: 1;
     }
   }
 </style>

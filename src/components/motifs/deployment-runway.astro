@@ -1,8 +1,5 @@
 ---
-// Elastic Labs — autoscaling. A load curve rises and the deployment scales out
-// (2 → 4 replicas) then scales back in, on loop. A balancer fans traffic to the
-// steady replicas; the elastic replicas pop in/out, newest in crimson.
-// "Scale paths from NAT to cloud." Light blueprint aesthetic.
+// Illustrative capacity expansion, not automatic scaling or live load.
 interface Props {
   class?: string;
 }
@@ -26,10 +23,10 @@ const LINKS = [
   xmlns="http://www.w3.org/2000/svg"
   role="img"
   aria-labelledby="el-t el-d">
-  <title id="el-t">Autoscaling replicas</title>
+  <title id="el-t">Deployment capacity</title>
   <desc id="el-d"
-    >A rising load curve driving a balancer that scales out replica instances
-    and back in.</desc
+    >An illustrative deployment expanding from two nodes to four. Capacity
+    changes depend on the selected plan.</desc
   >
 
   <!-- load curve -->
@@ -50,7 +47,7 @@ const LINKS = [
       font-size="7"
       letter-spacing="1"
       fill="#A1A1AA"
-      stroke="none">LOAD</text
+      stroke="none">CAPACITY</text
     >
     <polyline
       class="load"
@@ -61,13 +58,6 @@ const LINKS = [
       stroke-width="1.6"
       stroke-linecap="round"
       stroke-linejoin="round"></polyline>
-    <circle
-      class="load-tip"
-      cx="234"
-      cy="24"
-      r="2.6"
-      fill="#C20E50"
-      stroke="none"></circle>
   </g>
 
   <!-- balancer -->
@@ -89,14 +79,10 @@ const LINKS = [
   <g class="link" fill="none" stroke="#A1A1AA" stroke-width="1.1">
     {LINKS.map((d) => <path d={d} pathLength="1" />)}
   </g>
-  <!-- elastic links (fade in/out with replicas 3 & 4) -->
+  <!-- Additional capacity paths. -->
   <g fill="none" stroke="#A1A1AA" stroke-width="1.1">
     <path class="elink ea" d="M180 100 C 200 126, 220 142, 220 168"></path>
     <path class="elink eb" d="M180 100 C 235 122, 300 132, 300 168"></path>
-  </g>
-  <g fill="#C20E50">
-    <circle class="pkt k1" r="2.4"></circle>
-    <circle class="pkt k2" r="2.4"></circle>
   </g>
 
   <!-- replicas -->
@@ -153,198 +139,27 @@ const LINKS = [
 </svg>
 
 <style>
-  .pkt {
-    opacity: 0;
-  }
-  .elink {
-    opacity: 1;
-  }
   @media (prefers-reduced-motion: no-preference) {
+    .r3,
+    .r4,
     .elink {
-      opacity: 0;
-      animation: fadeA 5s ease-in-out infinite 1s;
+      animation: capacity-in 400ms ease-out backwards;
     }
+    .r3,
+    .ea {
+      animation-delay: 250ms;
+    }
+    .r4,
     .eb {
-      animation-name: fadeB;
-    }
-    .load {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: loadDraw 5s ease-in-out infinite;
-    }
-    .load-tip {
-      animation: tip 5s ease-in-out infinite;
-    }
-    .plate {
-      opacity: 0;
-      transform-box: fill-box;
-      animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    .link path {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      animation: draw 0.8s ease forwards 0.3s;
-    }
-    .led {
-      animation: blink 2.4s ease-in-out infinite;
-    }
-    .pkt {
-      offset-rotate: 0deg;
-      animation: hop 2.6s linear infinite 1s;
-    }
-    .k1 {
-      offset-path: path("M180 100 C 140 124, 60 134, 60 168");
-    }
-    .k2 {
-      offset-path: path("M180 100 C 162 128, 140 142, 140 168");
-      animation-delay: 1.3s;
-    }
-
-    .rep {
-      transform-box: fill-box;
-      transform-origin: center bottom;
-    }
-    .r1,
-    .r2 {
-      opacity: 0;
-      animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
-    }
-    .r2 {
-      animation-delay: 0.55s;
-    }
-    .r3 {
-      animation: scaleA 5s ease-in-out infinite 1s;
-    }
-    .r4 {
-      animation: scaleB 5s ease-in-out infinite 1s;
+      animation-delay: 850ms;
     }
   }
-  @keyframes rise {
+  @keyframes capacity-in {
     from {
       opacity: 0;
-      transform: translateY(10px);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  @keyframes draw {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-  @keyframes blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.3;
-    }
-  }
-  @keyframes loadDraw {
-    0% {
-      stroke-dashoffset: 1;
-    }
-    45%,
-    70% {
-      stroke-dashoffset: 0;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  @keyframes tip {
-    0%,
-    30% {
-      opacity: 0;
-    }
-    45% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  @keyframes hop {
-    0% {
-      offset-distance: 0%;
-      opacity: 0;
-    }
-    6% {
-      opacity: 1;
-    }
-    34% {
-      offset-distance: 100%;
-      opacity: 1;
-    }
-    38%,
-    100% {
-      offset-distance: 100%;
-      opacity: 0;
-    }
-  }
-  @keyframes scaleA {
-    0%,
-    26% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    36%,
-    80% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    90%,
-    100% {
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
-  @keyframes scaleB {
-    0%,
-    42% {
-      opacity: 0;
-      transform: scale(0);
-    }
-    52%,
-    70% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    80%,
-    100% {
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
-  @keyframes fadeA {
-    0%,
-    30% {
-      opacity: 0;
-    }
-    38%,
-    80% {
-      opacity: 1;
-    }
-    90%,
-    100% {
-      opacity: 0;
-    }
-  }
-  @keyframes fadeB {
-    0%,
-    46% {
-      opacity: 0;
-    }
-    54%,
-    70% {
-      opacity: 1;
-    }
-    80%,
-    100% {
-      opacity: 0;
     }
   }
 </style>
