@@ -19,6 +19,16 @@ Check live stock and product details in Client Panel.
 Do not infer nested virtualization, Windows support, public IPv4, IPv6, or NAT entitlement from a different product family.
 Use the assigned endpoint shown for your actual service.
 
+### How do Virtual Labs, VDL, and ElasticLabs differ?
+
+Virtual Labs VMs run on a nested hypervisor, which itself runs as a VM on the bare-metal hypervisor.
+The extra virtualization layer makes Virtual Labs slower than Virtual Dedicated Labs (VDL) and ElasticLabs.
+VDL and ElasticLabs VMs run directly on the bare-metal hypervisor.
+
+This describes provider infrastructure, not a customer-managed hypervisor included with your VM.
+Direct placement does not imply a dedicated physical server or dedicated CPU.
+Check each plan for resource allocations and public IP or NAT access.
+
 ## Is a purchase free, or always paid with LAB Coin?
 
 No universal free purchase or coin-only rule applies in this guide.

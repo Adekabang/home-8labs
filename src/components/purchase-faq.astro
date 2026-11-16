@@ -3,7 +3,7 @@ const questions = [
   {
     question: "Which lab should I choose?",
     answer:
-      "Choose Virtual Labs when you need nested virtualization for a hypervisor or a multi-machine experiment. For a VM without nesting, compare Virtual Dedicated Labs, CloudLabs, and ElasticLabs. Match the selected plan's CPU, memory, storage, and networking to your workload.",
+      "Virtual Labs VMs run on a nested hypervisor. The extra virtualization layer makes them slower than VDL and ElasticLabs, which run directly on a bare-metal hypervisor. This describes provider infrastructure, not a hypervisor for you to manage. Compare the selected plan's CPU, memory, storage, and networking separately.",
     href: "/pricing/",
     label: "Compare product families",
   },

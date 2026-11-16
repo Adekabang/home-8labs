@@ -8,56 +8,252 @@ const partners = [
     name: "Genre Jawa Tengah",
     image: genreJatengImage,
     url: "https://genrejateng.or.id",
+    domain: "genrejateng.or.id",
+    description:
+      "A social movement empowering young people across Jawa Tengah.",
   },
   {
     name: "BlankOn Foundation",
     image: blankonImage,
     url: "https://blankon.id",
+    domain: "blankon.id",
+    description:
+      "A nonprofit advancing Indonesia’s open-source ecosystem through BlankOn Linux, education, and community collaboration.",
   },
 ];
 ---
 
 <section
-  class="border-t border-grid py-10 md:py-12"
+  class="community-section border-t border-grid py-10 md:py-12"
   aria-labelledby="community-heading">
-  <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-    <div>
-      <h2
-        id="community-heading"
-        class="text-2xl font-medium tracking-[-0.03em] text-line">
-        Explore the community
-      </h2>
-      <p class="mt-4 max-w-md text-base leading-relaxed text-cool">
-        Discover community initiatives and open-source projects beyond your lab.
-        Visit their sites to learn about their work.
-      </p>
-      <a
-        href="https://t.me/virtual_8labs"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-6 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-red-ink underline underline-offset-4">
-        Join the 8Labs community
-      </a>
-    </div>
-    <div class="flex min-w-0 flex-wrap items-center gap-x-8 gap-y-4">
-      {
-        partners.map((partner) => (
+  <header class="community-header">
+    <h2
+      id="community-heading"
+      class="text-2xl font-medium tracking-[-0.03em] text-line">
+      Explore the community
+    </h2>
+    <p class="text-base leading-relaxed text-cool">
+      Exchange ideas with other lab builders. Discover people working on youth
+      empowerment and open source in Indonesia.
+    </p>
+  </header>
+  <div class="community-grid">
+    <div class="community-invitation">
+      <div>
+        <p class="community-channel">8Labs community</p>
+        <h3>Keep the conversation going.</h3>
+        <p class="community-description">
+          Join our Telegram group for general discussion, lab questions, and
+          sharing what you’re learning.
+        </p>
+      </div>
+      <div class="community-invitation-actions">
+        <a
+          href="https://t.me/virtual_8labs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="community-join">Join 8Labs on Telegram</a
+        >
+        <p class="community-privacy">
+          Keep passwords, account details, and private service information out
+          of the group. For private support, use{" "}
           <a
-            href={partner.url}
+            href="https://my.8labs.id"
             target="_blank"
-            rel="noopener noreferrer"
-            class="group flex min-w-0 items-center gap-3 py-3 transition-colors hover:text-red-ink"
-            title={partner.name}>
-            <Image
-              src={partner.image}
-              alt={partner.name}
-              class="h-8 w-auto max-w-[7rem] object-contain"
-              loading="lazy"
-            />
-            <span class="text-base font-medium text-line">{partner.name}</span>
-          </a>
-        ))
-      }
+            rel="noopener noreferrer">Client Panel</a
+          >.
+        </p>
+      </div>
     </div>
+    {
+      partners.map((partner) => (
+        <a
+          href={partner.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="community-organization"
+          aria-label={`Visit ${partner.name} at ${partner.domain}`}>
+          <div class="community-logo">
+            <Image src={partner.image} alt="" loading="lazy" />
+          </div>
+          <h3>{partner.name}</h3>
+          <p class="community-description">{partner.description}</p>
+          <span class="community-domain">
+            {partner.domain}
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              aria-hidden="true">
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </span>
+        </a>
+      ))
+    }
   </div>
 </section>
+
+<style>
+  .community-header {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .community-header p {
+    max-width: 38rem;
+  }
+
+  .community-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .community-invitation,
+  .community-organization {
+    min-width: 0;
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: #18181b;
+  }
+
+  .community-invitation {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.75rem;
+    background: #fafafa;
+    border-top: 3px solid #c20e50;
+  }
+
+  .community-channel {
+    margin-bottom: 0.75rem;
+    color: #c20e50;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .community-section h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+  }
+
+  .community-invitation h3 {
+    max-width: 14rem;
+    font-size: 1.75rem;
+  }
+
+  .community-description {
+    margin-top: 0.75rem;
+    color: #52525b;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .community-join {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.625rem 1rem;
+    border: 1px solid #c20e50;
+    border-radius: 8px;
+    background: #c20e50;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .community-join:hover {
+    border-color: #18181b;
+    background: #18181b;
+  }
+
+  .community-privacy {
+    margin-top: 1rem;
+    color: #52525b;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .community-privacy a {
+    color: #18181b;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .community-privacy a:hover {
+    color: #c20e50;
+  }
+
+  .community-organization {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  .community-organization:hover {
+    border-color: #c20e50;
+  }
+
+  .community-organization:hover h3,
+  .community-organization:hover .community-domain {
+    color: #c20e50;
+  }
+
+  .community-logo {
+    display: flex;
+    align-items: center;
+    min-height: 6rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .community-logo img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 6rem;
+    object-fit: contain;
+  }
+
+  .community-domain {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  .community-domain svg {
+    flex-shrink: 0;
+  }
+
+  .community-section a:focus-visible {
+    outline: 2px solid #c20e50;
+    outline-offset: 4px;
+  }
+
+  @media (min-width: 1024px) {
+    .community-header {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      gap: 2rem;
+    }
+
+    .community-grid {
+      grid-template-columns: 1.15fr 1fr 1fr;
+    }
+  }
+</style>
