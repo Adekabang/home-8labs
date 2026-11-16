@@ -1,0 +1,90 @@
+---
+const questions = [
+  {
+    question: "Which lab should I choose?",
+    answer:
+      "Choose Virtual Labs when you need nested virtualization for a hypervisor or a multi-machine experiment. For a VM without nesting, compare Virtual Dedicated Labs, CloudLabs, and ElasticLabs. Match the selected plan's CPU, memory, storage, and networking to your workload.",
+    href: "/pricing/",
+    label: "Compare product families",
+  },
+  {
+    question: "Do I need IPv4, IPv6, or NAT?",
+    answer:
+      "Check how you and your applications will connect. Public IPv6 requires IPv6 connectivity. Public IPv4 and private IPv4 behind NAT are different options; do not assume a NAT plan includes a dedicated public IPv4 address. Review the plan and its connection instructions before ordering.",
+    href: "/docs/servers/network/",
+    label: "Read the networking guide",
+  },
+  {
+    question: "Which locations and operating systems are available?",
+    answer:
+      "Open the selected product in Client Panel to see its current locations, stock, and operating system choices. Image availability and Windows support depend on the service. If a choice you need is missing, ask before you pay.",
+    href: "https://my.8labs.id",
+    label: "Check the current catalog",
+  },
+  {
+    question: "What will I pay, and when does billing stop?",
+    answer:
+      "Check the checkout amount, currency or billing unit, billing period, tax, and renewal terms. Some offers use LAB Coin; others use IDR plans. Stopping or deleting a server does not necessarily cancel the service or its charges. Use Client Panel's cancellation process or ask support.",
+    href: "/docs/billing-plans/overview/",
+    label: "Understand billing and cancellation",
+  },
+  {
+    question: "How long until I can use my server?",
+    answer:
+      "Provisioning time depends on the service and installation. Follow the order status in Client Panel and the installation status in Cloud Panel. Payment confirmation or a Running label alone does not mean setup has finished. If installation fails, ask support to inspect the existing order before placing another one.",
+    href: "/docs/getting-started/intro/#wait-for-provisioning",
+    label: "Follow the first-access guide",
+  },
+  {
+    question: "Are backups included?",
+    answer:
+      "Check the selected plan for backup, snapshot, storage, and retention options. An on-server snapshot can share the same failure boundary as the server. Keep an independent copy of important data and check that you can restore it.",
+    href: "/docs/servers/backups/",
+    label: "Review recovery options",
+  },
+  {
+    question: "Where do I order, manage my server, or get help?",
+    answer:
+      "Use Client Panel for orders, invoices, and private service support. Follow your service's management link to Cloud Panel for server controls. Use the community for general discussion, not passwords, invoice details, or private service information.",
+    href: "/docs/help/contact/",
+    label: "Find the right support path",
+  },
+];
+---
+
+<section
+  class="border-t border-grid py-16 md:py-24"
+  aria-labelledby="purchase-questions-heading">
+  <div class="max-w-3xl">
+    <div>
+      <h2
+        id="purchase-questions-heading"
+        class="text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
+        Questions before you start
+      </h2>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-cool">
+        A few answers to help you choose. Your selected plan and checkout show
+        the details for your service.
+      </p>
+    </div>
+    <div class="mt-8 min-w-0 border-t border-grid">
+      {
+        questions.map((item) => (
+          <details class="border-b border-grid">
+            <summary class="cursor-pointer py-5 pr-4 text-base font-medium leading-relaxed text-line hover:text-red-ink">
+              {item.question}
+            </summary>
+            <div class="max-w-prose pb-6 pr-4 text-sm leading-relaxed text-cool">
+              <p>{item.answer}</p>
+              <a
+                href={item.href}
+                class="mt-4 inline-flex min-h-[2.75rem] items-center font-medium text-red-ink underline underline-offset-4">
+                {item.label}
+              </a>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

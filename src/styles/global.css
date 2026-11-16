@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Blueprint / ASCII-grid / isometric — light technical theme.
-   White paper, black ink, 8Labs red as the signal accent. */
+/* Neutral marketing canvas with the 8Labs crimson accent. */
 @layer base {
   body {
     background-color: #ffffff;
@@ -19,52 +18,6 @@
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: #57575e;
-  }
-  /* Thin blueprint guide grid */
-  .blueprint-grid {
-    background-image:
-      linear-gradient(rgba(10, 10, 10, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(10, 10, 10, 0.05) 1px, transparent 1px);
-    background-size: 44px 44px;
-  }
-  /* Diagonal hatch band (registration margin strips in the refs) */
-  .bp-hatch {
-    background-image: repeating-linear-gradient(
-      -45deg,
-      #e4e4e7 0,
-      #e4e4e7 1px,
-      transparent 1px,
-      transparent 7px
-    );
-  }
-  /* Dotted halftone matrix */
-  .bp-dots {
-    background-image: radial-gradient(
-      rgba(10, 10, 10, 0.12) 1px,
-      transparent 1.4px
-    );
-    background-size: 12px 12px;
-  }
-  /* Crosshair registration mark (+) — place inside a relatively-positioned box */
-  .bp-cross::before,
-  .bp-cross::after {
-    content: "";
-    position: absolute;
-    background: #a1a1aa;
-  }
-  .bp-cross::before {
-    width: 11px;
-    height: 1px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .bp-cross::after {
-    width: 1px;
-    height: 11px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 }
 
@@ -93,13 +46,6 @@
   outline: 2px solid #c20e50;
   outline-offset: 2px;
   border-radius: 0;
-}
-
-/* Finite diagram sequences pause off-screen and resume without restarting. */
-@media (prefers-reduced-motion: no-preference) {
-  svg[data-motif][data-paused] * {
-    animation-play-state: paused !important;
-  }
 }
 
 /* Honor reduced-motion: drop transitions, animations, and smooth scroll */

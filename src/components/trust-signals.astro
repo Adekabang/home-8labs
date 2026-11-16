@@ -1,101 +1,69 @@
 ---
-import { Icon } from "astro-icon/components";
-import SignalConsole from "@components/motifs/signal-console.astro";
-
 const trustItems = [
   {
-    title: "Status link, with fallback awareness",
+    title: "Check service status",
     description:
-      "The site links to a public status route for availability checks. If that route has a certificate or availability issue, use the client panel or community path instead.",
+      "Check for an active incident before troubleshooting your server. If the status page is unavailable, contact support through Client Panel.",
     href: "https://uptime.8labs.id",
     label: "Open status",
-    icon: "bx:pulse",
     external: true,
   },
   {
-    title: "Docs and support path",
+    title: "Find a guide or ask for help",
     description:
-      "Product usage should start from the docs at 8labs.id/docs. Account, provisioning, or incident-specific issues belong in the client panel support path.",
-    href: "/docs",
+      "Start with the guides for access, server controls, and recovery. For an issue with your account or service, use the private support path in Client Panel.",
+    href: "/docs/",
     label: "Read docs",
-    icon: "bx:book-open",
     external: false,
   },
   {
-    title: "Backup expectations",
+    title: "Keep an independent backup",
     description:
-      "8Labs terms state that users should perform their own backups and that backup availability or integrity is not guaranteed. Treat snapshots as convenience, not external backup.",
-    href: "/tos",
-    label: "Review terms",
-    icon: "bx:archive",
+      "Keep a separate copy of important data. A snapshot can share the server's storage and is not a replacement for an independent backup. Review your plan's recovery options.",
+    href: "/docs/servers/backups/",
+    label: "Understand backups",
     external: false,
   },
   {
-    title: "Conservative security claims",
+    title: "Report a security concern",
     description:
-      "Public product pages mention DDoS or Anti-DDoS on selected product families. Security, abuse, or account-impacting reports should go through support with context.",
-    href: "https://my.8labs.id",
+      "Send account, security, or abuse concerns through a private support channel. Include the affected service and a redacted error, never passwords or access tokens.",
+    href: "/docs/help/contact/",
     label: "Contact support",
-    icon: "bx:shield-quarter",
-    external: true,
+    external: false,
   },
 ];
 ---
 
-<section class="mt-32">
-  <div
-    class="relative overflow-hidden rounded-none border border-grid bg-surface p-8 md:p-12">
-    <div class="absolute inset-0 opacity-[0.1] blueprint-grid"></div>
-    <span class="absolute left-4 top-3 micro-label">Operational Signals</span>
-
-    <div class="relative mt-8 max-w-2xl">
-      <h2
-        class="text-3xl font-light leading-snug tracking-[-0.03em] text-line md:text-4xl">
-        Clear signals before users deploy workloads.
-      </h2>
-      <p class="mt-4 text-sm leading-relaxed text-cool">
-        Labs are built for experimentation, not production guarantees. Status,
-        docs, backup expectations, and support paths — stated plainly, no
-        invented SLAs.
-      </p>
-    </div>
-
-    <!-- verification node line -->
-    <div class="relative mt-8 flex items-center gap-2">
-      <span class="h-2 w-2 border border-red-700 bg-red-700"></span>
-      <span
-        class="h-px flex-1 bg-gradient-to-r from-red-700 via-red-700/40 to-transparent"
-      ></span>
-      <span class="micro-label shrink-0">VERIFIED · 8LABS.ID</span>
-      <span class="h-px w-10 bg-grid"></span>
-      <span class="h-2 w-2 border border-line/40"></span>
-    </div>
-
-    <SignalConsole class="relative mt-10 w-full" />
-
-    <div
-      class="relative mt-4 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid md:grid-cols-2">
-      {
-        trustItems.map((item, i) => (
+<section
+  class="border-t border-grid py-16 md:py-24"
+  aria-labelledby="help-heading">
+  <h2
+    id="help-heading"
+    class="text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
+    Help when you need it
+  </h2>
+  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cool">
+    Find a guide, check service status, or contact support. Keep service and
+    account details in private support channels.
+  </p>
+  <div class="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+    {
+      trustItems.map((item) => (
+        <div>
+          <h3 class="text-lg font-medium text-line">{item.title}</h3>
+          <p class="mt-3 text-base leading-relaxed text-cool">
+            {item.description}
+          </p>
           <a
             href={item.href}
             target={item.external ? "_blank" : undefined}
             rel={item.external ? "noopener noreferrer" : undefined}
-            class="group relative flex flex-col bg-ink p-6 transition-colors hover:bg-panel">
-            <Icon class="h-5 w-5 text-red-ink" name={item.icon} />
-            <h3 class="mt-4 text-base font-medium tracking-[-0.01em] text-line">
-              {item.title}
-            </h3>
-            <p class="mt-2 text-sm leading-relaxed text-cool">
-              {item.description}
-            </p>
-            <span class="mt-5 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-line">
-              <span class="h-px w-6 bg-red-700 transition-all group-hover:w-10" />
-              {item.label}
-            </span>
+            class="mt-4 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-line underline underline-offset-4">
+            {item.label}
           </a>
-        ))
-      }
-    </div>
+        </div>
+      ))
+    }
   </div>
 </section>
