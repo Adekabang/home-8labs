@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import virtualEnvironments from "../assets/virtual-environments.webp";
 const products = [
   {
     name: "Virtual Labs",
@@ -34,6 +36,20 @@ const products = [
     Start with your workload. Then compare resources, network access, and
     billing.
   </p>
+  <figure class="mt-8">
+    <Image
+      src={virtualEnvironments}
+      alt="Conceptual illustration of separate virtual environments sharing a host, with nested compartments and a crimson experiment environment beside it."
+      widths={[390, 768, 1200, 1672]}
+      sizes="(min-width: 1024px) 976px, calc(100vw - 48px)"
+      class="h-auto w-full"
+      loading="lazy"
+    />
+    <figcaption class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+      Separate environments. Room to nest and experiment. Conceptual
+      illustration; available features depend on your plan.
+    </figcaption>
+  </figure>
   <div class="mt-10 grid gap-10 md:grid-cols-3">
     {
       products.map((product) => (
