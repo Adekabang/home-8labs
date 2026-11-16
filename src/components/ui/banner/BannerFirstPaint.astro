@@ -1,0 +1,15 @@
+<script is:inline data-astro-rerun>
+  (function () {
+    var banner =
+      document.currentScript && document.currentScript.previousElementSibling;
+    var key = banner && banner.getAttribute("data-nb-banner-key");
+    if (!key) return;
+    try {
+      var stored = localStorage.getItem(key);
+      if (!stored) return;
+      var expiry = Number(stored);
+      if (expiry === 0 || expiry > Date.now()) banner.remove();
+      else localStorage.removeItem(key);
+    } catch (e) {}
+  })();
+</script>

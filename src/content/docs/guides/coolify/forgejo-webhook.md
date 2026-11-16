@@ -54,9 +54,14 @@ For secure webhook authentication between Forgejo and Coolify, configure a Beare
 5. Check the permissions: **"deploy"** and **"read"**
 6. Copy the generated token
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 Store this token securely. You'll need it for the next step.
-:::
+
+</aside>
+
 
 ### Configuring Forgejo Webhook with Bearer Token
 
@@ -77,9 +82,14 @@ Store this token securely. You'll need it for the next step.
 - **Audit trail**: You can trace which webhook triggered each deployment
 - **Token rotation**: If needed, you can revoke/regenerate the API key without changing the webhook URL
 
-:::caution
+<aside class="docs-warning docs-warning-caution" aria-label="caution">
+
+**Caution**
+
 Without API key authentication, your webhook URL is essentially an open endpoint. Anyone with the URL could trigger deployments, potentially disrupting your production environment.
-:::
+
+</aside>
+
 
 ## Step 4: The Critical Fix - Allowed Host List
 

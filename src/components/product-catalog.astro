@@ -33,12 +33,16 @@ const posters = [
 ---
 
 <section class="mt-32">
-  <div class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
+  <div
+    class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
     <p class="micro-label">Product Catalog</p>
-    <p class="micro-label hidden sm:block">Confirm stock & price · my.8labs.id</p>
+    <p class="micro-label hidden sm:block">
+      Confirm stock & price · my.8labs.id
+    </p>
   </div>
 
-  <div class="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid md:grid-cols-3">
+  <div
+    class="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid md:grid-cols-3">
     {
       posters.map((p) => (
         <a
@@ -49,9 +53,15 @@ const posters = [
           {/* framed visual area — dominant top */}
           <div class="relative flex h-80 items-center justify-center overflow-hidden border border-grid bg-surface lg:h-96">
             <div class="absolute inset-0 opacity-[0.12] blueprint-grid" />
-            {p.motif === "sandbox" && <NestedSandboxCubes class="relative h-72 w-auto lg:h-80" />}
-            {p.motif === "core" && <DedicatedComputeCore class="relative h-72 w-auto lg:h-80" />}
-            {p.motif === "runway" && <DeploymentRunway class="relative h-72 w-auto lg:h-80" />}
+            {p.motif === "sandbox" && (
+              <NestedSandboxCubes class="relative h-72 w-auto lg:h-80" />
+            )}
+            {p.motif === "core" && (
+              <DedicatedComputeCore class="relative h-72 w-auto lg:h-80" />
+            )}
+            {p.motif === "runway" && (
+              <DeploymentRunway class="relative h-72 w-auto lg:h-80" />
+            )}
           </div>
 
           {/* headline + copy */}
@@ -71,11 +81,18 @@ const posters = [
     }
   </div>
 
-  <div class="mt-px flex flex-col gap-4 border border-t-0 border-grid bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+  <div
+    class="mt-px flex flex-col gap-4 border border-t-0 border-grid bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
     <p class="max-w-2xl text-sm leading-relaxed text-cool">
-      Virtual Labs bill in LAB Coin — 100 free at signup. Other families bill in IDR. Final price and stock are confirmed in the panel.
+      Virtual Labs bill in LAB Coin — 100 free at signup. Other families bill in
+      IDR. Final price and stock are confirmed in the panel.
     </p>
-    <Link href="https://my.8labs.id" target="_blank" rel="noopener noreferrer" size="md" class="rounded-none shrink-0">
+    <Link
+      href="https://my.8labs.id"
+      target="_blank"
+      rel="noopener noreferrer"
+      size="md"
+      class="rounded-none shrink-0">
       Open client panel
     </Link>
   </div>

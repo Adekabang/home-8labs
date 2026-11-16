@@ -1,0 +1,53 @@
+---
+import DocsLayout from "@/layouts/DocsLayout.astro";
+import BlogArchivePost from "@/components/BlogArchivePost.astro";
+import { blogPosts, blogHref, tagSlug } from "@/utils/blog";
+const posts = await blogPosts();
+const title = "Adekabang",
+  page = 0,
+  total = 0;
+const fallback = Astro.url.pathname.startsWith("/id/");
+const prefix = fallback ? "/id" : "";
+const canonical = `https://8labs.id${Astro.url.pathname.replace(/^\/id(?=\/)/, "")}`;
+---
+
+<DocsLayout
+  title={title}
+  description="Infrastructure notes, practical guides, and updates from 8Labs."
+  sidebar={false}
+  locale="en"
+  noindex={fallback}
+  searchable={!fallback}
+  head={[{ tag: "link", attrs: { rel: "canonical", href: canonical } }]}>
+  {
+    fallback && (
+      <p lang="id" data-pagefind-ignore>
+        Artikel blog tersedia dalam bahasa Inggris.{" "}
+        <a href={Astro.url.pathname.slice(3)}>Buka versi asli bahasa Inggris</a>
+        .
+      </p>
+    )
+  }
+  {
+    title === "Adekabang" && (
+      <p>
+        <a href="https://github.com/Adekabang">Adekabang</a> — Tukang Ngoprek
+      </p>
+    )
+  }
+  <a href={`${prefix}/blog/rss.xml`}>RSS feed</a>
+  {posts.map((post) => <BlogArchivePost entry={post} />)}
+  {
+    total > 1 && (
+      <nav aria-label="Blog pagination">
+        {Array.from({ length: total }, (_, index) => (
+          <a
+            aria-current={page === index + 1 ? "page" : undefined}
+            href={`${prefix}/blog/${index === 0 ? "" : `${index + 1}/`}`}>
+            Page {index + 1}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</DocsLayout>

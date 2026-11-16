@@ -218,9 +218,14 @@ ipa-restore /var/lib/ipa/backup/ipa-full-YYYY-MM-DD-HH-MM-SS.tar.gz
 ipactl status
 ```
 
-:::danger
+<aside class="docs-warning docs-warning-danger" aria-label="danger">
+
+**Danger**
+
 `ipa-restore` stops all FreeIPA services during restoration. Plan for downtime.
-:::
+
+</aside>
+
 
 ## Uninstalling FreeIPA
 

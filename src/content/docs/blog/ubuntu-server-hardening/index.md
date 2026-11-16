@@ -1,5 +1,5 @@
 ---
-slug: blog/ubuntu-server-hardening-guide
+slug: ubuntu-server-hardening-guide
 title: Ubuntu Server Hardening - A Comprehensive Security Guide
 description: Harden Ubuntu Server 22.04 and 24.04 LTS with SSH lockdown, firewall rules, and CIS benchmark steps for production servers.
 authors: adekabang

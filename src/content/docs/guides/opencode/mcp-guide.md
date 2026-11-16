@@ -77,9 +77,14 @@ Useful when you want to add UI components directly through chat.
 
 Useful when you want OpenCode to inspect schemas, query data, or verify migrations.
 
-:::caution
+<aside class="docs-warning docs-warning-caution" aria-label="caution">
+
+**Caution**
+
 Do not hardcode real personal tokens into shared docs or committed config files.
-:::
+
+</aside>
+
 
 ## MCP setup checklist
 

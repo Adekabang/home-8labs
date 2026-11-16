@@ -39,7 +39,11 @@ function sourceRoute(file, data) {
     .replaceAll(path.sep, "/")
     .replace(/\.mdx?$/, "")
     .replace(/\/index$/, "");
-  return routeKey("/" + (data.slug ?? relative));
+  const slug =
+    data.slug && relative.startsWith("blog/")
+      ? `blog/${data.slug}`
+      : (data.slug ?? relative);
+  return routeKey("/" + slug);
 }
 const assetManifestPath = path.join(
   root,

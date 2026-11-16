@@ -68,9 +68,14 @@ After startup, the panel is available at:
 http://localhost:8317/
 ```
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 If you provide a plaintext `secret-key`, CLIProxyAPI will hash it on first startup. You still log in with the plaintext version.
-:::
+
+</aside>
+
 
 ### Enable usage statistics aggregation
 

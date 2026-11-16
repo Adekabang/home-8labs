@@ -26,17 +26,22 @@ const stages = [
 ---
 
 <section class="mt-32">
-  <div class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
+  <div
+    class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
     <p class="micro-label">System Architecture</p>
-    <p class="micro-label hidden sm:block">Base → Boundary → Provision → Panel</p>
+    <p class="micro-label hidden sm:block">
+      Base → Boundary → Provision → Panel
+    </p>
   </div>
 
-  <h2 class="mt-10 max-w-2xl text-3xl font-light leading-snug tracking-[-0.03em] text-line md:text-4xl">
+  <h2
+    class="mt-10 max-w-2xl text-3xl font-light leading-snug tracking-[-0.03em] text-line md:text-4xl">
     Structured lab infrastructure with clear boundaries before deployment.
   </h2>
 
   <!-- horizontal connection map -->
-  <ol class="mt-14 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-2 lg:grid-cols-4">
+  <ol
+    class="mt-14 grid grid-cols-1 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-2 lg:grid-cols-4">
     {
       stages.map((s, i) => (
         <li class="group relative flex flex-col bg-ink p-6 transition-colors hover:bg-panel">
@@ -48,7 +53,9 @@ const stages = [
               <span class="hidden h-px flex-1 bg-gradient-to-r from-red-700/60 to-transparent lg:block" />
             )}
           </div>
-          <h3 class="mt-5 text-lg font-light tracking-[-0.01em] text-line">{s.title}</h3>
+          <h3 class="mt-5 text-lg font-light tracking-[-0.01em] text-line">
+            {s.title}
+          </h3>
           <p class="mt-2 text-sm leading-relaxed text-cool">{s.body}</p>
         </li>
       ))

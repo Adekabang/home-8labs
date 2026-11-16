@@ -54,6 +54,9 @@ All steps (download, upload, maintenance mode, reboot) are the same for both com
 
 This is the standard method: download the patch from Broadcom, upload to a datastore, and apply via ESXCLI.
 
+<span id="step-1-download-the-patch-from-broadcom"></span>
+
+
 ### Step 1: Download the Patch from Broadcom 🟢🔵🟣🟠
 
 1. Log in to [support.broadcom.com](https://support.broadcom.com)
@@ -72,6 +75,9 @@ This is the standard method: download the patch from Broadcom, upload to a datas
 
 > 🟠 **ESXi 9.x:** the portal structure is the same. Look under **VMware vSphere** → **ESXi 9.x**.
 
+<span id="step-2-upload-patch-to-a-datastore"></span>
+
+
 ### Step 2: Upload Patch to a Datastore 🟢🔵🟣🟠
 
 Upload the ZIP to an ESXi datastore. **SCP is recommended** for large files:
@@ -83,6 +89,9 @@ scp VMware-ESXi-8.0U3d-24585383-depot.zip root@192.168.0.100:/vmfs/volumes/datas
 Or use the vSphere Client: Storage → datastore → Files → Upload.
 
 > Create a dedicated `patches/` directory on the datastore to keep things organized.
+
+<span id="step-3-ssh-into-esxi-and-check-current-version"></span>
+
 
 ### Step 3: SSH into ESXi and Check Current Version 🟢🔵🟣🟠
 
@@ -102,6 +111,9 @@ Verify the patch file is accessible:
 ls -lh /vmfs/volumes/datastore1/patches/
 ```
 
+<span id="step-4-shut-down-vms-and-enter-maintenance-mode"></span>
+
+
 ### Step 4: Shut Down VMs and Enter Maintenance Mode 🟢🔵🟣🟠
 
 Power off all VMs on the host, then:
@@ -116,6 +128,9 @@ Or with `vim-cmd`:
 vim-cmd /hostsvc/maintenance_mode_enter
 vim-cmd /hostsvc/hostsummary | grep inMaintenanceMode   # verify
 ```
+
+<span id="step-5-list-profiles-in-the-patch-bundle"></span>
+
 
 ### Step 5: List Profiles in the Patch Bundle 🟢🔵🟣🟠
 
@@ -134,6 +149,9 @@ ESXi-8.0U3d-24585383-no-tools      VMware, Inc.  PartnerSupported
 ```
 
 Pick `-standard` for a full update (includes VMware Tools). Use `-no-tools` for a minimal update.
+
+<span id="step-6-apply-the-patch"></span>
+
 
 ### Step 6: Apply the Patch 🟢🔵
 
@@ -183,6 +201,9 @@ esxcli software profile update \
   -d /vmfs/volumes/datastore1/patches/VMware-ESXi-8.0U3d-24585383-depot.zip \
   --no-hardware-warning
 ```
+
+<span id="step-7-reboot-and-verify"></span>
+
 
 ### Step 7: Reboot and Verify 🟢🔵🟣🟠
 
@@ -253,6 +274,9 @@ esxcli software profile update -p ESXi-8.0U3d-24585383-standard -d http://192.16
 > The depot ZIP contains an `index.xml` at the root. ESXCLI reads it to discover profiles and VIBs, same as it did with the old VMware online depot.
 
 ---
+
+<span id="method-3-single-vib-file-legacy-drivers"></span>
+
 
 ## Method 3: Single VIB File (Legacy Drivers) 🟢🔵
 

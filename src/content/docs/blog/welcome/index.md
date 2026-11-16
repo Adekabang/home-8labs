@@ -1,5 +1,5 @@
 ---
-slug: blog/welcome
+slug: welcome
 title: Welcome
 description: Meet 8Labs, a virtual labs platform for real Linux environments with full root access and cloud-init VMs to practice on.
 authors: adekabang

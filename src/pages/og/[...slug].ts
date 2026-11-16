@@ -2,11 +2,25 @@ import { getCollection } from "astro:content";
 import { OGImageRoute } from "astro-og-canvas";
 import { sitePages } from "../../og-pages";
 
-// One generated OG card per docs/guides/blog entry plus the landing pages.
-// Blog posts that set a `cover` use that instead (handled in the Head
-// override), but we still generate cards for everything so non-cover pages
-// have a branded preview.
-const entries = await getCollection("docs");
+// Preserve the public OG endpoints across all collection mounts.
+const mounts = {
+  customer: "docs",
+  customerId: "id/docs",
+  guides: "guides",
+  guidesId: "id/guides",
+  blog: "blog",
+  blogId: "id/blog",
+} as const;
+const entries = (
+  await Promise.all(
+    Object.entries(mounts).map(async ([collection, mount]) =>
+      (await getCollection(collection as keyof typeof mounts)).map((entry) => ({
+        ...entry,
+        id: `${mount}/${entry.id.replace(/\/index$/, "")}`,
+      })),
+    ),
+  )
+).flat();
 
 const pages = {
   ...Object.fromEntries(

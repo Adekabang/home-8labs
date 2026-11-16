@@ -132,6 +132,9 @@ ssh $REMOTE_USER@$BACKUP "source /opt/vyatta/etc/functions/script-template; \
   commit; save; exit"
 ```
 
+<span id="cluster-config-vyos-14"></span>
+
+
 ### Cluster Config (VyOS 1.4+) <sup>🟡</sup>
 
 ```bash

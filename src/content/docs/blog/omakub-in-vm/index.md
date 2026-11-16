@@ -1,5 +1,5 @@
 ---
-slug: blog/install-omakub-on-proxmox-vm
+slug: install-omakub-on-proxmox-vm
 title: Installing Omakub on a Proxmox Virtual Machine
 description: Install Omakub inside a Proxmox Ubuntu VM to build a jumphost and remote development desktop, with RDP access ready to use.
 authors: adekabang

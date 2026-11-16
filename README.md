@@ -11,9 +11,9 @@ not configure that host or prove its current runtime behavior.
 
 ## Stack
 
-- [Astro 5](https://astro.build) with Tailwind CSS (marketing pages)
-- [Starlight](https://starlight.astro.build) + [starlight-blog](https://github.com/HiDeoo/starlight-blog) (docs, guides, blog)
-- Pagefind search (built into Starlight, runs at build time)
+- [Astro 7.4.12](https://astro.build) with isolated Tailwind 3 marketing styles
+- [Nimbus 0.20.0](https://nimbus-docs.com) with owned layouts/components and Tailwind 4 documentation styles
+- Static Pagefind search, page Markdown endpoints, and collection `llms.txt` indexes
 - Fonts: Bricolage Grotesque (display) + Inter (body), self-hosted via Fontsource
 
 ## Structure
@@ -22,7 +22,7 @@ not configure that host or prove its current runtime behavior.
 | --------------------------------------- | ------------------------------------------------------------ |
 | `src/pages/`                            | Marketing pages (`/`, `/pricing`, `/contact`, ...)           |
 | `src/components/`                       | Marketing components (navbar, hero, footer, ...)             |
-| `src/components/starlight/`             | Starlight overrides (header, mobile menu)                    |
+| `src/components/ui/`                    | Nimbus registered components, keyboard navigation and search |
 | `src/content/docs/docs/`                | Product documentation → `/docs/*`                            |
 | `src/content/docs/id/docs/`             | Complete Indonesian customer articles → `/id/docs/*`         |
 | `src/content/customer-migration.json`   | Ownership map for all 13 migrated LabsPanel customer sources |
@@ -30,7 +30,7 @@ not configure that host or prove its current runtime behavior.
 | `src/content/docs/guides/`              | Technical guides → `/guides/*`                               |
 | `src/content/docs/blog/`                | Blog posts → `/blog/<slug>`                                  |
 | `src/content/legal/`                    | ToS & privacy policy content                                 |
-| `src/styles/starlight.css`              | 8Labs brand theme for the docs                               |
+| `src/styles/globals.css`, `prose.css`   | Nimbus documentation theme, isolated from marketing CSS      |
 | `public/_redirects`                     | Cloudflare Pages redirects for legacy URLs                   |
 
 The trust section in `src/components/partners.astro` uses the official BlankOn Foundation `Color.svg` lockup, stored locally as `src/assets/blankon-foundation-color.svg`. The source and usage guidance are available in the [BlankOn brand guidelines](https://blankon.id/en/brand-guidelines).
@@ -45,11 +45,11 @@ bun run build    # source/privacy gate, Astro/Pagefind, built link/locale checks
 bun run preview  # serve dist/ locally
 ```
 
-Use Bun **1.4.2**, declared in `packageManager` and CI. `bun.lock` was imported
-from the existing npm v3 lock without a framework upgrade. The original
-`package-lock.json` remains the historical import input, not a second active
-package-manager contract. Do not regenerate it with npm. Future dependency
-changes use Bun and commit `bun.lock`; CI always installs frozen.
+Use Bun **1.4.2**, declared in `packageManager` and CI, with Node **24** for
+Astro and Nimbus. `bun.lock` is the only dependency lock. Dependency changes
+use Bun; CI always installs frozen. Tailwind 3.4.4 is installed under the
+explicit `tailwindcss-v3` package alias solely to compile the existing
+marketing stylesheet; documentation imports its separate Tailwind 4 stylesheet.
 
 ## Writing content
 
@@ -69,11 +69,26 @@ one action per sentence, 20-word procedure and 25-word description targets.
 Indonesian uses natural direct instructions with unchanged exact UI labels.
 Use the internal [editorial language reference](docs/editorial-language.md).
 
-Starlight owns root-English and `id` localization, language selection, and
-Pagefind. Untranslated guest tutorials, general guides, and blog posts retain
-their original URLs. Generated Indonesian fallback pages explicitly disclose
-English content, use `lang=en`, canonicalize to the original, are `noindex`,
-and are excluded from Pagefind. They are not translation alternates.
+Six explicitly mounted Nimbus collections own customer English/Indonesian,
+guides, and blog routes. The local locale policy owns equivalent-page language
+selection; Nimbus builds Pagefind, and each document's language selects its index.
+Untranslated guest tutorials, general guides, and blog posts retain their
+original URLs. Indonesian fallback pages disclose English content, use
+`lang=en`, canonicalize to the original, are `noindex`, and stay out of
+Pagefind and agent indexes. They are not translation alternates.
+
+The 35 Indonesian blog archive, pagination, tag, and author URLs also retain
+their full English article bodies and an Indonesian fallback disclosure.
+Their former `lang=id`, self-canonical, indexable metadata incorrectly claimed
+translated content. Nimbus corrects these to English, canonical English
+counterparts, and `noindex`; the URLs and article section anchors remain.
+Blog archives render the original entries rather than maintaining copied prose.
+Historical authored heading URLs remain supported; framework-generated tab
+counter IDs are replaced by Nimbus's native accessible tab relationships.
+
+The selector parser override pins compatible patch `postcss-selector-parser`
+6.1.6 because typography 0.5.20 pins vulnerable 6.0.10. It fixes the parser
+advisory without changing the Tailwind 3 marketing compiler or waiving audit.
 
 Hosted billing belongs to `my.8labs.id`; runtime control belongs to
 `cloud.8labs.id`. Do not copy optional native-wallet payment instructions into
@@ -85,7 +100,7 @@ canonical owner here. The migration registry records the 13 source mappings.
 
 ```yaml
 ---
-slug: blog/my-post-slug
+slug: my-post-slug
 title: My Post
 authors: adekabang
 date: 2026-01-31
@@ -95,8 +110,10 @@ tags: [tag1, tag2]
 
 Images can sit next to the post and be referenced relatively.
 
-**Callouts**: Starlight asides (`:::note`, `:::tip`, `:::caution`, `:::danger`,
-optional title via `:::tip[Custom title]`).
+**Callouts**: MDX uses Nimbus registered `Aside` or native `:::note`, `:::tip`,
+`:::caution`, and `:::danger` directives. Plain Markdown uses semantic
+`<aside class="docs-warning" aria-label="Warning">` blocks with blank lines
+around Markdown content; do not use MDX-only directives in `.md` files.
 
 ## Deployment
 
@@ -283,3 +300,15 @@ Actual local browser checks opened five customer task pairs, confirmed document 
 Rendered cross-site checks resolved all 13 technical fallback pages' local/customer destinations and explicit fragments against the built outputs. No schema, screenshot, framework, canonical route or translation ownership was replaced.
 
 The finite external-link run reported 13 failures across the complete site, not a pass. Existing publisher access denials and the unavailable migration/gist citations retain the dispositions above. Additional failures were the historical Dreams of Code production-VPS citation (404), the VyOS subscription portal (403), and The Nicholson ESXi-token article (403). These belong to general guide/blog citations outside the hosted customer task set. Do not infer deletion from an access denial or execute a blocked historical procedure without current publisher guidance. This local verification does not establish live Cloudflare publication or legacy-host redirects.
+
+### Nimbus migration verification — 2026-11-16
+
+The site now uses Nimbus 0.20.0 and Astro 7.4.12. The final build passed source/privacy and rendered-link/locale gates: 137 source families, 300 HTML pages and 1,409 assets. All 300 historical HTML paths and authored section fragments remain available. Pagefind indexes 172 pages across English and Indonesian. Untranslated fallbacks remain excluded from discovery.
+
+Type checking reported no errors with existing non-blocking hints. Seven publication-checker tests passed. Dependency audit found no vulnerabilities. Capture manifests and migration registries retain their original hashes. Marketing routes, appearance and robots policy remain preserved.
+
+Actual local browser checks confirmed native EN/ID Pagefind results, RDP language switching, search Escape focus return and responsive light/dark layouts at 390/768/1365px. Mobile section selection resynchronizes after scrolling during the suppression interval. Instrumented browser tabs still alter Pagefind worker transport, so search acceptance used a native tab without worker replacement.
+
+Both RSS endpoints retain all 11 published articles with complete rendered instructions, code and images. The feed-only transform preserves visible OS/alternative labels and removes runtime scripts, styles and links. Feed URLs are absolute. Article social metadata selects explicit images, blog covers or existing generated cards. English fallback pages advertise their original collection's existing agent index.
+
+These results qualify local migration output, not live publication. The separate external-link findings above remain disclosed. A direct public request returned 403 for `8labs.id/docs/` and 404 for the configured GitHub Pages manual during this acceptance run.

@@ -19,9 +19,14 @@ For this guide, we use the following reference setup:
 | `client-1.example.internal` | `192.168.100.129` | Client (joined to domain) | Rocky Linux 9.x |
 | `client-2.example.internal` | `192.168.100.130` | Client (joined to domain) | Rocky Linux 9.x |
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 Replace `example.internal`, IP addresses, and hostnames with your own values throughout this guide.
-:::
+
+</aside>
+
 
 ## Prerequisites
 
@@ -60,9 +65,14 @@ hostname -f
 # Must output: ipa-server.example.internal
 ```
 
-:::caution
+<aside class="docs-warning docs-warning-caution" aria-label="caution">
+
+**Caution**
+
 FreeIPA uses the hostname to generate the Kerberos realm and LDAP DN. An incorrect hostname will break certificates, DNS records, and Kerberos configuration.
-:::
+
+</aside>
+
 
 ## Step 2: Configure `/etc/hosts`
 
@@ -72,7 +82,10 @@ cat >> /etc/hosts << 'EOF'
 EOF
 ```
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 **Format matters.** FQDN comes first, short name second:
 
 ```
@@ -84,7 +97,9 @@ EOF
 ```
 
 The `/etc/hosts` entry acts as bootstrap configuration when DNS is unavailable during system startup.
-:::
+
+</aside>
+
 
 ## Step 3: Install FreeIPA Packages
 

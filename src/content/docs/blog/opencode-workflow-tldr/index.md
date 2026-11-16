@@ -1,5 +1,5 @@
 ---
-slug: blog/opencode-workflow-tldr
+slug: opencode-workflow-tldr
 title: OpenCode Workflow TL;DR - From One Giant Setup to Daily System
 description: How one giant OpenCode setup note was split into a daily docs system covering provider setup, MCP, model choice, and fixes.
 authors: adekabang

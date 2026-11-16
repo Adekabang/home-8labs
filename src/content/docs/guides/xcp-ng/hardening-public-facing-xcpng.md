@@ -5,15 +5,25 @@ sidebar:
   order: 1
 ---
 
-:::caution[NOT FOR PRODUCTION]
+<aside class="docs-warning docs-warning-caution" aria-label="NOT FOR PRODUCTION">
+
+**NOT FOR PRODUCTION**
+
 This tutorial has been tested in XCP-ng version 8.2 only. Please proceed carefully, as it is not production-ready.
-:::
+
+</aside>
+
 
 This guide outlines a robust method for securing a public-facing XCP-ng hypervisor by routing all management traffic through a WireGuard VPN tunnel on an OPNsense firewall VM. This minimizes the attack surface on the XCP-ng host itself.
 
-:::danger[IMPORTANT DISCLAIMER]
+<aside class="docs-warning docs-warning-danger" aria-label="IMPORTANT DISCLAIMER">
+
+**IMPORTANT DISCLAIMER**
+
 This setup is highly restrictive. **You MUST have out-of-band console access (e.g., IPMI, iLO, DRAC, SOL) to your XCP-ng host.** This is your only lifeline if you inadvertently lock yourself out. Test your console access thoroughly before proceeding.
-:::
+
+</aside>
+
 
 ## Core Principle
 
