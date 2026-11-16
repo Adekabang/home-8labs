@@ -95,30 +95,10 @@
   border-radius: 0;
 }
 
-/* Motif line-art: draw once when scrolled into view, then settle.
-   IntersectionObserver toggles [data-paused] so off-screen motifs hold at
-   their start frame and play on entry. Ambient loops authored per-motif stay. */
+/* Finite diagram sequences pause off-screen and resume without restarting. */
 @media (prefers-reduced-motion: no-preference) {
   svg[data-motif][data-paused] * {
     animation-play-state: paused !important;
-  }
-  /* Slow continuous loop: the object floats while in view, on top of its
-     one-time build. Calm, never flashes or disappears. */
-  svg[data-motif]:not([data-paused]) {
-    animation: motif-bob 4.5s ease-in-out infinite;
-    transform-origin: center;
-    will-change: transform;
-  }
-}
-@keyframes motif-bob {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-  100% {
-    transform: translateY(0);
   }
 }
 
@@ -131,12 +111,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-  /* Motif line-art is the settled state by default: never gate its visibility
-     on motion for reduced-motion users (or paused, off-screen entrances). */
-  svg[data-motif] * {
-    opacity: 1 !important;
-    transform: none !important;
-    stroke-dashoffset: 0 !important;
   }
 }
