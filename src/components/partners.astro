@@ -18,13 +18,13 @@ const partners = [
 ---
 
 <section
-  class="border-t border-grid py-16 md:py-24"
+  class="border-t border-grid py-10 md:py-12"
   aria-labelledby="community-heading">
   <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
     <div>
       <h2
         id="community-heading"
-        class="text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
+        class="text-2xl font-medium tracking-[-0.03em] text-line">
         Explore the community
       </h2>
       <p class="mt-4 max-w-md text-base leading-relaxed text-cool">
@@ -39,19 +39,19 @@ const partners = [
         Join the 8Labs community
       </a>
     </div>
-    <div class="grid min-w-0 gap-4">
+    <div class="flex min-w-0 flex-wrap items-center gap-x-8 gap-y-4">
       {
         partners.map((partner) => (
           <a
             href={partner.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="group flex min-w-0 flex-col items-start gap-4 py-3 transition-colors hover:text-red-ink sm:flex-row sm:items-center sm:gap-5"
+            class="group flex min-w-0 items-center gap-3 py-3 transition-colors hover:text-red-ink"
             title={partner.name}>
             <Image
               src={partner.image}
               alt={partner.name}
-              class="h-10 w-auto max-w-full object-contain"
+              class="h-8 w-auto max-w-[7rem] object-contain"
               loading="lazy"
             />
             <span class="text-base font-medium text-line">{partner.name}</span>

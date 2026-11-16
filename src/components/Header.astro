@@ -51,13 +51,10 @@ const resolveSectionHref = (href: string): string =>
     class="mx-auto flex items-center justify-between gap-3 h-14 px-4 lg:px-6">
     <div class="flex items-center gap-3 min-w-0">
       <slot name="brand">
-        {
-          /* The mark alone; the site title stays as the link's accessible name. */
-        }
         <a
           href={homeHref}
-          class="flex shrink-0 items-center text-foreground transition-opacity hover:opacity-70">
-          <Logo class="h-5 w-8 shrink-0" />
+          class="flex shrink-0 items-center rounded-md text-foreground transition-opacity hover:opacity-70">
+          <Logo />
           <span class="sr-only">{config.title}</span>
         </a>
       </slot>
@@ -72,9 +69,9 @@ const resolveSectionHref = (href: string): string =>
                 href={resolveSectionHref(section.href)}
                 aria-current={section.isActive ? "page" : undefined}
                 class:list={[
-                  "px-2 py-1 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap",
+                  "inline-flex min-h-8 items-center px-2 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap focus-visible:-outline-offset-2",
                   section.isActive
-                    ? "text-foreground bg-accent"
+                    ? "text-brand bg-[var(--nb-brand-wash)]"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent/60",
                 ]}>
                 {section.label}
@@ -91,31 +88,37 @@ const resolveSectionHref = (href: string): string =>
         aria-label={localePolicy.locale === "id"
           ? "Portal dan bantuan"
           : "Portals and help"}
-        class="hidden lg:flex items-center gap-2 me-2 pe-4 border-e border-border">
+        class="hidden xl:flex items-center gap-1 me-2 pe-3 border-e border-border">
         <a
           href="https://my.8labs.id"
-          class="inline-flex min-h-9 items-center px-2 text-sm rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+          class="inline-flex min-h-9 items-center px-2 text-[0.8125rem] font-medium rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
           >Client Panel</a
         >
         <a
           href="https://cloud.8labs.id"
-          class="inline-flex min-h-9 items-center px-2 text-sm rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+          class="inline-flex min-h-9 items-center px-2 text-[0.8125rem] font-medium rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
           >Cloud Panel</a
         >
         <a
           href="/contact/"
-          class="inline-flex min-h-9 items-center px-2 text-sm rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+          class="inline-flex min-h-9 items-center px-2 text-[0.8125rem] font-medium rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
           >{localePolicy.locale === "id" ? "Kontak" : "Contact"}</a
         >
       </nav>
       <a
-        class="inline-flex min-h-9 items-center px-2 text-sm rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+        class="inline-flex min-h-9 items-center px-2 text-[0.8125rem] font-medium rounded-md whitespace-nowrap text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         href={localePolicy.switchHref}
         lang={Astro.url.pathname.startsWith("/id/") ? "en" : "id"}
         aria-label="Language / Bahasa"
-        >{
-          Astro.url.pathname.startsWith("/id/") ? "English" : "Bahasa Indonesia"
-        }</a
+        ><span class="sm:hidden" aria-hidden="true"
+          >{localePolicy.locale === "id" ? "EN" : "ID"}</span
+        ><span class="sr-only sm:not-sr-only"
+          >{
+            Astro.url.pathname.startsWith("/id/")
+              ? "English"
+              : "Bahasa Indonesia"
+          }</span
+        ></a
       >
       {config.search !== false && <SearchTrigger />}
       {/* Without search, the reader's single-key switch lives here. */}
@@ -165,9 +168,9 @@ const resolveSectionHref = (href: string): string =>
             href={resolveSectionHref(section.href)}
             aria-current={section.isActive ? "page" : undefined}
             class:list={[
-              "px-2 py-1 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap",
+              "inline-flex min-h-8 items-center px-2 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap focus-visible:-outline-offset-2",
               section.isActive
-                ? "text-foreground bg-accent"
+                ? "text-brand bg-[var(--nb-brand-wash)]"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent/60",
             ]}>
             {section.label}

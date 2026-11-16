@@ -5,19 +5,29 @@ import Layout from "@layouts/Layout.astro";
 
 <Layout title="Status">
   <Container>
-    <div class="min-h-[calc(100vh-16rem)] flex items-center justify-center">
-      <div class="mt-16 text-center">
-        <h1 class="text-4xl lg:text-5xl font-light lg:tracking-tight text-line">
-          Please Wait..
+    <section class="flex min-h-[calc(100vh-16rem)] items-center py-16">
+      <div
+        class="w-full max-w-2xl rounded-lg border border-grid bg-panel p-6 sm:p-10">
+        <h1
+          class="text-3xl font-medium tracking-[-0.03em] text-line sm:text-4xl">
+          Continue to service status
         </h1>
-        <p class="text-lg mt-4 text-muted">
-          Redirect to{" "}
-          <a class="text-red-ink hover:underline" href="https://uptime.8labs.id"
-            >uptime.8labs.id</a
-          >.
+        <p class="mt-4 text-base leading-7 text-muted">
+          This page will redirect to uptime.8labs.id after two seconds. If it
+          does not, use the link below.
         </p>
+        <div class="mt-8 flex flex-wrap items-center gap-5">
+          <a
+            class="inline-flex rounded-md bg-red-ink px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-ink"
+            href="https://uptime.8labs.id">Open service status</a
+          >
+          <a
+            class="text-sm font-medium text-cool underline-offset-4 hover:underline"
+            href="/">Back to home</a
+          >
+        </div>
       </div>
-    </div>
+    </section>
   </Container>
 </Layout>
 <script is:inline>

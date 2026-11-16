@@ -1,0 +1,368 @@
+---
+const modes = [
+  {
+    id: "nested",
+    label: "Nested lab",
+    title: "A lab inside your lab",
+    body: "Explore hypervisors and multi-machine setups with nested virtualization. Keep your experiment separate from the stack you are learning on.",
+    host: "Lab host",
+    guests: ["Hypervisor", "Guest VM", "Experiment"],
+    href: "https://my.8labs.id/products/virtual-labs",
+    action: "Explore Virtual Labs",
+    note: "Nested virtualization must be included in the selected plan.",
+  },
+  {
+    id: "dedicated",
+    label: "Dedicated VM",
+    title: "Your stack, in its own VM",
+    body: "Run a service or a complete operating system without an extra virtualization layer. Compare assigned CPU, memory, storage, and recovery options.",
+    host: "Virtual machine",
+    guests: ["OS", "Application", "Data"],
+    href: "https://my.8labs.id/products/virtual-dedicated-labs",
+    action: "Explore dedicated VMs",
+    note: "Resources and snapshot options depend on your plan.",
+  },
+  {
+    id: "network",
+    label: "Cloud / NAT",
+    title: "Choose how your lab connects",
+    body: "Public IPv4, IPv6, and private IPv4 behind NAT solve different access needs. Choose a plan that fits the way you and your applications connect.",
+    host: "Network boundary",
+    guests: ["Public IPv6", "Public IPv4", "Private NAT"],
+    href: "/pricing/",
+    action: "Compare network options",
+    note: "These are plan alternatives, not addresses included with every service.",
+  },
+];
+---
+
+<div class="lab-workbench" aria-labelledby="workbench-heading">
+  <div class="workbench-toolbar">
+    <span id="workbench-heading" class="text-sm font-medium text-line"
+      >Find your starting point</span
+    >
+    <span class="text-xs text-muted">Illustrative configurations</span>
+  </div>
+  <fieldset class="workbench-modes">
+    <legend class="sr-only">Choose a lab type to explore</legend>
+    {
+      modes.map((mode, index) => (
+        <Fragment>
+          <input
+            class="sr-only"
+            type="radio"
+            name="lab-mode"
+            id={`lab-${mode.id}`}
+            value={mode.id}
+            checked={index === 0}
+            aria-controls={`view-${mode.id}`}
+          />
+          <label for={`lab-${mode.id}`}>{mode.label}</label>
+        </Fragment>
+      ))
+    }
+  </fieldset>
+  {
+    modes.map((mode) => (
+      <div id={`view-${mode.id}`} class={`workbench-view view-${mode.id}`}>
+        <div class="workbench-diagram">
+          <svg
+            viewBox="0 0 560 300"
+            role="img"
+            aria-labelledby={`diagram-${mode.id}`}>
+            <title id={`diagram-${mode.id}`}>
+              {mode.title}: {mode.guests.join(", ")}
+            </title>
+            {mode.id === "nested" ? (
+              <g>
+                <rect
+                  x="28"
+                  y="28"
+                  width="504"
+                  height="244"
+                  rx="14"
+                  fill="#fafafa"
+                  stroke="#d4d4d8"
+                />
+                <text
+                  x="52"
+                  y="58"
+                  fill="#52525b"
+                  font-size="14"
+                  font-family="Inter Variable, sans-serif">
+                  Your lab host
+                </text>
+                <rect
+                  x="52"
+                  y="78"
+                  width="300"
+                  height="166"
+                  rx="10"
+                  fill="white"
+                  stroke="#a1a1aa"
+                />
+                <text
+                  x="72"
+                  y="107"
+                  fill="#18181b"
+                  font-size="15"
+                  font-family="Inter Variable, sans-serif">
+                  Your hypervisor
+                </text>
+                <rect
+                  x="72"
+                  y="132"
+                  width="120"
+                  height="84"
+                  rx="8"
+                  fill="#fafafa"
+                  stroke="#d4d4d8"
+                />
+                <rect
+                  x="212"
+                  y="132"
+                  width="120"
+                  height="84"
+                  rx="8"
+                  fill="#fafafa"
+                  stroke="#d4d4d8"
+                />
+                <text
+                  x="132"
+                  y="180"
+                  text-anchor="middle"
+                  fill="#18181b"
+                  font-size="14"
+                  font-family="Inter Variable, sans-serif">
+                  Guest VM
+                </text>
+                <text
+                  x="272"
+                  y="180"
+                  text-anchor="middle"
+                  fill="#18181b"
+                  font-size="14"
+                  font-family="Inter Variable, sans-serif">
+                  Guest VM
+                </text>
+                <path
+                  class="workbench-route"
+                  d="M352 160 H382"
+                  stroke="#c20e50"
+                  stroke-width="1.5"
+                  fill="none"
+                  pathLength="1"
+                />
+                <rect
+                  x="382"
+                  y="118"
+                  width="126"
+                  height="84"
+                  rx="8"
+                  fill="#fff1f5"
+                  stroke="#c20e50"
+                />
+                <text
+                  x="445"
+                  y="166"
+                  text-anchor="middle"
+                  fill="#a10f3a"
+                  font-size="13"
+                  font-family="Inter Variable, sans-serif">
+                  Experiment
+                </text>
+              </g>
+            ) : (
+              <g>
+                <rect
+                  x="28"
+                  y="28"
+                  width="504"
+                  height="244"
+                  rx="14"
+                  fill="#fafafa"
+                  stroke="#e4e4e7"
+                />
+                <rect
+                  x="195"
+                  y="52"
+                  width="170"
+                  height="48"
+                  rx="8"
+                  fill="white"
+                  stroke="#a1a1aa"
+                />
+                <text
+                  x="280"
+                  y="81"
+                  text-anchor="middle"
+                  fill="#18181b"
+                  font-size="15"
+                  font-family="Inter Variable, sans-serif">
+                  {mode.host}
+                </text>
+                <path
+                  class="workbench-route"
+                  d="M280 100 V134 H112 V168 M280 134 V168 M280 134 H448 V168"
+                  fill="none"
+                  stroke="#c20e50"
+                  stroke-width="1.5"
+                  pathLength="1"
+                />
+                {mode.guests.map((guest, index) => (
+                  <g>
+                    <rect
+                      x={44 + index * 168}
+                      y="168"
+                      width="136"
+                      height="64"
+                      rx="8"
+                      fill={index === 2 ? "#fff1f5" : "white"}
+                      stroke={index === 2 ? "#c20e50" : "#d4d4d8"}
+                    />
+                    <circle
+                      cx={60 + index * 168}
+                      cy="184"
+                      r="3"
+                      fill={index === 2 ? "#c20e50" : "#a1a1aa"}
+                    />
+                    <text
+                      x={112 + index * 168}
+                      y="207"
+                      text-anchor="middle"
+                      fill="#18181b"
+                      font-size="13"
+                      font-family="Inter Variable, sans-serif">
+                      {guest}
+                    </text>
+                  </g>
+                ))}
+              </g>
+            )}
+          </svg>
+          <p class="text-xs leading-relaxed text-muted">{mode.note}</p>
+        </div>
+        <div class="workbench-description">
+          <h2 class="text-2xl font-medium tracking-tight text-line">
+            {mode.title}
+          </h2>
+          <p class="mt-4 text-base leading-relaxed text-cool">{mode.body}</p>
+          <a
+            href={mode.href}
+            class="mt-5 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-red-ink underline underline-offset-4">
+            {mode.action}
+          </a>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .lab-workbench {
+    border: 1px solid #e4e4e7;
+    border-radius: 12px;
+    background: white;
+    overflow: clip;
+    box-shadow: 0 12px 40px -28px rgb(24 24 27 / 25%);
+  }
+  .workbench-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e4e4e7;
+  }
+  .workbench-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 20px 24px 0;
+  }
+  .workbench-modes label {
+    cursor: pointer;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #52525b;
+    transition:
+      color 160ms,
+      background-color 160ms;
+  }
+  .workbench-modes label:hover {
+    background: #f4f4f5;
+    color: #18181b;
+  }
+  .workbench-modes input:checked + label {
+    background: #fff1f5;
+    border-color: #f5c6d5;
+    color: #a10f3a;
+  }
+  .workbench-modes input:focus-visible + label {
+    outline: 2px solid #c20e50;
+    outline-offset: 2px;
+  }
+  .workbench-view {
+    display: none;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 20px 32px 32px;
+  }
+  .lab-workbench:has(#lab-nested:checked) .view-nested,
+  .lab-workbench:has(#lab-dedicated:checked) .view-dedicated,
+  .lab-workbench:has(#lab-network:checked) .view-network {
+    display: grid;
+  }
+  .workbench-diagram {
+    min-width: 0;
+  }
+  .workbench-diagram svg {
+    width: 100%;
+    height: auto;
+  }
+  .workbench-diagram p {
+    margin-top: 8px;
+    padding-inline: 24px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .workbench-route {
+      animation: route-in 700ms ease-out both;
+    }
+  }
+  @keyframes route-in {
+    from {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 0;
+    }
+  }
+  @media (max-width: 767px) {
+    .workbench-diagram text {
+      font-size: 20px;
+    }
+    .workbench-view {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 16px 16px 24px;
+    }
+    .workbench-toolbar {
+      padding-inline: 16px;
+    }
+    .workbench-modes {
+      padding-inline: 12px;
+      gap: 4px;
+    }
+    .workbench-modes label {
+      padding-inline: 12px;
+    }
+    .workbench-description {
+      padding-inline: 8px;
+    }
+  }
+</style>

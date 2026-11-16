@@ -1,35 +1,27 @@
 ---
 import Link from "@components/ui/link.astro";
-import HomelabTopology from "./motifs/homelab-topology.astro";
+import LabWorkbench from "./lab-workbench.astro";
 ---
 
-<section
-  aria-labelledby="landing-title"
-  class="grid items-center gap-8 py-16 md:py-24 lg:grid-cols-[1.2fr_1fr]">
-  <div>
+<section aria-labelledby="landing-title" class="pt-16 pb-10 md:pt-24 md:pb-16">
+  <div class="max-w-3xl">
     <h1
       id="landing-title"
-      class="max-w-4xl text-5xl font-medium leading-[1.08] tracking-[-0.04em] text-line sm:text-6xl">
-      Virtual and cloud labs.<br />
-      <span class="text-cool">Room to experiment.</span>
+      class="text-5xl font-medium leading-[1.08] tracking-[-0.04em] text-line sm:text-6xl">
+      Your next experiment<br />starts with a lab.
     </h1>
-    <p class="mt-8 max-w-xl text-lg leading-relaxed text-cool">
-      Test a deployment. Learn a new stack. Rebuild and try again. Find the
-      right lab for your work, then manage it from your browser.
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-cool">
+      Virtual and cloud labs for learning a stack, testing a deployment, or
+      building a homelab. Choose your environment. Make it your own.
     </p>
     <div class="mt-8 flex flex-wrap items-center gap-4">
-      <Link href="#choose-your-lab" size="md">Explore labs</Link>
+      <Link href="/pricing/" size="md">Compare labs</Link>
       <a
-        href="/pricing/"
+        href="#workbench"
         class="inline-flex min-h-[2.75rem] items-center px-2 text-sm font-medium text-line underline underline-offset-4"
-        >Compare plans</a
+        >Explore the workbench</a
       >
     </div>
   </div>
-  <figure class="mx-auto w-full max-w-md lg:max-w-none">
-    <HomelabTopology class="h-auto w-full" />
-    <figcaption class="text-center text-sm text-muted">
-      A network for your next experiment
-    </figcaption>
-  </figure>
+  <div id="workbench" class="mt-12 scroll-mt-8 md:mt-16"><LabWorkbench /></div>
 </section>

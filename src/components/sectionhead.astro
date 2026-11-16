@@ -1,15 +1,19 @@
 ---
 // `as` lets a page render a second Sectionhead as h2 (one h1 per document).
-const { align = "center", as = "h1" } = Astro.props;
+const { align = "left", as = "h1" } = Astro.props;
 const Heading = as;
 ---
 
-<div class:list={["mt-16", align === "center" && "text-center"]}>
+<div
+  class:list={[
+    "pt-14 md:pt-20 max-w-3xl",
+    align === "center" && "mx-auto text-center",
+  ]}>
   <Heading
-    class="text-4xl lg:text-5xl font-light lg:tracking-tight text-line text-balance">
+    class="text-4xl lg:text-5xl font-medium leading-tight tracking-[-0.03em] text-line text-balance">
     <slot name="title">Title</slot>
   </Heading>
-  <p class="text-lg mt-4 text-muted text-pretty">
+  <p class="text-lg mt-5 leading-relaxed text-cool text-pretty">
     <slot name="desc">Some description goes here</slot>
   </p>
 </div>

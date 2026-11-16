@@ -1,23 +1,24 @@
 ---
-import { Image } from "astro:assets";
-import virtualEnvironments from "../assets/virtual-environments.webp";
 const products = [
   {
     name: "Virtual Labs",
+    use: "Learn virtualization",
     description:
-      "Nested virtualization for hypervisors, networks, and multi-machine experiments.",
+      "Nested environments for hypervisors, networks, and multi-machine experiments.",
     href: "https://my.8labs.id/products/virtual-labs",
   },
   {
     name: "Virtual Dedicated Labs",
+    use: "Run your own stack",
     description:
-      "A KVM virtual machine for workloads that do not need nesting. Compare resources and recovery options.",
+      "KVM virtual machines for workloads that do not need nesting. Review the plan's assigned resources and recovery options.",
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
   },
   {
     name: "CloudLabs and ElasticLabs",
+    use: "Find the right connection",
     description:
-      "Public IPv4/IPv6, growable resource tiers, or private IPv4 NAT. Choose the network and resources your workload needs.",
+      "Compare public IPv4/IPv6, growable resource tiers, and private NAT options. Networking differs by plan.",
     href: "/pricing/",
   },
 ];
@@ -26,49 +27,39 @@ const products = [
 <section
   id="choose-your-lab"
   aria-labelledby="catalog-heading"
-  class="scroll-mt-8 border-t border-grid py-16 md:py-24">
-  <h2
-    id="catalog-heading"
-    class="text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
-    A lab for what you want to build
-  </h2>
-  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cool">
-    Start with your workload. Then compare resources, network access, and
-    billing.
-  </p>
-  <figure class="mt-8">
-    <Image
-      src={virtualEnvironments}
-      alt="Conceptual illustration of separate virtual environments sharing a host, with nested compartments and a crimson experiment environment beside it."
-      widths={[390, 768, 1200, 1672]}
-      sizes="(min-width: 1024px) 976px, calc(100vw - 48px)"
-      class="h-auto w-full"
-      loading="lazy"
-    />
-    <figcaption class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-      Separate environments. Room to nest and experiment. Conceptual
-      illustration; available features depend on your plan.
-    </figcaption>
-  </figure>
-  <div class="mt-10 grid gap-10 md:grid-cols-3">
+  class="scroll-mt-8 py-12 md:py-16">
+  <div class="flex flex-wrap items-end justify-between gap-6">
+    <h2
+      id="catalog-heading"
+      class="max-w-xl text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
+      Different projects.<br />Different starting points.
+    </h2>
+    <a
+      href="/pricing/"
+      class="inline-flex min-h-[2.75rem] items-center text-sm font-medium text-line underline underline-offset-4"
+      >Compare all plans</a
+    >
+  </div>
+  <div class="mt-8 grid gap-8 md:grid-cols-3">
     {
       products.map((product) => (
-        <div class="flex flex-col items-start">
-          <h3 class="text-xl font-medium text-line">{product.name}</h3>
+        <div class="flex flex-col items-start border-t border-grid pt-6">
+          <p class="text-sm text-muted">{product.use}</p>
+          <h3 class="mt-3 text-xl font-medium text-line">{product.name}</h3>
           <p class="mt-4 text-base leading-relaxed text-cool">
             {product.description}
           </p>
           <a
             href={product.href}
-            class="mt-auto inline-flex min-h-[2.75rem] items-center pt-5 text-sm font-medium text-line underline underline-offset-4">
+            class="mt-auto inline-flex min-h-[2.75rem] items-center pt-5 text-sm font-medium text-red-ink underline underline-offset-4">
             View plans
           </a>
         </div>
       ))
     }
   </div>
-  <p class="mt-10 max-w-2xl text-sm leading-relaxed text-muted">
-    Billing differs by offer. Check Client Panel for current stock, LAB Coin or
-    IDR pricing, and renewal terms.
+  <p class="mt-6 text-sm leading-relaxed text-muted">
+    Check Client Panel for live stock, billing units, final prices, images, and
+    locations.
   </p>
 </section>
