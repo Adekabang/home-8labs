@@ -16,6 +16,7 @@ not configure that host or prove its current runtime behavior.
 - Static Pagefind search, page Markdown endpoints, and collection `llms.txt` indexes
 - Fonts: Bricolage Grotesque (display) + Inter (body), self-hosted via Fontsource
 - Documentation wordmark: `8Labs.` with the primary brand's crimson (`#C20E50`) terminal dot.
+- Documentation headers group portal/help links separately from language and reader tools. Keep 8px link padding and a visible group separator.
 
 ## Structure
 
