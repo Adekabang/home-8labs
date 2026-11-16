@@ -15,6 +15,7 @@ not configure that host or prove its current runtime behavior.
 - [Nimbus 0.20.0](https://nimbus-docs.com) with owned layouts/components and Tailwind 4 documentation styles
 - Static Pagefind search, page Markdown endpoints, and collection `llms.txt` indexes
 - Fonts: Bricolage Grotesque (display) + Inter (body), self-hosted via Fontsource
+- Documentation wordmark: `8Labs.` with the primary brand's crimson (`#C20E50`) terminal dot.
 
 ## Structure
 
