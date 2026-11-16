@@ -9,7 +9,7 @@ export const sitePages: Record<
     data: {
       title: "8Labs — Virtual & Cloud Labs",
       description:
-        "Virtual and cloud labs. Room to experiment. Compare nested labs, dedicated VMs, and cloud or NAT options for your next project.",
+        "Your next experiment starts with a lab. Explore nested environments, dedicated VMs, and cloud or NAT options with 8Labs.",
     },
   },
   services: {

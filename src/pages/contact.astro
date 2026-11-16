@@ -35,12 +35,12 @@ const channels = [
       <Fragment slot="desc">We are here to help.</Fragment>
     </Sectionhead>
 
-    <div class="mx-auto mt-16 grid max-w-4xl gap-10 md:grid-cols-2">
+    <div class="mt-12 grid gap-10 md:grid-cols-2 lg:gap-16">
       <div>
         <h2 class="text-2xl font-medium tracking-[-0.02em] text-line">
           Reach the 8Labs team.
         </h2>
-        <p class="mt-3 text-lg leading-relaxed text-muted">
+        <p class="mt-3 max-w-xl text-base leading-7 text-muted">
           Questions about a lab, billing, or your account? Message us on
           Telegram for the fastest reply, or email us if you need a paper trail.
           For provisioning and order issues, the
@@ -65,25 +65,22 @@ const channels = [
               href={c.href}
               target={c.external ? "_blank" : undefined}
               rel={c.external ? "noopener noreferrer" : undefined}
-              class="group rounded-none border border-grid bg-panel p-6 transition-all hover:border-red-700 hover:shadow-[0_24px_70px_-50px_rgba(194, 14, 80,0.45)]">
+              class="rounded-lg border border-grid bg-panel p-6 transition-colors hover:border-red-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-ink">
               <div class="flex items-start gap-4">
-                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-grid bg-surface text-line transition-colors group-hover:bg-red-700 group-hover:text-white">
-                  <Icon class="h-6 w-6" name={c.icon} />
+                <div class="shrink-0 pt-1 text-muted">
+                  <Icon class="h-5 w-5" name={c.icon} />
                 </div>
                 <div>
-                  <h3 class="text-lg font-medium tracking-[-0.02em] text-line">
+                  <h2 class="text-lg font-medium tracking-[-0.02em] text-line">
                     {c.title}
-                  </h3>
+                  </h2>
                   <p class="text-sm font-medium text-red-ink">{c.handle}</p>
                   <p class="mt-2 text-sm leading-7 text-cool">
                     {c.description}
                   </p>
                   <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-red-ink">
                     {c.cta}
-                    <Icon
-                      class="h-4 w-4 transition-transform group-hover:translate-x-1"
-                      name="bx:right-arrow-alt"
-                    />
+                    <Icon class="h-4 w-4" name="bx:right-arrow-alt" />
                   </span>
                 </div>
               </div>

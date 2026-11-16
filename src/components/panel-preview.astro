@@ -5,33 +5,53 @@ import serverOverview from "../assets/docs/server-overview.webp";
 
 <section
   aria-labelledby="panel-heading"
-  class="border-t border-grid py-16 md:py-24">
-  <h2
-    id="panel-heading"
-    class="max-w-3xl text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
-    Order your lab. Open it. Get to work.
-  </h2>
-  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-cool">
-    Choose and order in Client Panel. Follow your service's management link to
-    Cloud Panel to see your servers, inspect resource usage, and open the
-    console.
-  </p>
-  <figure class="mt-10">
-    <Image
-      src={serverOverview}
-      alt="Cloud Panel server overview with example names, assigned resources, usage charts, and server controls."
-      widths={[390, 768, 1200, 1440]}
-      sizes="(min-width: 1152px) 1088px, 100vw"
-      class="h-auto w-full rounded-lg border border-grid"
-      loading="lazy"
-    />
+  class="my-12 overflow-hidden rounded-xl border border-grid bg-surface md:my-16">
+  <div class="grid gap-8 p-6 md:grid-cols-[1fr_1.2fr] md:p-10">
+    <h2
+      id="panel-heading"
+      class="text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
+      Your server.<br />Not a black box.
+    </h2>
+    <div>
+      <p class="max-w-xl text-base leading-relaxed text-cool">
+        Order and manage billing in Client Panel. Follow your service's
+        management link to Cloud Panel to inspect resources, review activity,
+        and open the console.
+      </p>
+      <a
+        href="/docs/getting-started/intro/"
+        class="mt-4 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-red-ink underline underline-offset-4"
+        >See the first-access guide</a
+      >
+    </div>
+  </div>
+  <figure class="mx-4 mb-4 md:mx-8 md:mb-6">
+    <div
+      class="panel-proof overflow-hidden rounded-lg border border-grid bg-white">
+      <Image
+        src={serverOverview}
+        alt="Cloud Panel server overview with example names, assigned resources, usage charts, and server controls."
+        widths={[390, 768, 1200, 1440]}
+        sizes="(min-width: 1024px) 912px, calc(100vw - 80px)"
+        class="h-auto w-full"
+        loading="lazy"
+      />
+    </div>
     <figcaption class="mt-3 text-sm leading-relaxed text-muted">
-      Cloud Panel. Available controls depend on your plan and permissions.
+      Actual Cloud Panel interface with example names. Controls depend on your
+      plan and permissions.
     </figcaption>
   </figure>
-  <a
-    href="/docs/getting-started/intro/"
-    class="mt-6 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-line underline underline-offset-4"
-    >See how to get started</a
-  >
 </section>
+<style>
+  .panel-proof {
+    aspect-ratio: 16 / 10;
+  }
+  .panel-proof img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+</style>
