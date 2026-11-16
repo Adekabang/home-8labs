@@ -19,6 +19,16 @@ Periksa stok serta rincian produk saat ini di Client Panel.
 Jangan menyimpulkan dukungan nested virtualization, Windows, IPv4 publik, IPv6, atau NAT dari keluarga produk lain.
 Gunakan alamat yang benar-benar ditetapkan pada layanan Anda.
 
+### Apa perbedaan Virtual Labs, VDL, dan ElasticLabs?
+
+VM Virtual Labs berjalan pada hypervisor nested, yang berjalan sebagai VM pada hypervisor bare-metal.
+Lapisan virtualisasi tambahan ini membuat Virtual Labs lebih lambat daripada Virtual Dedicated Labs (VDL) dan ElasticLabs.
+VM VDL dan ElasticLabs berjalan langsung pada hypervisor bare-metal.
+
+Ini menjelaskan infrastruktur penyedia, bukan hypervisor yang disertakan untuk Anda kelola.
+Penempatan langsung tidak berarti server fisik atau CPU khusus.
+Periksa alokasi sumber daya serta akses IP publik atau NAT pada setiap paket.
+
 ## Apakah pembelian gratis atau selalu memakai LAB Coin?
 
 Panduan ini tidak menetapkan semua pembelian gratis atau semua layanan memakai koin.

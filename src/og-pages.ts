@@ -9,7 +9,7 @@ export const sitePages: Record<
     data: {
       title: "8Labs — Virtual & Cloud Labs",
       description:
-        "Your next experiment starts with a lab. Explore nested environments, dedicated VMs, and cloud or NAT options with 8Labs.",
+        "Compare Virtual Labs VMs on nested hypervisors with VDL and ElasticLabs VMs directly on bare-metal hypervisors. Find your lab with 8Labs.",
     },
   },
   services: {

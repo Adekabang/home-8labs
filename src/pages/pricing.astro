@@ -10,7 +10,7 @@ const pricing = [
     price: "LAB Coin",
     popular: true,
     features: [
-      "Experiment-focused nested virtualization labs",
+      "VMs running on a nested hypervisor, with an extra virtualization layer",
       "Small, Medium, and Large options shown in the client panel",
       "IPv6-first options, with selected plans including IPv4",
       "Usage is shown in LAB Coin billing units",
@@ -27,7 +27,7 @@ const pricing = [
     price: "IDR plans",
     popular: false,
     features: [
-      "Straight-up KVM virtual machines, no nesting involved",
+      "VMs directly on a bare-metal hypervisor, without the nested layer",
       "Public IPv6 address",
       "On-server snapshots on listed plans",
       "External backup is not implied",
@@ -45,7 +45,7 @@ const pricing = [
     popular: false,
     features: [
       "CloudLabs for higher bandwidth public IPv4/IPv6 options",
-      "ElasticLabs for growable disk/resource tiers",
+      "ElasticLabs VMs directly on a bare-metal hypervisor, with growable resource tiers",
       "ElasticLabs NAT for lower-cost private IPv4 NAT labs",
       "Anti-DDoS or DDoS protection where listed per product",
       "Review product detail for location, transfer, and snapshots",

@@ -2,24 +2,24 @@
 const products = [
   {
     name: "Virtual Labs",
-    use: "Learn virtualization",
+    use: "VMs on a nested hypervisor",
     description:
-      "Nested environments for hypervisors, networks, and multi-machine experiments.",
+      "Your VM runs on a nested hypervisor. The extra virtualization layer makes Virtual Labs slower than VDL and ElasticLabs.",
     href: "https://my.8labs.id/products/virtual-labs",
   },
   {
     name: "Virtual Dedicated Labs",
-    use: "Run your own stack",
+    use: "Direct hypervisor placement",
     description:
-      "KVM virtual machines for workloads that do not need nesting. Review the plan's assigned resources and recovery options.",
+      "VMs run directly on a bare-metal hypervisor, without Virtual Labs' extra nested layer. Review the plan's resources and recovery options.",
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
   },
   {
-    name: "CloudLabs and ElasticLabs",
-    use: "Find the right connection",
+    name: "ElasticLabs",
+    use: "Direct hypervisor placement",
     description:
-      "Compare public IPv4/IPv6, growable resource tiers, and private NAT options. Networking differs by plan.",
-    href: "/pricing/",
+      "VMs also run directly on a bare-metal hypervisor. Compare resource tiers and network options; public IP and NAT access depend on the plan.",
+    href: "https://my.8labs.id/products/elasticlabs",
   },
 ];
 ---
