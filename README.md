@@ -17,6 +17,7 @@ not configure that host or prove its current runtime behavior.
 - Fonts: Bricolage Grotesque (display) + Inter (body), self-hosted via Fontsource
 - Documentation wordmark: `8Labs.` with the primary brand's crimson (`#C20E50`) terminal dot.
 - Documentation headers group portal/help links separately from language and reader tools. Keep 8px link padding and a visible group separator.
+- Section-tab rows are 40px high, leaving space for label line height, padding and keyboard outlines. Do not shrink the desktop row below its tab contents.
 
 The landing page names the product before its benefits: virtual and cloud labs for testing, learning, and rebuilding. Hero actions lead to product exploration and plan comparison. Client Panel remains the ordering, billing and support portal. Cloud Panel owns server runtime controls. Do not combine them into a one-panel claim.
 
