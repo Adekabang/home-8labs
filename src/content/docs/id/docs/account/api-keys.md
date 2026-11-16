@@ -16,6 +16,10 @@ Panduan ini ditujukan untuk pemilik akun yang mengotomatisasi sumber daya sesuai
 
 Gunakan akun sendiri, tentukan alat yang membutuhkan akses, dan siapkan penyimpanan rahasia yang aman. Halaman **Developers** menyediakan URL dasar dan referensi endpoint untuk layanan tersebut. Penyiapan token aplikasi operator tidak dibahas di sini.
 
+**API Access** pada **Admin → Platform** adalah halaman operator, bukan halaman key pribadi pelanggan.
+Status admin organisasi tidak memberikan akses ke halaman tersebut.
+Untuk skrip pelanggan, tetap gunakan **Workspace → Developers**. Tanyakan endpoint yang tidak tersedia kepada dukungan, bukan meminta kredensial seluruh platform.
+
 <span id="creating-a-key"></span>
 
 ## Buat personal API key

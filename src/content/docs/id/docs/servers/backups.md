@@ -28,11 +28,23 @@ Periksa kuota dan server tujuan. Koordinasikan konsistensi data aplikasi dengan 
 
 Lokasi dan ketahanan penyimpanan ditentukan operator. Backup tidak otomatis menjadi salinan di lokasi lain. Tanyakan cakupan penyimpanan dan pemulihan layanan kepada dukungan.
 
+## Temukan cadangan seluruh akun
+
+1. Pilih **Workspace → Backups** untuk membuka inventaris seluruh akun.
+2. Cocokkan nama cadangan, server, waktu pembuatan, ukuran, dan status **Creating**, **Completed**, atau **Failed**.
+3. Pilih tautan server untuk mengelola titik pemulihan server tersebut.
+4. Pada server, buka **Backups & Snapshots → Backups**.
+
+Inventaris akun membaca catatan Panel, bukan pemeriksaan terbaru terhadap arsip di penyimpanan. Daftar dapat tetap terlihat saat node tidak tersedia.
+Daftar mencakup catatan server milik Anda, bukan jaminan seluruh titik pemulihan server yang aksesnya didelegasikan.
+**No backups** bukan diagnosis kehilangan penyimpanan. Periksa kuota, akses, dan daftar cadangan server tujuan sebelum menghubungi dukungan.
+**Locked** menandai perlindungan dari penghapusan. Tanyakan penguncian yang tidak diharapkan kepada dukungan, bukan menghapus berkas penyimpanan.
+
 <span id="taking-a-backup"></span>
 
 ## Membuat backup manual
 
-1. Buka server lalu pilih **Backups → Create Backup**.
+1. Buka server lalu pilih **Backups & Snapshots → Backups → Create Backup**.
 2. Masukkan nama yang mudah dikenali, maksimal 40 karakter.
 3. Tinjau **Compression Type** dan **Mode**.
 4. Pilih **Create** sekali lalu tunggu tugas latar belakang.
@@ -83,6 +95,18 @@ Gunakan tautan segera. Masa berlaku bawaan yang ditinjau sekitar satu jam; konfi
 Jika tautan kedaluwarsa, minta tautan baru melalui panel. Tidak adanya **Download** dapat berarti ekspor belum tersedia. Backup yang terlihat tidak selalu dapat diunduh.
 
 Simpan arsip unduhan dalam penyimpanan dengan pembatasan akses. Pastikan transfer selesai sebelum mengandalkannya. Tanyakan prosedur pemulihan yang didukung untuk arsip ekspor kepada dukungan.
+
+## Hapus cadangan yang tidak diperlukan
+
+1. Pastikan titik pemulihan lain atau salinan independen yang sesuai tetap tersedia.
+2. Buka **Backups & Snapshots → Backups** pada server tujuan.
+3. Buka menu **⋯** cadangan yang tidak diperlukan lalu pilih tindakan hapus.
+4. Baca konfirmasi penghapusan dan setujui hanya arsip yang dituju.
+5. Tunggu hasil dan pembaruan daftar sebelum menghapus cadangan lain.
+
+Penghapusan menghilangkan titik pemulihan secara permanen. Cadangan terkunci tidak dapat dihapus melalui tindakan ini.
+Jika penghapusan gagal, simpan kesalahan lalu muat ulang daftar sebelum mengulang. Minta dukungan menyelaraskan keadaan arsip yang tidak pasti.
+Jangan menghapus objek penyimpanan cadangan sendiri untuk melewati kuota atau perlindungan penguncian.
 
 <span id="automatic-backups"></span>
 

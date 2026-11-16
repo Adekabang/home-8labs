@@ -65,12 +65,13 @@ The source implementation includes these **customer** event categories when thei
 - A suspended server is resumed.
 - A relevant balance is low or a server is overdue.
 - A supported wallet top-up is confirmed.
+- A server is created or deleted, or its installation finalizes or fails, through supported lifecycle delivery.
 
 These are implementation capabilities, not a promise that every category is active for your hosted account. In particular, do not infer a runtime wallet or billing-portal integration from this list.
 
 Platform administrators can receive a separate alert for a manual top-up awaiting confirmation, where that operator flow is enabled. Organization admin status does not make you a platform administrator.
 
-Server creation, installation, and deletion lifecycle events are not sent by this Telegram implementation. The source records those events in its audit trail instead. Use the panel's current server status to track an operation.
+Lifecycle alerts use queued delivery and the current account subscription. They can arrive after the operation and do not replace its status or activity evidence. A creation alert does not mean installation finished. Check final installation state and guest access separately. This source review does not establish delivery to a real Telegram account.
 
 <span id="privacy-security"></span>
 <span id="privacy--security"></span>

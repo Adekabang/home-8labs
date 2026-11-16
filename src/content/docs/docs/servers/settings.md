@@ -118,6 +118,28 @@ Reinstall is asynchronous; **installing** means work is in progress, not a compl
 
 If installation fails, preserve the error and contact support. Do not cycle templates or repeatedly reinstall before the underlying failure is understood.
 
+## Recover a failed installation deliberately
+
+**Retry Installation is a destructive reinstall, not a status refresh or a retry of your payment.**
+Preserve any recoverable data independently and ask support to reconcile the original provider service first.
+
+If **Server operation in progress** or **Operation outcome unknown** appears, that operation still owns the server.
+Wait for a confirmed outcome or operator reconciliation. Do not bypass the guard, clear status, or submit another create/rebuild request.
+
+Only after support confirms a new installation is appropriate:
+
+1. Open the failed server and preserve the last progress stage and error.
+2. Use **Retry Installation** only if the failed-installation page offers it and no unresolved operation owns the server.
+3. In **Retry Server Installation**, choose the intended **Template**.
+4. Set **Account Password** and store it securely. Do not send it to support.
+5. Confirm **Retry Installation** once only if you accept replacement of the guest data.
+6. Wait for installation progress and the final outcome before testing guest access.
+
+If templates fail to load, the action is rejected, or progress becomes unknown, stop and contact support.
+Do not resubmit after a timeout without reconciling whether the first request started.
+Windows can start during initialization even if a general start-after-install setting suggests otherwise.
+Its build path needs a running guest for final Guest Agent credential application. See [Windows initialization](/docs/getting-started/rdp/).
+
 ## Delete an eligible server
 
 **Deletion permanently destroys the VM, data, backups, and snapshots, and releases its IP address. There is no automatic refund.** Do not rely on a recovery point that deletion itself removes.

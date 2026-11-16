@@ -3,8 +3,8 @@ title: "Connect to Windows with RDP"
 description: "Use the approved Windows endpoint and verify the remote identity."
 contentId: "customer-getting-started-rdp"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.14"
+reviewedDate: "2026-11-16"
 translationStatus: "original"
 ---
 
@@ -18,6 +18,24 @@ Find the assigned endpoint in [network information](/docs/servers/network/).
 A NAT service needs an external address and external port; do not use its private guest address from the internet.
 Prefer an approved VPN or restricted source rule. Do not expose RDP to every internet address for troubleshooting.
 Keep [browser console access](/docs/servers/console/) available before editing guest firewall or networking.
+
+## Wait for Windows initialization
+
+Windows first boot includes disk, network, and guest credential configuration. A running VM or visible sign-in screen does not prove initialization finished.
+
+1. Check installation progress on the server's **Overview**.
+2. Wait until installation completes before testing the selected guest password.
+3. Confirm the intended Windows account from the service details. The supported provisioning password path targets `Administrator`.
+4. Use the console to confirm the expected OS and assigned networking.
+5. Test RDP only after checking the approved external endpoint and access rules.
+
+LabsPanel 6.0.14 prepares the selected Windows password before first startup, then requires the final Guest Agent password acknowledgment.
+Saving first-boot configuration is not authentication completion. Do not reset the password while installation still runs.
+Cloudbase-Init can continue during first boot. If the password fails after completion, preserve the error and ask support to inspect initialization.
+Do not try a template's inherited password, repeatedly reinstall, or order a replacement to bypass an unexplained failure.
+
+The recorded production checks cover two Windows Server 2022 resource sizes and selected-credential acceptance after initialization.
+They do not qualify every template or prove external RDP, checkout, or payment-callback behavior.
 
 ## Open Remote Desktop
 

@@ -66,6 +66,24 @@ Gunakan **Move up**, **Move down**, **Move First**, atau **Move Last** untuk men
 
 Allow tidak membuat pemetaan NAT, menjalankan layanan tamu, atau melewati semua firewall jaringan lain. Baca [akses jaringan](/id/docs/servers/network).
 
+## Kelola templat firewall akun
+
+1. Buka **Workspace → Firewall Templates**.
+2. Pilih **New template**, atau pilih nama templat yang sudah ada untuk mengeditnya.
+3. Isi **Name** dan, jika perlu, **Description (optional)**.
+4. Atur arah, tindakan, protokol, port tujuan, dan komentar setiap aturan.
+5. Gunakan **Add rule** untuk menambah entri dan kontrol hapus untuk membuang entri yang tidak diperlukan.
+6. Periksa urutan daftar sebelum memilih **Save template**.
+7. Tunggu konfirmasi dan pembaruan daftar templat.
+
+Editor templat sederhana tidak menyediakan pembatasan sumber selengkap editor aturan pada server.
+Gunakan aturan server individual jika akses pengelolaan memerlukan pembatasan sumber.
+Jika penyimpanan gagal, simpan kesalahan lalu buka kembali templat tersimpan sebelum mengubahnya lagi.
+
+Untuk menghapus templat, pilih kontrol hapusnya, baca **Delete firewall template**, lalu konfirmasikan nama yang dituju.
+Tunggu pembaruan daftar. Penghapusan atau perubahan templat tidak mengubah aturan yang sudah disalin ke server.
+Periksa setiap server terkait secara terpisah jika tujuan Anda mencabut aturan allow lama.
+
 ## Menerapkan templat yang dapat digunakan ulang
 
 **Apply template** menambahkan aturan dari templat terpilih. Aturan server yang sudah ada tetap dipertahankan; ini bukan pengganti seluruh kebijakan atau titik rollback.

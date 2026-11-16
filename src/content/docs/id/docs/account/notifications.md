@@ -65,12 +65,13 @@ Implementasi sumber mencakup kategori peristiwa **pelanggan** berikut jika alur 
 - Server yang ditangguhkan diaktifkan kembali.
 - Saldo terkait menipis atau server melewati tenggat.
 - Top-up dompet yang didukung telah dikonfirmasi.
+- Server dibuat atau dihapus, atau instalasinya selesai atau gagal, melalui pengiriman peristiwa lifecycle yang didukung.
 
 Ini adalah kemampuan implementasi, bukan janji bahwa semua kategori aktif untuk akun layanan Anda. Secara khusus, daftar ini tidak membuktikan adanya dompet runtime atau integrasi portal penagihan.
 
 Administrator platform dapat menerima pemberitahuan terpisah tentang top-up manual yang menunggu konfirmasi, jika alur operator tersebut diaktifkan. Status admin organisasi tidak menjadikan Anda administrator platform.
 
-Peristiwa pembuatan, instalasi, dan penghapusan server tidak dikirim oleh implementasi Telegram ini. Sumber mencatatnya dalam jejak audit. Gunakan status server terkini di panel untuk mengikuti proses operasi.
+Pemberitahuan lifecycle memakai antrean dan langganan akun saat ini. Pesan dapat tiba setelah operasi dan tidak menggantikan status atau bukti aktivitasnya. Pemberitahuan pembuatan tidak berarti instalasi selesai. Periksa status instalasi akhir dan akses tamu secara terpisah. Peninjauan sumber ini tidak membuktikan pengiriman ke akun Telegram nyata.
 
 <span id="privacy-security"></span>
 <span id="privacy--security"></span>

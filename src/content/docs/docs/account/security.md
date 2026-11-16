@@ -121,6 +121,22 @@ Account SSH keys store **public** keys that can be selected during deployment, w
 
 Never upload your private SSH key. Do not assume changing an account's stored public keys automatically changes an already deployed server's authorized keys.
 
+### Add or remove a saved public key
+
+1. Locate the single OpenSSH public key on your own device, usually in a `.pub` file.
+2. Open **Workspace → SSH Keys → Add key**.
+3. Enter a recognizable **Name** and paste the single line into **Public key**.
+4. Submit once and wait for the success message and updated list.
+5. Compare the displayed fingerprint with your local public key before using it.
+
+Run `ssh-keygen -lf ~/.ssh/id_ed25519.pub` on your computer if that is your public key's actual path.
+If validation fails, check the public-key format. Do not paste a private key or several keys into the single-key field.
+
+To remove a saved key, use its remove control, check **Remove SSH key**, and confirm the intended entry.
+Wait until it disappears from the list. Replace a saved key by adding the replacement before removing the old entry.
+Removal does not revoke a key already installed inside a guest. Update affected guest accounts separately with a working recovery session.
+If a private key leaks, remove its corresponding guest authorization and replace it. Deleting only this saved public key is insufficient.
+
 ## Suspected account compromise
 
 Revoke unfamiliar browser sessions, change your password, and review [API keys](/docs/account/api-keys) and [team access](/docs/teams/overview). Browser-session revocation is not API-key revocation.

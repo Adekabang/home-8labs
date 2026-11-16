@@ -5,85 +5,139 @@ sidebar:
   order: 2
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
+`qemu-guest-agent` runs inside the guest and supports host-to-guest management operations.
+It does not increase the plan's CPU, memory, or network entitlement.
 
-The ```qemu-guest-agent``` is a daemon that runs on the guest operating system to provide enhanced communication between the host and guest. Installing this agent can help improve the performance and manageability of your Virtual Lab. Below are the steps to install qemu-guest-agent on different operating systems supported by 8Labs.
-
+Use an authorized guest administrator account with sudo access and a supported distribution package.
+Keep [console recovery](/docs/servers/console/) available. Run these commands inside the guest, never on the provider host.
+The host must expose the guest-agent channel. Installing the package alone does not establish host communication.
+This Linux/FreeBSD tutorial is not a Windows driver or Cloudbase-Init repair procedure.
+For Windows initialization failures, follow [Windows access guidance](/docs/getting-started/rdp/) and contact support.
 
 ## Preparation - Update the package list
 
 <Tabs syncKey="operating-systems">
   <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo apt update
-  ```
+
+    ```bash
+    sudo apt update
+    ```
+
   </TabItem>
   <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo dnf update
-  ```
+
+    ```bash
+    sudo dnf check-update
+    ```
+
   </TabItem>
   <TabItem value="pkg" label="FreeBSD">
-  ```bash
-  sudo pkg update
-  ```
+
+    ```bash
+    sudo pkg update
+    ```
+
   </TabItem>
 </Tabs>
 
 ## Install the qemu-guest-agent
+
 <Tabs syncKey="operating-systems">
   <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo apt install qemu-guest-agent
-  ```
+
+    ```bash
+    sudo apt install qemu-guest-agent
+    ```
+
   </TabItem>
   <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo dnf install qemu-guest-agent
-  ```
+
+    ```bash
+    sudo dnf install qemu-guest-agent
+    ```
+
   </TabItem>
   <TabItem value="pkg" label="FreeBSD">
-  ```bash
-  sudo pkg install qemu-guest-agent
-  ```
+
+    ```bash
+    sudo pkg install qemu-guest-agent
+    ```
+
   </TabItem>
 </Tabs>
 
 ## Enable the service to start on boot
+
 <Tabs syncKey="operating-systems">
   <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo systemctl enable qemu-guest-agent
-  ```
+
+    ```bash
+    sudo systemctl enable qemu-guest-agent
+    ```
+
   </TabItem>
   <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo systemctl enable qemu-guest-agent
-  ```
+
+    ```bash
+    sudo systemctl enable qemu-guest-agent
+    ```
+
   </TabItem>
   <TabItem value="pkg" label="FreeBSD">
-  ```bash
-  sysrc qemu_guest_agent_enable="YES"
-  ```
+
+    ```bash
+    sudo sysrc qemu_guest_agent_enable="YES"
+    ```
+
   </TabItem>
 </Tabs>
 
 ## Start the service
+
 <Tabs syncKey="operating-systems">
   <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo systemctl start qemu-guest-agent
-  ```
+
+    ```bash
+    sudo systemctl start qemu-guest-agent
+    ```
+
   </TabItem>
   <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo systemctl start qemu-guest-agent
-  ```
+
+    ```bash
+    sudo systemctl start qemu-guest-agent
+    ```
+
   </TabItem>
   <TabItem value="pkg" label="FreeBSD">
-  ```bash
-  sudo service qemu-guest-agent start
-  ```
+
+    ```bash
+    sudo service qemu-guest-agent start
+    ```
+
   </TabItem>
 </Tabs>
+
+## Verify communication
+
+On Linux, inspect `sudo systemctl status qemu-guest-agent --no-pager` after starting the service.
+On FreeBSD, use `sudo service qemu-guest-agent status`. Run `sysrc` with root privileges or sudo.
+Some Linux packages use a static or device-triggered unit. An **enable** warning does not by itself prove startup failed.
+Use the distribution's unit instructions instead of creating a replacement service blindly.
+
+Confirm the service is active, then check whether Panel receives a fresh guest OS observation.
+A running guest service does not prove the host can reach it or that a queued password operation completed.
+Do not repeatedly reset credentials as a communication test.
+
+## Troubleshoot and recover
+
+- **Package not found:** check your distribution release and enabled supported repositories. Do not install an unknown binary.
+- **Device or channel missing:** preserve the service error and ask support to check host-side guest-agent configuration.
+- **Service fails:** inspect its local OS log and distribution documentation before changing service options.
+- **Panel observation remains unavailable:** report the guest service state, UTC time, and redacted error to [support](/docs/help/contact/).
+
+`dnf check-update` can return exit code 100 when updates exist. Review upgrades separately during an agreed maintenance window.
+Do not disable the agent during provisioning. Coordinate removal with support if host-managed credentials or observations depend on it.
+Keep passwords, private keys, and sensitive service logs out of public reports.

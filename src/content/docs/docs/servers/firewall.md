@@ -66,6 +66,24 @@ Use **Move up**, **Move down**, **Move First**, or **Move Last** to adjust order
 
 An allow does not create a NAT mapping, start a guest service, or override every upstream firewall. See [network access](/docs/servers/network).
 
+## Manage account firewall templates
+
+1. Open **Workspace → Firewall Templates**.
+2. Select **New template**, or select an existing template's name to edit it.
+3. Enter **Name** and, if useful, **Description (optional)**.
+4. Set each rule's direction, action, protocol, destination port, and comment.
+5. Use **Add rule** for additional entries and the remove control for unwanted entries.
+6. Review the listed order before selecting **Save template**.
+7. Wait for confirmation and the updated template list.
+
+The simplified template editor does not provide the full per-server rule editor's source restrictions.
+Use individual server rules when management access needs a restricted source.
+If saving fails, retain the error and reopen the saved template before another change.
+
+To delete a template, select its delete control, read **Delete firewall template**, and confirm the intended name.
+Wait for the updated list. Deleting or editing a template does not change rules already copied to servers.
+Review each affected server separately if your aim is to revoke an old allow rule.
+
 ## Apply a reusable template
 
 **Apply template** adds a selected template's rules. Existing server rules remain; it is not a replacement policy or a rollback point.

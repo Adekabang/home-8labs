@@ -16,6 +16,10 @@ This guide is for account holders automating their own permitted resources at [c
 
 Use your own account, identify the tool that needs access, and prepare a secure secret store. The **Developers** page provides the deployment's base URL and endpoint reference. Operator application-token setup is outside this guide.
 
+**API Access** under **Admin → Platform** is an operator page, not the customer personal-key page.
+An organization admin cannot use it merely because they administer a team.
+For customer scripts, stay in **Workspace → Developers**. Ask support about unavailable endpoints instead of requesting platform-wide credentials.
+
 <span id="creating-a-key"></span>
 
 ## Create a personal key

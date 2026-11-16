@@ -30,7 +30,7 @@ Sebelum perubahan berisiko, verifikasi [backup](/id/docs/servers/backups) yang s
 
 ## Membuat checkpoint
 
-1. Buka halaman **Snapshots** server.
+1. Buka tab **Backups & Snapshots → Snapshots** pada server.
 2. Periksa jumlah dan batas yang ditampilkan.
 3. Pilih **New snapshot**.
 4. Masukkan **Name** yang unik, misalnya `before-upgrade`.

@@ -1,105 +1,94 @@
 ---
-title: AaPanel Installation
-description: Install the AaPanel web hosting control panel on an IPv6-only server with commands for Ubuntu, Debian, and CentOS systems.
+title: Install aaPanel in a guest server
+description: Prepare a fresh supported guest, review the publisher installer, and protect access to the aaPanel dashboard.
 sidebar:
   order: 1
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+aaPanel is third-party guest software. It is separate from Cloud Panel, Client Panel, and your provider service account.
+This tutorial is for a guest administrator with sudo access and a fresh OS supported by the current [aaPanel download page](https://www.aapanel.com/new/download.html).
+The historical example used Ubuntu 22.04 on a Virtual Labs Large service. That is not current stock or compatibility qualification.
 
+## Prepare the server
 
-AaPanel is a free, open-source web hosting control panel designed to simplify server management. It provides a user-friendly web interface for managing websites, databases, security configurations, and web server settings (e.g., Nginx, Apache) through one-click installations and an intuitive dashboard.
+1. Confirm your actual OS release and aaPanel's current requirements.
+2. Preserve existing data in an independent, verified backup before any installation.
+3. Open a working [browser console](/docs/servers/console/) for recovery.
+4. Confirm guest DNS, outbound HTTPS, assigned addresses, and available disk space.
+5. Schedule downtime before package upgrades or installation.
+6. Update packages using your distribution's supported package manager. Review changes before approving them.
 
-This tutorial provides a step-by-step guide to installing AaPanel on an IPv6-only server, with specific commands for Ubuntu, Debian, and CentOS environments. It includes preparation steps, installation commands, access instructions, and additional tips for dual-stack configurations.
+Do not install a second hosting stack over an existing production stack without an application migration plan.
+Do not remove a private IPv4 address to influence the dashboard URL. That can break routing, NAT access, or your current session.
+A reboot does not universally restore manually changed network configuration.
 
-**Tested environment:**
-- Operating System: Ubuntu 22.04
-- Machine used for this example: VirtualLabs Large. See the [current Virtual Labs catalog](https://my.8labs.id/). Historical plan availability is not guaranteed.
+## Obtain and review the installer
 
+1. Open the official download page on a trusted device.
+2. Select the installer matching the supported OS and desired edition.
+3. Download that exact HTTPS script into a local file inside the guest.
+4. Keep certificate verification enabled. Do not use `curl -k` or `wget --no-check-certificate`.
+5. Read the script and review its privileged changes before executing it.
+6. Use publisher-provided signatures or checksums when available and verify their provenance.
+7. Execute the reviewed local script using the publisher's documented arguments and required privileges.
 
-## Preparation
-### Update the Package List
+Do not pipe an unreviewed download directly into a privileged shell.
+If download validation or OS compatibility is uncertain, stop and obtain publisher guidance rather than substituting an unknown mirror.
+Installation can take time and change guest services. Wait for the installer result instead of starting a second copy.
 
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Ubuntu, Debian">
-  
-  ```bash
-  sudo apt update -y && sudo apt upgrade -y
-  ```
-  
-  </TabItem>
-  <TabItem value="dnf" label="CentOS">
-  
-  ```bash
-  sudo dnf update -y && sudo dnf upgrade -y
-  ```
-  
-  </TabItem>
-</Tabs>
+For the publisher's current free-edition script, use a certificate-verified local download:
 
-### Note for Dual Stack
+```bash
+mkdir -m 700 aapanel-installer-review
+cd aapanel-installer-review
+curl --fail --show-error --location --proto '=https' --proto-redir '=https' \
+  --output install_panel_en.sh https://www.aapanel.com/script/install_panel_en.sh
+less install_panel_en.sh
+sha256sum install_panel_en.sh
+```
 
-If you are using VirtualLabs Medium (dual-stack), it is recommended to temporarily disable IPv4 in your network configuration before installation. This will ensure that AaPanel assigns an IPv6 public IP.
+Compare the URL and required arguments with the publisher's current edition instructions.
+The local SHA-256 records the file you reviewed. It is not an independently trusted publisher signature.
+After approving that exact file and its effects, run it inside the intended guest:
 
-To remove your private IPv4 address, use the following command:
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Ubuntu, Debian">
-  
-  ```bash
-  ip address del <your_private_IPv4>/24 dev eth0
-  ```
-  </TabItem>
-    <TabItem value="dnf" label="CentOS">
-  
-  ```bash
-  ip address del <your_private_IPv4>/24 dev eth0
-  ```
-  </TabItem>
-</Tabs>
+```bash
+sudo bash ./install_panel_en.sh
+```
 
-To restore your private IPv4 configuration, simply reboot the machine. Cloud-init will reconfigure both IPv4 and IPv6 automatically.
+If your edition needs additional arguments, review them before execution. Do not copy certificate-bypass flags from a vendor convenience command.
 
-## Install the AaPanel (Free Edition)
+## Save the result and connect
 
-The following script is provided by AaPanel. [Official Download Link](https://www.aapanel.com/new/download.html)  
-Supported Operating Systems for version 7: 
-- Ubuntu 20, 22, 24
-- Debian 11, 12
-- CentOS 9  
+The installer prints its dashboard URL, port, path, and initial credentials when successful.
+Store those privately. Do not copy a historical example's random port or URL path.
+An internal address or private guest address is not necessarily reachable from your computer.
 
-> **Recommendation**: Use Ubuntu 22.04 LTS
+1. Match the printed endpoint to your actual assigned public address or approved NAT mapping.
+2. For a literal IPv6 address, use brackets in the URL, such as `https://[2001:db8::10]:34891/example-path`.
+3. Treat that documentation address, port, and path as examples, not a working endpoint.
+4. Restrict the actual dashboard port to trusted management sources in both guest and Panel firewalls.
+5. For NAT, ask support to confirm the external mapping. A firewall allow alone does not create it.
+6. Verify an unfamiliar certificate through a trusted independent channel before accepting it.
+7. Sign in with the installer-provided aaPanel credentials.
+8. Confirm the intended hostname and change the initial password through aaPanel's supported account controls.
 
-This script works best on a *fresh* and *clean* operating system.
+Use a client network with working IPv6 for an IPv6-only endpoint.
+Do not expose every port or disable all firewalls to reach the dashboard.
 
-Run the following command in your terminal:
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Ubuntu, Debian">
-  ```bash
-  URL=https://www.aapanel.com/script/install_7.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_7.0_en.sh "$URL";fi;bash install_7.0_en.sh aapanel
-  ```
-  </TabItem>
-    <TabItem value="dnf" label="CentOS">
-  ```bash
-  URL=https://www.aapanel.com/script/install_7.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_7.0_en.sh "$URL";fi;bash install_7.0_en.sh aapanel
-  ```
-  </TabItem>
-</Tabs>
+## Complete onboarding
 
-Once the installation is complete, it will display the access credentials. Be sure to securely store this information.
+Choose only the required web server, database, and language components.
+Review each component's resources, ports, licenses, and update requirements before installing it.
+A dashboard login does not prove that your website works, DNS is published, TLS is configured, or databases are recoverable.
+Test each intended application separately and maintain independent recovery copies.
 
-- `aaPanel Internet Address`: https://[your_public_ip]:34891/random_value
-- `aaPanel Internal Address`: https://:34891/random_value
-- `Username`: random_username
-- `Password`: random_password
+## Failure and recovery
 
-## Access the AaPanel Dashboard
+- **Installer fails:** preserve its final error and stage. Do not rerun it over a partly installed stack without publisher recovery instructions.
+- **Dashboard times out:** check the actual listener, endpoint family, approved port, guest firewall, Panel firewall, and NAT separately.
+- **Certificate differs unexpectedly:** stop and verify the server identity before entering credentials.
+- **Credentials are lost:** use aaPanel's current documented local recovery procedure through an authorized guest session. Do not send credentials to support.
+- **Guest networking breaks:** use the recovery console and restore your recorded network settings. Do not reinstall the VM merely to repair a URL.
 
-You can access the AaPanel Dashboard using the URL provided by the script, labeled as the `aaPanel Internet Address`. Ensure your connection supports IPv6.
-
-Log in with the credentials (`username` & `password`).
-
-## Onboarding Dashboard
-
-After logging in, you will see several pop-up screens:
-- Choose the Web Server Stack (Nginx or Apache) for a one-click installation
-- Log in to your AaPanel account (optional; you can skip this step)
+Contact aaPanel for installer or application defects. Contact [8Labs support](/docs/help/contact/) for assigned addresses, host availability, or provider mappings.
+Send the operation time and redacted error only. Installer output can contain dashboard secrets.

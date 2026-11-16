@@ -55,6 +55,18 @@ Payment confirmation and server provisioning are separate stages.
 Read the order status in Client Panel and the installation status in Cloud Panel.
 A queued request is not a ready server. There is no guaranteed provisioning time in this guide.
 
+| Stage                        | What to verify                                                   | Safe next action                                                                             |
+| ---------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Payment pending              | The original invoice in Client Panel.                            | Resolve that payment before paying again.                                                    |
+| Payment confirmed, no server | The purchased service and its management link.                   | Ask support to inspect the existing provisioning request. Do not place a replacement order.  |
+| Queued or installing         | Current installation progress in Cloud Panel.                    | Wait. Do not send power, reinstall, or another create request.                               |
+| Running during installation  | Installation still owns the server.                              | Allow guest initialization and credential application to finish. Running alone is not ready. |
+| Installation finished        | Final installation state, guest access, and assigned networking. | Verify the intended OS through the console, then test SSH or RDP separately.                 |
+| Failed or unknown            | Last progress stage, operation time, and exact redacted error.   | Ask support to reconcile the existing service before any retry.                              |
+
+Windows initialization can start the machine before the installation finishes. Keep the selected password private and wait for final credential application.
+See [Windows initialization and RDP](/docs/getting-started/rdp/) before troubleshooting an early sign-in failure.
+
 If installation fails, record the time and visible error. Contact support before retrying or ordering another service.
 Do not assume a failed installation triggers a refund. Ask support to review the existing order first.
 
