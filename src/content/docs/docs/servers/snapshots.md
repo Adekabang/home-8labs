@@ -30,7 +30,7 @@ Before a risky change, verify a suitable [backup](/docs/servers/backups), confir
 
 ## Create a checkpoint
 
-1. Open the server's **Snapshots** page.
+1. Open the server's **Backups & Snapshots → Snapshots** tab.
 2. Check the displayed count and limit.
 3. Select **New snapshot**.
 4. Enter a unique **Name**, such as `before-upgrade`.

@@ -47,6 +47,18 @@ Konfirmasi pembayaran dan penyediaan server merupakan tahap yang berbeda.
 Periksa status pesanan di Client Panel dan status instalasi di Cloud Panel.
 Permintaan dalam antrean belum berarti server siap. Panduan ini tidak menjamin waktu penyediaan.
 
+| Tahap                                      | Yang perlu diperiksa                                                | Tindakan aman                                                                                    |
+| ------------------------------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Pembayaran tertunda                        | Faktur asli di Client Panel.                                        | Selesaikan pemeriksaan pembayaran tersebut sebelum membayar lagi.                                |
+| Pembayaran terkonfirmasi, server belum ada | Layanan yang dibeli dan tautan pengelolaannya.                      | Minta dukungan memeriksa permintaan penyediaan yang sudah ada. Jangan membuat pesanan pengganti. |
+| Mengantre atau sedang diinstal             | Kemajuan instalasi terkini di Cloud Panel.                          | Tunggu. Jangan mengirim tindakan daya, instal ulang, atau pembuatan server lain.                 |
+| Server menyala saat instalasi              | Instalasi masih menguasai server.                                   | Tunggu inisialisasi tamu dan penerapan kredensial selesai. Menyala belum berarti siap.           |
+| Instalasi selesai                          | Status akhir instalasi, akses tamu, dan jaringan yang dialokasikan. | Periksa OS melalui konsol, lalu uji SSH atau RDP secara terpisah.                                |
+| Gagal atau tidak diketahui                 | Tahap terakhir, waktu operasi, dan pesan kesalahan yang disamarkan. | Minta dukungan menyelaraskan layanan yang ada sebelum mengulang tindakan.                        |
+
+Inisialisasi Windows dapat menyalakan mesin sebelum instalasi selesai. Rahasiakan kata sandi pilihan Anda dan tunggu penerapan kredensial terakhir.
+Baca [inisialisasi Windows dan RDP](/id/docs/getting-started/rdp/) sebelum menangani kegagalan masuk pada tahap awal.
+
 Jika instalasi gagal, catat waktu dan pesan kesalahannya. Hubungi dukungan sebelum mengulang atau memesan layanan lain.
 Kegagalan instalasi tidak otomatis berarti pengembalian dana. Minta pemeriksaan pesanan yang sudah ada.
 

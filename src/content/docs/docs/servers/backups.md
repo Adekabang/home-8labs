@@ -28,11 +28,23 @@ Check your quota and the intended server. Arrange application-consistent data ha
 
 Storage location and durability are operator-configured. A backup is not automatically an off-site copy. Ask support about your service's storage and recovery coverage.
 
+## Find backups across your account
+
+1. Select **Workspace → Backups** for the account-wide inventory.
+2. Match the backup name, server, creation time, size, and **Creating**, **Completed**, or **Failed** status.
+3. Select the server link to manage that server's recovery points.
+4. On the server, open **Backups & Snapshots → Backups**.
+
+The account inventory reads Panel records, not a fresh archive-storage check. It can remain visible while a node is unavailable.
+It lists your owned servers' records, not a guarantee of every delegated server's recovery points.
+**No backups** does not diagnose storage loss. Check the intended server's quota, access, and backup list before escalating.
+**Locked** identifies protection from deletion. Ask support about an unexpected lock instead of attempting to remove storage files.
+
 <span id="taking-a-backup"></span>
 
 ## Take a manual backup
 
-1. Open the server and select **Backups → Create Backup**.
+1. Open the server and select **Backups & Snapshots → Backups → Create Backup**.
 2. Enter a recognizable name, up to 40 characters.
 3. Review **Compression Type** and **Mode**.
 4. Select **Create** once and wait for the background task.
@@ -83,6 +95,18 @@ Use the link promptly. The reviewed default lifetime is about one hour; hosted c
 If the link expires, request another through the panel. No **Download** entry can mean export is unavailable. Do not infer that a visible backup always has a downloadable export.
 
 Keep downloaded archives in access-controlled storage. Confirm the transfer completed before relying on the copy; ask support about supported recovery procedures for an exported archive.
+
+## Delete an unnecessary backup
+
+1. Confirm that another suitable recovery point or independent copy remains available.
+2. Open **Backups & Snapshots → Backups** on the intended server.
+3. Open the unnecessary backup's **⋯** menu and choose its delete action.
+4. Read the deletion confirmation and approve only the intended archive.
+5. Wait for the result and refreshed list before another deletion.
+
+Deletion permanently removes a recovery point. A locked backup cannot be deleted through this action.
+If deletion fails, preserve the error and refresh the list before retrying. Ask support to reconcile uncertain archive state.
+Never delete backup storage objects yourself to bypass quota or lock protection.
 
 <span id="automatic-backups"></span>
 

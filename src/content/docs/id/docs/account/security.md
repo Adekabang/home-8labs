@@ -121,6 +121,22 @@ Kunci SSH akun menyimpan **kunci publik** yang dapat dipilih saat deployment, ji
 
 Jangan pernah mengunggah kunci privat SSH. Jangan menganggap perubahan kunci publik tersimpan otomatis mengubah authorized keys pada server yang sudah dibuat.
 
+### Tambahkan atau hapus kunci publik tersimpan
+
+1. Temukan satu kunci publik OpenSSH pada perangkat Anda, biasanya dalam berkas `.pub`.
+2. Buka **Workspace → SSH Keys → Add key**.
+3. Isi **Name** dengan nama yang mudah dikenali, lalu tempel satu baris kunci pada **Public key**.
+4. Kirim sekali dan tunggu pesan sukses serta pembaruan daftar.
+5. Cocokkan sidik jari yang ditampilkan dengan kunci publik lokal sebelum memakainya.
+
+Jalankan `ssh-keygen -lf ~/.ssh/id_ed25519.pub` pada komputer Anda jika lokasi kunci publik Anda memang sesuai.
+Jika validasi gagal, periksa format kunci publik. Jangan menempelkan kunci privat atau beberapa kunci ke kolom satu kunci.
+
+Untuk menghapus kunci tersimpan, pilih kontrol hapusnya, periksa **Remove SSH key**, lalu konfirmasikan entri yang dituju.
+Tunggu sampai entri hilang dari daftar. Untuk mengganti kunci tersimpan, tambahkan pengganti sebelum menghapus entri lama.
+Penghapusan tidak mencabut kunci yang sudah terpasang dalam tamu. Perbarui akun tamu terkait secara terpisah dengan sesi pemulihan yang berfungsi.
+Jika kunci privat bocor, hapus otorisasi kunci tersebut dalam tamu lalu buat pengganti. Menghapus kunci publik tersimpan saja tidak cukup.
+
 ## Dugaan pengambilalihan akun
 
 Cabut sesi browser yang tidak dikenal, ganti kata sandi, lalu tinjau [API keys](/id/docs/account/api-keys) dan [akses tim](/id/docs/teams/overview). Mencabut sesi browser tidak sama dengan mencabut API key.

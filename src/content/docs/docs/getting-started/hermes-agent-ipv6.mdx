@@ -1,229 +1,136 @@
 ---
-title: Install & Run Hermes Agent on IPv6-only VPS
-description: Install and run the Nous Research Hermes Agent on an IPv6-only VPS, working around GitHub and GHCR IPv4 limits with NAT64.
+title: Run Hermes Agent on an IPv6-only guest
+description: Check endpoint reachability and run the publisher container without granting Docker host control to the agent.
 sidebar:
   order: 5
 ---
 
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-
-[Hermes Agent](https://github.com/NousResearch/hermes-agent) is an open-source AI agent framework by Nous Research. It needs **GitHub** (`git clone`) and optionally **GitHub Container Registry** (`ghcr.io`) — both of which lack IPv6. This guide covers a complete install and operational setup on an IPv6-only VPS, drawing on the solutions from the [general IPv6 tutorial](/docs/getting-started/ipv6-github-dockerhub/).
+[Hermes Agent](https://github.com/NousResearch/hermes-agent) is third-party software, not a managed 8Labs feature.
+This tutorial is for a guest administrator authorized to run an AI agent and send data to its configured providers.
+Do not give an agent customer secrets, production access, or tools beyond its intended task.
 
 ## Prerequisites
 
-Complete the [general IPv6 tutorial](/docs/getting-started/ipv6-github-dockerhub/) first so that:
+- Working guest SSH or [console access](/docs/servers/console/) and an independent recovery copy.
+- A supported Docker Engine. Follow [Docker IPv6 networking](/docs/getting-started/install-docker-ipv6/).
+- A provider account, available model, and securely stored credentials.
+- Reachable registry, package, API, and messaging endpoints required by your chosen configuration.
 
-- **GitHub** is reachable via IPv6 proxy or NAT64/DNS64
-- **Docker Hub** works (if using the containerised install path)
+Follow [IPv6 endpoint diagnostics](/docs/getting-started/ipv6-github-dockerhub/) before changing resolvers or adding a proxy.
+Do not assume every provider supports IPv6 or that DNS64 supplies a NAT64 gateway.
+External API charges and provider policies are separate from your 8Labs service.
 
-This page assumes those are already in place.
+## Prepare the container network
 
-## Dependency IPv6 Status
-
-| Service           | Endpoint                              | IPv6          | Impact                        |
-| ----------------- | ------------------------------------- | ------------- | ----------------------------- | -------------------- |
-| Install script    | `raw.githubusercontent.com`           | ✅ Native     | `curl                         | bash` works directly |
-| Git clone         | `github.com`                          | ❌            | Needs proxy or NAT64          |
-| Python packages   | `pypi.org` / `files.pythonhosted.org` | ✅ Fastly     | `pip` / `uv` works directly   |
-| npm packages      | `registry.npmjs.org`                  | ✅ Cloudflare | `npm` works directly          |
-| Container images  | `ghcr.io`                             | ❌            | Needs NAT64 or proxy          |
-| LLM — OpenAI      | `api.openai.com`                      | ❌            | Use OpenRouter or NAT64       |
-| LLM — most others | Various                               | ✅            | Anthropic, Groq, Gemini, etc. |
-
----
-
-## Install Paths
-
-Two supported paths, both work on IPv6-only after the prerequisites above.
-
-<Tabs>
-<TabItem value="native" label="Native Install (Python + Node)" default>
-
-The standard one-liner works because `raw.githubusercontent.com` has native IPv6. The install script's `git clone` step uses the GitHub host mappings you already set up in `/etc/hosts`.
-
-### Step 1: Install
+Create a dedicated IPv6-enabled network once, then use it for every Hermes container:
 
 ```bash
-# curl fetches the script over IPv6 (raw.githubusercontent.com)
-# git clone uses /etc/hosts IPv6 proxy
-curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash
+sudo docker network create --ipv6 hermes-ipv6
+sudo docker network inspect hermes-ipv6
 ```
 
-If the install script prompts for `uv` installation, answer **yes** — uv fetches from PyPI which has native IPv6.
+If that network already exists, inspect it instead of recreating it. Confirm IPv6 is enabled and its assigned subnet is appropriate.
+Test its egress using the container checks in the Docker guide, replacing `docs-ipv6` with `hermes-ipv6`.
+A working guest route or image pull does not prove container egress. Containers without `--network` use Docker's separate default bridge.
+Keep this network for setup, interactive sessions, gateway restarts, and updates. Remove it only after all dependent containers are removed.
 
-### Step 2: Verify
+## Select and inspect the image
+
+The publisher's current [Docker guide](https://hermes-agent.nousresearch.com/docs/user-guide/docker) uses `nousresearch/hermes-agent` and `/opt/data` for persistent state.
+The old GHCR image and `/home/hermes/.hermes` example are not this procedure's current storage contract.
+Choose a publisher version or digest for repeatable deployment. The commands below use the publisher's moving default tag for illustration.
 
 ```bash
-hermes doctor
-hermes --version
+sudo docker pull nousresearch/hermes-agent
+sudo docker image inspect nousresearch/hermes-agent
+mkdir -p ~/.hermes
+chmod 700 ~/.hermes
 ```
 
-### Step 3: Configure Provider
+Check the image identity before granting credentials. Running Docker with sudo gives the command root-equivalent guest access.
+Do not mount `/var/run/docker.sock`, the guest root filesystem, or unrelated credential directories into this agent.
+A Docker socket mount can let the agent control the guest through Docker.
+
+## Configure the first session
 
 ```bash
-# OpenRouter (IPv6-native, recommended)
-hermes config set model.provider openrouter
-hermes config set model.default "openai/gpt-4o"
-
-# Or direct Anthropic (IPv6-native)
-hermes config set model.provider anthropic
-hermes config set model.default "claude-sonnet-4-20250514"
+sudo docker run -it --rm \
+  --network hermes-ipv6 \
+  -v "$HOME/.hermes:/opt/data" \
+  nousresearch/hermes-agent setup
 ```
 
-Set your API keys in `~/.hermes/.env`:
+1. Follow the setup wizard for the intended provider and model.
+2. Enter credentials only through a private session.
+3. Configure only messaging accounts you control if a gateway is needed.
+4. Complete setup and confirm its result before starting a second process.
+5. Protect the mounted directory and include it in your private recovery plan.
 
-```bash title="~/.hermes/.env"
-OPENROUTER_API_KEY="sk-or-..."
-# or
-ANTHROPIC_API_KEY="sk-ant-..."
-```
+The directory can contain API keys, messages, sessions, and agent state. Never publish it or attach it to a support ticket.
+Check any command pasted through a console before executing it. Newlines and incorrect keyboard mappings can change its meaning.
 
-:::tip
+Use only one running container for this data directory. Exit the setup or interactive session before starting the gateway.
+If `hermes` already runs, stop it with `sudo docker stop hermes` before using the interactive command.
+Do not share `~/.hermes` between simultaneous containers. Concurrent session or memory writes can corrupt state.
 
-For the smoothest IPv6-only experience, use **OpenRouter** as your primary provider. It has native IPv6 (Cloudflare) and proxies 200+ models including OpenAI, Anthropic, Google, Meta, and DeepSeek — all through a single IPv6 endpoint.
-
-:::
-
-### Step 4: Run
+## Run interactively
 
 ```bash
-hermes
-# or single query
-hermes chat -q "What can you do?"
+sudo docker run -it --rm \
+  --network hermes-ipv6 \
+  -v "$HOME/.hermes:/opt/data" \
+  nousresearch/hermes-agent
 ```
 
-</TabItem>
-<TabItem value="docker" label="Docker / s6 Container">
+Send a non-sensitive test request. Confirm that the expected model answers and that any external usage belongs to the intended account.
+A successful container start does not prove provider authentication, model availability, or every tool integration works.
 
-The containerised install uses `ghcr.io/nousresearch/hermes-agent` — GitHub Container Registry, which has no IPv6.
+## Run a messaging gateway
 
-### Step 1: Enable NAT64 or ghcr.io proxy
-
-**Option A — NAT64 (recommended)**
-
-Docker daemon respects the host's DNS64 configuration. With [NAT64 + DNS64](/docs/getting-started/ipv6-github-dockerhub/#solution-3-nat64--dns64) enabled:
+After configuring the intended messaging integration, start one persistent gateway:
 
 ```bash
-# Pull works — DNS64 translates ghcr.io to IPv6
-docker pull ghcr.io/nousresearch/hermes-agent:latest
+sudo docker run -d \
+  --network hermes-ipv6 \
+  --name hermes \
+  --restart unless-stopped \
+  -v "$HOME/.hermes:/opt/data" \
+  nousresearch/hermes-agent gateway run
+sudo docker ps --filter name=hermes
+sudo docker logs --since 10m hermes
 ```
 
-**Option B — DanWin1210 ghcr.io proxy**
+This example publishes no dashboard or API port. Do not expose one merely to test messaging.
+If you require a web interface, follow the publisher's authentication, bind-address, TLS, and reverse-proxy requirements first.
+Verify delivery with a private test message from the intended account. Messaging platforms have separate endpoint and permission requirements.
+Read logs locally and redact keys, chat identifiers, prompts, and message contents before sharing an error.
 
-Add to `/etc/hosts`:
+## Update, stop, and recover
 
-```bash title="/etc/hosts"
-2a01:4f8:c010:d56::6 ghcr.io
-```
+1. Record the existing image digest and selected configuration.
+2. Stop the gateway with `sudo docker stop hermes`.
+3. Preserve a private copy of the data directory while no agent writes to it.
+4. Review publisher release notes and any state-format migration requirements.
+5. Pull the selected replacement image.
+6. Remove only the stopped container with `sudo docker rm hermes`. Do not delete its mounted data.
+7. Recreate it using the gateway command and your selected image.
+8. Verify the provider and a private messaging test again.
 
-Then:
-
-```bash
-docker pull ghcr.io/nousresearch/hermes-agent:latest
-```
-
-### Step 2: Run via s6
-
-Follow the standard [Hermes Docker gateway guide](https://hermes-agent.nousresearch.com/docs/user-guide/docker#running-in-gateway-mode), which documents s6 supervision:
-
-```bash
-docker run -d \
-  --name hermes-agent \
-  -v ~/.hermes:/home/hermes/.hermes \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  ghcr.io/nousresearch/hermes-agent:latest
-```
-
-</TabItem>
-</Tabs>
-
----
-
-## Ongoing Operations
-
-### Updates
-
-```bash
-# git pull uses the hosts-file proxy — works transparently
-hermes update
-```
-
-### Skills & Plugins
-
-Skills and plugins are fetched via `git clone` from GitHub. Since GitHub is already reachable through the proxy setup in the prerequisites, both work:
-
-```bash
-hermes skills install <skill-id>
-hermes plugins install <plugin-name>
-```
-
-### Gateway (Messaging Platforms)
-
-The gateway connects to Telegram, Discord, and other platforms. These platforms use their own infrastructure — they are **not** affected by the IPv6-only constraint:
-
-```bash
-hermes gateway setup
-hermes gateway run
-```
-
-```bash title="~/.hermes/.env"
-TELEGRAM_BOT_TOKEN="..."
-```
-
-The gateway will connect to Telegram's API natively (Telegram supports IPv6).
-
----
-
-## What Works vs What Doesn't
-
-### ✅ Works on IPv6-only (no changes needed)
-
-| Component                           | Why                                   |
-| ----------------------------------- | ------------------------------------- | ------------------------------------------- |
-| Install script (`curl               | bash`)                                | `raw.githubusercontent.com` has native IPv6 |
-| `pip` / `uv` packages               | PyPI + Fastly dual-stack              |
-| `npm` packages                      | npm registry via Cloudflare           |
-| OpenRouter API                      | Cloudflare IPv6                       |
-| Anthropic API                       | Native IPv6                           |
-| Google Gemini API                   | Native IPv6                           |
-| Groq, Mistral, DeepSeek, Perplexity | Native IPv6 via Cloudflare/CloudFront |
-| Telegram/Discord gateway            | Platform APIs are IPv6-ready          |
-| Docker Hub pulls                    | Native IPv6 (`registry-1.docker.io`)  |
-
-### ❌ Needs workaround
-
-| Component                 | Issue   | Fix                                      |
-| ------------------------- | ------- | ---------------------------------------- |
-| `git clone` from GitHub   | No AAAA | IPv6 proxy in `/etc/hosts` (Solution 1)  |
-| `ghcr.io` container pulls | No AAAA | NAT64/DNS64 (Solution 3) or proxy        |
-| OpenAI API directly       | No AAAA | OpenRouter gateway or NAT64 (Solution 4) |
-
----
+Do not assume an older image can read state written by a newer release.
+If an update fails, stop the new container and follow the publisher's recovery guidance using your preserved image and data copy.
+To stop without removing state, use `sudo docker stop hermes`. Restart deliberately with `sudo docker start hermes`.
 
 ## Troubleshooting
 
-| Symptom                         | Cause                                 | Fix                                                                    |
-| ------------------------------- | ------------------------------------- | ---------------------------------------------------------------------- |
-| `curl \| bash` hangs            | `raw.githubusercontent.com` DNS issue | Verify AAAA: `dig AAAA raw.githubusercontent.com`                      |
-| Install fails at `git clone`    | GitHub proxy not configured           | Check `/etc/hosts` has GitHub entries                                  |
-| `hermes update` fails           | Git cannot reach `github.com`         | Verify proxy: `curl -I https://github.com`                             |
-| `docker pull ghcr.io/...` hangs | ghcr.io has no IPv6                   | Enable NAT64 or add ghcr.io to `/etc/hosts`                            |
-| OpenAI models return errors     | Direct `api.openai.com` unreachable   | Switch to OpenRouter or enable NAT64                                   |
-| Skills install fails            | GitHub proxy not working              | Test: `git ls-remote https://github.com/NousResearch/hermes-agent.git` |
+| Symptom                         | Safe next action                                                                                                |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Image cannot be pulled          | Check registry DNS, HTTPS, redirects, and your approved egress path.                                            |
+| Provider returns 401            | Check the intended provider account and its key locally. Network routing is not the only failure boundary.      |
+| Model or quota error            | Check the provider's current catalog, balance, and limits. Do not assume another gateway supports the same API. |
+| Gateway is running but no reply | Check messaging setup, allowed recipient, provider response, and redacted logs.                                 |
+| Container repeatedly restarts   | Stop it, preserve the error, and check image/configuration compatibility before recreating.                     |
+| A key leaks                     | Revoke it at its actual provider and replace the local secret. Removing a container does not revoke a key.      |
 
----
-
-## References
-
-- [Hermes Agent Docs](https://hermes-agent.nousresearch.com/docs/)
-- [Hermes Agent GitHub](https://github.com/NousResearch/hermes-agent)
-- [IPv6 Tutorial (prerequisites for this guide)](/docs/getting-started/ipv6-github-dockerhub/)
-- [OpenRouter API Docs](https://openrouter.ai/docs/api-reference/overview)
-- [Google DNS64](https://developers.google.com/speed/public-dns/docs/dns64)
-
-### Community Resources
-
-- [So you got an IPv6-only VPS?](https://sagar.se/blog/ipv6-vps/) — Practical blog about living with an IPv6-only server, including NAT64 setup and service compatibility
-- [How to get IPv4 connectivity on an IPv6 only VPS](https://gist.github.com/unixfox/bb299ce4f862fad66ee2e6d9024bef98) — GitHub Gist with comprehensive NAT64/DNS64 and proxy workarounds
-- [OpenAI API endpoint does NOT support IPv6](https://www.reddit.com/r/ipv6/comments/17z6l3y/) — r/ipv6 community discussion confirming the issue and sharing workarounds
-- [An IPv6-only VPS that costs less](https://news.ycombinator.com/item?id=6818452) — Hacker News discussion (80 comments) on IPv6-only hosting experiences
+Use [8Labs support](/docs/help/contact/) for provider network assignments or host faults.
+Use the [Hermes documentation](https://hermes-agent.nousresearch.com/docs/) for agent configuration, native installation, skills, plugins, and software defects.
+No guest install, external model request, or messaging delivery was exercised by this content review.

@@ -118,6 +118,28 @@ Reinstall berjalan asinkron; **installing** berarti masih diproses, bukan instal
 
 Jika instalasi gagal, simpan pesan kesalahan lalu hubungi dukungan. Jangan berganti-ganti templat atau mengulang reinstall sebelum penyebabnya dipahami.
 
+## Pulihkan instalasi gagal dengan pertimbangan
+
+**Retry Installation adalah instal ulang destruktif, bukan penyegaran status atau pengulangan pembayaran.**
+Simpan data yang masih dapat dipulihkan secara independen dan minta dukungan menyelaraskan layanan penyedia asli terlebih dahulu.
+
+Jika **Server operation in progress** atau **Operation outcome unknown** muncul, operasi tersebut masih menguasai server.
+Tunggu hasil pasti atau penyelarasan operator. Jangan melewati pengaman, menghapus status, atau mengirim pembuatan maupun pembangunan ulang lain.
+
+Hanya setelah dukungan memastikan instalasi baru memang sesuai:
+
+1. Buka server yang gagal dan simpan tahap kemajuan terakhir serta kesalahannya.
+2. Gunakan **Retry Installation** hanya jika halaman instalasi gagal menawarkannya dan tidak ada operasi belum selesai yang menguasai server.
+3. Pada **Retry Server Installation**, pilih **Template** yang dituju.
+4. Tetapkan **Account Password** dan simpan dengan aman. Jangan kirim kepada dukungan.
+5. Konfirmasikan **Retry Installation** sekali hanya jika Anda menerima penggantian data tamu.
+6. Tunggu kemajuan instalasi dan hasil akhir sebelum menguji akses tamu.
+
+Jika templat gagal dimuat, tindakan ditolak, atau kemajuan menjadi tidak diketahui, hentikan tindakan dan hubungi dukungan.
+Jangan mengirim ulang setelah timeout tanpa memastikan apakah permintaan pertama sudah dimulai.
+Windows dapat menyala selama inisialisasi meskipun pengaturan umum mulai-setelah-instalasi menunjukkan pilihan berbeda.
+Jalur pembangunannya memerlukan tamu menyala untuk penerapan kredensial terakhir melalui Guest Agent. Baca [inisialisasi Windows](/id/docs/getting-started/rdp/).
+
 ## Menghapus server yang memenuhi syarat
 
 **Penghapusan menghancurkan VM, data, backup, dan snapshot secara permanen, serta melepas alamat IP. Tidak ada pengembalian dana otomatis.** Jangan mengandalkan titik pemulihan yang ikut terhapus.

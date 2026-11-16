@@ -1,136 +1,120 @@
 ---
-title: Install Docker and Enable IPv6 network
-description: Install Docker and enable IPv6 networking on Debian, Ubuntu, Rocky Linux, and AlmaLinux to run containers over IPv6 only.
+title: Install Docker and enable IPv6 networking
+description: Install a supported Docker Engine and test container IPv6 without replacing guest network settings.
 sidebar:
   order: 3
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+This tutorial is for a Linux guest administrator with sudo access, assigned IPv6 connectivity, and working [console recovery](/docs/servers/console/).
+Run commands inside your guest. Docker administrator access can grant root-equivalent control of that guest.
+This procedure does not allocate public addresses, configure provider routing, or promise every image supports IPv6.
 
+## Install a supported Engine
 
-This document provides a comprehensive guide for installing Docker and enabling IPv6 networking on a cloud environment platform. It covers the installation process for systems using apt (Debian, Ubuntu) and dnf (CentOS, Rocky Linux, Alma Linux) package managers. By following these steps, you will be able to set up Docker for containerized application deployment and configure it to support IPv6 networking, ensuring compatibility and scalability for modern network environments.
-
-
-## Preparation - Update the package list
-
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo apt update
-  ```
-  </TabItem>
-  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo dnf update
-  ```
-  </TabItem>
-</Tabs>
-
-## Install docker
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo apt -y install docker.io docker-compose
-  ```
-  </TabItem>
-  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-  ```
-  </TabItem>
-</Tabs>
-
-## Enable the service to start on boot
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo systemctl enable docker
-  ```
-  </TabItem>
-  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo systemctl enable docker
-  ```
-  </TabItem>
-</Tabs>
-
-## Start the service
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo systemctl start docker
-  ```
-  </TabItem>
-  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo systemctl start docker
-  ```
-  </TabItem>
-</Tabs>
-
-## Check docker status
-<Tabs syncKey="operating-systems">
-  <TabItem value="apt" label="Debian, Ubuntu">
-  ```bash
-  sudo systemctl status docker
-  ```
-  </TabItem>
-  <TabItem value="dnf" label="CentOS Stream, RockyLinux, AlmaLinux">
-  ```bash
-  sudo systemctl status docker
-  ```
-  </TabItem>
-</Tabs>
-
-## Setting up Docker’s networks
-we are going to use the reserved range of IPv6.
-- 2001:0db8:0000:0001:1000::/68 as the default network range.
-- 2001:0db8:0000:0001:2000::/68 as a default address pool. New networks should use /80 ranges. A /68 range contains 4096 /80 subnets.
+1. Identify your distribution and release with `cat /etc/os-release`.
+2. Check Docker's supported releases and prerequisites for [Ubuntu](https://docs.docker.com/engine/install/ubuntu/), [Debian](https://docs.docker.com/engine/install/debian/), or [CentOS](https://docs.docker.com/engine/install/centos/).
+3. For another distribution, use its supported Docker-compatible installation instructions. Do not assume a CentOS repository supports every derivative.
+4. Follow the selected publisher procedure, including removal of conflicting packages only after preserving existing workloads.
+5. Install the Compose plugin if you need `docker compose`. The legacy `docker-compose` package is a different command.
+6. Start and inspect the service:
 
 ```bash
-cat <<EOF | sudo tee /etc/docker/daemon.json >/dev/null
+sudo systemctl enable --now docker
+sudo systemctl status docker --no-pager
+sudo docker version
+sudo docker compose version
+```
+
+Confirm the daemon answers before changing its network configuration.
+If image retrieval fails, diagnose [IPv6 endpoint access](/docs/getting-started/ipv6-github-dockerhub/) separately.
+Do not disable TLS verification or add an unknown registry mirror.
+
+## Preserve existing daemon settings
+
+Docker restart can interrupt containers. Arrange a maintenance window and record running workloads first.
+If `/etc/docker/daemon.json` exists, preserve a copy and merge changes rather than overwriting it.
+Conflicting command-line daemon options and JSON settings can prevent startup.
+
+For a current Linux Engine, Docker supports a user-defined IPv6 network without replacing the host's resolver or assigned addresses:
+
+```bash
+sudo docker network create --ipv6 docs-ipv6
+sudo docker network inspect docs-ipv6
+```
+
+When no explicit IPv6 pool is configured, supported current Engines allocate a ULA subnet.
+A ULA is private container addressing, not an assigned public prefix or independently routable internet address.
+Existing default address pools can change this behavior. Inspect the network result before continuing.
+
+## Enable IPv6 on the default bridge when needed
+
+User-defined networks and the default bridge are separate configurations.
+If your application specifically needs the default bridge, merge these keys into `/etc/docker/daemon.json`:
+
+```json
 {
   "ipv6": true,
-  "fixed-cidr-v6": "2001:0db8:0000:0001:1000::/68",
-  "experimental": true,
-  "ip6tables": true,
-  "default-address-pools":[
-    {"base": "172.31.0.0/16", "size": 24},
-    {"base": "2001:0db8:0000:0001:2000::/68", "size": 80}
-  ],
-  "dns": ["2a00:1098:2c::1", "2a01:4f9:c010:3f02::1", "2a00:1098:2b::1"]
+  "ip6tables": true
 }
-EOF
-
-sudo systemctl restart docker
 ```
 
+Current Docker can choose a ULA subnet when no `fixed-cidr-v6` is specified.
+Do not use `2001:db8::/32` as operational addressing. It is reserved for documentation.
+Do not add a routed public prefix without confirming its assignment and route with your network administrator.
+Docker 27 and later no longer require `experimental` merely for IPv6 packet filtering.
 
-## Test the public IP from docker
+1. Validate the merged file with `sudo dockerd --validate --config-file=/etc/docker/daemon.json`.
+2. Resolve validation errors before restarting.
+3. Restart during the agreed maintenance window with `sudo systemctl restart docker`.
+4. Check `sudo systemctl status docker --no-pager` and `sudo docker network inspect bridge`.
+5. Confirm existing containers and applications still work.
+
+If startup fails, restore the previous saved configuration and restart Docker.
+Inspect `sudo journalctl -u docker --since '-10 minutes'` locally. Redact credentials and private workload details before sharing errors.
+Do not disable Docker packet filtering to suppress a networking failure.
+
+## Test container connectivity
+
 ```bash
-docker run --rm alpine wget -qO - https://ifconfig.me && echo ""
+sudo docker run --rm --network docs-ipv6 alpine ip -6 addr
+sudo docker run --rm --network docs-ipv6 alpine wget -qO- https://ifconfig.me
 ```
-it should be show your public IPv6 address
 
-## Test the public IP from docker compose
-Make a docker-compose.yaml
+Review the image publisher and pin a version or digest for repeatable workloads.
+The first command checks container addressing. The second depends on DNS, image tools, guest egress, and the remote endpoint.
+Inspect the returned address family. A successful request alone does not prove it used IPv6.
+Private bridge IPv6 normally relies on the Engine's configured masquerading and the guest's working IPv6 route.
+Do not assume a ULA makes the container directly reachable from the internet.
+
+For Compose, save a project file such as `compose.yaml`:
+
 ```yaml
 services:
   test:
     image: alpine
-    command: /bin/sh -c "wget -qO - https://ifconfig.me && echo ''"
+    command: ip -6 addr
 networks:
   default:
     enable_ipv6: true
 ```
-and execute this. It should generates an /80 network. Docker compose creates a default network for each docker compose file.
-```bash
-docker compose run --rm test
-```
 
-## Reference
-- [Using Docker on an IPv6 only host on Ubuntu 22.04](https://g3rv4.com/2023/07/running-docker-ipv6-only-network)
-- [How To Install and Use Docker Compose on Rocky Linux 9](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-rocky-linux-9)
+Run `sudo docker compose run --rm test` from that directory.
+Inspect the created network and confirm IPv6 addressing. This checks Compose networking, not application health.
 
+## Cleanup and troubleshooting
 
+Remove only the tutorial's unused network with `sudo docker network rm docs-ipv6` after its containers exit.
+Use `sudo docker compose down` only in this tutorial's project directory to remove its temporary Compose resources.
+Do not use volume deletion or a global prune to troubleshoot connectivity.
+
+- **Daemon does not start:** validate the merged configuration and restore the saved version if necessary.
+- **Image pull fails:** check registry DNS, HTTPS, and all redirected image endpoints.
+- **Container has IPv6 but cannot connect:** compare guest egress, container DNS, Docker filtering, and routes.
+- **Published port is unreachable:** check the bind address, Docker mapping, guest firewall, Panel firewall, and any provider NAT.
+- **Provider route or assignment is missing:** contact [support](/docs/help/contact/) with redacted errors. Docker cannot create that entitlement.
+
+## References
+
+- [Docker IPv6 networking](https://docs.docker.com/engine/daemon/ipv6/)
+- [Docker bridge networks](https://docs.docker.com/engine/network/drivers/bridge/)
+- [Docker daemon configuration](https://docs.docker.com/engine/daemon/)
