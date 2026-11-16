@@ -10,11 +10,16 @@ translationStatus: "translated"
 
 **Pembaca:** pengguna server dengan `control.power`. Kontrol juga mengikuti status server dan operasi yang sedang berlangsung.
 
-:::danger[Kontrol paksa dapat menghilangkan data]
+<aside class="docs-warning docs-warning-danger" aria-label="Kontrol paksa dapat menghilangkan data">
+
+**Kontrol paksa dapat menghilangkan data**
+
 **Kill** mematikan mesin tanpa penghentian normal sistem operasi.
 Reset paksa, jika tersedia, memulai ulang mesin secara mendadak.
 Penulisan yang belum selesai dan data aplikasi dapat hilang atau rusak. Utamakan tindakan normal.
-:::
+
+</aside>
+
 
 ## Pilih tindakan
 

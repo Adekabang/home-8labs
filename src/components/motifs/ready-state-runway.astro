@@ -16,7 +16,10 @@ const { class: className } = Astro.props;
   aria-labelledby="rsr-t rsr-d"
   preserveAspectRatio="xMidYMax meet">
   <title id="rsr-t">Ready state runway</title>
-  <desc id="rsr-d">A low deployment launch pad holding a pink-red slab, with a ready-state activation line.</desc>
+  <desc id="rsr-d"
+    >A low deployment launch pad holding a pink-red slab, with a ready-state
+    activation line.</desc
+  >
   <defs>
     <linearGradient id="rsrSlab" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#C20E50"></stop>
@@ -28,21 +31,47 @@ const { class: className } = Astro.props;
     </radialGradient>
   </defs>
 
-  <rect x="180" y="120" width="240" height="140" fill="url(#rsrGlow)" class="glow"></rect>
+  <rect
+    x="180"
+    y="120"
+    width="240"
+    height="140"
+    fill="url(#rsrGlow)"
+    class="glow"></rect>
 
   <!-- perspective pad rails -->
   <g fill="none" stroke="#0A0A0A" stroke-opacity="0.3" stroke-width="1">
-    <path class="draw" pathLength="1" d="M120 250 L255 168 M480 250 L345 168 M255 168 H345"></path>
+    <path
+      class="draw"
+      pathLength="1"
+      d="M120 250 L255 168 M480 250 L345 168 M255 168 H345"></path>
   </g>
 
   <!-- launch pad slabs (low, flat) -->
-  <g stroke="#0A0A0A" stroke-opacity="0.85" stroke-width="1" stroke-linejoin="round">
-    <polygon class="rise" style="--i:0" points="240,210 360,210 384,232 216,232" fill="#F4F4F5"></polygon>
-    <polygon class="rise" style="--i:1" points="258,188 342,188 360,206 240,206" fill="#FFFFFF"></polygon>
+  <g
+    stroke="#0A0A0A"
+    stroke-opacity="0.85"
+    stroke-width="1"
+    stroke-linejoin="round">
+    <polygon
+      class="rise"
+      style="--i:0"
+      points="240,210 360,210 384,232 216,232"
+      fill="#F4F4F5"></polygon>
+    <polygon
+      class="rise"
+      style="--i:1"
+      points="258,188 342,188 360,206 240,206"
+      fill="#FFFFFF"></polygon>
   </g>
 
   <!-- central deployment slab on the pad -->
-  <g class="lift" stroke="#0A0A0A" stroke-opacity="0.9" stroke-width="1.1" stroke-linejoin="round">
+  <g
+    class="lift"
+    stroke="#0A0A0A"
+    stroke-opacity="0.9"
+    stroke-width="1.1"
+    stroke-linejoin="round">
     <polygon points="276,150 324,150 336,140 288,140" fill="#FFFFFF"></polygon>
     <polygon points="324,150 324,186 336,176 336,140" fill="#E4E4E7"></polygon>
     <rect x="276" y="150" width="48" height="36" fill="url(#rsrSlab)"></rect>
@@ -50,11 +79,28 @@ const { class: className } = Astro.props;
 
   <!-- ready-state activation line -->
   <g>
-    <line class="ready" x1="216" x2="384" y1="124" y2="124" stroke="#C20E50" stroke-width="1.4" pathLength="1"></line>
+    <line
+      class="ready"
+      x1="216"
+      x2="384"
+      y1="124"
+      y2="124"
+      stroke="#C20E50"
+      stroke-width="1.4"
+      pathLength="1"></line>
     <circle cx="216" cy="124" r="2.5" fill="#C20E50" class="rdot"></circle>
     <circle cx="384" cy="124" r="2.5" fill="#C20E50" class="rdot"></circle>
   </g>
-  <text x="300" y="116" text-anchor="middle" font-family="monospace" font-size="8" letter-spacing="3" fill="#68727F" class="lbl">READY · ARMED</text>
+  <text
+    x="300"
+    y="116"
+    text-anchor="middle"
+    font-family="monospace"
+    font-size="8"
+    letter-spacing="3"
+    fill="#68727F"
+    class="lbl">READY · ARMED</text
+  >
 
   <style>
     @media (prefers-reduced-motion: no-preference) {

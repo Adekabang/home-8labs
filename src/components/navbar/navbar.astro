@@ -70,57 +70,69 @@ const menuitems = [
 ---
 
 <Container>
-  <header class="sticky top-4 z-50 my-5 border border-grid bg-ink/90 px-4 py-3 backdrop-blur-md">
+  <header
+    class="sticky top-4 z-50 my-5 border border-grid bg-ink/90 px-4 py-3 backdrop-blur-md">
     <div class="flex flex-col lg:flex-row justify-between items-center">
-    <Astronav>
-      <div class="flex w-full lg:w-auto items-center justify-between">
-        <a href="/" class="text-lg"
-          ><span class="font-bold text-line">8Labs</span><span
-            class="font-bold text-red-ink">.</span
-          >
-        </a>
-        <div class="block lg:hidden">
-          <MenuIcon class="w-5 h-5 text-line" />
+      <Astronav>
+        <div class="flex w-full lg:w-auto items-center justify-between">
+          <a href="/" class="text-lg"
+            ><span class="font-bold text-line">8Labs</span><span
+              class="font-bold text-red-ink">.</span
+            >
+          </a>
+          <div class="block lg:hidden">
+            <MenuIcon class="w-5 h-5 text-line" />
+          </div>
         </div>
-      </div>
-      <MenuItems class="hidden w-full lg:w-auto mt-4 lg:flex lg:mt-0">
-        <ul class="flex flex-col lg:flex-row lg:gap-1">
-          {
-            menuitems.map((item, index) => (
-              <>
-                {item.children && (
-                  <Dropdown
-                    title={item.title}
-                    children={item.children}
-                    lastItem={index === menuitems.length - 1}
-                  />
-                )}
+        <MenuItems class="hidden w-full lg:w-auto mt-4 lg:flex lg:mt-0">
+          <ul class="flex flex-col lg:flex-row lg:gap-1">
+            {
+              menuitems.map((item, index) => (
+                <>
+                  {item.children && (
+                    <Dropdown
+                      title={item.title}
+                      children={item.children}
+                      lastItem={index === menuitems.length - 1}
+                    />
+                  )}
 
-                {!item.children && (
-                  <li>
-                    <a
-                      href={item.path}
-                      target={item.target ? "_blank" : "_self"}
-                      rel={item.target ? "noopener noreferrer" : undefined}
-                      class="flex min-h-[2.75rem] rounded-none px-3 py-2 items-center text-cool hover:bg-elevated hover:text-line">
-                      <span> {item.title}</span>
-                    </a>
-                  </li>
-                )}
-              </>
-            ))
-          }
-        </ul>
-        <div class="lg:hidden flex items-center mt-3 gap-4">
-          <Link href="https://my.8labs.id" target="_blank" size="md" block class="rounded-none">Client Panel</Link>
+                  {!item.children && (
+                    <li>
+                      <a
+                        href={item.path}
+                        target={item.target ? "_blank" : "_self"}
+                        rel={item.target ? "noopener noreferrer" : undefined}
+                        class="flex min-h-[2.75rem] rounded-none px-3 py-2 items-center text-cool hover:bg-elevated hover:text-line">
+                        <span> {item.title}</span>
+                      </a>
+                    </li>
+                  )}
+                </>
+              ))
+            }
+          </ul>
+          <div class="lg:hidden flex items-center mt-3 gap-4">
+            <Link
+              href="https://my.8labs.id"
+              target="_blank"
+              size="md"
+              block
+              class="rounded-none">Client Panel</Link
+            >
+          </div>
+        </MenuItems>
+      </Astronav>
+      <div>
+        <div class="hidden lg:flex items-center gap-4">
+          <Link
+            href="https://my.8labs.id"
+            target="_blank"
+            size="md"
+            class="rounded-none">Client Panel</Link
+          >
         </div>
-      </MenuItems>
-    </Astronav>
-    <div>
-      <div class="hidden lg:flex items-center gap-4">
-        <Link href="https://my.8labs.id" target="_blank" size="md" class="rounded-none">Client Panel</Link>
       </div>
-    </div>
     </div>
   </header>
 </Container>

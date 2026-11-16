@@ -1,0 +1,22 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollectionPageProps } from "@cloudflare/nimbus-docs/runtime";
+import { components } from "@/components";
+import BlogMetadata from "./BlogMetadata.astro";
+import { blogHref } from "@/utils/blog";
+interface Props {
+  entry: CollectionEntry<"blog">;
+}
+const { entry } = Astro.props;
+// Nimbus's renderer consumes the same entry as the canonical article; archives
+// do not keep a second authored copy or replace historical section URLs.
+Astro.props.entry = entry;
+const { Content } = await getCollectionPageProps(Astro, "blog");
+const prefix = Astro.url.pathname.startsWith("/id/") ? "/id" : "";
+---
+
+<section class="blog-summary">
+  <h2><a href={`${prefix}${blogHref(entry.id)}`}>{entry.data.title}</a></h2>
+  <BlogMetadata entry={entry} />
+  <Content components={components} />
+</section>

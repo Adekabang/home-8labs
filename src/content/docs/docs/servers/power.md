@@ -10,10 +10,15 @@ translationStatus: "original"
 
 **Audience:** server users with `control.power`. Controls also depend on server state and current operations.
 
-:::danger[Force controls can lose data]
+<aside class="docs-warning docs-warning-danger" aria-label="Force controls can lose data">
+
+**Force controls can lose data**
+
 **Kill** stops the machine without a graceful guest shutdown. A force reset, if offered, abruptly restarts it.
 Unsaved writes and application data can be lost or corrupted. Use graceful actions first.
-:::
+
+</aside>
+
 
 ## Choose an action
 

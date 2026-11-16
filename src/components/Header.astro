@@ -1,0 +1,167 @@
+---
+import Logo from "./Logo.astro";
+import { docsLocale } from "@/utils/docsLocale";
+import Icon from "@cloudflare/nimbus-docs/components/Icon.astro";
+import { Button } from "./ui/button";
+import { LinkButton } from "./ui/link-button";
+import { ThemeToggle } from "./ui/theme-toggle";
+import SearchTrigger from "./ui/search/SearchTrigger.astro";
+import { ShortcutsToggle } from "./ui/shortcuts";
+import { config } from "virtual:nimbus/config";
+import { stripBase, withBase } from "@cloudflare/nimbus-docs/runtime";
+
+interface Props {
+  collection?: string;
+  entryId?: string;
+  showSidebar?: boolean;
+}
+const { showSidebar = true } = Astro.props;
+const currentSlug =
+  stripBase(Astro.url.pathname, import.meta.env.BASE_URL).replace(/\/$/, "") ||
+  "/";
+const localePolicy = await docsLocale(Astro.url.pathname);
+const sections = [
+  {
+    label: localePolicy.locale === "id" ? "Dokumentasi" : "Docs",
+    href: Astro.url.pathname.startsWith("/id/") ? "/id/docs/" : "/docs/",
+    isActive: currentSlug.includes("/docs"),
+  },
+  {
+    label: Astro.url.pathname.startsWith("/id/")
+      ? "Guides (English)"
+      : "Guides",
+    href: Astro.url.pathname.startsWith("/id/") ? "/id/guides/" : "/guides/",
+    isActive: currentSlug.includes("/guides"),
+  },
+  {
+    label: Astro.url.pathname.startsWith("/id/") ? "Blog (English)" : "Blog",
+    href: Astro.url.pathname.startsWith("/id/") ? "/id/blog/" : "/blog/",
+    isActive: currentSlug.includes("/blog"),
+  },
+];
+const showSections = sections.length >= 2;
+const homeHref = withBase("/", import.meta.env.BASE_URL);
+const resolveSectionHref = (href: string): string =>
+  withBase(href, import.meta.env.BASE_URL);
+---
+
+<header
+  class="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-lg">
+  <div
+    class="mx-auto flex items-center justify-between gap-3 h-14 px-4 lg:px-6">
+    <div class="flex items-center gap-3 min-w-0">
+      <slot name="brand">
+        {
+          /* The mark alone; the site title stays as the link's accessible name. */
+        }
+        <a
+          href={homeHref}
+          class="flex shrink-0 items-center text-foreground transition-opacity hover:opacity-70">
+          <Logo class="h-5 w-8 shrink-0" />
+          <span class="sr-only">{config.title}</span>
+        </a>
+      </slot>
+
+      {
+        showSections && (
+          <nav
+            aria-label="Sections"
+            class="hidden md:flex items-center gap-1 ms-4 ps-4 border-s border-border h-6 min-w-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {sections.map((section) => (
+              <a
+                href={resolveSectionHref(section.href)}
+                aria-current={section.isActive ? "page" : undefined}
+                class:list={[
+                  "px-2 py-1 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap",
+                  section.isActive
+                    ? "text-foreground bg-accent"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/60",
+                ]}>
+                {section.label}
+              </a>
+            ))}
+          </nav>
+        )
+      }
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <slot name="actions" />
+      <a href="https://my.8labs.id" class="hidden lg:inline text-sm"
+        >Client Panel</a
+      >
+      <a href="https://cloud.8labs.id" class="hidden lg:inline text-sm"
+        >Cloud Panel</a
+      >
+      <a href="/contact/" class="hidden lg:inline text-sm"
+        >{localePolicy.locale === "id" ? "Kontak" : "Contact"}</a
+      >
+      <a
+        class="text-sm text-muted-foreground hover:text-foreground"
+        href={localePolicy.switchHref}
+        lang={Astro.url.pathname.startsWith("/id/") ? "en" : "id"}
+        aria-label="Language / Bahasa"
+        >{
+          Astro.url.pathname.startsWith("/id/") ? "English" : "Bahasa Indonesia"
+        }</a
+      >
+      {config.search !== false && <SearchTrigger />}
+      {/* Without search, the reader's single-key switch lives here. */}
+      {config.search === false && <ShortcutsToggle compact />}
+      {
+        config.github && (
+          <LinkButton
+            href={config.github}
+            variant="minimal"
+            shape="square"
+            size="sm"
+            aria-label="GitHub"
+            target="_blank"
+            rel="noopener"
+            class="text-muted-foreground">
+            <Icon name="ph:github-logo" class="w-4 h-4" />
+          </LinkButton>
+        )
+      }
+      <ThemeToggle />
+      {
+        showSidebar && (
+          <Button
+            variant="ghost"
+            shape="square"
+            size="sm"
+            icon="ph:list"
+            aria-label={
+              localePolicy.locale === "id" ? "Buka navigasi" : "Open navigation"
+            }
+            data-menu-btn
+            class="md:hidden text-muted-foreground"
+          />
+        )
+      }
+    </div>
+  </div>
+  {/* Phones: the tabs on a row of their own under the bar. */}
+  {
+    showSections && (
+      <nav
+        aria-label="Sections"
+        data-nb-header-tabs
+        class="md:hidden flex items-center gap-1 h-10 px-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {sections.map((section) => (
+          <a
+            href={resolveSectionHref(section.href)}
+            aria-current={section.isActive ? "page" : undefined}
+            class:list={[
+              "px-2 py-1 rounded-md text-[0.8125rem] font-medium no-underline transition-colors shrink-0 whitespace-nowrap",
+              section.isActive
+                ? "text-foreground bg-accent"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent/60",
+            ]}>
+            {section.label}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</header>

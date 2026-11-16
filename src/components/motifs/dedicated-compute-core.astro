@@ -3,18 +3,54 @@
 // boundary. CPU/MEM gauges hold steady (predictable), IPv6 + snapshot glyphs, a
 // slow heartbeat LED. "Predictable VMs with hard boundaries."
 // Light blueprint aesthetic: 1px black strokes, near-white faces, crimson accent.
-interface Props { class?: string }
+interface Props {
+  class?: string;
+}
 const { class: className } = Astro.props;
 ---
-<svg viewBox="0 0 360 300" data-motif class:list={[className]} xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dc-t dc-d">
+
+<svg
+  viewBox="0 0 360 300"
+  data-motif
+  class:list={[className]}
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-labelledby="dc-t dc-d">
   <title id="dc-t">Dedicated server in a hard boundary</title>
-  <desc id="dc-d">A dedicated server faceplate with steady CPU and memory gauges, sealed inside a solid boundary frame.</desc>
+  <desc id="dc-d"
+    >A dedicated server faceplate with steady CPU and memory gauges, sealed
+    inside a solid boundary frame.</desc
+  >
 
   <!-- hard boundary -->
   <g class="frame">
-    <rect x="34" y="56" width="292" height="190" rx="10" fill="none" stroke="#0A0A0A" stroke-width="1.6"></rect>
-    <rect x="42" y="64" width="276" height="174" rx="7" fill="none" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="2 3"></rect>
-    <text x="46" y="50" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1.5" fill="#A1A1AA">HARD BOUNDARY</text>
+    <rect
+      x="34"
+      y="56"
+      width="292"
+      height="190"
+      rx="10"
+      fill="none"
+      stroke="#0A0A0A"
+      stroke-width="1.6"></rect>
+    <rect
+      x="42"
+      y="64"
+      width="276"
+      height="174"
+      rx="7"
+      fill="none"
+      stroke="#A1A1AA"
+      stroke-width="1"
+      stroke-dasharray="2 3"></rect>
+    <text
+      x="46"
+      y="50"
+      font-family="ui-monospace,monospace"
+      font-size="8"
+      letter-spacing="1.5"
+      fill="#A1A1AA">HARD BOUNDARY</text
+    >
     <!-- corner brackets -->
     <g stroke="#C20E50" stroke-width="1.6" fill="none">
       <path d="M34 70 L34 56 L48 56"></path>
@@ -29,69 +65,236 @@ const { class: className } = Astro.props;
     <rect x="70" y="92" width="220" height="116" rx="8" fill="#FFFFFF"></rect>
 
     <!-- header -->
-    <circle class="blink" cx="86" cy="108" r="3" fill="#C20E50" stroke="none"></circle>
+    <circle class="blink" cx="86" cy="108" r="3" fill="#C20E50" stroke="none"
+    ></circle>
     <circle cx="96" cy="108" r="3" fill="#D4D4D8" stroke="none"></circle>
-    <text x="110" y="112" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1" fill="#0A0A0A" stroke="none">KVM-01</text>
-    <rect x="234" y="100" width="44" height="16" rx="3" fill="#C20E50" stroke="none"></rect>
-    <text x="256" y="111" text-anchor="middle" font-family="ui-monospace,monospace" font-size="7" letter-spacing="0.5" fill="#FFFFFF" stroke="none">IPv6</text>
-    <line x1="78" y1="124" x2="282" y2="124" stroke="#E4E4E7" stroke-width="1"></line>
+    <text
+      x="110"
+      y="112"
+      font-family="ui-monospace,monospace"
+      font-size="8"
+      letter-spacing="1"
+      fill="#0A0A0A"
+      stroke="none">KVM-01</text
+    >
+    <rect
+      x="234"
+      y="100"
+      width="44"
+      height="16"
+      rx="3"
+      fill="#C20E50"
+      stroke="none"></rect>
+    <text
+      x="256"
+      y="111"
+      text-anchor="middle"
+      font-family="ui-monospace,monospace"
+      font-size="7"
+      letter-spacing="0.5"
+      fill="#FFFFFF"
+      stroke="none">IPv6</text
+    >
+    <line x1="78" y1="124" x2="282" y2="124" stroke="#E4E4E7" stroke-width="1"
+    ></line>
 
     <!-- CPU gauge -->
-    <text x="80" y="146" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1" fill="#A1A1AA" stroke="none">CPU</text>
-    <rect x="112" y="139" width="120" height="8" rx="2" fill="#F4F4F5" stroke="#E4E4E7" stroke-width="1"></rect>
-    <rect class="gauge g-cpu" x="113" y="140" width="78" height="6" rx="2" fill="#0A0A0A" stroke="none"></rect>
+    <text
+      x="80"
+      y="146"
+      font-family="ui-monospace,monospace"
+      font-size="7"
+      letter-spacing="1"
+      fill="#A1A1AA"
+      stroke="none">CPU</text
+    >
+    <rect
+      x="112"
+      y="139"
+      width="120"
+      height="8"
+      rx="2"
+      fill="#F4F4F5"
+      stroke="#E4E4E7"
+      stroke-width="1"></rect>
+    <rect
+      class="gauge g-cpu"
+      x="113"
+      y="140"
+      width="78"
+      height="6"
+      rx="2"
+      fill="#0A0A0A"
+      stroke="none"></rect>
 
     <!-- MEM gauge -->
-    <text x="80" y="166" font-family="ui-monospace,monospace" font-size="7" letter-spacing="1" fill="#A1A1AA" stroke="none">MEM</text>
-    <rect x="112" y="159" width="120" height="8" rx="2" fill="#F4F4F5" stroke="#E4E4E7" stroke-width="1"></rect>
-    <rect class="gauge g-mem" x="113" y="160" width="62" height="6" rx="2" fill="#0A0A0A" stroke="none"></rect>
+    <text
+      x="80"
+      y="166"
+      font-family="ui-monospace,monospace"
+      font-size="7"
+      letter-spacing="1"
+      fill="#A1A1AA"
+      stroke="none">MEM</text
+    >
+    <rect
+      x="112"
+      y="159"
+      width="120"
+      height="8"
+      rx="2"
+      fill="#F4F4F5"
+      stroke="#E4E4E7"
+      stroke-width="1"></rect>
+    <rect
+      class="gauge g-mem"
+      x="113"
+      y="160"
+      width="62"
+      height="6"
+      rx="2"
+      fill="#0A0A0A"
+      stroke="none"></rect>
 
     <!-- snapshot glyph -->
     <g stroke-width="1">
-      <rect x="80" y="182" width="15" height="13" rx="2" fill="#FFFFFF" stroke="#0A0A0A"></rect>
-      <rect x="85" y="178" width="15" height="13" rx="2" fill="#FBE9EF" stroke="#C20E50"></rect>
+      <rect
+        x="80"
+        y="182"
+        width="15"
+        height="13"
+        rx="2"
+        fill="#FFFFFF"
+        stroke="#0A0A0A"></rect>
+      <rect
+        x="85"
+        y="178"
+        width="15"
+        height="13"
+        rx="2"
+        fill="#FBE9EF"
+        stroke="#C20E50"></rect>
     </g>
-    <text x="108" y="190" font-family="ui-monospace,monospace" font-size="7" letter-spacing="0.5" fill="#A1A1AA" stroke="none">SNAP ·3</text>
+    <text
+      x="108"
+      y="190"
+      font-family="ui-monospace,monospace"
+      font-size="7"
+      letter-spacing="0.5"
+      fill="#A1A1AA"
+      stroke="none">SNAP ·3</text
+    >
 
     <!-- vent fins -->
     <g stroke="#0A0A0A" stroke-opacity="0.3" stroke-width="1">
-      {[240, 246, 252, 258, 264, 270, 276].map((x) => (
-        <line x1={x} y1="178" x2={x} y2="198"></line>
-      ))}
+      {
+        [240, 246, 252, 258, 264, 270, 276].map((x) => (
+          <line x1={x} y1="178" x2={x} y2="198" />
+        ))
+      }
     </g>
   </g>
-
 </svg>
 
 <style>
-    @media (prefers-reduced-motion: no-preference) {
-      .frame { opacity: 0; transform-box: fill-box; transform-origin: center; animation: pop 0.6s cubic-bezier(0.22,1,0.36,1) forwards }
-      .plate { opacity: 0; transform-box: fill-box; animation: rise 0.6s cubic-bezier(0.22,1,0.36,1) forwards 0.3s }
-      .blink { animation: blink 2.6s ease-in-out infinite 0.8s }
-      .gauge { transform-box: fill-box; transform-origin: left center }
-      .g-cpu { animation: usage-cpu 6s ease-in-out infinite 0.9s }
-      .g-mem { animation: usage-mem 8.4s ease-in-out infinite 0.9s }
+  @media (prefers-reduced-motion: no-preference) {
+    .frame {
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-    @keyframes pop { from { opacity: 0; transform: scale(0.95) } to { opacity: 1; transform: scale(1) } }
-    @keyframes rise { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: translateY(0) } }
-    @keyframes blink { 0%, 100% { opacity: 1 } 50% { opacity: 0.3 } }
-    /* CPU — spiky workload */
-    @keyframes usage-cpu {
-      0% { transform: scaleX(0.5) }
-      18% { transform: scaleX(0.62) }
-      36% { transform: scaleX(1.05) }
-      52% { transform: scaleX(0.8) }
-      70% { transform: scaleX(1.28) }
-      86% { transform: scaleX(0.95) }
-      100% { transform: scaleX(0.5) }
+    .plate {
+      opacity: 0;
+      transform-box: fill-box;
+      animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s;
     }
-    /* MEM — slow climb, then released */
-    @keyframes usage-mem {
-      0% { transform: scaleX(0.7) }
-      30% { transform: scaleX(0.92) }
-      55% { transform: scaleX(1.1) }
-      78% { transform: scaleX(1.32) }
-      90% { transform: scaleX(1.34) }
-      100% { transform: scaleX(0.7) }
+    .blink {
+      animation: blink 2.6s ease-in-out infinite 0.8s;
     }
+    .gauge {
+      transform-box: fill-box;
+      transform-origin: left center;
+    }
+    .g-cpu {
+      animation: usage-cpu 6s ease-in-out infinite 0.9s;
+    }
+    .g-mem {
+      animation: usage-mem 8.4s ease-in-out infinite 0.9s;
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+  /* CPU — spiky workload */
+  @keyframes usage-cpu {
+    0% {
+      transform: scaleX(0.5);
+    }
+    18% {
+      transform: scaleX(0.62);
+    }
+    36% {
+      transform: scaleX(1.05);
+    }
+    52% {
+      transform: scaleX(0.8);
+    }
+    70% {
+      transform: scaleX(1.28);
+    }
+    86% {
+      transform: scaleX(0.95);
+    }
+    100% {
+      transform: scaleX(0.5);
+    }
+  }
+  /* MEM — slow climb, then released */
+  @keyframes usage-mem {
+    0% {
+      transform: scaleX(0.7);
+    }
+    30% {
+      transform: scaleX(0.92);
+    }
+    55% {
+      transform: scaleX(1.1);
+    }
+    78% {
+      transform: scaleX(1.32);
+    }
+    90% {
+      transform: scaleX(1.34);
+    }
+    100% {
+      transform: scaleX(0.7);
+    }
+  }
 </style>

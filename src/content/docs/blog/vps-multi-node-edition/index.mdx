@@ -9,7 +9,7 @@ cover:
   image: ./cover.png
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@/components/ui/tabs";
 
 # Production-Ready VPS: Multi-Node Edition
 
@@ -300,6 +300,8 @@ S3_ENDPOINT=http://localhost:9000
 S3_BUCKET=uploads
 S3_ACCESS_KEY=minioadmin
 S3_SECRET_KEY=${MINI...
+```
+
 No code changes needed between single-node and multi-node. MinIO replication handles sync transparently.
 
 > **Don't need file uploads?** Skip MinIO entirely. Your app is already multi-node-ready.
@@ -420,7 +422,7 @@ Cloudflare Load Balancer costs $10/month. For two nodes, the free alternative wo
 3. **Enable the orange cloud (proxy)** on both records
 4. Cloudflare distributes traffic across both origins automatically
 
-```
+```text
 Type  Name  Content       Proxy
 A     @     <VPS-1 IP>    🟧 Proxied
 A     @     <VPS-2 IP>    🟧 Proxied

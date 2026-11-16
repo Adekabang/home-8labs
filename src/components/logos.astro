@@ -13,22 +13,30 @@ const distros = [
 ---
 
 <section class="mt-32">
-  <div class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
+  <div
+    class="flex items-baseline justify-between gap-6 border-b border-grid pb-5">
     <p class="micro-label">Image Compatibility</p>
-    <p class="micro-label hidden sm:block">{distros.length} supported base images</p>
+    <p class="micro-label hidden sm:block">
+      {distros.length} supported base images
+    </p>
   </div>
 
   <!-- technical compatibility strip — thin rectangular cells -->
-  <div class="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-3 lg:grid-cols-6">
+  <div
+    class="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-grid bg-grid sm:grid-cols-3 lg:grid-cols-6">
     {
       distros.map((d, i) => (
         <div class="group relative flex flex-col gap-3 bg-ink p-5 transition-colors hover:bg-panel">
-          <span class="absolute right-3 top-2 micro-label">{String(i + 1).padStart(2, "0")}</span>
+          <span class="absolute right-3 top-2 micro-label">
+            {String(i + 1).padStart(2, "0")}
+          </span>
           <Icon
             class="size-7 text-cool transition-colors group-hover:text-red-ink"
             name={d.icon}
           />
-          <span class="text-xs font-medium uppercase tracking-[0.12em] text-line">{d.name}</span>
+          <span class="text-xs font-medium uppercase tracking-[0.12em] text-line">
+            {d.name}
+          </span>
         </div>
       ))
     }

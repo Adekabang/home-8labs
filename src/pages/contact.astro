@@ -8,7 +8,8 @@ const channels = [
   {
     title: "Telegram",
     handle: "@virtual_8labs",
-    description: "Fastest reply. Best for quick questions and provisioning help.",
+    description:
+      "Fastest reply. Best for quick questions and provisioning help.",
     href: "https://t.me/virtual_8labs",
     cta: "Open Telegram",
     icon: "bi:telegram",
@@ -17,7 +18,8 @@ const channels = [
   {
     title: "Email",
     handle: "hey@raska.id",
-    description: "Better for billing, account, or anything that needs a record.",
+    description:
+      "Better for billing, account, or anything that needs a record.",
     href: "mailto:hey@raska.id",
     cta: "Send an email",
     icon: "bi:envelope",
@@ -40,8 +42,8 @@ const channels = [
         </h2>
         <p class="mt-3 text-lg leading-relaxed text-muted">
           Questions about a lab, billing, or your account? Message us on
-          Telegram for the fastest reply, or email us if you need a paper
-          trail. For provisioning and order issues, the
+          Telegram for the fastest reply, or email us if you need a paper trail.
+          For provisioning and order issues, the
           <a
             href="https://my.8labs.id"
             target="_blank"
@@ -63,8 +65,7 @@ const channels = [
               href={c.href}
               target={c.external ? "_blank" : undefined}
               rel={c.external ? "noopener noreferrer" : undefined}
-              class="group rounded-none border border-grid bg-panel p-6 transition-all hover:border-red-700 hover:shadow-[0_24px_70px_-50px_rgba(194, 14, 80,0.45)]"
-            >
+              class="group rounded-none border border-grid bg-panel p-6 transition-all hover:border-red-700 hover:shadow-[0_24px_70px_-50px_rgba(194, 14, 80,0.45)]">
               <div class="flex items-start gap-4">
                 <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-none border border-grid bg-surface text-line transition-colors group-hover:bg-red-700 group-hover:text-white">
                   <Icon class="h-6 w-6" name={c.icon} />

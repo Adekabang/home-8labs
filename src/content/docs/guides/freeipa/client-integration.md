@@ -31,9 +31,14 @@ nmcli dev show | grep DNS
 # IP4.DNS[1]: 192.168.100.128
 ```
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 `ipv4.ignore-auto-dns yes` prevents DHCP from overwriting your DNS configuration. Adjust the interface name (`ens160`) to match your system.
-:::
+
+</aside>
+
 
 ### 3. Test DNS Resolution
 

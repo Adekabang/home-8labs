@@ -21,7 +21,11 @@ const ogSlug = Object.entries(sitePages).find(
 
 // Home uses a real screenshot of the landing page; other pages use generated cards.
 const ogImagePath =
-  currentPath === "/" ? "/og-home.png" : ogSlug ? `/og/${ogSlug}.png` : "/opengraph.jpg";
+  currentPath === "/"
+    ? "/og-home.png"
+    : ogSlug
+      ? `/og/${ogSlug}.png`
+      : "/opengraph.jpg";
 const resolvedImageWithDomain = new URL(ogImagePath, Astro.site).toString();
 
 const { title } = Astro.props;
@@ -35,7 +39,10 @@ const makeTitle = title
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
 

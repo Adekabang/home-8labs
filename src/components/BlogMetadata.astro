@@ -1,0 +1,56 @@
+---
+import { Image } from "astro:assets";
+import { tagSlug } from "@/utils/blog";
+import type { CollectionEntry } from "astro:content";
+interface Props {
+  entry: CollectionEntry<"blog"> | CollectionEntry<"blogId">;
+}
+const { entry } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../content/docs/blog/**/*.{png,jpg,jpeg,webp}",
+  { eager: true },
+);
+const imagePath =
+  entry.filePath && entry.data.cover
+    ? `../${entry.filePath.replace(/^.*?src\//, "").replace(/[^/]+$/, "")}${entry.data.cover.image.replace(/^\.\//, "")}`
+    : undefined;
+const cover = imagePath ? images[imagePath]?.default : undefined;
+const prefix = Astro.url.pathname.startsWith("/id/") ? "/id" : "";
+---
+
+<div class="blog-metadata" data-pagefind-ignore>
+  {
+    entry.data.date && (
+      <time datetime={entry.data.date.toISOString()}>
+        {entry.data.date.toLocaleDateString("en-GB", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          timeZone: "UTC",
+        })}
+      </time>
+    )
+  }
+  <p>
+    <a href={`${prefix}/blog/authors/adekabang/`}>Adekabang</a> — Tukang Ngoprek
+  </p>
+  <ul class="blog-tags">
+    {
+      (entry.data.tags ?? []).map((tag) => (
+        <li>
+          <a href={`${prefix}/blog/tags/${tagSlug(tag)}/`}>{tag}</a>
+        </li>
+      ))
+    }
+  </ul>
+  {
+    cover && (
+      <Image
+        src={cover}
+        alt={entry.data.cover?.alt ?? entry.data.title}
+        widths={[390, 768, 1200]}
+        sizes="(max-width: 768px) 100vw, 76ch"
+      />
+    )
+  }
+</div>

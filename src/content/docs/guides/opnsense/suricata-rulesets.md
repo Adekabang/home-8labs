@@ -56,9 +56,14 @@ These rule feeds provide extremely clean and reliable threat intelligence.
 
 **Threats blocked:** Botnets, C2 servers, malware distribution, malicious SSL endpoints.
 
-:::note[ThreatFox & SSL Fingerprint Blacklist]
+<aside class="docs-warning docs-warning-note" aria-label="ThreatFox & SSL Fingerprint Blacklist">
+
+**ThreatFox & SSL Fingerprint Blacklist**
+
 Newer OPNsense versions (25.x+) may also show `abuse.ch/ThreatFox` (malware IOCs) and `abuse.ch/SSL Fingerprint Blacklist` (SSL JA3 fingerprints). Enable them if present — they're safe, low-noise additions.
-:::
+
+</aside>
+
 
 ---
 
@@ -172,9 +177,14 @@ This is safer than blanket-enabling IPS on the Administration page because you c
 | **WAN** | **IPS Mode** | Block external threats before they enter |
 | **LAN** | **IDS Mode** | Detect only — avoid breaking internal traffic |
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 Running IPS on LAN interfaces is risky. Internal applications like Windows file sharing, Active Directory, and VoIP can trigger Suricata rules and get blocked unexpectedly. Start with IDS-only on LAN, review alerts for a week, then selectively enable IPS if needed.
-:::
+
+</aside>
+
 
 ### Combine Suricata + Zenarmor
 

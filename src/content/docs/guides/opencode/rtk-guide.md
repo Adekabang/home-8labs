@@ -45,11 +45,16 @@ rtk --version
 rtk gain
 ```
 
-:::caution[Name collision on Cargo]
+<aside class="docs-warning docs-warning-caution" aria-label="Name collision on Cargo">
+
+**Name collision on Cargo**
+
 Another crates.io package is also named `rtk`. If you use Cargo and install the wrong one, RTK commands such as `rtk gain` will fail.
 
 Use the upstream Git install command from the RTK docs when installing via Cargo.
-:::
+
+</aside>
+
 
 ## Set up RTK in OpenCode
 

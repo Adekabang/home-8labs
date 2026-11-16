@@ -89,9 +89,14 @@ The pattern: enabling hardware offload on LAN interfaces would spike LAN iperf t
 
 Both guides converge on the same root cause: FreeBSD's conservative default `sysctl` values are tuned for 1 Gbps era hardware. The fix is a set of tunables applied under **System > Settings > Tunables**.
 
-:::note
+<aside class="docs-warning docs-warning-note" aria-label="note">
+
+**Note**
+
 Most tunables here take effect immediately via `sysctl`, but several critical ones are *loader* tunables that only apply at boot: **net.inet.rss.enabled**, **net.inet.rss.bits**, **vm.pmap.pti**, **net.isr.maxthreads**, **net.isr.bindthreads**, **net.pf.states_hashsize**, and **net.pf.source_nodes_hashsize**. Apply them via **System > Settings > Tunables**, then reboot. Test one group at a time.
-:::
+
+</aside>
+
 
 ### Group 1: CPU & Interrupt Processing
 
@@ -135,11 +140,16 @@ net.inet.rss.bits = N
 
 The formula: `rss.bits = ceil(log2(vCPUs))`. If you leave `rss.bits` unset, the kernel default (cores × 2 in bucket count) still works — it just allocates more buckets than the docs recommend.
 
-:::caution
+<aside class="docs-warning docs-warning-caution" aria-label="caution">
+
+**Caution**
+
 **RSS requires driver-level support.** The official docs list drivers that support RSS according to source code: `em`, `igb` (tested & working), `axgbe` (tested & working), `netvsc`, `ixgbe`, `ixl`, `cxgbe`, `lio`, `mlx5`, `sfxge`. **VirtIO (`vtnet`) is not on this list** — which matters, because the setup this guide is based on uses VirtIO NICs. The docs give no guarantee that any given driver will properly handle the kernel RSS implementation.
 
 To check whether your driver exposes RSS, run `sysctl -a | grep rss` (drivers that support toggling it will expose a tunable) and `dmesg | grep vectors` (multiple MSI-X vectors indicate multiple hardware queues). NICs with no RSS and no other queue filter will most likely interrupt only CPU 0 at all times — in that case, keep `net.inet.rss.enabled = 0` and rely on the `net.isr` tunables for multi-core distribution.
-:::
+
+</aside>
+
 
 ### Group 3: Socket Buffers & TCP
 
@@ -160,9 +170,14 @@ net.inet.tcp.soreceive_stream = 1
 | `kern.ipc.maxsockbuf` | `16777216` is appropriate for 10 Gbps. Calomel's `614400000` figure is their recommendation for 100 Gbps cards — overkill here. |
 | `soreceive_stream = 1` | Enables the optimized kernel socket interface for TCP streams. |
 
-:::caution
+<aside class="docs-warning docs-warning-caution" aria-label="caution">
+
+**Caution**
+
 **These tunables only affect TCP connections that terminate *on the firewall itself*.** This includes the web UI, SSH, VPN tunnels (OpenVPN/WireGuard), reverse proxies, and iperf3 when run from the firewall. Routed/NAT traffic between WAN and LAN does **not** pass through the firewall's TCP socket buffers — it is forwarded at the IP layer by pf. These tunables will not improve your multi-gigabit WAN-to-LAN throughput through NAT, and this is why many users copy them without measurable effect.
-:::
+
+</aside>
+
 
 ### Group 4: PF Hash Tables
 
@@ -179,9 +194,14 @@ PF maintains two separate hash tables, and it is important not to confuse them (
 
 Both must be powers of 2 and are loader tunables (reboot required). Size `states_hashsize` relative to your expected state count — roughly one to two states per hash row is ideal, so 1M rows comfortably covers state tables in the high hundreds of thousands.
 
-:::note
+<aside class="docs-warning docs-warning-note" aria-label="note">
+
+**Note**
+
 **RAM cost:** benchmarks measuring pf's hash allocation put it at roughly 80 bytes per hash row, so `states_hashsize = 1048576` reserves on the order of 80 MB of kernel RAM. Fine on a box with 8 GB+; think twice on small appliances.
-:::
+
+</aside>
+
 
 ### Group 5: TCP Default MSS & Initcwnd
 
@@ -197,15 +217,25 @@ Older versions of the community guides recommend these; we list them for referen
 
 **What `mssdflt` actually does:** This sets the *default* MSS that the firewall's own TCP stack uses when a peer does not send an MSS option during the TCP handshake. It is **not** MSS clamping for forwarded traffic. MSS clamping (limiting the MSS of connections passing *through* the firewall) is configured in the **MSS** field on each interface in OPNsense, which generates a `scrub max-mss` rule in pf. These are different mechanisms.
 
-:::note
+<aside class="docs-warning docs-warning-note" aria-label="note">
+
+**Note**
+
 **MSS arithmetic:** For standard Ethernet with 1500-byte MTU, the correct MSS is **1460** = 1500 − 20 (IPv4 header) − 20 (TCP header). Setting `mssdflt` lower than this (like 1240 or 1448) does not cause fragmentation — smaller MSS actually reduces fragmentation risk — but it increases overhead (more header bytes per payload byte), which reduces effective throughput.
-:::
+
+</aside>
+
 
 The related `abc_l_var` and `initcwnd_segments` tunables control TCP congestion window behavior for connections terminating on the firewall. Like the socket buffer tunables in Group 3, they do not affect forwarded traffic.
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 One commenter reports lower CPU usage after disabling **Interface Scrub** under **Firewall > Settings > Normalization**. pf's scrub performs packet normalization (including fragment reassembly), which costs CPU cycles on every packet; if you don't need normalization, disabling it removes that per-packet work. Treat this as a community anecdote — test before and after.
-:::
+
+</aside>
+
 
 ### Group 6: Entropy & Queues
 

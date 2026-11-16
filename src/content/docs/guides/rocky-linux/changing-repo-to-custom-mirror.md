@@ -5,9 +5,14 @@ sidebar:
   order: 1
 ---
 
-:::caution[IMPORTANT]
+<aside class="docs-warning docs-warning-caution" aria-label="IMPORTANT">
+
+**IMPORTANT**
+
 This guide involves modifying core system package management files. **A misconfiguration can prevent your system from installing or updating software.** While not as immediately locking as a firewall, a broken DNF can significantly impact your server's functionality. Proceed with caution and ensure you have a way to manually edit files if `dnf` becomes unresponsive.
-:::
+
+</aside>
+
 
 ## Core Principle
 

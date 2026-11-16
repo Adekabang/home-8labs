@@ -37,9 +37,14 @@ Expected output:
 racadm    11.0.0.0.2022-DEL.700.0.0.15525992    DEL    VMwareAccepted    2022-xx-xx
 ```
 
-:::note
+<aside class="docs-warning docs-warning-note" aria-label="note">
+
+**Note**
+
 No reboot is required after installation.
-:::
+
+</aside>
+
 
 ## Step 2 — Check ESXi Network (Optional)
 

@@ -37,9 +37,14 @@ ipa user-add devops01 \
   --password
 ```
 
-:::tip
+<aside class="docs-warning docs-warning-tip" aria-label="tip">
+
+**Tip**
+
 Assign UIDs starting from **2000** to avoid collisions with system accounts (typically below 1000).
-:::
+
+</aside>
+
 
 ### Service Account (No Login)
 

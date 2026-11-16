@@ -29,10 +29,34 @@ function cuboid(cx: number, cy: number, s: number, h: number) {
 
 // base platform → 3 ascending cubes (top = accent)
 const blocks = [
-  { c: cuboid(260, 322, 138, 60), top: "#FFFFFF", l: "#F4F4F5", r: "#ECECEF", accent: false },
-  { c: cuboid(260, 262, 72, 52), top: "#FFFFFF", l: "#F4F4F5", r: "#ECECEF", accent: false },
-  { c: cuboid(260, 212, 58, 48), top: "#FFFFFF", l: "#F4F4F5", r: "#ECECEF", accent: false },
-  { c: cuboid(260, 164, 48, 44), top: "#F7DCE5", l: "#EFC4D2", r: "#E6ABBE", accent: true },
+  {
+    c: cuboid(260, 322, 138, 60),
+    top: "#FFFFFF",
+    l: "#F4F4F5",
+    r: "#ECECEF",
+    accent: false,
+  },
+  {
+    c: cuboid(260, 262, 72, 52),
+    top: "#FFFFFF",
+    l: "#F4F4F5",
+    r: "#ECECEF",
+    accent: false,
+  },
+  {
+    c: cuboid(260, 212, 58, 48),
+    top: "#FFFFFF",
+    l: "#F4F4F5",
+    r: "#ECECEF",
+    accent: false,
+  },
+  {
+    c: cuboid(260, 164, 48, 44),
+    top: "#F7DCE5",
+    l: "#EFC4D2",
+    r: "#E6ABBE",
+    accent: true,
+  },
 ];
 const topCube = blocks[3].c;
 ---
@@ -45,15 +69,27 @@ const topCube = blocks[3].c;
   role="img"
   aria-labelledby="iso-t iso-d">
   <title id="iso-t">Isometric platform stack</title>
-  <desc id="iso-d">A wireframe isometric stack of cuboids rising from a base platform, the top block highlighted in red, wrapped in a dashed bounding box.</desc>
+  <desc id="iso-d"
+    >A wireframe isometric stack of cuboids rising from a base platform, the top
+    block highlighted in red, wrapped in a dashed bounding box.</desc
+  >
 
   <!-- faint ground reflection -->
   <g opacity="0.35" transform="translate(0 706) scale(1 -1)">
-    <polygon points={blocks[0].c.top} fill="none" stroke="#D4D4D8" stroke-width="1" stroke-dasharray="2 3"></polygon>
+    <polygon
+      points={blocks[0].c.top}
+      fill="none"
+      stroke="#D4D4D8"
+      stroke-width="1"
+      stroke-dasharray="2 3"></polygon>
   </g>
 
   <!-- ground shadow lozenge -->
-  <polygon points={blocks[0].c.top} transform="translate(0 60)" fill="#000000" opacity="0.03"></polygon>
+  <polygon
+    points={blocks[0].c.top}
+    transform="translate(0 60)"
+    fill="#000000"
+    opacity="0.03"></polygon>
 
   <!-- stack, bottom → top -->
   {
@@ -64,15 +100,20 @@ const topCube = blocks[3].c;
         stroke-width={b.accent ? "1.4" : "1.1"}
         stroke-linejoin="round"
         fill="none">
-        <polygon points={b.c.left} fill={b.l}></polygon>
-        <polygon points={b.c.right} fill={b.r}></polygon>
-        <polygon points={b.c.top} fill={b.top}></polygon>
+        <polygon points={b.c.left} fill={b.l} />
+        <polygon points={b.c.right} fill={b.r} />
+        <polygon points={b.c.top} fill={b.top} />
       </g>
     ))
   }
 
   <!-- dashed bounding box around the accent cube -->
-  <g class="frame" stroke="#A1A1AA" stroke-width="1" stroke-dasharray="3 3" fill="none">
+  <g
+    class="frame"
+    stroke="#A1A1AA"
+    stroke-width="1"
+    stroke-dasharray="3 3"
+    fill="none">
     <polygon points={cuboid(260, 150, 56, 56).top}></polygon>
     <polygon points={cuboid(260, 150, 56, 56).left}></polygon>
     <polygon points={cuboid(260, 150, 56, 56).right}></polygon>
@@ -81,7 +122,12 @@ const topCube = blocks[3].c;
   <!-- leader line to the accent cube -->
   <g class="lead" stroke="#A1A1AA" stroke-width="1">
     <path d="M300 140 L372 116" fill="none"></path>
-    <circle cx={topCube.topCenter[0]} cy={topCube.topCenter[1]} r="2.5" fill="#C20E50" stroke="none"></circle>
+    <circle
+      cx={topCube.topCenter[0]}
+      cy={topCube.topCenter[1]}
+      r="2.5"
+      fill="#C20E50"
+      stroke="none"></circle>
   </g>
 
   <style>
