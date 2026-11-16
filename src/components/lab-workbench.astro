@@ -3,8 +3,8 @@ const modes = [
   {
     id: "virtual",
     label: "Virtual Labs",
-    title: "A VM on a nested hypervisor",
-    body: "Your Virtual Labs VM runs on a nested hypervisor, which itself runs as a VM. This extra virtualization layer makes Virtual Labs slower than VDL and ElasticLabs, whose VMs run directly on a bare-metal hypervisor.",
+    title: "A place to learn and experiment",
+    body: "Try a new stack or build a practice environment. Virtual Labs uses a nested hypervisor, making it slower than VDL and ElasticLabs.",
     layers: [
       "Bare-metal hypervisor",
       "Nested hypervisor (VM)",
@@ -12,27 +12,27 @@ const modes = [
     ],
     href: "https://my.8labs.id/products/virtual-labs",
     action: "Explore Virtual Labs",
-    note: "Nesting describes the provider infrastructure, not a customer hypervisor included with your VM.",
+    note: "Provider-managed layers. Your environment is the VM.",
   },
   {
     id: "dedicated",
     label: "VDL",
-    title: "A VM directly on the bare-metal hypervisor",
-    body: "Virtual Dedicated Labs VMs run directly on a bare-metal hypervisor, without the extra nested layer used by Virtual Labs. Choose VDL over Virtual Labs when performance matters.",
+    title: "Move beyond the nested layer",
+    body: "Choose VDL when your project needs to avoid Virtual Labs’ extra virtualization layer. Your VM runs directly on a bare-metal hypervisor.",
     layers: ["Bare-metal hypervisor", "Your VDL VM"],
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
     action: "Explore Virtual Dedicated Labs",
-    note: "Direct hypervisor placement does not mean a dedicated physical server. Check the plan for resource allocations.",
+    note: "Direct placement, not a dedicated physical host or CPU.",
   },
   {
     id: "elastic",
     label: "ElasticLabs",
-    title: "Direct hypervisor placement for ElasticLabs too",
-    body: "ElasticLabs VMs also run directly on a bare-metal hypervisor. Like VDL, they avoid the extra virtualization layer used by Virtual Labs. Compare plan resources and networking before ordering.",
+    title: "Find the fit for your next deployment",
+    body: "Run your VM directly on a bare-metal hypervisor, without Virtual Labs’ nested layer. Match an ElasticLabs plan to your resources and connectivity.",
     layers: ["Bare-metal hypervisor", "Your ElasticLabs VM"],
     href: "https://my.8labs.id/products/elasticlabs",
     action: "Explore ElasticLabs",
-    note: "Hypervisor placement and network access are separate choices. Check the selected plan for public IP or NAT access.",
+    note: "Resources and network options depend on the selected plan.",
   },
 ];
 ---
@@ -42,8 +42,11 @@ const modes = [
     <span id="workbench-heading" class="text-sm font-medium text-line"
       >Find your starting point</span
     >
-    <span class="text-xs text-muted">Illustrative configurations</span>
+    <a href="/pricing/" class="text-xs text-muted underline underline-offset-4"
+      >Compare plans</a
+    >
   </div>
+  <p class="workbench-axis">Choose your lab</p>
   <fieldset class="workbench-modes">
     <legend class="sr-only">Choose a lab type to explore</legend>
     {
@@ -127,6 +130,99 @@ const modes = [
       </div>
     ))
   }
+  <div class="network-comparison">
+    <fieldset class="workbench-modes network-modes">
+      <legend>Choose how you connect</legend>
+      <input
+        class="sr-only"
+        type="radio"
+        name="network-mode"
+        id="network-nat"
+        checked
+        aria-controls="network-view-nat"
+      />
+      <label for="network-nat">NAT</label>
+      <input
+        class="sr-only"
+        type="radio"
+        name="network-mode"
+        id="network-ipv4"
+        aria-controls="network-view-ipv4"
+      />
+      <label for="network-ipv4">Public IPv4</label>
+      <input
+        class="sr-only"
+        type="radio"
+        name="network-mode"
+        id="network-ipv6"
+        aria-controls="network-view-ipv6"
+      />
+      <label for="network-ipv6">Public IPv6</label>
+    </fieldset>
+    <div class="network-view network-view-nat" id="network-view-nat">
+      <h3>For projects that fit shared access</h3>
+      <dl>
+        <div>
+          <dt>Your address</dt><dd>
+            Private IPv4 behind a shared public endpoint, not a dedicated public
+            IPv4.
+          </dd>
+        </div>
+        <div>
+          <dt>Incoming connections</dt><dd>
+            Use the plan’s assigned connection details and any supported port
+            mappings.
+          </dd>
+        </div>
+      </dl>
+      <a href="https://my.8labs.id/products/elasticlabs-nat"
+        >Explore ElasticLabs NAT</a
+      >
+    </div>
+    <div class="network-view network-view-ipv4" id="network-view-ipv4">
+      <h3>For services reached over IPv4</h3>
+      <dl>
+        <div>
+          <dt>Your address</dt><dd>
+            A public IPv4 address directly assigned to your VM.
+          </dd>
+        </div>
+        <div>
+          <dt>Incoming connections</dt><dd>
+            Connect to the VM’s address, subject to firewall and service
+            settings.
+          </dd>
+        </div>
+      </dl>
+      <a href="https://my.8labs.id/products/elasticlabs"
+        >Explore ElasticLabs plans</a
+      >
+    </div>
+    <div class="network-view network-view-ipv6" id="network-view-ipv6">
+      <h3>For IPv6-ready projects</h3>
+      <dl>
+        <div>
+          <dt>Your address</dt><dd>
+            A public IPv6 address; you and your users need IPv6 connectivity.
+          </dd>
+        </div>
+        <div>
+          <dt>Incoming connections</dt><dd>
+            Connect over IPv6, subject to firewall and service settings.
+            IPv4-only clients need another access path.
+          </dd>
+        </div>
+      </dl>
+      <a href="https://my.8labs.id/products/elasticlabs"
+        >Explore ElasticLabs plans</a
+      >
+    </div>
+    <p class="network-note">
+      Network options vary by plan, independently of lab type. <a
+        href="/docs/servers/network/">See the networking guide</a
+      >.
+    </p>
+  </div>
 </div>
 
 <style>
@@ -144,6 +240,12 @@ const modes = [
     gap: 8px;
     padding: 16px 24px;
     border-bottom: 1px solid #e4e4e7;
+  }
+  .workbench-axis {
+    margin: 20px 24px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #18181b;
   }
   .workbench-modes {
     display: flex;
@@ -198,6 +300,74 @@ const modes = [
     margin-top: 8px;
     padding-inline: 24px;
   }
+  .network-comparison {
+    border-top: 1px solid #e4e4e7;
+    padding: 24px;
+  }
+  .network-modes {
+    min-width: 0;
+    padding: 0;
+  }
+  .network-modes legend {
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #18181b;
+  }
+  .network-view {
+    display: none;
+    min-width: 0;
+    margin-top: 20px;
+  }
+  .network-comparison:has(#network-nat:checked) .network-view-nat,
+  .network-comparison:has(#network-ipv4:checked) .network-view-ipv4,
+  .network-comparison:has(#network-ipv6:checked) .network-view-ipv6 {
+    display: block;
+  }
+  .network-view h3 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    color: #18181b;
+  }
+  .network-view dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .network-view dt {
+    font-weight: 500;
+    color: #18181b;
+  }
+  .network-view dd,
+  .network-note {
+    color: #52525b;
+  }
+  .network-view a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-top: 12px;
+    color: #a10f3a;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .network-note {
+    margin-top: 12px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .network-comparison a {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .lab-workbench a:focus-visible {
+    outline: 2px solid #c20e50;
+    outline-offset: 4px;
+  }
   @media (prefers-reduced-motion: no-preference) {
     .workbench-route {
       animation: route-in 700ms ease-out both;
@@ -214,6 +384,19 @@ const modes = [
     }
   }
   @media (max-width: 767px) {
+    .network-comparison {
+      padding: 20px 16px;
+    }
+    .network-view dl {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .network-comparison .network-modes {
+      padding: 0;
+    }
+    .workbench-axis {
+      margin-inline: 16px;
+    }
     .workbench-diagram text {
       font-size: 20px;
     }

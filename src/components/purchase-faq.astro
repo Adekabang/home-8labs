@@ -3,49 +3,49 @@ const questions = [
   {
     question: "Which lab should I choose?",
     answer:
-      "Virtual Labs VMs run on a nested hypervisor. The extra virtualization layer makes them slower than VDL and ElasticLabs, which run directly on a bare-metal hypervisor. This describes provider infrastructure, not a hypervisor for you to manage. Compare the selected plan's CPU, memory, storage, and networking separately.",
+      "Start with your workload and budget. Virtual Labs uses slower nested virtualization; VDL and ElasticLabs VMs run directly on a bare-metal hypervisor. Compare resources and networking in each plan.",
     href: "/pricing/",
     label: "Compare product families",
   },
   {
     question: "Do I need IPv4, IPv6, or NAT?",
     answer:
-      "Check how you and your applications will connect. Public IPv6 requires IPv6 connectivity. Public IPv4 and private IPv4 behind NAT are different options; do not assume a NAT plan includes a dedicated public IPv4 address. Review the plan and its connection instructions before ordering.",
+      "Choose public IPv4 for direct IPv4 access, or IPv6 if your connections support it. NAT uses private IPv4 behind a shared endpoint; available inbound access depends on the plan.",
     href: "/docs/servers/network/",
     label: "Read the networking guide",
   },
   {
     question: "Which locations and operating systems are available?",
     answer:
-      "Open the selected product in Client Panel to see its current locations, stock, and operating system choices. Image availability and Windows support depend on the service. If a choice you need is missing, ask before you pay.",
+      "Client Panel shows current locations, stock, and images. Operating system choices, including Windows support, depend on the service.",
     href: "https://my.8labs.id",
     label: "Check the current catalog",
   },
   {
     question: "What will I pay, and when does billing stop?",
     answer:
-      "Check the checkout amount, currency or billing unit, billing period, tax, and renewal terms. Some offers use LAB Coin; others use IDR plans. Stopping or deleting a server does not necessarily cancel the service or its charges. Use Client Panel's cancellation process or ask support.",
+      "Checkout shows the amount, currency or LAB Coin unit, tax, billing period, and renewal terms. Stopping or deleting a VM may not stop charges: use Client Panel’s cancellation process.",
     href: "/docs/billing-plans/overview/",
     label: "Understand billing and cancellation",
   },
   {
     question: "How long until I can use my server?",
     answer:
-      "Provisioning time depends on the service and installation. Follow the order status in Client Panel and the installation status in Cloud Panel. Payment confirmation or a Running label alone does not mean setup has finished. If installation fails, ask support to inspect the existing order before placing another one.",
+      "Timing varies by service and installation. Follow the order and installation status, not just payment or a Running label. If setup fails, contact support before reordering.",
     href: "/docs/getting-started/intro/#wait-for-provisioning",
     label: "Follow the first-access guide",
   },
   {
     question: "Are backups included?",
     answer:
-      "Check the selected plan for backup, snapshot, storage, and retention options. An on-server snapshot can share the same failure boundary as the server. Keep an independent copy of important data and check that you can restore it.",
+      "Backup and retention options vary by plan. A snapshot can share your server’s failure boundary; keep an independent copy of important data and test restores.",
     href: "/docs/servers/backups/",
     label: "Review recovery options",
   },
   {
     question: "Where do I order, manage my server, or get help?",
     answer:
-      "Use Client Panel for orders, invoices, and private service support. Follow your service's management link to Cloud Panel for server controls. Use the community for general discussion, not passwords, invoice details, or private service information.",
+      "Order, manage billing, and get private support in Client Panel. Use your service’s management link for Cloud Panel server controls. Keep secrets and service details out of public chat.",
     href: "/docs/help/contact/",
     label: "Find the right support path",
   },
@@ -63,8 +63,7 @@ const questions = [
         Questions before you start
       </h2>
       <p class="mt-6 max-w-xl text-base leading-relaxed text-cool">
-        A few answers to help you choose. Your selected plan and checkout show
-        the details for your service.
+        Choose with confidence. Your plan and checkout hold the service details.
       </p>
     </div>
     <div class="mt-8 min-w-0 border-t border-grid">
