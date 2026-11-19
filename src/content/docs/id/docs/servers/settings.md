@@ -3,8 +3,8 @@ title: Mengubah pengaturan server dengan aman
 description: Ubah identitas, autentikasi tamu, media, dan urutan boot dengan pengamanan jelas untuk reinstall atau penghapusan server.
 contentId: servers-settings
 owner: 8Labs support
-reviewedVersion: LabsPanel 5.3.15
-reviewedDate: 2026-11-02
+reviewedVersion: LabsPanel 6.0.17
+reviewedDate: 2026-11-19
 translationStatus: translated
 ---
 
@@ -57,17 +57,21 @@ Pilihan IP utama adalah metadata beserta sinkronisasi cloud-init, bukan bukti ru
 
 **Authentication** mengubah akses OS tamu, bukan kata sandi akun panel runtime atau akun penagihan. Pertahankan konsol dan sesi lama hingga kredensial baru berfungsi.
 
+Pada sesi browser yang berwenang, perubahan autentikasi VM tidak memerlukan kata sandi akun atau PIN Paymenter jika TOTP tidak aktif. Saat TOTP aktif, konfirmasikan hanya kode autentikator yang masih berlaku. Izin `settings.manage` tetap diperlukan. Konfirmasi khusus VM ini tidak menyetujui perubahan kata sandi akun atau API key.
+
 1. Buka **Settings → Security → Authentication**.
 2. Pilih metode kata sandi atau kunci SSH yang ditawarkan untuk tamu Anda.
 3. Masukkan kata sandi kuat dan unik, atau kunci publik SSH yang diperlukan.
 4. Gunakan **Insert saved key** jika kunci publik tersimpan yang sesuai tersedia.
 5. Simpan kredensial yang dibuat secara aman sebelum menyimpan perubahan.
-6. Pilih **Save** dan baca pemberitahuan penerapan.
-7. Ikuti persyaratan tamu berikut lalu uji login baru pada sesi terpisah.
+6. Pilih **Save**. Jika konfirmasi identitas muncul, selesaikan lalu pilih **Save** lagi secara eksplisit.
+7. Tunggu operasi terkonfirmasi selesai sebelum mengikuti instruksi tamu atau menguji login baru pada sesi terpisah.
 
 Jangan pernah menempelkan kunci privat. Pertahankan metode pemulihan yang sah sebelum mengganti atau menghapus kunci lama. Pengaturan kunci SSH tidak memasang atau mengaktifkan layanan SSH dengan sendirinya.
 
 ### Menunggu kredensial diterapkan
+
+Pembaruan yang diterima tetap tertunda sampai operasi selesai. Simpan kata sandi yang diminta secara aman. Penerimaan bukan bukti penerapan. Jangan kirim pembaruan lain saat hasil belum diketahui. Minta dukungan merekonsiliasi operasi yang belum jelas sebelum perubahan lain.
 
 - **Kata sandi:** QEMU guest agent aktif dapat menerapkan pembaruan kata sandi Linux dan Windows yang didukung saat berjalan. Tanpanya, lakukan shutdown lalu startup untuk cloud-init; **Restart** tidak setara.
 - **Kunci SSH di Linux:** Lakukan shutdown lalu startup; jangan gunakan **Restart** untuk jalur pembaruan ini.
@@ -94,9 +98,11 @@ Media instalasi dapat menyediakan alat penghapusan disk. Memasang media bukan pe
 
 ### Menerapkan perubahan hardware tertunda
 
-Jika panel melaporkan perubahan spesifikasi CPU, RAM, atau disk tertunda, lakukan shutdown terkendali lalu startup. **Restart** tidak menerapkan jalur perubahan tertunda ini.
+Pembayaran faktur atau paket yang dituju bukan bukti bahwa VM memakai batas CPU, RAM, atau disk baru. Ikuti operasi sumber daya yang disetujui, bukan pemberitahuan perubahan tertunda yang sudah lama.
 
-Pemberitahuan tersebut tidak memberikan hak mengubah sumber daya sesuka hati. Periksa paket dan [panduan penagihan](/id/docs/billing-plans/overview); verifikasi sumber daya efektif dalam tamu setelah startup.
+Jika dukungan atau operasi saat ini mengarahkan shutdown terkendali lalu startup, siapkan waktu henti dan tunggu shutdown terkonfirmasi sebelum **Start**. **Restart** tidak setara. Jangan menyalakan atau mengulang perubahan saat operasi yang belum selesai masih menguasai server.
+
+Periksa paket dan [panduan penagihan](/id/docs/billing-plans/overview). Verifikasi sumber daya VM efektif setelah operasi selesai, lalu periksa ukuran disk dan partisi tamu secara terpisah. Jika target berubah, muat ulang dan minta peninjauan. Jangan menerapkan target lama atau mengirim ulang perubahan yang hasilnya belum diketahui.
 
 ## Reinstall dari templat
 

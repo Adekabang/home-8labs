@@ -3,8 +3,8 @@ title: "Hubungkan Windows dengan RDP"
 description: "Gunakan alamat Windows yang diizinkan dan verifikasi identitas server."
 contentId: "customer-getting-started-rdp"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 6.0.14"
-reviewedDate: "2026-11-16"
+reviewedVersion: "LabsPanel 6.0.17"
+reviewedDate: "2026-11-19"
 translationStatus: "translated"
 ---
 
@@ -29,13 +29,13 @@ Boot pertama Windows mencakup konfigurasi disk, jaringan, dan kredensial tamu. V
 4. Gunakan konsol untuk memeriksa OS dan jaringan yang dialokasikan.
 5. Uji RDP setelah memeriksa endpoint eksternal dan aturan akses yang disetujui.
 
-LabsPanel 6.0.14 menyiapkan kata sandi Windows pilihan Anda sebelum startup pertama, lalu memerlukan pengakuan penerapan kata sandi terakhir dari Guest Agent.
-Penyimpanan konfigurasi awal bukan penyelesaian autentikasi. Jangan mengatur ulang kata sandi saat instalasi masih berjalan.
-Cloudbase-Init dapat terus berjalan selama boot pertama. Jika kata sandi gagal setelah instalasi selesai, simpan kesalahan dan minta dukungan memeriksa inisialisasi.
+Sumber v6.0.17 yang ditinjau menyiapkan kata sandi Windows pilihan Anda sebelum startup pertama. Penyelesaian memerlukan inisialisasi Cloudbase-Init yang tuntas, penerapan kata sandi melalui Guest Agent, dan pemeriksaan autentikasi `Administrator` dengan kata sandi pilihan.
+Penyimpanan konfigurasi awal atau respons Guest Agent saja bukan penyelesaian autentikasi. Jangan mengatur ulang kata sandi saat instalasi masih berjalan.
+Jika inisialisasi tetap tertunda, gagal, atau hasilnya belum diketahui, simpan kesalahan dan minta dukungan merekonsiliasinya. Jangan mengulang perubahan kata sandi atau instalasi untuk mengatasi ketidakpastian.
 Jangan mencoba kata sandi bawaan template, mengulang instalasi, atau memesan pengganti untuk melewati kegagalan yang belum dipahami.
 
-Pemeriksaan produksi yang tercatat mencakup dua ukuran sumber daya Windows Server 2022 dan penerimaan kredensial pilihan setelah inisialisasi.
-Hasil tersebut tidak menguji semua template atau membuktikan RDP eksternal, checkout, maupun callback pembayaran.
+Pemeriksaan produksi historis v6.0.14 mencakup dua ukuran sumber daya Windows Server 2022 dan penerimaan kredensial pilihan setelah inisialisasi.
+Hasil tersebut tidak menguji semua template atau membuktikan RDP eksternal, checkout, callback pembayaran, maupun penyelesaian alur rilis saat ini.
 
 ## Buka Remote Desktop
 

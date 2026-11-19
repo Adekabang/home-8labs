@@ -3,8 +3,8 @@ title: "Nyalakan dan matikan server dengan aman"
 description: "Bedakan penghentian normal dari pemaksaan dan tunggu status yang terkonfirmasi."
 contentId: "customer-servers-power"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 6.0.8"
-reviewedDate: "2026-11-13"
+reviewedVersion: "LabsPanel 6.0.17"
+reviewedDate: "2026-11-19"
 translationStatus: "translated"
 ---
 
@@ -51,6 +51,8 @@ Pemeriksaan izin, status, dan ketersediaan pada setiap tindakan tetap menentukan
 Permintaan diterima belum berarti perubahan status selesai.
 Jangan menekan berulang kali saat operasi masih sibuk.
 Mesin dapat berjalan meskipun aplikasinya tidak tersedia.
+
+Jika hasil operasi belum diketahui, tunggu rekonsiliasi dukungan sebelum perubahan lain. Jangan mengulang **Start**, shutdown, atau perubahan sumber daya untuk mengatasi ketidakpastian. Untuk perubahan sumber daya yang disetujui, lakukan shutdown terkendali lalu startup hanya jika operasi saat ini atau dukungan mengizinkannya. Faktur lunas atau paket yang dituju bukan bukti sumber daya VM efektif. Jangan mengulang target sumber daya yang sudah tidak berlaku.
 
 Jika tidak ada operasi daya yang tercatat, Panel tidak menampilkan pesan riwayat kosong.
 Setelah operasi berhasil, ringkasan singkat seperti **Last Start succeeded** muncul di bawah tombol daya.

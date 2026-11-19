@@ -3,8 +3,8 @@ title: "Billing, plans, and invoices"
 description: "Use Client Panel as the authority for hosted prices and payment terms."
 contentId: "customer-billing-plans-overview"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.17"
+reviewedDate: "2026-11-19"
 translationStatus: "original"
 ---
 
@@ -57,6 +57,12 @@ Check the service's offered change or renewal options in Client Panel.
 Confirm the effective date, price difference, disk limitations, network add-ons, and downtime before agreeing.
 A larger plan does not prove that every guest partition grows automatically.
 Changing a primary IP or moving a folder in Cloud Panel is not approval for a different provider plan.
+
+Keep these stages separate: invoice paid, desired plan recorded, resource operation accepted, and effective VM resources confirmed. A paid invoice or saved plan does not prove CPU, RAM, or disk changes completed.
+
+Wait for the approved resource operation. Use a controlled shutdown followed by startup only when the current operation or support permits it. **Restart** is not equivalent. Verify effective VM resources after completion, then check guest partition sizes separately.
+
+If an operation is pending or its outcome is unknown, contact support before another change. Do not resubmit a timed-out mutation, repeat payment, or reapply an obsolete resource target. Refresh and request review if the intended plan changes.
 
 <span id="deleting-a-server-refunds"></span>
 <span id="deleting-a-server-amp-refunds"></span><span id="deleting-a-server--refunds"></span>

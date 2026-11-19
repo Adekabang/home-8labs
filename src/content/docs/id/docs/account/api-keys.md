@@ -3,8 +3,8 @@ title: Personal API keys dan webhook
 description: Buat token pribadi dengan cakupan tertentu, pahami masa berlaku, cabut kredensial, dan kelola langganan webhook pelanggan.
 contentId: account-api-keys
 owner: 8Labs support
-reviewedVersion: LabsPanel 5.3.15
-reviewedDate: 2026-11-02
+reviewedVersion: LabsPanel 6.0.17
+reviewedDate: 2026-11-19
 translationStatus: translated
 ---
 
@@ -19,6 +19,12 @@ Gunakan akun sendiri, tentukan alat yang membutuhkan akses, dan siapkan penyimpa
 **API Access** pada **Admin → Platform** adalah halaman operator, bukan halaman key pribadi pelanggan.
 Status admin organisasi tidak memberikan akses ke halaman tersebut.
 Untuk skrip pelanggan, tetap gunakan **Workspace → Developers**. Tanyakan endpoint yang tidak tersedia kepada dukungan, bukan meminta kredensial seluruh platform.
+
+Pembuatan dan pencabutan key memerlukan [konfirmasi identitas sensitif](/id/docs/account/security#konfirmasikan-identitas-untuk-perubahan-sensitif). Saat TOTP aktif, gunakan hanya kode autentikator. Tanpa TOTP, akun terhubung memakai PIN Paymenter dari layanan yang cocok jika tersedia. Akun native tanpa hubungan Paymenter memakai kata sandi Panel saat ini. Jika pembuat PIN tidak tersedia, hubungi dukungan, bukan memakai kata sandi atau email untuk melewatinya.
+
+Selesaikan persetujuan, lalu kembali ke **Create key** atau kontrol pencabutan dan kirim tindakan yang dituju secara eksplisit. Persetujuan tidak mengulang permintaan yang ditolak secara otomatis. Persetujuan kata sandi akun tidak mengizinkan pengelolaan key. Setiap persetujuan PIN mengizinkan satu perubahan terlindungi sesuai tujuannya.
+
+Konfirmasi sensitif yang sama juga melindungi pembuatan, pembaruan seperti penjedaan atau rotasi rahasia, dan penghapusan webhook. Periksa dan kirim setiap perubahan yang dituju secara eksplisit setelah persetujuan. Identitas terkonfirmasi tidak membuktikan pengiriman webhook berhasil.
 
 <span id="creating-a-key"></span>
 

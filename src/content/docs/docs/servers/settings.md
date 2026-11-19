@@ -3,8 +3,8 @@ title: Change server settings safely
 description: Update server identity, guest authentication, media, and boot order, with explicit safeguards for reinstalling or deleting a server.
 contentId: servers-settings
 owner: 8Labs support
-reviewedVersion: LabsPanel 5.3.15
-reviewedDate: 2026-11-02
+reviewedVersion: LabsPanel 6.0.17
+reviewedDate: 2026-11-19
 translationStatus: original
 ---
 
@@ -57,17 +57,21 @@ A selected primary address is metadata plus cloud-init synchronization, not proo
 
 **Authentication** changes guest OS access, not your runtime-panel account or billing account password. Keep console access and the current session until new credentials work.
 
+In your authorized browser session, VM authentication changes require no account password or Paymenter PIN when TOTP is off. With TOTP enabled, confirm only the fresh authenticator code. The `settings.manage` permission remains required. This VM-specific confirmation does not approve account-password or API-key changes.
+
 1. Open **Settings → Security → Authentication**.
 2. Select the password or SSH-key method offered for your guest.
 3. Enter a strong unique password, or the required SSH public keys.
 4. Use **Insert saved key** when an appropriate saved public key is available.
 5. Store generated credentials securely before saving.
-6. Select **Save** and read the application notice.
-7. Apply the guest-specific requirements below, then test a separate new login.
+6. Select **Save**. If identity confirmation appears, complete it and explicitly select **Save** again.
+7. Wait for the operation's confirmed completion before following guest-specific instructions or testing a separate new login.
 
 Never paste a private key. Retain an authorized recovery method before removing or replacing existing keys. An SSH key setting does not install or enable an SSH service by itself.
 
 ### Wait for credentials to apply
+
+An accepted update remains pending until the operation finishes. Keep the requested password securely. Do not treat acceptance as application or submit another update while the outcome is unknown. Ask support to reconcile an unresolved operation before another mutation.
 
 - **Password:** An active QEMU guest agent can apply supported Linux and Windows password updates while running. Without it, shut down and start the server again to apply cloud-init; **Restart** is not equivalent.
 - **SSH keys on Linux:** Shut down, then start the server again; do not use **Restart** for this update path.
@@ -94,9 +98,11 @@ Booting installation media can expose destructive disk tools. Mounting media is 
 
 ### Apply pending hardware changes
 
-If the panel reports outstanding CPU, RAM, or disk specification changes, use a controlled shutdown followed by startup. **Restart** does not apply this pending-change path.
+An invoice payment or desired plan is not proof that the VM uses the new CPU, RAM, or disk limits. Follow the approved resource operation, not an old pending-change notice.
 
-This message does not grant arbitrary resource resizing. Check the applicable plan and [billing guide](/docs/billing-plans/overview); verify effective guest resources after startup.
+If support or the current operation instructs a controlled shutdown and startup, arrange downtime and wait for confirmed shutdown before **Start**. **Restart** is not equivalent. Do not start or repeat changes while an unresolved operation owns the server.
+
+Check the applicable plan and [billing guide](/docs/billing-plans/overview). Verify the effective VM resources after completion, then inspect guest disk and partition sizes separately. If the desired target changes, refresh and request review. Do not reapply an obsolete target or resubmit an unknown mutation.
 
 ## Reinstall from a template
 

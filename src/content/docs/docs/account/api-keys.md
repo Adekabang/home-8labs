@@ -3,8 +3,8 @@ title: Personal API keys and webhooks
 description: Create scoped personal tokens, understand expiry, revoke credentials, and manage customer webhook subscriptions.
 contentId: account-api-keys
 owner: 8Labs support
-reviewedVersion: LabsPanel 5.3.15
-reviewedDate: 2026-11-02
+reviewedVersion: LabsPanel 6.0.17
+reviewedDate: 2026-11-19
 translationStatus: original
 ---
 
@@ -19,6 +19,12 @@ Use your own account, identify the tool that needs access, and prepare a secure 
 **API Access** under **Admin → Platform** is an operator page, not the customer personal-key page.
 An organization admin cannot use it merely because they administer a team.
 For customer scripts, stay in **Workspace → Developers**. Ask support about unavailable endpoints instead of requesting platform-wide credentials.
+
+Creating and revoking keys require [sensitive identity confirmation](/docs/account/security#confirm-your-identity-for-sensitive-changes). With TOTP enabled, use only the authenticator code. Without TOTP, linked accounts use an available matching-service Paymenter PIN. Unbound native accounts use their current Panel password. An unavailable PIN generator requires support, not a password or email bypass.
+
+Complete approval, then return to **Create key** or the revoke control and explicitly submit the intended action. Approval does not automatically repeat a rejected request. Account-password approval does not authorize key management. Each PIN approval permits one protected write for its stated purpose.
+
+The same sensitive confirmation also protects webhook creation, updates such as pausing or secret rotation, and deletion. Review and explicitly submit each intended change after approval. A confirmed identity does not prove a webhook delivery succeeded.
 
 <span id="creating-a-key"></span>
 
