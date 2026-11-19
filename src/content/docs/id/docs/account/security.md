@@ -77,10 +77,14 @@ Autentikasi dua faktor menambahkan kode TOTP enam digit setelah kata sandi saat 
 ### Aktifkan autentikasi dua faktor
 
 1. Buka **Account → Settings → Two-factor authentication → Turn on**.
-2. Selesaikan konfirmasi identitas dengan metode di atas, lalu kembali ke kartu untuk melanjutkan.
-3. Pindai kode QR dengan autentikator, atau masukkan kunci penyiapan yang ditampilkan secara manual.
-4. Masukkan kode enam digit dari aplikasi lalu pilih **Confirm**.
-5. Tunggu konfirmasi berhasil dan simpan kode pemulihan dengan aman.
+2. Selesaikan konfirmasi identitas dengan metode di atas, lalu lanjutkan secara eksplisit untuk memulai penyiapan.
+3. Pilih **Continue setup** setelah kartu kembali ke tampilan awal.
+4. Konfirmasikan identitas lagi, lalu lanjutkan secara eksplisit untuk membuka kunci penyiapan.
+5. Pindai kode QR dengan autentikator, atau masukkan kunci penyiapan yang ditampilkan secara manual.
+6. Masukkan kode enam digit dari aplikasi lalu pilih **Confirm**.
+7. Tunggu konfirmasi bahwa autentikasi dua faktor sudah aktif.
+8. Pilih **Recovery codes** dan konfirmasikan identitas lagi dengan kode autentikator baru.
+9. Lanjutkan secara eksplisit untuk melihat kode, lalu simpan dengan aman.
 
 Faktor kedua baru aktif setelah kode valid dikonfirmasi. Menutup penyiapan yang belum selesai tidak mengaktifkannya. Perlakukan kode QR dan kunci penyiapan sebagai rahasia; jangan bagikan tangkapan layarnya.
 
@@ -93,6 +97,8 @@ Setiap kode pemulihan hanya dapat dipakai sekali untuk masuk dan akan habis sete
 Gunakan **Recovery codes** untuk melihat kumpulan kode setelah konfirmasi identitas. Gunakan **Regenerate codes** untuk mengganti seluruh kumpulan setelah konfirmasi. Saat TOTP aktif, gunakan kode autentikator, bukan kata sandi atau kode pemulihan. Segera perbarui salinan simpanan Anda. Jangan mengandalkan kode lama.
 
 Melihat kode adalah pembacaan terlindungi. Pembuatan ulang adalah perubahan terlindungi yang membatalkan kumpulan lama. Selesaikan konfirmasi yang diminta, lalu ulangi tindakan melihat atau membuat ulang secara eksplisit. Pembacaan terlindungi tidak menghabiskan jatah satu perubahan terlindungi dari PIN.
+
+Setelah membuat ulang kode, pilih **Recovery codes** dan konfirmasikan identitas lagi dengan kode autentikator baru sebelum melihat kumpulan pengganti. Pembuatan ulang membatalkan bukti identitas sebelumnya dan tidak otomatis menampilkan kode baru.
 
 Jika autentikator dan seluruh kode pemulihan hilang, hubungi dukungan untuk pemulihan melalui operator. Pemulihan memerlukan pemeriksaan identitas; jangan menganggap akses akan langsung diberikan atau pemeriksaan bisa dilewati.
 

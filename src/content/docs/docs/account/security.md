@@ -77,10 +77,14 @@ Two-factor authentication adds a six-digit TOTP code after your password at sign
 ### Enable two-factor authentication
 
 1. Open **Account → Settings → Two-factor authentication → Turn on**.
-2. Complete identity confirmation using the method above, then return to the card and continue.
-3. Scan the QR code with your authenticator, or enter the displayed setup key manually.
-4. Enter the six-digit code from the app and select **Confirm**.
-5. Wait for successful confirmation and store the recovery codes securely.
+2. Complete identity confirmation using the method above, then explicitly continue to start setup.
+3. Choose **Continue setup** after the card returns to its resting state.
+4. Confirm identity again, then explicitly continue to open the setup key.
+5. Scan the QR code with your authenticator, or enter the displayed setup key manually.
+6. Enter the six-digit code from the app and select **Confirm**.
+7. Wait for confirmation that two-factor authentication is enabled.
+8. Choose **Recovery codes** and confirm identity again with a fresh authenticator code.
+9. Explicitly continue to view the codes, then store them securely.
 
 The second factor becomes active only after a valid code is confirmed. Closing an unfinished setup does not enable it. Treat the QR code and setup key as secrets; do not share screenshots.
 
@@ -93,6 +97,8 @@ Each recovery code signs you in once and is consumed when used. Store codes sepa
 Use **Recovery codes** to view the current set after identity confirmation. Use **Regenerate codes** to replace the entire set after confirmation. With TOTP enabled, use an authenticator code, not your password or a recovery code. Replace your stored copy immediately. Do not rely on the old set.
 
 Viewing codes is a protected read. Regeneration is a protected write that invalidates the old set. Complete any requested confirmation, then explicitly repeat the intended view or regeneration action. A protected read does not consume a PIN's single protected-write allowance.
+
+After regeneration, choose **Recovery codes** and confirm identity again with a fresh authenticator code before viewing the replacement set. Regeneration invalidates the earlier proof and does not automatically display the new codes.
 
 If you lose both the authenticator and the recovery codes, contact support for operator-assisted recovery. Recovery requires identity checks; do not assume immediate access or a bypass.
 
