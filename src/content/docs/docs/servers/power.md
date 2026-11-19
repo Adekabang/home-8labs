@@ -3,8 +3,8 @@ title: "Start and stop your server safely"
 description: "Distinguish graceful shutdown from force stop, and wait for confirmed state."
 contentId: "customer-servers-power"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 6.0.8"
-reviewedDate: "2026-11-13"
+reviewedVersion: "LabsPanel 6.0.17"
+reviewedDate: "2026-11-19"
 translationStatus: "original"
 ---
 
@@ -49,6 +49,8 @@ Each action's permission, state, and availability checks still determine whether
 
 An accepted request is not a completed transition. Avoid repeated clicks while the operation is busy.
 A machine can be running while its application is unavailable.
+
+If an operation outcome is unknown, wait for support reconciliation before another mutation. Do not repeat **Start**, shutdown, or a resource change to resolve uncertainty. For an approved resource change, use a controlled shutdown followed by startup only when the current operation or support permits it. A paid invoice or desired plan does not prove effective VM resources. Do not replay an obsolete resource target.
 
 When no power operation is recorded, the Panel shows no empty-history message.
 After a successful operation, a compact summary such as **Last Start succeeded** appears below the power buttons.

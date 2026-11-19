@@ -82,6 +82,29 @@ one action per sentence, 20-word procedure and 25-word description targets.
 Indonesian uses natural direct instructions with unchanged exact UI labels.
 Use the internal [editorial language reference](docs/editorial-language.md).
 
+The 2026-11-19 source review covers six English/Indonesian pairs: account
+security, API keys, server settings, power, billing overview, and Windows RDP.
+Their metadata records LabsPanel 6.0.17 source review, not a whole-product
+production qualification. The Paymenter PIN generator remains unavailable
+pending its paired rollout. See the editorial reference for this boundary.
+`account-identity-authenticator.webp` shows an empty TOTP dialog from a retained
+isolated rehearsal. Its internal capture manifest records privacy review and
+provenance. Keep historical screenshot versions unchanged.
+
+Local verification on 2026-11-19 passed the publication/privacy gate and build:
+137 source routes, seven reviewed captures, 300 rendered HTML pages and 1,414
+assets, with no reported errors. The frozen dependency audit returned no findings.
+Browser inspection opened all twelve reviewed customer routes and checked the
+identity guide at 390px/dark and 1365px/light, including the loaded image and
+locale metadata. Native-browser UI searches for `console` and `konsol` opened
+the expected `/docs/servers/console/` and `/id/docs/servers/console/` destinations
+with matching document languages. The instrumented browser's **Search is
+temporarily unavailable** message came from its replacement blob worker:
+Pagefind's root-relative metadata fetch could not resolve against that worker
+URL. The same output searched successfully with an unmodified native worker;
+no provider or dependency workaround was needed. Hosted publication remains
+unverified; local search acceptance and build success do not prove deployment.
+
 Six explicitly mounted Nimbus collections own customer English/Indonesian,
 guides, and blog routes. The local locale policy owns equivalent-page language
 selection; Nimbus builds Pagefind, and each document's language selects its index.

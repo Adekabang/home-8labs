@@ -3,8 +3,8 @@ title: "Tagihan, paket, dan faktur"
 description: "Gunakan Client Panel sebagai acuan harga dan pembayaran layanan 8Labs."
 contentId: "customer-billing-plans-overview"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 5.3.15"
-reviewedDate: "2026-11-02"
+reviewedVersion: "LabsPanel 6.0.17"
+reviewedDate: "2026-11-19"
 translationStatus: "translated"
 ---
 
@@ -48,6 +48,12 @@ Periksa pilihan perubahan atau perpanjangan yang ditawarkan di Client Panel.
 Pastikan tanggal berlaku, selisih harga, batas disk, tambahan jaringan, dan dampak waktu henti sebelum menyetujui.
 Paket yang lebih besar tidak membuktikan seluruh partisi tamu tumbuh otomatis.
 Perubahan IP utama atau folder di Cloud Panel bukan persetujuan perubahan paket penyedia.
+
+Bedakan tahap faktur lunas, paket tujuan tercatat, operasi sumber daya diterima, dan sumber daya VM efektif terkonfirmasi. Faktur lunas atau paket tersimpan tidak membuktikan perubahan CPU, RAM, atau disk selesai.
+
+Tunggu operasi sumber daya yang disetujui. Lakukan shutdown terkendali lalu startup hanya jika operasi saat ini atau dukungan mengizinkannya. **Restart** tidak setara. Verifikasi sumber daya VM efektif setelah selesai, lalu periksa ukuran partisi tamu secara terpisah.
+
+Jika operasi tertunda atau hasilnya belum diketahui, hubungi dukungan sebelum perubahan lain. Jangan mengirim ulang perubahan yang mengalami timeout, membayar ulang, atau menerapkan target sumber daya lama. Muat ulang dan minta peninjauan jika paket tujuan berubah.
 
 ## Hentikan, batalkan, atau minta peninjauan pengembalian dana
 

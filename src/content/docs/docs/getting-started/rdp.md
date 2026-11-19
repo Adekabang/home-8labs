@@ -3,8 +3,8 @@ title: "Connect to Windows with RDP"
 description: "Use the approved Windows endpoint and verify the remote identity."
 contentId: "customer-getting-started-rdp"
 owner: "8Labs support"
-reviewedVersion: "LabsPanel 6.0.14"
-reviewedDate: "2026-11-16"
+reviewedVersion: "LabsPanel 6.0.17"
+reviewedDate: "2026-11-19"
 translationStatus: "original"
 ---
 
@@ -29,13 +29,13 @@ Windows first boot includes disk, network, and guest credential configuration. A
 4. Use the console to confirm the expected OS and assigned networking.
 5. Test RDP only after checking the approved external endpoint and access rules.
 
-LabsPanel 6.0.14 prepares the selected Windows password before first startup, then requires the final Guest Agent password acknowledgment.
-Saving first-boot configuration is not authentication completion. Do not reset the password while installation still runs.
-Cloudbase-Init can continue during first boot. If the password fails after completion, preserve the error and ask support to inspect initialization.
+The reviewed v6.0.17 source prepares the selected Windows password before first startup. Completion requires settled Cloudbase-Init initialization, Guest Agent password application, and an actual `Administrator` authentication check with the selected password.
+Saving first-boot configuration or receiving a Guest Agent response alone is not authentication completion. Do not reset the password while installation still runs.
+If initialization remains pending, fails, or has an unknown outcome, preserve the error and ask support to reconcile it. Do not repeat the password write or installation to resolve uncertainty.
 Do not try a template's inherited password, repeatedly reinstall, or order a replacement to bypass an unexplained failure.
 
-The recorded production checks cover two Windows Server 2022 resource sizes and selected-credential acceptance after initialization.
-They do not qualify every template or prove external RDP, checkout, or payment-callback behavior.
+The historical v6.0.14 production checks cover two Windows Server 2022 resource sizes and selected-credential acceptance after initialization.
+They do not qualify every template or prove external RDP, checkout, payment callbacks, or completion of the current release's flow.
 
 ## Open Remote Desktop
 

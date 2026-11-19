@@ -3,8 +3,8 @@ title: Secure and recover your account
 description: Manage your password, two-factor authentication, recovery codes, browser sessions, and account SSH public keys.
 contentId: account-security
 owner: 8Labs support
-reviewedVersion: LabsPanel 5.3.15
-reviewedDate: 2026-11-02
+reviewedVersion: LabsPanel 6.0.17
+reviewedDate: 2026-11-19
 translationStatus: original
 ---
 
@@ -14,18 +14,40 @@ Manage runtime account protection under **Account → Settings** at [cloud.8labs
 
 These actions affect your own runtime account. They do not establish or change credentials for the billing portal at my.8labs.id.
 
-Have your current password ready for sensitive changes. Before enabling two-factor authentication, prepare a TOTP authenticator and secure storage separate from that device.
+Before enabling two-factor authentication, prepare a TOTP authenticator and secure storage separate from that device. Sensitive changes use the identity method selected below.
 
 Hosted configuration controls password recovery and session-list availability. A missing recovery control does not mean public registration or invitations have the same availability.
+
+## Confirm your identity for sensitive changes
+
+- **TOTP enabled:** enter the fresh six-digit authenticator code. No Panel password or Paymenter PIN is needed. Recovery codes are for sign-in, not this confirmation.
+- **Linked Paymenter account without TOTP:** use the purpose-specific PIN flow when the matching service and billing-portal generator are available.
+- **Unbound native account without TOTP:** confirm the current Panel password. This is not a fallback for an unavailable linked-account PIN.
+
+Before initial TOTP setup, TOTP is not yet active. A linked account therefore needs the available matching-service PIN approval before setup can continue. Do not assume possession of an authenticator alone approves initial setup.
+
+![Identity dialog requesting an authenticator code without a Panel password or Paymenter PIN](../../../../assets/docs/account-identity-authenticator.webp)
+
+Confirm a sensitive action with an authenticator code, then return to the form and explicitly save.
+
+The hosted Paymenter PIN generator is not currently available. Contact [support](/docs/help/contact) if the selected method requires it. The steps below describe the supported flow once the matching service and generator are available. Panel support alone does not establish billing-portal availability. Do not use password or email recovery to bypass the required approval.
+
+1. Request approval in the Panel identity dialog for the intended action and matching service.
+2. Open that same service in your billing account and generate its eight-digit PIN, if available.
+3. Enter the PIN in the original Panel browser session before the displayed deadline.
+4. Return to the original form, review it, and explicitly select **Save** or the intended action again.
+
+The original approval expires after ten minutes. Regenerating its PIN replaces the previous PIN without extending that deadline. Confirmed identity proof lasts at most five minutes. PIN-backed proof also ends at the original request deadline or after one successful protected write, whichever occurs first. Approval does not save the form or replay a rejected request. Account-password approval cannot authorize API-key management or another sensitive purpose.
 
 <span id="password"></span>
 
 ## Change your password
 
 1. Open **Account → Settings → Password**.
-2. Complete the password fields and submit the change.
-3. Wait for confirmation or the sign-in page.
-4. Sign in again with the new password.
+2. Complete identity confirmation for the account-password purpose using the method above.
+3. Enter and confirm the new password. Enter the current password only when the native-account form requires it.
+4. Explicitly select **Save** after approval, then wait for confirmation or the sign-in page.
+5. Sign in again with the new password.
 
 Changing the password signs you out. Other browsers with stale sessions must also sign in again. Use a unique password that meets the displayed requirements.
 
@@ -33,7 +55,7 @@ Changing the password signs you out. Other browsers with stale sessions must als
 
 ### Recover a forgotten password
 
-If enabled, the sign-in page provides **Forgot your password?**
+Email recovery is currently unavailable on the hosted sign-in page. Contact [support](/docs/help/contact) for recovery guidance. Other deployments can provide **Forgot your password?** when recovery is enabled.
 
 1. Open that link and enter the email associated with your runtime account.
 2. Submit the request and check that mailbox, including spam.
@@ -55,7 +77,7 @@ Two-factor authentication adds a six-digit TOTP code after your password at sign
 ### Enable two-factor authentication
 
 1. Open **Account → Settings → Two-factor authentication → Turn on**.
-2. Confirm your current password.
+2. Complete identity confirmation using the method above, then return to the card and continue.
 3. Scan the QR code with your authenticator, or enter the displayed setup key manually.
 4. Enter the six-digit code from the app and select **Confirm**.
 5. Wait for successful confirmation and store the recovery codes securely.
@@ -68,7 +90,9 @@ The second factor becomes active only after a valid code is confirmed. Closing a
 
 Each recovery code signs you in once and is consumed when used. Store codes separately from the device holding your authenticator.
 
-Use **Recovery codes** to view the current set after confirming your password. Use **Regenerate codes** to replace the entire set after confirming your password. Replace your stored copy immediately; do not rely on the old set.
+Use **Recovery codes** to view the current set after identity confirmation. Use **Regenerate codes** to replace the entire set after confirmation. With TOTP enabled, use an authenticator code, not your password or a recovery code. Replace your stored copy immediately. Do not rely on the old set.
+
+Viewing codes is a protected read. Regeneration is a protected write that invalidates the old set. Complete any requested confirmation, then explicitly repeat the intended view or regeneration action. A protected read does not consume a PIN's single protected-write allowance.
 
 If you lose both the authenticator and the recovery codes, contact support for operator-assisted recovery. Recovery requires identity checks; do not assume immediate access or a bypass.
 
@@ -84,7 +108,7 @@ If codes fail, check the authenticator device's time and use a fresh code. Do no
 
 ### Disable two-factor authentication
 
-Choose **Turn off** on the same card and confirm your password. Password confirmation is required to enable or disable the factor and to view or regenerate recovery codes.
+Choose **Turn off** on the same card and complete identity confirmation with the current authenticator code. Sensitive confirmation also protects setup and recovery-code management. Return to the card and explicitly continue after approval.
 
 Disabling removes that sign-in protection. Do it only when necessary, and restore protection after changing authenticator devices.
 
@@ -98,6 +122,8 @@ Where supported, **Active sessions** lists signed-in browsers with their IP addr
 2. Review the entries and revoke browsers you do not recognize.
 3. Wait for the list to update.
 4. Change your password if access is suspicious.
+
+Revoking one or all other sessions requires sensitive identity confirmation. Complete the selected method, then explicitly repeat the intended revocation. Reading the session list does not itself revoke anything.
 
 Session listing and revocation require the panel's database-backed session configuration. Other configurations show an advisory instead of the list. Customers do not need to change platform configuration themselves.
 
@@ -116,6 +142,8 @@ If unexpected sign-in prompts continue, note the time and error, then contact su
 ## Manage SSH public keys
 
 Open **Workspace → SSH Keys** in the sidebar to manage the saved public-key list.
+
+Adding and removing saved SSH keys also require sensitive identity confirmation. After approval, explicitly repeat the intended add or remove action.
 
 Account SSH keys store **public** keys that can be selected during deployment, where supported, instead of using a root password. See [SSH access](/docs/getting-started/ssh) and [accessing Virtual Labs](/docs/getting-started/accessing-virtual-labs).
 

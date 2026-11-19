@@ -3,7 +3,7 @@
 Internal author guidance, not a customer task page. Keep technical definitions
 in the relevant customer workflow, especially backup versus snapshot safety.
 
-Reviewed source: LabsPanel 5.3.15, 2026-11-02. Owner: 8Labs support.
+Current source review: LabsPanel 6.0.17, 2026-11-19. Owner: 8Labs support. Scope: paired account security/API-key, server settings/power, billing overview, and Windows RDP pages only. Other page review metadata remains historical.
 
 Use the exact interface label when following a procedure. Indonesian explanations do not rename controls in the running Panel.
 
@@ -42,8 +42,12 @@ Commands, permission identifiers, and visible UI labels remain unchanged.
 
 Review coverage and operational evidence are separate. Preserve each page's historical `reviewedVersion` unless the relevant current source was reviewed.
 The 2026-11-16 customer audit covers all 27 paired task pages and five English guest tutorials, not a blanket current-release qualification.
-The Windows access pair records the specific v6.0.14 build/authentication review and explicitly limits the inherited production evidence.
-Keep screenshot provenance and the migration registry's original source revision unchanged.
+The 2026-11-19 source review covers identity selection, account-password and API-key approval, TOTP management, VM authentication, resource lifecycle, and Windows completion on those six page pairs. It is not a whole-codebase or production-flow qualification.
+Confirmed TOTP uses authenticator proof only. Linked accounts without TOTP require the matching-service PIN flow where rolled out. Do not imply that Panel v6.0.17 makes the Paymenter PIN generator universally available. Paymenter final v1.5.9+8Lv13 is not deployed. The active v12 bridge remains after the failed final drain and recovery.
+Separate approval from an explicit subsequent save, and operation acceptance from confirmed completion. Confirmed identity proof lasts at most five minutes. PIN-backed proof also ends at the original ten-minute request deadline or one successful protected write, whichever occurs first. Regeneration does not extend the original deadline. Preserve unknown-operation stop conditions.
+The Windows access pair now records v6.0.17 source review while retaining explicitly historical v6.0.14 production evidence. Hosted email recovery was observed unavailable. Do not present email or a native password as a linked-account PIN bypass.
+Preserve historical v5.3.15 screenshot provenance and the migration registry's original source revision. The new authenticator-dialog image comes from an isolated rehearsal, not current production acceptance. Dates and capture provenance belong in the manifest.
+The customer browser dialog selects PIN for a linked account without TOTP. The source API still accepts a known native password for the `sensitive` purpose, but not for `account_password`. Do not advertise this API distinction as a customer bypass when the hosted PIN generator is unavailable.
 Use **Backups & Snapshots → Backups** or **Backups & Snapshots → Snapshots** for local recovery navigation.
 Account **Backups**, **SSH Keys**, and **Firewall Templates** are separate workspace tasks.
 

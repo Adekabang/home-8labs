@@ -419,6 +419,69 @@
         "Read-only observation does not demonstrate successful provisioning, backup, restore, firewall change or console connection.",
         "Names and identifiers were substituted locally before capture; resource metrics and actual UI controls were not invented."
       ]
+    },
+    {
+      "id": "account-identity-authenticator",
+      "file": "account-identity-authenticator.webp",
+      "sha256": "593abd5a03d5acc5b7677c6bdc92211faeb727d16e32cacb9cf13d936de4e9d9",
+      "article": "docs/account/security/",
+      "route": "/account/settings",
+      "audience": "customer",
+      "permission": "Retained isolated cross-application identity rehearsal with a synthetic account; no production mutation for documentation.",
+      "panelVersion": "v6.0.17 development rehearsal",
+      "edgetermVersion": null,
+      "featureFlags": [],
+      "featureFlagObservation": "Synthetic account used enabled TOTP. No production feature availability inferred.",
+      "viewport": null,
+      "viewportObservation": "Original CSS viewport and device scale were not retained; source raster is 1024 by 576 pixels. Do not infer viewport from raster dimensions.",
+      "raster": { "width": 380, "height": 256 },
+      "theme": "dark",
+      "capturedAt": "2026-11-17T17:35:43.248965+00:00",
+      "captureTimeObservation": "Timestamp retained from source screenshot filesystem metadata, not a new capture performed during this documentation edit.",
+      "sourceType": "isolated-synthetic-ui-crop",
+      "sourceLabel": {
+        "en": "Isolated identity rehearsal — dialog-only crop",
+        "id": "Simulasi identitas terisolasi — potongan dialog saja"
+      },
+      "locale": "en",
+      "caption": {
+        "en": "Confirm a sensitive action with an authenticator code.",
+        "id": "Konfirmasikan tindakan sensitif dengan kode autentikator."
+      },
+      "alt": {
+        "en": "Confirm your identity dialog with an empty Authenticator code field and no password or PIN field.",
+        "id": "Dialog Confirm your identity dengan kolom Authenticator code kosong tanpa kolom password atau PIN."
+      },
+      "review_type": "independent_review",
+      "reviewer": { "capture": "Main", "independent": "TechnicalFlows" },
+      "privacyApproved": true,
+      "privacy": {
+        "domSanitizedBeforeCapture": true,
+        "identityPreparation": "Source uses an isolated synthetic account; final dialog-only crop contains no account or guest identity. No production DOM or raw customer capture was used.",
+        "metadataStripped": true,
+        "metadataChunksRemaining": ["VP8L"],
+        "ocrReviewed": true,
+        "fullResolutionReviewed": true,
+        "canvasCaptured": false,
+        "independentReview": {
+          "status": "approved",
+          "reviewer": "TechnicalFlows",
+          "reviewerRole": "independent-ai-assisted-visual-and-privacy-review",
+          "evidence": [
+            "Independent full-resolution pixel review found only dialog controls, an empty code field and explanatory text. No account chrome, customer data, identifiers, emails, URLs or credentials are visible.",
+            "Dialog text checked against RecentIdentityDialog.tsx, including TOTP-only confirmation, no automatic resubmission and sign-in-only recovery codes.",
+            "Main reviewed native Vision OCR output: dialog text only, with no entered code, password or PIN.",
+            "Main parsed final RIFF container: only VP8L pixels, no EXIF, XMP or ICC chunks. Sharp confirmed 380 by 256 pixels."
+          ]
+        }
+      },
+      "limitations": [
+        "Retained isolated rehearsal captured November 18 in local time, November 17 UTC; not a fresh production screenshot.",
+        "Dialog-only crop excludes the synthetic account page and browser overlay. It contains no identity data requiring replacement.",
+        "Captured before later navigation and factor-generation guards. The unchanged dialog text does not qualify those later behaviors.",
+        "An empty confirmation dialog does not prove a successful password change, guest update, or availability of the Paymenter PIN generator.",
+        "English UI labels remain unchanged. Indonesian alt text and caption are translations only."
+      ]
     }
   ]
 }

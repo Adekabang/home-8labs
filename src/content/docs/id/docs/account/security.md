@@ -3,8 +3,8 @@ title: Mengamankan dan memulihkan akun
 description: Kelola kata sandi, autentikasi dua faktor, kode pemulihan, sesi browser, dan kunci publik SSH akun.
 contentId: account-security
 owner: 8Labs support
-reviewedVersion: LabsPanel 5.3.15
-reviewedDate: 2026-11-02
+reviewedVersion: LabsPanel 6.0.17
+reviewedDate: 2026-11-19
 translationStatus: translated
 ---
 
@@ -14,18 +14,40 @@ Kelola perlindungan akun runtime melalui **Account → Settings** di [cloud.8lab
 
 Tindakan ini memengaruhi akun runtime Anda sendiri. Tindakan tersebut tidak menetapkan atau mengubah kredensial portal penagihan my.8labs.id.
 
-Siapkan kata sandi saat ini untuk perubahan sensitif. Sebelum mengaktifkan autentikasi dua faktor, siapkan aplikasi autentikator TOTP dan penyimpanan aman yang terpisah dari perangkat tersebut.
+Sebelum mengaktifkan autentikasi dua faktor, siapkan aplikasi autentikator TOTP dan penyimpanan aman yang terpisah dari perangkat tersebut. Perubahan sensitif memakai metode konfirmasi identitas di bawah.
 
 Konfigurasi layanan menentukan ketersediaan pemulihan kata sandi dan daftar sesi. Tidak adanya kontrol pemulihan bukan berarti pendaftaran publik atau undangan memiliki ketersediaan yang sama.
+
+## Konfirmasikan identitas untuk perubahan sensitif
+
+- **TOTP aktif:** masukkan kode autentikator enam digit yang masih berlaku. Kata sandi Panel dan PIN Paymenter tidak diperlukan. Kode pemulihan hanya untuk masuk, bukan konfirmasi ini.
+- **Akun terhubung ke Paymenter tanpa TOTP:** gunakan PIN sesuai tujuan jika layanan yang cocok dan pembuat PIN portal penagihan tersedia.
+- **Akun native tanpa hubungan Paymenter dan tanpa TOTP:** konfirmasikan kata sandi Panel saat ini. Ini bukan pengganti PIN akun terhubung yang tidak tersedia.
+
+Sebelum penyiapan TOTP pertama, TOTP belum aktif. Karena itu, akun terhubung memerlukan persetujuan PIN dari layanan yang cocok dan tersedia sebelum melanjutkan penyiapan. Memiliki autentikator saja tidak menyetujui penyiapan pertama.
+
+![Dialog identitas meminta kode autentikator tanpa kata sandi Panel atau PIN Paymenter](../../../../../assets/docs/account-identity-authenticator.webp)
+
+Konfirmasikan tindakan sensitif dengan kode autentikator, lalu kembali ke formulir dan simpan secara eksplisit.
+
+Pembuat PIN Paymenter pada layanan saat ini belum tersedia. Hubungi [dukungan](/id/docs/help/contact) jika metode yang dipilih memerlukannya. Langkah di bawah menjelaskan alur yang didukung setelah layanan yang cocok dan pembuat PIN tersedia. Dukungan Panel saja tidak membuktikan ketersediaan pada portal penagihan. Jangan memakai pemulihan kata sandi atau email untuk melewati persetujuan yang diwajibkan.
+
+1. Minta persetujuan melalui dialog identitas Panel untuk tindakan dan layanan yang dituju.
+2. Buka layanan yang sama pada akun penagihan lalu buat PIN delapan digit, jika tersedia.
+3. Masukkan PIN melalui sesi browser Panel semula sebelum batas waktu yang ditampilkan.
+4. Kembali ke formulir semula, periksa isinya, lalu pilih **Save** atau tindakan yang dituju secara eksplisit.
+
+Permintaan persetujuan awal berlaku sepuluh menit. Pembuatan ulang PIN mengganti PIN sebelumnya tanpa memperpanjang batas waktu itu. Bukti identitas terkonfirmasi berlaku paling lama lima menit. Bukti berbasis PIN juga berakhir pada batas waktu permintaan awal atau setelah satu perubahan terlindungi berhasil, mana yang lebih dahulu. Persetujuan tidak menyimpan formulir atau mengulang permintaan yang ditolak. Persetujuan kata sandi akun tidak mengizinkan pengelolaan API key atau tujuan sensitif lain.
 
 <span id="password"></span>
 
 ## Ganti kata sandi
 
 1. Buka **Account → Settings → Password**.
-2. Isi kolom kata sandi lalu kirim perubahan.
-3. Tunggu konfirmasi atau halaman masuk.
-4. Masuk kembali dengan kata sandi baru.
+2. Selesaikan konfirmasi identitas untuk perubahan kata sandi akun dengan metode di atas.
+3. Masukkan dan konfirmasikan kata sandi baru. Isi kata sandi saat ini hanya jika formulir akun native mewajibkannya.
+4. Pilih **Save** secara eksplisit setelah persetujuan, lalu tunggu konfirmasi atau halaman masuk.
+5. Masuk kembali dengan kata sandi baru.
 
 Perubahan kata sandi mengeluarkan Anda dari sesi. Browser lain dengan sesi lama juga harus masuk kembali. Gunakan kata sandi unik yang memenuhi persyaratan pada layar.
 
@@ -33,7 +55,7 @@ Perubahan kata sandi mengeluarkan Anda dari sesi. Browser lain dengan sesi lama 
 
 ### Pulihkan kata sandi yang terlupa
 
-Jika diaktifkan, halaman masuk menyediakan **Forgot your password?**
+Pemulihan melalui email saat ini tidak tersedia pada halaman masuk layanan. Hubungi [dukungan](/id/docs/help/contact) untuk panduan pemulihan. Deployment lain dapat menyediakan **Forgot your password?** jika pemulihan diaktifkan.
 
 1. Buka tautan tersebut dan masukkan email akun runtime Anda.
 2. Kirim permintaan lalu periksa kotak masuk, termasuk folder spam.
@@ -55,7 +77,7 @@ Autentikasi dua faktor menambahkan kode TOTP enam digit setelah kata sandi saat 
 ### Aktifkan autentikasi dua faktor
 
 1. Buka **Account → Settings → Two-factor authentication → Turn on**.
-2. Konfirmasikan kata sandi saat ini.
+2. Selesaikan konfirmasi identitas dengan metode di atas, lalu kembali ke kartu untuk melanjutkan.
 3. Pindai kode QR dengan autentikator, atau masukkan kunci penyiapan yang ditampilkan secara manual.
 4. Masukkan kode enam digit dari aplikasi lalu pilih **Confirm**.
 5. Tunggu konfirmasi berhasil dan simpan kode pemulihan dengan aman.
@@ -68,7 +90,9 @@ Faktor kedua baru aktif setelah kode valid dikonfirmasi. Menutup penyiapan yang 
 
 Setiap kode pemulihan hanya dapat dipakai sekali untuk masuk dan akan habis setelah digunakan. Simpan terpisah dari perangkat autentikator.
 
-Gunakan **Recovery codes** untuk melihat kumpulan kode saat ini setelah mengonfirmasi kata sandi. Gunakan **Regenerate codes** untuk mengganti seluruh kumpulan setelah mengonfirmasi kata sandi. Segera perbarui salinan simpanan Anda; jangan mengandalkan kode lama.
+Gunakan **Recovery codes** untuk melihat kumpulan kode setelah konfirmasi identitas. Gunakan **Regenerate codes** untuk mengganti seluruh kumpulan setelah konfirmasi. Saat TOTP aktif, gunakan kode autentikator, bukan kata sandi atau kode pemulihan. Segera perbarui salinan simpanan Anda. Jangan mengandalkan kode lama.
+
+Melihat kode adalah pembacaan terlindungi. Pembuatan ulang adalah perubahan terlindungi yang membatalkan kumpulan lama. Selesaikan konfirmasi yang diminta, lalu ulangi tindakan melihat atau membuat ulang secara eksplisit. Pembacaan terlindungi tidak menghabiskan jatah satu perubahan terlindungi dari PIN.
 
 Jika autentikator dan seluruh kode pemulihan hilang, hubungi dukungan untuk pemulihan melalui operator. Pemulihan memerlukan pemeriksaan identitas; jangan menganggap akses akan langsung diberikan atau pemeriksaan bisa dilewati.
 
@@ -84,7 +108,7 @@ Jika kode gagal, periksa waktu pada perangkat autentikator dan gunakan kode baru
 
 ### Nonaktifkan autentikasi dua faktor
 
-Pilih **Turn off** pada kartu yang sama lalu konfirmasikan kata sandi. Konfirmasi kata sandi diperlukan untuk mengaktifkan atau menonaktifkan faktor serta melihat atau membuat ulang kode pemulihan.
+Pilih **Turn off** pada kartu yang sama lalu konfirmasikan identitas dengan kode autentikator saat ini. Konfirmasi sensitif juga melindungi penyiapan dan pengelolaan kode pemulihan. Kembali ke kartu lalu lanjutkan secara eksplisit setelah persetujuan.
 
 Penonaktifan menghapus perlindungan masuk tersebut. Lakukan hanya jika diperlukan, lalu aktifkan kembali setelah berpindah perangkat autentikator.
 
@@ -98,6 +122,8 @@ Jika didukung, **Active sessions** menampilkan browser yang masuk beserta alamat
 2. Tinjau entri dan cabut sesi browser yang tidak dikenal.
 3. Tunggu daftar diperbarui.
 4. Ganti kata sandi jika akses mencurigakan.
+
+Pencabutan satu atau semua sesi lain memerlukan konfirmasi identitas sensitif. Selesaikan metode yang dipilih, lalu ulangi pencabutan yang dituju secara eksplisit. Membaca daftar sesi tidak mencabut sesi apa pun.
 
 Daftar dan pencabutan sesi memerlukan konfigurasi sesi panel berbasis database. Konfigurasi lain menampilkan pemberitahuan, bukan daftar. Pelanggan tidak perlu mengubah konfigurasi platform sendiri.
 
@@ -116,6 +142,8 @@ Jika permintaan masuk yang tidak diharapkan terus terjadi, catat waktu dan kesal
 ## Kelola kunci publik SSH
 
 Buka **Workspace → SSH Keys** pada sidebar untuk mengelola daftar kunci publik tersimpan.
+
+Penambahan dan penghapusan kunci SSH tersimpan juga memerlukan konfirmasi identitas sensitif. Setelah persetujuan, ulangi tindakan tambah atau hapus yang dituju secara eksplisit.
 
 Kunci SSH akun menyimpan **kunci publik** yang dapat dipilih saat deployment, jika didukung, sebagai pengganti kata sandi root. Lihat [akses SSH](/id/docs/getting-started/ssh) dan [mengakses Virtual Labs](/id/docs/getting-started/accessing-virtual-labs).
 
