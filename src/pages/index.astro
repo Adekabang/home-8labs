@@ -1,22 +1,38 @@
 ---
-import Cta from "@components/cta.astro";
 import Hero from "@components/hero.astro";
-import PanelPreview from "@components/panel-preview.astro";
+import LabFacts from "@components/lab-facts.astro";
+import ProjectGuides from "@components/project-guides.astro";
+import LabWorkbench from "@components/lab-workbench.astro";
 import Partners from "@components/partners.astro";
-import ProductCatalog from "@components/product-catalog.astro";
-import TrustSignals from "@components/trust-signals.astro";
 import PurchaseFaq from "@components/purchase-faq.astro";
+import ClosingCta from "@components/closing-cta.astro";
 import Layout from "@layouts/Layout.astro";
 ---
 
 <Layout title="">
-  <div class="mx-auto max-w-5xl px-6">
-    <Hero />
-    <ProductCatalog />
-    <PanelPreview />
-    <TrustSignals />
-    <Partners />
-    <PurchaseFaq />
-    <Cta />
+  <div class="frame">
+    <section class="frame-section" aria-labelledby="landing-title">
+      <Hero />
+    </section>
+    <div class="frame-section is-flush"><LabFacts /></div>
+    <section class="frame-section" aria-labelledby="community-heading">
+      <Partners />
+    </section>
+    <section
+      id="projects"
+      class="frame-section scroll-mt-8"
+      aria-labelledby="projects-heading">
+      <ProjectGuides />
+    </section>
+    <section
+      id="workbench"
+      class="frame-section scroll-mt-8"
+      aria-labelledby="workbench-heading">
+      <LabWorkbench />
+    </section>
+    <section class="frame-section" aria-labelledby="purchase-questions-heading">
+      <PurchaseFaq />
+    </section>
+    <div class="frame-section is-flush"><ClosingCta /></div>
   </div>
 </Layout>

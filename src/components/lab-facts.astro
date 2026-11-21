@@ -1,0 +1,54 @@
+---
+import { Icon } from "astro-icon/components";
+
+const facts = [
+  {
+    icon: "ph:calendar-blank",
+    title: "Rent by the day or week",
+    body: "Short billing periods. Keep the labs you use and let the rest expire.",
+  },
+  {
+    icon: "ph:terminal-window",
+    title: "Root in under 2 minutes",
+    body: "Full root access on KVM, with Debian, Ubuntu, Rocky Linux, AlmaLinux, CentOS, or FreeBSD.",
+  },
+  {
+    icon: "ph:arrow-counter-clockwise",
+    title: "Recover from the panel",
+    body: "A browser console for when SSH is gone, snapshots for before you try, and reinstall for after.",
+  },
+];
+---
+
+<ul class="facts">
+  {
+    facts.map(({ icon, title, body }) => (
+      <li>
+        <Icon name={icon} class="h-6 w-6 text-red-ink" aria-hidden="true" />
+        <h2 class="mt-4 text-lg font-medium text-line">{title}</h2>
+        <p class="mt-2 text-sm leading-relaxed text-cool">{body}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .facts {
+    display: grid;
+  }
+  .facts li {
+    padding: 2rem clamp(1.5rem, 5vw, 2.5rem);
+  }
+  .facts li + li {
+    border-top: 1px dashed #d4d4d8;
+  }
+  @media (min-width: 768px) {
+    .facts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .facts li + li {
+      border-top: 0;
+      border-left: 1px dashed #d4d4d8;
+    }
+  }
+</style>

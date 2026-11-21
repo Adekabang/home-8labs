@@ -4,6 +4,10 @@ import Link from "@components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
+const here = Astro.url.pathname.replace(/\/?$/, "/");
+const isCurrent = (path: string) =>
+  path.startsWith("/") && (here === path || here.startsWith(path));
+
 const menuitems = [
   {
     title: "Products",
@@ -102,7 +106,8 @@ const menuitems = [
                         href={item.path}
                         target={item.target ? "_blank" : "_self"}
                         rel={item.target ? "noopener noreferrer" : undefined}
-                        class="flex min-h-[2.75rem] px-2.5 py-2 items-center text-sm text-cool transition-colors hover:bg-elevated hover:text-line">
+                        aria-current={isCurrent(item.path) ? "page" : undefined}
+                        class="flex min-h-[2.75rem] px-2.5 py-2 items-center text-sm text-cool transition-colors hover:bg-elevated hover:text-line aria-[current=page]:font-medium aria-[current=page]:text-line aria-[current=page]:shadow-[inset_0_-2px_0_#C20E50]">
                         <span> {item.title}</span>
                       </a>
                     </li>
@@ -112,16 +117,23 @@ const menuitems = [
             }
           </ul>
           <div class="lg:hidden flex items-center mt-3 gap-4">
-            <Link href="https://my.8labs.id" target="_blank" size="md" block
-              >Client Panel</Link
+            <Link
+              href="https://my.8labs.id"
+              target="_blank"
+              size="md"
+              style="outline"
+              block>Client Panel</Link
             >
           </div>
         </MenuItems>
       </Astronav>
       <div>
         <div class="hidden lg:flex items-center gap-4">
-          <Link href="https://my.8labs.id" target="_blank" size="md"
-            >Client Panel</Link
+          <Link
+            href="https://my.8labs.id"
+            target="_blank"
+            size="md"
+            style="outline">Client Panel</Link
           >
         </div>
       </div>

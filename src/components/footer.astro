@@ -1,51 +1,85 @@
 ---
 import Container from "@components/container.astro";
+
+const columns = [
+  {
+    title: "Labs",
+    links: [
+      ["Compare plans", "/pricing/"],
+      ["Virtual Labs", "https://my.8labs.id/products/virtual-labs"],
+      [
+        "Virtual Dedicated Labs",
+        "https://my.8labs.id/products/virtual-dedicated-labs",
+      ],
+      ["ElasticLabs", "https://my.8labs.id/products/elasticlabs"],
+      ["ElasticLabs NAT", "https://my.8labs.id/products/elasticlabs-nat"],
+    ],
+  },
+  {
+    title: "Learn",
+    links: [
+      ["Docs", "/docs/"],
+      ["Guides", "/guides/"],
+      ["Blog", "/blog/"],
+      ["First access", "/docs/getting-started/intro/"],
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      ["Client Panel", "https://my.8labs.id"],
+      ["Service status", "https://uptime.8labs.id"],
+      ["Private support", "/docs/help/contact/"],
+      ["Telegram community", "https://t.me/virtual_8labs"],
+      ["Contact", "/contact/"],
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      ["Services", "/services/"],
+      ["Privacy Policy", "/privacy-policy/"],
+      ["Terms of Service", "/tos/"],
+    ],
+  },
+];
 ---
 
-<footer class="my-20">
+<footer class="mt-20 border-t border-grid pb-12 pt-12">
   <Container>
-    <div class="border-t border-grid pt-8 text-center text-sm text-muted">
-      <div
-        class="flex flex-wrap justify-center gap-x-2 gap-y-0 mb-3 [&>a]:inline-flex [&>a]:min-h-[2.75rem] [&>a]:items-center [&>a]:px-2">
-        <a
-          href="https://my.8labs.id"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-red-ink hover:underline">Client Panel</a
-        >
-        <a href="/services/" class="hover:text-red-ink hover:underline"
-          >Services</a
-        >
-        <a href="/docs/" class="hover:text-red-ink hover:underline">Docs</a>
-        <a
-          href="https://uptime.8labs.id"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-red-ink hover:underline">Status</a
-        >
-        <a
-          href="https://t.me/virtual_8labs"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-red-ink hover:underline">Telegram</a
-        >
-        <a href="/privacy-policy/" class="hover:text-red-ink hover:underline"
-          >Privacy Policy</a
-        >
-        <a href="/tos/" class="hover:text-red-ink hover:underline"
-          >Terms of Service</a
-        >
-      </div>
-      <p>
-        Copyright © {new Date().getFullYear()} 8Labs<span class="text-red-ink"
-          >.</span
-        >
-        All rights reserved.
-      </p>
-      <p class="mt-2 text-xs text-muted/70">
-        Product availability, price, stock, and support details are confirmed in
-        the client panel.
-      </p>
+    <div class="grid gap-10 md:grid-cols-[1fr_3fr]">
+      <a
+        href="/"
+        class="self-start text-xl font-bold tracking-tight text-line"
+        aria-label="8Labs home">8Labs<span class="text-red-ink">.</span></a
+      >
+      <nav
+        aria-label="Footer"
+        class="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
+        {
+          columns.map(({ title, links }) => (
+            <div>
+              <p class="micro-label">{title}</p>
+              <ul class="mt-2">
+                {links.map(([label, href]) => (
+                  <li>
+                    <a
+                      href={href}
+                      class="inline-flex min-h-9 items-center text-sm text-cool hover:text-red-ink hover:underline">
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+    </div>
+    <div
+      class="mt-10 flex flex-wrap justify-between gap-x-6 gap-y-2 border-t border-grid pt-6 text-xs text-muted">
+      <p>Copyright © {new Date().getFullYear()} 8Labs. All rights reserved.</p>
+      <p>Prices, stock, and support details are confirmed in Client Panel.</p>
     </div>
   </Container>
 </footer>

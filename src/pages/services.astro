@@ -71,7 +71,7 @@ const services = [
 const steps = [
   {
     title: "Discovery call",
-    body: "Free, 30 minutes. We figure out what you actually need and whether we are the right fit to build it.",
+    body: "Free, 30 minutes. We work out what you need and whether we are the right fit to build it.",
   },
   {
     title: "Scope & quote",
@@ -108,25 +108,22 @@ const channels = [
     <Sectionhead>
       <Fragment slot="title">Services</Fragment>
       <Fragment slot="desc">
-        We deploy and run open-source solutions end to end, from a custom app to
-        server security and monitoring. Indonesia-based and registered, you work
-        directly with the engineer building it, not a sales layer.
+        We build, deploy, and run open-source software for you, from a custom
+        app to server security and monitoring. You work directly with the
+        engineer doing the work. We are based and registered in Indonesia.
       </Fragment>
     </Sectionhead>
 
     <div
-      class="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
+      class="mt-12 grid grid-cols-1 gap-px border border-grid bg-grid md:grid-cols-2">
       {
         services.map((service) => (
-          <article
-            class:list={[
-              "group relative flex flex-col rounded-lg border border-grid bg-panel p-6 sm:p-7 lg:col-span-3",
-            ]}>
+          <article class:list={["flex flex-col bg-panel p-6 sm:p-7"]}>
             <div class="flex items-center justify-between gap-4">
               <div class="text-red-ink">
                 <Icon class="h-6 w-6" name={service.icon} />
               </div>
-              <span class="text-sm font-medium text-muted">{service.tag}</span>
+              <span class="micro-label">{service.tag}</span>
             </div>
 
             <h2 class="mt-6 text-2xl font-medium tracking-[-0.03em] text-line">
@@ -139,7 +136,7 @@ const channels = [
             {service.examples && (
               <div class="mt-4 flex flex-wrap gap-2">
                 {service.examples.map((ex) => (
-                  <span class="rounded-md border border-grid px-3 py-1 text-xs font-medium leading-5 text-cool">
+                  <span class="border border-grid bg-surface px-3 py-1 text-xs font-medium leading-5 text-cool">
                     {ex}
                   </span>
                 ))}
@@ -164,22 +161,25 @@ const channels = [
 
             <a
               href="#start"
-              class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-red-ink">
+              class="group mt-auto inline-flex min-h-11 items-center gap-1 self-start pt-4 text-sm font-semibold text-red-ink">
               Ask about your project
-              <Icon class="h-4 w-4" name="bx:right-arrow-alt" />
+              <Icon
+                class="h-4 w-4 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+                name="bx:right-arrow-alt"
+              />
             </a>
           </article>
         ))
       }
     </div>
 
-    <section class="mx-auto mt-24 max-w-6xl">
+    <section class="mt-24">
       <h2
         class="max-w-2xl text-3xl font-medium tracking-[-0.03em] text-line md:text-4xl">
-        How an engagement runs.
+        How an engagement runs
       </h2>
       <p class="mt-4 max-w-xl text-base leading-7 text-muted">
-        Tell us what you need. We’ll discuss the scope before we quote a price.
+        Four steps, and you know the price before any work starts.
       </p>
 
       <ol
@@ -202,11 +202,11 @@ const channels = [
 
     <section
       id="start"
-      class="mx-auto mt-20 max-w-6xl rounded-lg border border-grid bg-surface p-6 text-line sm:p-8 md:p-10">
+      class="mt-20 scroll-mt-8 border border-grid bg-surface p-6 text-line sm:p-8 md:p-10">
       <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
           <h2 class="text-3xl font-medium tracking-[-0.03em] md:text-4xl">
-            Start with a conversation, not a contract.
+            Start with a conversation, not a contract
           </h2>
           <p class="mt-4 max-w-xl text-base leading-7 text-cool">
             Tell us what you are trying to build or keep running. The discovery
@@ -220,7 +220,12 @@ const channels = [
                 href={c.href}
                 target={c.external ? "_blank" : undefined}
                 rel={c.external ? "noopener noreferrer" : undefined}
-                class="inline-flex w-full items-center justify-center gap-2 rounded-md border border-grid bg-panel px-5 py-3 text-sm font-medium text-line transition-colors hover:border-red-ink hover:text-red-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-ink lg:w-auto">
+                class:list={[
+                  "inline-flex min-h-11 w-full items-center justify-center gap-2 border px-5 py-2.5 text-sm font-medium transition-[background-color,transform] duration-150 ease-out active:scale-[0.97] lg:w-56",
+                  c.external
+                    ? "border-red-ink bg-red-ink text-white hover:bg-red-800"
+                    : "border-grid bg-panel text-line hover:bg-elevated",
+                ]}>
                 <Icon class="h-5 w-5" name={c.icon} />
                 {c.label}
               </a>

@@ -1,77 +1,68 @@
 ---
 const questions = [
   {
-    question: "Which lab should I choose?",
+    question: "Is the free tier really free?",
     answer:
-      "Start with your workload and budget. Virtual Labs uses slower nested virtualization; VDL and ElasticLabs VMs run directly on a bare-metal hypervisor. Compare resources and networking in each plan.",
-    href: "/pricing/",
-    label: "Compare product families",
+      "Virtual Labs is paid in LAB Coin, which 8Labs grants free while it is available. You can run one lab of each size at a time. If you run out of coins, open a support ticket.",
+    href: "https://my.8labs.id/products/virtual-labs",
+    label: "See Virtual Labs plans",
   },
   {
-    question: "Do I need IPv4, IPv6, or NAT?",
+    question: "Which operating systems can I run?",
     answer:
-      "Choose public IPv4 for direct IPv4 access, or IPv6 if your connections support it. NAT uses private IPv4 behind a shared endpoint; available inbound access depends on the plan.",
-    href: "/docs/servers/network/",
-    label: "Read the networking guide",
+      "Debian, Ubuntu, CentOS, Rocky Linux, AlmaLinux, and FreeBSD, all on KVM with full root access. Anything that runs on Linux will run. For anything else, ask in the Telegram community before you order.",
+    href: "https://t.me/virtual_8labs",
+    label: "Ask the community",
   },
   {
-    question: "Which locations and operating systems are available?",
+    question: "How do I pay, and when does billing stop?",
     answer:
-      "Client Panel shows current locations, stock, and images. Operating system choices, including Windows support, depend on the service.",
-    href: "https://my.8labs.id",
-    label: "Check the current catalog",
-  },
-  {
-    question: "What will I pay, and when does billing stop?",
-    answer:
-      "Checkout shows the amount, currency or LAB Coin unit, tax, billing period, and renewal terms. Stopping or deleting a VM may not stop charges: use Client Panel’s cancellation process.",
+      "Top up a rupiah balance by QRIS, bank virtual account, or crypto. Plans run for a day, three days, a week, or a month. Rupiah plans renew from your balance automatically, so cancel in Client Panel to stop them: shutting down or deleting the VM is not enough. LAB Coin plans never renew on their own.",
     href: "/docs/billing-plans/overview/",
     label: "Understand billing and cancellation",
   },
   {
     question: "How long until I can use my server?",
     answer:
-      "Timing varies by service and installation. Follow the order and installation status, not just payment or a Running label. If setup fails, contact support before reordering.",
+      "Usually under two minutes after payment. Wait for the installation status to finish, not just a Running label. If setup fails, contact support before you reorder.",
     href: "/docs/getting-started/intro/#wait-for-provisioning",
     label: "Follow the first-access guide",
   },
   {
     question: "Are backups included?",
     answer:
-      "Backup and retention options vary by plan. A snapshot can share your server’s failure boundary; keep an independent copy of important data and test restores.",
+      "No. VDL and ElasticLabs plans include two snapshots, but they are stored on the same server as your VM. If that server fails, both are gone. Keep your own copy of anything important, and test that you can restore it.",
     href: "/docs/servers/backups/",
     label: "Review recovery options",
-  },
-  {
-    question: "Where do I order, manage my server, or get help?",
-    answer:
-      "Order, manage billing, and get private support in Client Panel. Use your service’s management link for Cloud Panel server controls. Keep secrets and service details out of public chat.",
-    href: "/docs/help/contact/",
-    label: "Find the right support path",
   },
 ];
 ---
 
-<section
-  class="border-t border-grid py-12 md:py-16"
-  aria-labelledby="purchase-questions-heading">
-  <div class="max-w-3xl">
+<div>
+  <div class="mx-auto max-w-3xl">
     <div>
-      <h2
-        id="purchase-questions-heading"
-        class="text-3xl font-medium leading-tight tracking-[-0.03em] text-line md:text-4xl">
+      <h2 id="purchase-questions-heading" class="section-title">
         Questions before you start
       </h2>
-      <p class="mt-6 max-w-xl text-base leading-relaxed text-cool">
-        Choose with confidence. Your plan and checkout hold the service details.
-      </p>
     </div>
     <div class="mt-8 min-w-0 border-t border-grid">
       {
         questions.map((item) => (
-          <details class="border-b border-grid">
-            <summary class="cursor-pointer py-5 pr-4 text-base font-medium leading-relaxed text-line hover:text-red-ink">
+          <details class="faq border-b border-grid">
+            <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-medium leading-relaxed text-line transition-colors duration-150 hover:text-red-ink">
               {item.question}
+              <svg
+                class="faq-mark h-4 w-4 shrink-0"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                aria-hidden="true">
+                <>
+                  <path d="M2 8h12" />
+                  <path class="faq-mark-v" d="M8 2v12" />
+                </>
+              </svg>
             </summary>
             <div class="max-w-prose pb-6 pr-4 text-sm leading-relaxed text-cool">
               <p>{item.answer}</p>
@@ -86,4 +77,33 @@ const questions = [
       }
     </div>
   </div>
-</section>
+</div>
+
+<style>
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-mark-v {
+    transform-origin: center;
+    transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .faq[open] .faq-mark-v {
+    transform: scaleY(0);
+  }
+  /* Progressive enhancement: animate the answer's height where supported. */
+  @supports (interpolate-size: allow-keywords) {
+    .faq {
+      interpolate-size: allow-keywords;
+    }
+    .faq::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size 220ms cubic-bezier(0.23, 1, 0.32, 1),
+        content-visibility 220ms allow-discrete;
+    }
+    .faq[open]::details-content {
+      block-size: auto;
+    }
+  }
+</style>

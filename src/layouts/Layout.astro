@@ -27,7 +27,7 @@ const { title } = Astro.props;
 
 const makeTitle = title
   ? title + " | 8Labs"
-  : "8Labs — Virtual & Cloud Lab Environments for Developers";
+  : "8Labs — A Linux lab you can afford to break";
 ---
 
 <!doctype html>
@@ -45,7 +45,7 @@ const makeTitle = title
     <SEO
       title={makeTitle}
       description={currentPath === "/"
-        ? "Virtual and cloud labs for testing, learning, and rebuilding. Compare plans, order in Client Panel, and manage your server in Cloud Panel."
+        ? "Linux VMs in Indonesia you can rent by the day or week. Get root in under two minutes, follow a guide, and reinstall when the experiment goes wrong."
         : "Virtual and cloud lab environments for developers, students, and homelabbers. Order, deploy, and manage through my.8labs.id."}
       canonical={canonicalURL}
       twitter={{

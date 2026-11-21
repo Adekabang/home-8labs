@@ -1,422 +1,479 @@
 ---
-const modes = [
+const placements = [
   {
-    id: "virtual",
-    label: "Virtual Labs",
-    title: "A place to learn and experiment",
-    body: "Try a new stack or build a practice environment. Virtual Labs uses a nested hypervisor, making it slower than VDL and ElasticLabs.",
-    layers: [
-      "Bare-metal hypervisor",
-      "Nested hypervisor (VM)",
-      "Your Virtual Labs VM",
+    id: "nested",
+    name: "Virtual Labs",
+    nested: true,
+    plans: [{ label: "Virtual Labs plans", slug: "virtual-labs" }],
+  },
+  {
+    id: "direct",
+    name: "VDL and ElasticLabs",
+    nested: false,
+    plans: [
+      { label: "VDL plans", slug: "virtual-dedicated-labs" },
+      { label: "ElasticLabs plans", slug: "elasticlabs" },
     ],
-    href: "https://my.8labs.id/products/virtual-labs",
-    action: "Explore Virtual Labs",
-    note: "Provider-managed layers. Your environment is the VM.",
+  },
+];
+
+const networks = [
+  {
+    id: "nat",
+    label: "NAT",
+    path: ["IPv4 client", "Shared endpoint", "Private VM"],
+    detail:
+      "Your VM has a private IPv4 address. For incoming connections, use the shared public endpoint and the port mapping assigned by your plan, if supported.",
+    href: "https://my.8labs.id/products/elasticlabs-nat",
+    action: "Explore ElasticLabs NAT",
   },
   {
-    id: "dedicated",
-    label: "Virtual Dedicated Labs (VDL)",
-    title: "Move beyond the nested layer",
-    body: "Choose VDL when your project needs to avoid Virtual Labs’ extra virtualization layer. Your VM runs directly on a bare-metal hypervisor.",
-    layers: ["Bare-metal hypervisor", "Your VDL VM"],
-    href: "https://my.8labs.id/products/virtual-dedicated-labs",
-    action: "Explore Virtual Dedicated Labs",
-    note: "Direct placement, not a dedicated physical host or CPU.",
-  },
-  {
-    id: "elastic",
-    label: "ElasticLabs",
-    title: "Find the fit for your next deployment",
-    body: "Run your VM directly on a bare-metal hypervisor, without Virtual Labs’ nested layer. Match an ElasticLabs plan to your resources and connectivity.",
-    layers: ["Bare-metal hypervisor", "Your ElasticLabs VM"],
+    id: "ipv4",
+    label: "Public IPv4",
+    path: ["IPv4 client", "VM’s public IPv4"],
+    detail:
+      "Clients connect to the public IPv4 address assigned to your VM. The service must be listening and the firewall must allow the connection.",
     href: "https://my.8labs.id/products/elasticlabs",
-    action: "Explore ElasticLabs",
-    note: "Resources and network options depend on the selected plan.",
+    action: "Explore ElasticLabs plans",
+  },
+  {
+    id: "ipv6",
+    label: "Public IPv6",
+    path: ["IPv6 client", "VM’s public IPv6"],
+    detail:
+      "IPv6 clients connect to your VM’s public IPv6 address, subject to firewall and service settings. IPv4-only clients need another access path.",
+    href: "https://my.8labs.id/products/elasticlabs",
+    action: "Explore ElasticLabs plans",
   },
 ];
 ---
 
-<div class="lab-workbench" aria-labelledby="workbench-heading">
-  <div class="workbench-toolbar">
-    <span id="workbench-heading" class="text-sm font-medium text-line"
-      >Find your starting point</span
-    >
-    <a href="/pricing/" class="text-xs text-muted underline underline-offset-4"
-      >Compare plans</a
-    >
+<div>
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 id="workbench-heading" class="section-title">
+      Know what you are renting
+    </h2>
+    <p class="section-lede">
+      What sits under your VM, and how traffic reaches it, decide how your lab
+      behaves. So we draw both.
+    </p>
   </div>
-  <p class="workbench-axis">Choose your lab</p>
-  <fieldset class="workbench-modes">
-    <legend class="sr-only">Choose a lab type to explore</legend>
-    {
-      modes.map((mode, index) => (
-        <Fragment>
-          <input
-            class="sr-only"
-            type="radio"
-            name="lab-mode"
-            id={`lab-${mode.id}`}
-            value={mode.id}
-            checked={index === 0}
-            aria-controls={`view-${mode.id}`}
-          />
-          <label for={`lab-${mode.id}`}>{mode.label}</label>
-        </Fragment>
-      ))
-    }
-  </fieldset>
-  {
-    modes.map((mode) => (
-      <div id={`view-${mode.id}`} class={`workbench-view view-${mode.id}`}>
-        <div class="workbench-diagram">
-          <svg
-            viewBox="0 0 560 300"
-            role="img"
-            aria-labelledby={`diagram-${mode.id}`}>
-            <title id={`diagram-${mode.id}`}>
-              {mode.label}: {mode.layers.join(" → ")}
-            </title>
-            {mode.layers.map((layer, index) => {
-              const y = (mode.layers.length === 3 ? 32 : 76) + index * 88;
-              const isCustomerVM = index === mode.layers.length - 1;
-              return (
-                <g>
-                  {index > 0 && (
-                    <path
-                      class="workbench-route"
-                      d={`M280 ${y - 36} V${y}`}
-                      stroke="#c20e50"
-                      stroke-width="1.5"
-                      fill="none"
-                      pathLength="1"
-                    />
-                  )}
+  <div class="workbench-panel">
+    <div class="py-6 md:py-8">
+      <h3 class="font-sans text-xl font-medium tracking-tight text-line">
+        Where does your VM run?
+      </h3>
+      <p class="mt-2 text-cool">
+        Both setups use a bare-metal hypervisor. What changes is the layer
+        beneath your VM.
+      </p>
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        {
+          placements.map(({ id, name, nested, plans }) => (
+            <figure>
+              <h4 class="mb-3 font-sans text-base font-medium text-line">
+                {name}
+              </h4>
+              <svg
+                class:list={["stack", !nested && "stack-direct"]}
+                viewBox={nested ? "0 0 320 174" : "0 58 320 116"}
+                role="img"
+                aria-labelledby={`title-${id}`}
+                aria-describedby={`desc-${id}`}>
+                <title id={`title-${id}`}>
+                  {name}: {nested ? "nested" : "direct"} placement
+                </title>
+                <desc id={`desc-${id}`}>
+                  {nested
+                    ? "Your VM runs on a nested hypervisor, itself a VM on the bare-metal hypervisor."
+                    : "Your VM runs directly on the bare-metal hypervisor, with no nested hypervisor in between."}
+                </desc>
+                {nested && (
+                  <defs>
+                    <pattern
+                      id="nested-hatch"
+                      width="7"
+                      height="7"
+                      patternUnits="userSpaceOnUse">
+                      <path
+                        d="M-1 1l2-2M0 7l7-7M6 8l2-2"
+                        stroke="currentColor"
+                        opacity=".18"
+                      />
+                    </pattern>
+                  </defs>
+                )}
+                <g class="guest">
                   <rect
-                    x="36"
-                    y={y}
-                    width="488"
-                    height="52"
-                    rx="8"
-                    fill={isCustomerVM ? "#fff1f5" : "#fafafa"}
-                    stroke={isCustomerVM ? "#c20e50" : "#a1a1aa"}
+                    class="band"
+                    x="1"
+                    y={nested ? 1 : 59}
+                    width="318"
+                    height="56"
                   />
-                  <text
-                    x="280"
-                    y={y + 32}
-                    text-anchor="middle"
-                    fill={isCustomerVM ? "#a10f3a" : "#18181b"}
-                    font-size="18"
-                    font-family="Inter Variable, sans-serif">
-                    {layer}
+                  <text x="160" y={nested ? 29 : 87}>
+                    Your VM
                   </text>
                 </g>
-              );
-            })}
-          </svg>
-          <p class="text-xs leading-relaxed text-muted">{mode.note}</p>
-        </div>
-        <div class="workbench-description">
-          <h2 class="text-2xl font-medium tracking-tight text-line">
-            {mode.title}
-          </h2>
-          <p class="mt-4 text-base leading-relaxed text-cool">{mode.body}</p>
-          <a
-            href={mode.href}
-            class="mt-5 inline-flex min-h-[2.75rem] items-center text-sm font-medium text-red-ink underline underline-offset-4">
-            {mode.action}
-          </a>
-        </div>
+                {nested && (
+                  <g class="extra">
+                    <rect
+                      x="1"
+                      y="58"
+                      width="318"
+                      height="57"
+                      fill="url(#nested-hatch)"
+                      stroke="currentColor"
+                    />
+                    <text x="160" y="87">
+                      Nested hypervisor (VM)
+                    </text>
+                  </g>
+                )}
+                <g class="host">
+                  <rect class="band" x="1" y="116" width="318" height="57" />
+                  <text x="160" y="145">
+                    Bare-metal hypervisor
+                  </text>
+                </g>
+              </svg>
+              <figcaption class="mt-3 text-sm text-cool">
+                <p>
+                  {nested
+                    ? "Virtual Labs is the free tier. Your VM runs inside another VM (the hatched layer), which is fine for practice and slower for heavy work."
+                    : "Virtual Dedicated Labs (VDL) and ElasticLabs skip the nested layer. You still share the physical host and its CPUs with other VMs."}
+                </p>
+                <div class="flex flex-wrap gap-x-5">
+                  {plans.map(({ label, slug }) => (
+                    <a
+                      class="workbench-link"
+                      href={`https://my.8labs.id/products/${slug}`}>
+                      {label}
+                    </a>
+                  ))}
+                </div>
+              </figcaption>
+            </figure>
+          ))
+        }
       </div>
-    ))
-  }
-  <div class="network-comparison">
-    <fieldset class="workbench-modes network-modes">
-      <legend>Choose how you connect</legend>
-      <input
-        class="sr-only"
-        type="radio"
-        name="network-mode"
-        id="network-nat"
-        checked
-        aria-controls="network-view-nat"
-      />
-      <label for="network-nat">NAT</label>
-      <input
-        class="sr-only"
-        type="radio"
-        name="network-mode"
-        id="network-ipv4"
-        aria-controls="network-view-ipv4"
-      />
-      <label for="network-ipv4">Public IPv4</label>
-      <input
-        class="sr-only"
-        type="radio"
-        name="network-mode"
-        id="network-ipv6"
-        aria-controls="network-view-ipv6"
-      />
-      <label for="network-ipv6">Public IPv6</label>
-    </fieldset>
-    <div class="network-view network-view-nat" id="network-view-nat">
-      <h3>For projects that fit shared access</h3>
-      <dl>
-        <div>
-          <dt>Your address</dt><dd>
-            Private IPv4 behind a shared public endpoint, not a dedicated public
-            IPv4.
-          </dd>
-        </div>
-        <div>
-          <dt>Incoming connections</dt><dd>
-            Use the plan’s assigned connection details and any supported port
-            mappings.
-          </dd>
-        </div>
-      </dl>
-      <a href="https://my.8labs.id/products/elasticlabs-nat"
-        >Explore ElasticLabs NAT</a
-      >
     </div>
-    <div class="network-view network-view-ipv4" id="network-view-ipv4">
-      <h3>For services reached over IPv4</h3>
-      <dl>
-        <div>
-          <dt>Your address</dt><dd>
-            A public IPv4 address directly assigned to your VM.
-          </dd>
-        </div>
-        <div>
-          <dt>Incoming connections</dt><dd>
-            Connect to the VM’s address, subject to firewall and service
-            settings.
-          </dd>
-        </div>
-      </dl>
-      <a href="https://my.8labs.id/products/elasticlabs"
-        >Explore ElasticLabs plans</a
-      >
+
+    <div class="network border-t border-grid py-6 md:py-8">
+      <fieldset class="flex flex-wrap gap-1">
+        <legend class="mb-3 text-xl font-medium text-line"
+          >How can someone reach your VM?</legend
+        >
+        {
+          networks.map(({ id, label }, index) => (
+            <Fragment>
+              <input
+                class="sr-only"
+                type="radio"
+                name="network-mode"
+                id={`network-${id}`}
+                checked={index === 0}
+                aria-controls={`network-view-${id}`}
+              />
+              <label for={`network-${id}`}>{label}</label>
+            </Fragment>
+          ))
+        }
+      </fieldset>
+      {
+        networks.map(({ id, path, detail, href, action }) => (
+          <div class="network-view mt-4" id={`network-view-${id}`}>
+            <ol class="network-path" aria-label="Incoming connection path">
+              {path.map((node, index) => (
+                <li>
+                  {index > 0 && (
+                    <span class="packet-track" aria-hidden="true">
+                      <span class="packet" />
+                    </span>
+                  )}
+                  {node}
+                </li>
+              ))}
+            </ol>
+            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-cool">
+              {detail}
+            </p>
+            <a class="workbench-link" href={href}>
+              {action}
+            </a>
+          </div>
+        ))
+      }
+      <p class="mt-2 text-sm text-muted">
+        Network options vary by plan. <a
+          class="underline underline-offset-4"
+          href="/docs/servers/network/">See the networking guide</a
+        >.
+      </p>
     </div>
-    <div class="network-view network-view-ipv6" id="network-view-ipv6">
-      <h3>For IPv6-ready projects</h3>
-      <dl>
-        <div>
-          <dt>Your address</dt><dd>
-            A public IPv6 address; you and your users need IPv6 connectivity.
-          </dd>
-        </div>
-        <div>
-          <dt>Incoming connections</dt><dd>
-            Connect over IPv6, subject to firewall and service settings.
-            IPv4-only clients need another access path.
-          </dd>
-        </div>
-      </dl>
-      <a href="https://my.8labs.id/products/elasticlabs"
-        >Explore ElasticLabs plans</a
-      >
-    </div>
-    <p class="network-note">
-      Network options vary by plan, independently of lab type. <a
-        href="/docs/servers/network/">See the networking guide</a
-      >.
-    </p>
   </div>
 </div>
 
+<script>
+  const stacks = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.intersectionRatio < 0.75) continue;
+        entry.target.classList.add("revealed");
+        stacks.unobserve(entry.target);
+      }
+    },
+    { threshold: 0.75 },
+  );
+  function observeStacks() {
+    stacks.disconnect();
+    if (!document.hidden)
+      document
+        .querySelectorAll(".stack:not(.revealed)")
+        .forEach((stack) => stacks.observe(stack));
+  }
+  observeStacks();
+  document.addEventListener("visibilitychange", observeStacks);
+
+  function playPath(network: Element, path: Element) {
+    network.querySelectorAll(".packet").forEach((packet) => {
+      packet.getAnimations().forEach((animation) => animation.cancel());
+    });
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    path.querySelectorAll(".packet").forEach((packet, hop) => {
+      packet.animate(
+        [
+          { transform: "translateX(0)", opacity: 0 },
+          { opacity: 1, offset: 0.15 },
+          { opacity: 1, offset: 0.85 },
+          { transform: "var(--packet-end)", opacity: 0 },
+        ],
+        { duration: 800, delay: hop * 800, easing: "linear" },
+      );
+    });
+  }
+
+  for (const network of document.querySelectorAll(".network")) {
+    const paths = network.querySelectorAll(".network-path");
+    let played = false;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (played || document.hidden) return;
+        const visible = entries.find(
+          (entry) => entry.isIntersecting && entry.intersectionRatio >= 0.75,
+        );
+        if (visible) play(visible.target);
+      },
+      { threshold: 0.75 },
+    );
+
+    function observePaths() {
+      observer.disconnect();
+      if (!document.hidden) paths.forEach((path) => observer.observe(path));
+    }
+
+    function play(path: Element) {
+      played = true;
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", observePaths);
+      playPath(network, path);
+    }
+
+    observePaths();
+    document.addEventListener("visibilitychange", observePaths);
+    network.addEventListener("click", ({ target }) => {
+      if (
+        !(target instanceof HTMLInputElement) ||
+        target.name !== "network-mode"
+      )
+        return;
+      const path = document
+        .getElementById(target.getAttribute("aria-controls") ?? "")
+        ?.querySelector(".network-path");
+      if (path) play(path);
+    });
+  }
+</script>
+
 <style>
-  .lab-workbench {
+  .workbench-panel {
+    margin-top: 2.5rem;
+    padding-inline: clamp(1rem, 3vw, 2rem);
     border: 1px solid #e4e4e7;
-    border-radius: 12px;
-    background: white;
-    overflow: clip;
-    box-shadow: 0 12px 40px -28px rgb(24 24 27 / 25%);
+    background: #fff;
   }
-  .workbench-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 16px 24px;
-    border-bottom: 1px solid #e4e4e7;
-  }
-  .workbench-axis {
-    margin: 20px 24px 0;
-    font-size: 14px;
-    font-weight: 500;
-    color: #18181b;
-  }
-  .workbench-modes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 20px 24px 0;
-  }
-  .workbench-modes label {
-    cursor: pointer;
-    padding: 10px 16px;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #52525b;
-    transition:
-      color 160ms,
-      background-color 160ms;
-  }
-  .workbench-modes label:hover {
-    background: #f4f4f5;
-    color: #18181b;
-  }
-  .workbench-modes input:checked + label {
-    background: #fff1f5;
-    border-color: #f5c6d5;
-    color: #a10f3a;
-  }
-  .workbench-modes input:focus-visible + label {
-    outline: 2px solid #c20e50;
-    outline-offset: 2px;
-  }
-  .workbench-view {
-    display: none;
-    grid-template-columns: 1.2fr 1fr;
-    align-items: center;
-    gap: 32px;
-    padding: 20px 32px 32px;
-  }
-  .lab-workbench:has(#lab-virtual:checked) .view-virtual,
-  .lab-workbench:has(#lab-dedicated:checked) .view-dedicated,
-  .lab-workbench:has(#lab-elastic:checked) .view-elastic {
-    display: grid;
-  }
-  .workbench-diagram {
-    min-width: 0;
-  }
-  .workbench-diagram svg {
-    width: 100%;
-    height: auto;
-  }
-  .workbench-diagram p {
-    margin-top: 8px;
-    padding-inline: 24px;
-  }
-  .network-comparison {
-    border-top: 1px solid #e4e4e7;
-    padding: 24px;
-  }
-  .network-modes {
-    min-width: 0;
-    padding: 0;
-  }
-  .network-modes legend {
-    margin-bottom: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #18181b;
-  }
-  .network-view {
-    display: none;
-    min-width: 0;
-    margin-top: 20px;
-  }
-  .network-comparison:has(#network-nat:checked) .network-view-nat,
-  .network-comparison:has(#network-ipv4:checked) .network-view-ipv4,
-  .network-comparison:has(#network-ipv6:checked) .network-view-ipv6 {
+  .stack {
     display: block;
+    width: 100%;
+    color: #0a0a0a;
   }
-  .network-view h3 {
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -0.025em;
-    color: #18181b;
+  .stack .band {
+    fill: #fafafa;
+    stroke: #57575e;
   }
-  .network-view dl {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-    margin-top: 16px;
-    font-size: 14px;
-    line-height: 1.65;
+  .stack .extra,
+  .stack pattern {
+    color: #c20e50;
   }
-  .network-view dt {
-    font-weight: 500;
-    color: #18181b;
+  .stack text {
+    font:
+      500 12px ui-monospace,
+      monospace;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-anchor: middle;
+    dominant-baseline: central;
+    fill: currentColor;
   }
-  .network-view dd,
-  .network-note {
-    color: #52525b;
+  /* The direct stack is one layer shorter. On wide screens, push it down by
+     that layer's height (58/320 of the width) so both hosts share a baseline. */
+  @media (min-width: 768px) {
+    .stack-direct {
+      margin-top: 18.125%;
+    }
   }
-  .network-view a {
+  @media (prefers-reduced-motion: no-preference) {
+    .stack.revealed .host,
+    .stack.revealed .extra,
+    .stack.revealed .guest {
+      animation: place-layer 450ms cubic-bezier(0.23, 1, 0.32, 1) backwards;
+    }
+    .stack.revealed .extra,
+    .stack.revealed .guest {
+      animation-delay: 180ms;
+    }
+    .stack.revealed:has(.extra) .guest {
+      animation-delay: 360ms;
+    }
+  }
+  @keyframes place-layer {
+    from {
+      opacity: 0.25;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .workbench-link {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
-    margin-top: 12px;
-    color: #a10f3a;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .network-note {
-    margin-top: 12px;
-    font-size: 12px;
-    line-height: 1.65;
-  }
-  .network-comparison a {
+    color: #c20e50;
+    font-size: 0.875rem;
     text-decoration: underline;
     text-underline-offset: 4px;
   }
-  .lab-workbench a:focus-visible {
-    outline: 2px solid #c20e50;
-    outline-offset: 4px;
+  .network label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 12px;
+    cursor: pointer;
+    border: 1px solid #e4e4e7;
+    font-size: 0.875rem;
+    transition:
+      background-color 150ms ease-out,
+      transform 150ms ease-out;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .workbench-route {
-      animation: route-in 700ms ease-out both;
+  .network label:active {
+    transform: scale(0.97);
+  }
+  @media (hover: hover) {
+    .network label:hover {
+      background: #f4f4f5;
     }
   }
-  @keyframes route-in {
-    from {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
+  .network input:checked + label {
+    color: #c20e50;
+    border-color: currentColor;
+    font-weight: 600;
+  }
+  .network input:focus-visible + label {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  .network-view {
+    display: none;
+  }
+  .network:has(#network-nat:checked) #network-view-nat,
+  .network:has(#network-ipv4:checked) #network-view-ipv4,
+  .network:has(#network-ipv6:checked) #network-view-ipv6 {
+    display: block;
+  }
+  .network-path {
+    --hop-width: clamp(1.5rem, 6vw, 5rem);
+    --packet-end: translateX(100%);
+    display: flex;
+    align-items: stretch;
+    gap: var(--hop-width);
+  }
+  .network-path li {
+    position: relative;
+    display: grid;
+    flex: 1;
+    min-height: 4rem;
+    align-items: center;
+    padding: 0.5em;
+    border: 1px solid #57575e;
+    font:
+      500 0.8125rem/1.4 ui-monospace,
+      monospace;
+    letter-spacing: 0.06em;
+    color: #0a0a0a;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .packet-track {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: calc(var(--hop-width) + 1px);
+    border-top: 1px solid currentColor;
+  }
+  .packet {
+    position: absolute;
+    inset: -1px 0 auto;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .packet::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #c20e50;
+    transform: translate(-50%, -50%);
+  }
+  @media (max-width: 480px) {
+    .network-path {
+      flex-direction: column;
+      --packet-end: translateY(100%);
     }
-    to {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 0;
+    .network-path li {
+      min-height: 3rem;
+    }
+    .packet-track {
+      right: auto;
+      left: 50%;
+      top: auto;
+      bottom: 100%;
+      width: 0;
+      height: calc(var(--hop-width) + 1px);
+      border-top: 0;
+      border-left: 1px solid;
+    }
+    .packet {
+      inset: 0 auto 0 -1px;
     }
   }
-  @media (max-width: 767px) {
-    .network-comparison {
-      padding: 20px 16px;
-    }
-    .network-view dl {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .network-comparison .network-modes {
-      padding: 0;
-    }
-    .workbench-axis {
-      margin-inline: 16px;
-    }
-    .workbench-diagram text {
-      font-size: 27px;
-    }
-    .workbench-view {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      padding: 16px 16px 24px;
-    }
-    .workbench-toolbar {
-      padding-inline: 16px;
-    }
-    .workbench-modes {
-      padding-inline: 12px;
-      gap: 4px;
-    }
-    .workbench-modes label {
-      padding-inline: 12px;
-    }
-    .workbench-description {
-      padding-inline: 8px;
+  @media (prefers-reduced-motion: reduce) {
+    .packet {
+      display: none;
     }
   }
 </style>

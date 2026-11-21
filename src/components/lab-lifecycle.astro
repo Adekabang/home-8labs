@@ -1,0 +1,531 @@
+---
+// Hero figure: what happens to a lab from order to recovery. Step state is
+// held by radio inputs, so it works without JavaScript; the script only
+// advances the steps while the figure is on screen.
+const steps = [
+  {
+    name: "Order",
+    text: "You order in the panel. The host builds your VM, usually in under 2 minutes.",
+    outcome: "VM ready",
+  },
+  {
+    name: "Connect",
+    text: "You log in over SSH as root. The VM is yours to change.",
+    outcome: "Root access",
+  },
+  {
+    name: "Snapshot",
+    text: "Before a risky change, you save the VM’s state. Snapshots stay on the same host.",
+    outcome: "State saved",
+  },
+  {
+    name: "Break",
+    text: "A bad firewall rule locks you out. SSH is refused.",
+    outcome: "SSH refused",
+    bad: true,
+  },
+  {
+    name: "Recover",
+    text: "You open the browser console from the panel and fix it, or restore the snapshot.",
+    outcome: "Back to a working state",
+  },
+];
+const total = steps.length;
+const on = (n: number) => `.lf:has(#lf-step-${n}:checked)`;
+const css = steps
+  .map((_, i) => {
+    const n = i + 1;
+    return `
+${on(n)} [data-on~="${n}"] .lf-line{stroke:var(--c);stroke-dasharray:none}
+${on(n)} [data-on~="${n}"] .lf-end,${on(n)} [data-on~="${n}"] .lf-label{fill:var(--c)}
+${on(n)} [data-dots~="${n}"]{display:inline}
+${on(n)} [data-show~="${n}"]{display:inline}
+${on(n)} [data-text="${n}"]{visibility:visible}`;
+  })
+  .join("");
+---
+
+<figure
+  class="lf"
+  aria-label="How a lab is ordered, used, broken, and recovered">
+  <div class="lf-head">
+    {
+      steps.map(({ text }, i) => (
+        <p data-text={i + 1}>
+          <span class="lf-kicker">
+            Step {i + 1} of {total}
+          </span>
+          <span class="lf-sentence">{text}</span>
+        </p>
+      ))
+    }
+  </div>
+
+  <svg viewBox="0 0 476 348" aria-hidden="true">
+    <defs>
+      <pattern
+        id="lf-hatch-vm"
+        width="7"
+        height="7"
+        patternUnits="userSpaceOnUse"
+        patternTransform="rotate(45)">
+        <path d="M0 0V7" stroke="#c20e50" stroke-opacity=".4"></path>
+      </pattern>
+      <pattern
+        id="lf-hatch-store"
+        width="7"
+        height="7"
+        patternUnits="userSpaceOnUse"
+        patternTransform="rotate(45)">
+        <path d="M0 0V7" stroke="#b45309" stroke-opacity=".5"></path>
+      </pattern>
+    </defs>
+
+    <!-- Host group -->
+    <rect class="lf-group" x="236" y="12" width="228" height="324"></rect>
+    <text class="lf-zone" x="246" y="29">8Labs host · Indonesia</text>
+    <g class="lf-node">
+      <rect x="256" y="276" width="188" height="44"></rect>
+      <rect class="lf-inset" x="261" y="281" width="178" height="34"></rect>
+      <text x="350" y="302">KVM hypervisor</text>
+    </g>
+
+    <!-- Browser: you to panel -->
+    <g class="lf-flow lf-control" data-on="1 3 5">
+      <path class="lf-line" d="M67 92V250"></path>
+      <path class="lf-dots" data-dots="1 3 5" d="M67 92V250"></path>
+      <rect class="lf-end" x="64" y="89" width="6" height="6"></rect>
+      <rect class="lf-end" x="64" y="247" width="6" height="6"></rect>
+      <text class="lf-label" x="76" y="175">Browser</text>
+    </g>
+
+    <!-- Control: panel to VM -->
+    <g class="lf-flow lf-control" data-on="1 3 5">
+      <path class="lf-line" d="M122 280H170V94H270"></path>
+      <path class="lf-dots" data-dots="1 3 5" d="M122 280H170V94H270"></path>
+      <rect class="lf-end" x="119" y="277" width="6" height="6"></rect>
+      <rect class="lf-end" x="267" y="91" width="6" height="6"></rect>
+      <text class="lf-label" data-show="1" x="178" y="190">Build</text>
+      <text class="lf-label" data-show="3" x="178" y="190">Save</text>
+      <text class="lf-label" data-show="5" x="178" y="190">Console</text>
+      <text class="lf-label" data-show="2 4" x="178" y="190">Control</text>
+    </g>
+
+    <!-- SSH: you to VM -->
+    <g class="lf-flow lf-ssh" data-on="2 3">
+      <path class="lf-line" d="M122 60H270"></path>
+      <path class="lf-dots" data-dots="2 3" d="M122 60H270"></path>
+      <path class="lf-dots" data-dots="4" d="M122 60H212"></path>
+      <rect class="lf-end" x="119" y="57" width="6" height="6"></rect>
+      <rect class="lf-end" x="267" y="57" width="6" height="6"></rect>
+      <text class="lf-label" x="179" y="50" text-anchor="middle">SSH</text>
+      <g class="lf-refused" data-show="4">
+        <rect x="211" y="53" width="14" height="14"></rect>
+        <path d="M214.500 56.500l7 7M221.500 56.500l-7 7"></path>
+      </g>
+    </g>
+
+    <!-- Snapshot: VM to store, and back -->
+    <g class="lf-flow lf-snap" data-on="3 5">
+      <path class="lf-line" d="M350 112V168"></path>
+      <path class="lf-dots" data-dots="3" d="M350 112V168"></path>
+      <path class="lf-dots" data-dots="5" d="M350 168V112"></path>
+      <rect class="lf-end" x="347" y="109" width="6" height="6"></rect>
+      <rect class="lf-end" x="347" y="165" width="6" height="6"></rect>
+      <text class="lf-label" data-show="1 2 3 4" x="360" y="144">Snapshot</text>
+      <text class="lf-label" data-show="5" x="360" y="144">Restore</text>
+    </g>
+
+    <!-- Actors -->
+    <g class="lf-node lf-actor">
+      <rect x="12" y="32" width="110" height="60"></rect>
+      <rect class="lf-inset" x="17" y="37" width="100" height="50"></rect>
+      <text x="67" y="66">You</text>
+    </g>
+    <g class="lf-node">
+      <rect x="12" y="250" width="110" height="60"></rect>
+      <rect class="lf-inset" x="17" y="255" width="100" height="50"></rect>
+      <text x="67" y="284">Panel</text>
+    </g>
+
+    <!-- The node that matters -->
+    <g class="lf-node lf-vm">
+      <rect x="270" y="40" width="160" height="72"></rect>
+      <rect class="lf-fill" x="270" y="40" width="160" height="72"></rect>
+      <rect class="lf-inset" x="275" y="45" width="150" height="62"></rect>
+      <text x="350" y="72">Your VM</text>
+      <text class="lf-status" data-show="1" x="350" y="92">Building</text>
+      <text class="lf-status" data-show="2 3" x="350" y="92">Running</text>
+      <text class="lf-status lf-bad" data-show="4" x="350" y="92"
+        >Locked out</text
+      >
+      <text class="lf-status" data-show="5" x="350" y="92">Recovering</text>
+    </g>
+
+    <!-- Store -->
+    <g class="lf-store">
+      <path d="M300 178V228A50 10 0 0 0 400 228V178"></path>
+      <ellipse cx="350" cy="178" rx="50" ry="10"></ellipse>
+      <ellipse class="lf-fill" cx="350" cy="178" rx="50" ry="10"></ellipse>
+      <text x="350" y="216">Snapshots</text>
+    </g>
+  </svg>
+
+  <div class="lf-outcome">
+    {
+      steps.map(({ outcome, bad }, i) => (
+        <p data-text={i + 1} class:list={[bad && "lf-bad"]}>
+          {outcome}
+        </p>
+      ))
+    }
+  </div>
+
+  <fieldset class="lf-steps">
+    <legend class="sr-only">Choose a step</legend>
+    {
+      steps.map(({ name }, i) => (
+        <Fragment>
+          <input
+            class="sr-only"
+            type="radio"
+            name="lf-step"
+            id={`lf-step-${i + 1}`}
+            checked={i === 0}
+          />
+          <label for={`lf-step-${i + 1}`}>
+            <span class="lf-num">{String(i + 1).padStart(2, "0")}</span>
+            {name}
+          </label>
+        </Fragment>
+      ))
+    }
+  </fieldset>
+</figure>
+
+<style is:global set:html={css}></style>
+
+<script>
+  const HOLD = 4200;
+  for (const figure of document.querySelectorAll<HTMLElement>(".lf")) {
+    const inputs = [
+      ...figure.querySelectorAll<HTMLInputElement>('input[name="lf-step"]'),
+    ];
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    let inView = false;
+    let stopped = false;
+    let timer: number | undefined;
+
+    const sync = () => {
+      const run = inView && !document.hidden && !stopped && !reduce.matches;
+      figure.classList.toggle("lf-auto", run);
+      clearInterval(timer);
+      if (!run) return;
+      timer = window.setInterval(() => {
+        const next = (inputs.findIndex((i) => i.checked) + 1) % inputs.length;
+        inputs[next].checked = true;
+      }, HOLD);
+    };
+
+    new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0.4 },
+    ).observe(figure);
+    document.addEventListener("visibilitychange", sync);
+    reduce.addEventListener("change", sync);
+    // A change event only fires for the reader's own choice: stop auto-play.
+    figure.addEventListener("change", () => {
+      stopped = true;
+      sync();
+    });
+  }
+</script>
+
+<style is:global>
+  .lf {
+    --lf-ink: #0a0a0a;
+    --lf-idle: #a1a1aa;
+    --lf-quiet: #71717a;
+    --lf-accent: #c20e50;
+    min-width: 0;
+    padding: 1.25rem;
+    background: #fafafa;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    color: var(--lf-ink);
+  }
+  .lf svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-block: 0.75rem;
+    overflow: visible;
+  }
+  .lf svg text {
+    font:
+      600 14px ui-monospace,
+      "SFMono-Regular",
+      Menlo,
+      monospace;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    fill: var(--lf-ink);
+  }
+
+  /* Step sentence and outcome: every variant shares one grid cell, so the
+     figure keeps its height when the step changes. */
+  .lf-head,
+  .lf-outcome {
+    display: grid;
+  }
+  .lf-head p,
+  .lf-outcome p {
+    grid-area: 1 / 1;
+    visibility: hidden;
+    font-family: inherit;
+  }
+  .lf-kicker {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lf-quiet);
+  }
+  .lf-sentence {
+    display: block;
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .lf-outcome p {
+    padding: 0.625rem 0.75rem;
+    border: 1.5px solid currentColor;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .lf-outcome .lf-bad {
+    color: var(--lf-accent);
+  }
+
+  /* Structure */
+  .lf-group {
+    fill: none;
+    stroke: var(--lf-idle);
+    stroke-width: 1.5;
+    stroke-dasharray: 5 5;
+  }
+  .lf svg .lf-zone {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    fill: var(--lf-quiet);
+  }
+  .lf-node rect {
+    fill: #fff;
+    stroke: var(--lf-ink);
+    stroke-width: 1.5;
+  }
+  .lf-node text,
+  .lf-store text {
+    text-anchor: middle;
+  }
+  .lf-node .lf-inset {
+    fill: none;
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+  .lf-actor rect {
+    fill: #f4f4f5;
+    stroke: var(--lf-quiet);
+  }
+  .lf-vm rect {
+    stroke: var(--lf-accent);
+  }
+  .lf-vm .lf-fill {
+    fill: url(#lf-hatch-vm);
+    stroke: none;
+  }
+  .lf svg .lf-status {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    fill: var(--lf-quiet);
+  }
+  .lf svg .lf-status.lf-bad {
+    fill: var(--lf-accent);
+  }
+  .lf-store path,
+  .lf-store ellipse {
+    fill: #fff;
+    stroke: #b45309;
+    stroke-width: 1.5;
+  }
+  .lf-store .lf-fill {
+    fill: url(#lf-hatch-store);
+    stroke: none;
+  }
+  .lf svg .lf-store text {
+    font-size: 11.5px;
+  }
+
+  /* Flows: grey and dashed when idle, solid in their own colour when live. */
+  .lf-ssh {
+    --c: #1d4ed8;
+  }
+  .lf-control {
+    --c: #0f766e;
+  }
+  .lf-snap {
+    --c: #b45309;
+  }
+  .lf-line {
+    fill: none;
+    stroke: var(--lf-idle);
+    stroke-width: 1.75;
+    stroke-dasharray: 4 4;
+    transition: stroke 200ms ease;
+  }
+  .lf-end {
+    fill: var(--lf-idle);
+    transition: fill 200ms ease;
+  }
+  .lf svg .lf-label {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    fill: var(--lf-quiet);
+    paint-order: stroke;
+    stroke: #fafafa;
+    stroke-width: 4px;
+  }
+  .lf [data-show],
+  .lf [data-dots] {
+    display: none;
+  }
+  .lf-refused rect {
+    fill: #fff;
+    stroke: var(--lf-accent);
+    stroke-width: 1.5;
+  }
+  .lf-refused path {
+    fill: none;
+    stroke: var(--lf-accent);
+    stroke-width: 1.5;
+  }
+  .lf-dots {
+    fill: none;
+    stroke: var(--lf-accent);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 0.01 44;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lf-dots {
+      animation: lf-run 900ms linear infinite;
+    }
+    .lf:has(#lf-step-4:checked) .lf-refused {
+      animation: lf-flash 900ms ease-in-out infinite;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lf .lf-dots {
+      display: none;
+    }
+  }
+  @keyframes lf-run {
+    to {
+      stroke-dashoffset: -44.01;
+    }
+  }
+  @keyframes lf-flash {
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  /* On a phone the drawing is scaled down, so enlarge its type to stay
+     readable. Sizes are in drawing units, not screen pixels. */
+  @media (max-width: 640px) {
+    .lf {
+      padding: 0.875rem;
+    }
+    .lf svg text {
+      font-size: 16px;
+    }
+    .lf svg .lf-zone,
+    .lf svg .lf-status,
+    .lf svg .lf-label,
+    .lf svg .lf-store text {
+      font-size: 12.5px;
+    }
+  }
+
+  /* Step controls */
+  .lf-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.75rem;
+  }
+  .lf-steps label {
+    position: relative;
+    display: inline-flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4em;
+    min-height: 2.75rem;
+    padding: 0 0.6rem;
+    border: 1.5px solid var(--lf-ink);
+    background: #fff;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .lf-steps label:active {
+    transform: scale(0.97);
+  }
+  .lf-num {
+    color: var(--lf-quiet);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .lf-steps label:hover {
+      background: #f4f4f5;
+    }
+  }
+  .lf-steps input:checked + label {
+    border-color: var(--lf-accent);
+    background: #fbeaf0;
+    color: var(--lf-accent);
+  }
+  .lf-steps input:checked + label .lf-num {
+    color: inherit;
+  }
+  .lf-steps input:focus-visible + label {
+    outline: 2px solid var(--lf-accent);
+    outline-offset: 2px;
+  }
+  /* While auto-playing, the current step shows how long it has left. */
+  .lf-auto .lf-steps input:checked + label::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    background: var(--lf-accent);
+    transform-origin: left;
+    animation: lf-hold 4200ms linear;
+  }
+  @keyframes lf-hold {
+    from {
+      transform: scaleX(0);
+    }
+  }
+</style>

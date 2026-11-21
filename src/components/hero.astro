@@ -1,27 +1,45 @@
 ---
 import Link from "@components/ui/link.astro";
-import LabWorkbench from "./lab-workbench.astro";
+import LabLifecycle from "./lab-lifecycle.astro";
 ---
 
-<section aria-labelledby="landing-title" class="pt-16 pb-10 md:pt-24 md:pb-16">
-  <div class="max-w-3xl">
-    <h1
-      id="landing-title"
-      class="text-5xl font-medium leading-[1.08] tracking-[-0.04em] text-line sm:text-6xl">
-      Your next experiment<br />starts with a lab.
+<div class="hero-section">
+  <div>
+    <h1 id="landing-title" class="hero-title font-medium text-line">
+      A lab you can afford to break.
     </h1>
-    <p class="mt-6 max-w-xl text-lg leading-relaxed text-cool">
-      Learn a stack. Test a deployment. Build your homelab. Find a VM that fits
-      what you want to try next.
+    <p class="mt-6 max-w-md text-lg leading-relaxed text-cool">
+      Linux VMs in Indonesia, rented by the day or the week. Get root in under 2
+      minutes, try your idea, and recover when it goes wrong.
     </p>
     <div class="mt-8 flex flex-wrap items-center gap-4">
       <Link href="/pricing/" size="md">Compare plans</Link>
       <a
-        href="#workbench"
+        href="#projects"
         class="inline-flex min-h-[2.75rem] items-center px-2 text-sm font-medium text-line underline underline-offset-4"
-        >See how the VMs differ</a
+        >Find something to build</a
       >
     </div>
   </div>
-  <div id="workbench" class="mt-12 scroll-mt-8 md:mt-16"><LabWorkbench /></div>
-</section>
+  <LabLifecycle />
+</div>
+
+<style>
+  .hero-section {
+    display: grid;
+    align-items: center;
+    gap: 2.5rem;
+  }
+  @media (min-width: 960px) {
+    .hero-section {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 3rem;
+    }
+  }
+  .hero-title {
+    font-size: clamp(2.5rem, 5.2vw, 3.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+</style>

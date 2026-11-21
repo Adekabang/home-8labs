@@ -9,7 +9,7 @@ export const sitePages: Record<
     data: {
       title: "8Labs — Virtual & Cloud Labs",
       description:
-        "Compare Virtual Labs VMs on nested hypervisors with VDL and ElasticLabs VMs directly on bare-metal hypervisors. Find your lab with 8Labs.",
+        "Linux VMs in Indonesia, rented by the day or week. Root in under two minutes, with guides for what to build.",
     },
   },
   services: {

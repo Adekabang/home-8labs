@@ -1,0 +1,68 @@
+<div class="cta">
+  <h2 class="cta-title">Go break something.</h2>
+  <p class="cta-lede">
+    Pick a lab, follow a guide, and find out what happens. The worst case is a
+    reinstall.
+  </p>
+  <div class="mt-8 flex flex-wrap justify-center gap-3">
+    <a class="cta-button cta-primary" href="/pricing/">Compare plans</a>
+    <a class="cta-button cta-ghost" href="/guides/">Browse the guides</a>
+  </div>
+</div>
+
+<style>
+  .cta {
+    padding: clamp(3.5rem, 9vw, 7rem) 1.5rem;
+    background-color: #c20e50;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center;
+    color: #fff;
+    text-align: center;
+  }
+  .cta-title {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+  .cta-lede {
+    max-width: 30rem;
+    margin: 1.25rem auto 0;
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+  .cta-button {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    padding: 0.625rem 1.25rem;
+    border: 1px solid #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .cta-button:active {
+    transform: scale(0.97);
+  }
+  .cta-primary {
+    background: #fff;
+    color: #0a0a0a;
+  }
+  .cta-button:focus-visible {
+    outline-color: #fff;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .cta-primary:hover {
+      background: #f4f4f5;
+    }
+    .cta-ghost:hover {
+      background: rgb(255 255 255 / 0.12);
+    }
+  }
+</style>

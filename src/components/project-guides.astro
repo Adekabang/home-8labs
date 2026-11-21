@@ -1,0 +1,117 @@
+---
+const projects = [
+  [
+    "Deploy on every git push",
+    "Self-host Coolify and wire Forgejo webhooks to it.",
+    "/guides/coolify/",
+  ],
+  [
+    "Put Caddy in front of your apps",
+    "A web server and reverse proxy, with sample Caddyfiles.",
+    "/guides/caddy/",
+  ],
+  [
+    "Tunnel with WireGuard",
+    "A VPN that routes public IPv4 and IPv6 addresses to peers.",
+    "/guides/wireguard/",
+  ],
+  [
+    "Run your own identity server",
+    "FreeIPA for single sign-on, LDAP, Kerberos, and DNS.",
+    "/guides/freeipa/",
+  ],
+  [
+    "Run Docker on an IPv6 lab",
+    "Install Docker Engine and get containers talking over IPv6.",
+    "/docs/getting-started/install-docker-ipv6/",
+  ],
+  [
+    "Harden a VPS from scratch",
+    "SSH lockdown, Docker, Traefik, TLS, and monitoring.",
+    "/blog/vps-production-ready-rocky-ubuntu/",
+  ],
+];
+---
+
+<div>
+  <div class="projects">
+    <div>
+      <h2 id="projects-heading" class="section-title">
+        Not sure what to build?
+      </h2>
+      <p class="mt-4 max-w-sm leading-relaxed text-cool">
+        Start with a guide. Each one has the steps and the commands, so you
+        spend the evening building.
+      </p>
+      <a
+        class="mt-2 inline-flex min-h-11 items-center text-sm font-medium text-red-ink underline underline-offset-4"
+        href="/guides/">Browse all guides</a
+      >
+    </div>
+    <ul class="border-t border-grid">
+      {
+        projects.map(([title, body, href]) => (
+          <li class="border-b border-grid">
+            <a href={href} class="project group">
+              <span>
+                <span class="project-title block font-sans text-base font-medium text-line">
+                  {title}
+                </span>
+                <span class="mt-1 block text-sm leading-relaxed text-cool">
+                  {body}
+                </span>
+              </span>
+              <span aria-hidden="true" class="project-arrow">
+                →
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <p class="mt-6 text-sm leading-relaxed text-muted">
+    Anything that runs on Linux runs here. For anything else, <a
+      class="text-line underline underline-offset-4"
+      href="https://t.me/virtual_8labs">ask in the Telegram community</a
+    > first.
+  </p>
+</div>
+
+<style>
+  .projects {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 900px) {
+    .projects {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 4rem;
+    }
+  }
+  .project {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1rem;
+  }
+  .project-title {
+    transition: color 150ms ease;
+  }
+  .project-arrow {
+    color: #57575e;
+    transition:
+      transform 180ms cubic-bezier(0.23, 1, 0.32, 1),
+      color 150ms ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .project:hover .project-title,
+    .project:hover .project-arrow {
+      color: #c20e50;
+    }
+    .project:hover .project-arrow {
+      transform: translateX(4px);
+    }
+  }
+</style>
