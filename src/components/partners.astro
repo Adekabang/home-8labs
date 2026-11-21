@@ -8,24 +8,32 @@ import genre from "assets/genre-jateng.png";
 const lead = {
   quote:
     "Sangat membantu untuk ngoprek dibanding pake vm dilaptop suara fan seketika menjadi jet tempur.",
+  english:
+    "A huge help for tinkering. Running VMs on my laptop turned the fan into a fighter jet.",
   name: "Aziz",
 };
 const quotes = [
   {
     quote:
       "Ternyata di 8labs lancar banget, stabil, dan bikin saya sadar pentingnya siap-siap ke arah IPv6.",
+    english:
+      "It turns out 8labs runs really smoothly and stays stable, and it made me realise how important it is to get ready for IPv6.",
     name: "Toni",
     role: "Software engineer",
   },
   {
     quote:
       "Setupnya cepat, panelnya gampang dipakai, lumayan untuk testing service service baru.",
+    english:
+      "Setup is fast, the panel is easy to use, and it is decent for testing new services.",
     name: "Yoga",
     role: "DevSecOps / platform engineer",
   },
   {
     quote:
       "Mantep bgt buat staging dan trial app. Thanks buat tim 8labs & community yang support.",
+    english:
+      "Really great for staging and trial apps. Thanks to the 8labs team and the community for the support.",
     name: "Christian",
     role: "CTO",
   },
@@ -46,9 +54,15 @@ const logos = [
     <span class="text-red-ink">1,750+</span> machines deployed
   </h2>
   <figure class="mx-auto mt-10 max-w-3xl">
-    <blockquote lang="id" class="lead-quote">
-      <p>“{lead.quote}”</p>
-    </blockquote>
+    <div class="tq tq-center" tabindex="0" aria-describedby="tq-lead">
+      <blockquote lang="id" class="lead-quote">
+        <p>“{lead.quote}”</p>
+      </blockquote>
+      <span class="tq-tip" role="tooltip" id="tq-lead" lang="en">
+        <span class="tq-label">In English</span>
+        {lead.english}
+      </span>
+    </div>
     <figcaption class="mt-4 text-sm text-muted">
       <span class="font-medium text-line">{lead.name}</span>, 8Labs customer
     </figcaption>
@@ -57,12 +71,18 @@ const logos = [
 
 <ul class="quotes">
   {
-    quotes.map(({ quote, name, role }) => (
+    quotes.map(({ quote, english, name, role }, index) => (
       <li>
         <figure class="flex h-full flex-col">
-          <blockquote lang="id" class="text-base leading-relaxed text-line">
-            <p>“{quote}”</p>
-          </blockquote>
+          <div class="tq" tabindex="0" aria-describedby={`tq-${index}`}>
+            <blockquote lang="id" class="text-base leading-relaxed text-line">
+              <p>“{quote}”</p>
+            </blockquote>
+            <span class="tq-tip" role="tooltip" id={`tq-${index}`} lang="en">
+              <span class="tq-label">In English</span>
+              {english}
+            </span>
+          </div>
           <figcaption class="mt-auto pt-4 text-sm text-muted">
             <span class="font-medium text-line">{name}</span>, {role}
           </figcaption>
@@ -74,9 +94,8 @@ const logos = [
 
 <div class="mt-10 text-center">
   <p class="text-sm text-muted">
-    Quoted as written, from 18 testimonials customers sent in 2025 and 2026.{
-      " "
-    }
+    Quoted as written, from 18 testimonials customers sent in 2025 and 2026.
+    Hover or tap a quote to read it in English.{" "}
     <a
       class="text-line underline underline-offset-4"
       href="https://t.me/virtual_8labs">Join 8Labs on Telegram</a
@@ -112,6 +131,79 @@ const logos = [
   }
   .lead-quote p {
     font-family: inherit;
+  }
+  /* English translation: a slightly tilted note that pops up from the quote
+     on hover, keyboard focus, or tap. */
+  .tq {
+    position: relative;
+    cursor: help;
+  }
+  .tq-tip {
+    position: absolute;
+    bottom: calc(100% + 0.625rem);
+    left: 0;
+    z-index: 10;
+    width: min(22rem, 100%);
+    padding: 0.75rem 0.875rem;
+    background: #0a0a0a;
+    color: #fff;
+    font-family: "Inter Variable", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-align: left;
+    pointer-events: none;
+    opacity: 0;
+    transform: rotate(-1.5deg) scale(0.96);
+    transform-origin: 1.5rem bottom;
+    transition:
+      opacity 150ms ease-out,
+      transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .tq-tip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 1.25rem;
+    border: 6px solid transparent;
+    border-top-color: #0a0a0a;
+    border-bottom: 0;
+  }
+  .tq-center .tq-tip {
+    left: calc(50% - min(11rem, 50%));
+    transform-origin: center bottom;
+  }
+  .tq-center .tq-tip::after {
+    left: calc(50% - 6px);
+  }
+  .tq-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff5c93;
+  }
+  .tq:focus-visible .tq-tip,
+  .tq:focus .tq-tip {
+    opacity: 1;
+    transform: rotate(-1.5deg) scale(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .tq:hover .tq-tip {
+      opacity: 1;
+      transform: rotate(-1.5deg) scale(1);
+      transition-delay: 120ms;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tq-tip,
+    .tq:hover .tq-tip,
+    .tq:focus .tq-tip {
+      transform: none;
+    }
   }
   .quotes {
     display: grid;
