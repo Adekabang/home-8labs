@@ -1,0 +1,193 @@
+---
+// Commands are copied from /guides/caddy/caddy-rockylinux-8-install/.
+// No output is shown, because none of it would be real.
+const lines = [
+  { note: "Update the system" },
+  { cmd: "sudo dnf update" },
+  { note: "Add the Caddy repository" },
+  { cmd: "sudo dnf install 'dnf-command(copr)'" },
+  { cmd: "sudo dnf copr enable @caddy/caddy" },
+  { note: "Install Caddy" },
+  { cmd: "sudo dnf install caddy" },
+  { note: "Start the service" },
+  { cmd: "sudo systemctl enable --now caddy" },
+];
+
+// Each line starts when the previous one has finished typing.
+let clock = 300;
+const timed = lines.map((line) => {
+  const start = clock;
+  const duration = line.cmd ? Math.min(900, 260 + line.cmd.length * 16) : 160;
+  clock += duration + (line.cmd ? 320 : 120);
+  return { ...line, start, duration };
+});
+---
+
+<figure class="gt">
+  <div class="gt-bar">
+    <span>root@lab: ~</span>
+    <button type="button" class="gt-replay" hidden>Replay</button>
+  </div>
+  <ol class="gt-body" aria-label="First commands from the Caddy guide">
+    {
+      timed.map(({ note, cmd, start, duration }) =>
+        note ? (
+          <li class="gt-note" style={`--start:${start}ms`}>
+            # {note}
+          </li>
+        ) : (
+          <li class="gt-cmd" style={`--start:${start}ms`}>
+            <span class="gt-prompt" aria-hidden="true">
+              $
+            </span>
+            <code
+              style={`--start:${start}ms;--dur:${duration}ms;--chars:${cmd!.length}`}>
+              {cmd}
+            </code>
+          </li>
+        ),
+      )
+    }
+  </ol>
+  <figcaption>
+    From <a href="/guides/caddy/caddy-rockylinux-8-install/"
+      >Install Caddy on Rocky Linux 8</a
+    >.
+  </figcaption>
+</figure>
+
+<script>
+  for (const figure of document.querySelectorAll<HTMLElement>(".gt")) {
+    const replay = figure.querySelector<HTMLButtonElement>(".gt-replay");
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) continue;
+
+    const play = () => {
+      figure.classList.remove("gt-play");
+      void figure.offsetWidth; // restart the CSS animations
+      figure.classList.add("gt-play");
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+        play();
+      },
+      { threshold: 0.6 },
+    );
+    observer.observe(figure);
+    if (replay) {
+      replay.hidden = false;
+      replay.addEventListener("click", play);
+    }
+  }
+</script>
+
+<style>
+  .gt {
+    margin-top: 2rem;
+    border: 1px solid #0a0a0a;
+    background: #0a0a0a;
+    color: #e4e4e7;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+  .gt-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.5rem;
+    padding-left: 1rem;
+    border-bottom: 1px solid #27272a;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a1a1aa;
+  }
+  .gt-replay {
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    color: #e4e4e7;
+    cursor: pointer;
+    transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .gt-replay:active {
+    transform: scale(0.97);
+  }
+  .gt-replay:focus-visible {
+    outline-color: #fff;
+    outline-offset: -2px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .gt-replay:hover {
+      color: #fff;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+  }
+  .gt-body {
+    padding: 1rem;
+  }
+  .gt-body li {
+    font-family: inherit;
+  }
+  .gt-note {
+    margin-top: 0.5rem;
+    color: #a1a1aa;
+  }
+  .gt-note:first-child {
+    margin-top: 0;
+  }
+  .gt-cmd {
+    display: flex;
+    gap: 0.6em;
+  }
+  .gt-prompt {
+    color: #ff5c93;
+  }
+  .gt-cmd code {
+    min-width: 0;
+    font: inherit;
+    color: #fff;
+    overflow-wrap: anywhere;
+  }
+  .gt figcaption {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #27272a;
+    font-family: "Inter Variable", sans-serif;
+    font-size: 0.8125rem;
+    color: #a1a1aa;
+  }
+  .gt figcaption a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* Without .gt-play (no JavaScript, or reduced motion) every line is shown. */
+  .gt-play .gt-note,
+  .gt-play .gt-prompt {
+    animation: gt-appear 160ms ease-out both;
+    animation-delay: var(--start);
+  }
+  .gt-play .gt-cmd code {
+    animation: gt-type var(--dur) steps(var(--chars), end) both;
+    animation-delay: var(--start);
+  }
+  @keyframes gt-appear {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes gt-type {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+</style>

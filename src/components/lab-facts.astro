@@ -37,7 +37,7 @@ const facts = [
     display: grid;
   }
   .facts li {
-    padding: 2rem clamp(1.5rem, 5vw, 2.5rem);
+    padding: 2rem 1.5rem;
   }
   .facts li + li {
     border-top: 1px dashed #d4d4d8;
@@ -45,6 +45,9 @@ const facts = [
   @media (min-width: 768px) {
     .facts {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .facts li {
+      padding-inline: 3rem;
     }
     .facts li + li {
       border-top: 0;

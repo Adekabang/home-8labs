@@ -1,4 +1,6 @@
 ---
+import GuideTerminal from "./guide-terminal.astro";
+
 const projects = [
   [
     "Deploy on every git push",
@@ -47,6 +49,7 @@ const projects = [
         class="mt-2 inline-flex min-h-11 items-center text-sm font-medium text-red-ink underline underline-offset-4"
         href="/guides/">Browse all guides</a
       >
+      <GuideTerminal />
     </div>
     <ul class="border-t border-grid">
       {
@@ -81,11 +84,12 @@ const projects = [
 <style>
   .projects {
     display: grid;
+    align-items: start;
     gap: 2rem;
   }
   @media (min-width: 900px) {
     .projects {
-      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       gap: 4rem;
     }
   }
