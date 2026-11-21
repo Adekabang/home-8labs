@@ -111,6 +111,13 @@ const networks = [
                     width="318"
                     height="56"
                   />
+                  <rect
+                    class="inset"
+                    x="6"
+                    y={nested ? 6 : 64}
+                    width="308"
+                    height="46"
+                  />
                   <text x="160" y={nested ? 29 : 87}>
                     Your VM
                   </text>
@@ -125,6 +132,7 @@ const networks = [
                       fill="url(#nested-hatch)"
                       stroke="currentColor"
                     />
+                    <rect class="inset" x="6" y="63" width="308" height="47" />
                     <text x="160" y="87">
                       Nested hypervisor (VM)
                     </text>
@@ -132,6 +140,7 @@ const networks = [
                 )}
                 <g class="host">
                   <rect class="band" x="1" y="116" width="318" height="57" />
+                  <rect class="inset" x="6" y="121" width="308" height="47" />
                   <text x="160" y="145">
                     Bare-metal hypervisor
                   </text>
@@ -300,8 +309,7 @@ const networks = [
   .workbench-panel {
     margin-top: 2.5rem;
     padding-inline: clamp(1rem, 3vw, 2rem);
-    border: 1px solid #e4e4e7;
-    background: #fff;
+    background: #fafafa;
   }
   .stack {
     display: block;
@@ -309,8 +317,17 @@ const networks = [
     color: #0a0a0a;
   }
   .stack .band {
-    fill: #fafafa;
-    stroke: #57575e;
+    fill: #fff;
+    stroke: #0a0a0a;
+    stroke-width: 1.5;
+  }
+  .stack .extra > rect:first-of-type {
+    stroke-width: 1.5;
+  }
+  .stack .inset {
+    fill: none;
+    stroke: currentColor;
+    stroke-dasharray: 3 3;
   }
   .stack .extra,
   .stack pattern {
@@ -318,7 +335,7 @@ const networks = [
   }
   .stack text {
     font:
-      500 12px ui-monospace,
+      600 12px ui-monospace,
       monospace;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -372,8 +389,13 @@ const networks = [
     min-height: 44px;
     padding: 0 12px;
     cursor: pointer;
-    border: 1px solid #e4e4e7;
-    font-size: 0.875rem;
+    border: 1.5px solid #0a0a0a;
+    background: #fff;
+    font:
+      600 0.6875rem ui-monospace,
+      monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     transition:
       background-color 150ms ease-out,
       transform 150ms ease-out;
@@ -389,7 +411,7 @@ const networks = [
   .network input:checked + label {
     color: #c20e50;
     border-color: currentColor;
-    font-weight: 600;
+    background: #fbeaf0;
   }
   .network input:focus-visible + label {
     outline: 2px solid currentColor;
@@ -416,22 +438,58 @@ const networks = [
     flex: 1;
     min-height: 4rem;
     align-items: center;
-    padding: 0.5em;
-    border: 1px solid #57575e;
+    padding: 0.75em;
+    border: 1.5px solid #0a0a0a;
+    outline: 1px dashed #0a0a0a;
+    outline-offset: -6px;
+    background: #fff;
     font:
-      500 0.8125rem/1.4 ui-monospace,
+      600 0.8125rem/1.4 ui-monospace,
       monospace;
     letter-spacing: 0.06em;
     color: #0a0a0a;
     text-align: center;
     text-transform: uppercase;
   }
+  /* The sender is an outside actor; the last box is the node that matters. */
+  .network-path li:first-child {
+    border-color: #71717a;
+    outline-color: #71717a;
+    background: #f4f4f5;
+  }
+  .network-path li:last-child {
+    border-color: #c20e50;
+    outline-color: #c20e50;
+    background:
+      repeating-linear-gradient(
+        45deg,
+        rgb(194 14 80 / 0.14) 0 1px,
+        transparent 1px 7px
+      ),
+      #fff;
+  }
   .packet-track {
     position: absolute;
     right: 100%;
     top: 50%;
     width: calc(var(--hop-width) + 1px);
-    border-top: 1px solid currentColor;
+    border-top: 1.75px solid #1d4ed8;
+    color: #1d4ed8;
+  }
+  .packet-track::before,
+  .packet-track::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+  }
+  .packet-track::before {
+    left: -3px;
+  }
+  .packet-track::after {
+    right: -3px;
   }
   .packet {
     position: absolute;
@@ -465,7 +523,19 @@ const networks = [
       width: 0;
       height: calc(var(--hop-width) + 1px);
       border-top: 0;
-      border-left: 1px solid;
+      border-left: 1.75px solid #1d4ed8;
+    }
+    .packet-track::before,
+    .packet-track::after {
+      left: -4px;
+      right: auto;
+    }
+    .packet-track::before {
+      top: -3px;
+    }
+    .packet-track::after {
+      top: auto;
+      bottom: -3px;
     }
     .packet {
       inset: 0 auto 0 -1px;

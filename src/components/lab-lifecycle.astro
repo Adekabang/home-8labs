@@ -214,11 +214,19 @@ ${on(n)} [data-text="${n}"]{visibility:visible}`;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
     let inView = false;
     let stopped = false;
+    let reading = false;
     let timer: number | undefined;
 
     const sync = () => {
-      const run = inView && !document.hidden && !stopped && !reduce.matches;
+      figure.classList.toggle("lf-offscreen", !inView);
+      const run =
+        inView && !document.hidden && !stopped && !reading && !reduce.matches;
       figure.classList.toggle("lf-auto", run);
+      // Tell the reader the steps are being held for them.
+      figure.classList.toggle(
+        "lf-held",
+        reading && inView && !stopped && !reduce.matches,
+      );
       clearInterval(timer);
       if (!run) return;
       timer = window.setInterval(() => {
@@ -236,6 +244,15 @@ ${on(n)} [data-text="${n}"]{visibility:visible}`;
     ).observe(figure);
     document.addEventListener("visibilitychange", sync);
     reduce.addEventListener("change", sync);
+    // Hold the current step while the reader's pointer or focus is on it.
+    const setReading = (value: boolean) => () => {
+      reading = value;
+      sync();
+    };
+    figure.addEventListener("pointerenter", setReading(true));
+    figure.addEventListener("pointerleave", setReading(false));
+    figure.addEventListener("focusin", setReading(true));
+    figure.addEventListener("focusout", setReading(false));
     // A change event only fires for the reader's own choice: stop auto-play.
     figure.addEventListener("change", () => {
       stopped = true;
@@ -293,6 +310,10 @@ ${on(n)} [data-text="${n}"]{visibility:visible}`;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--lf-quiet);
+  }
+  .lf-held .lf-kicker::after {
+    content: " · paused";
+    color: var(--lf-accent);
   }
   .lf-sentence {
     display: block;
@@ -429,6 +450,10 @@ ${on(n)} [data-text="${n}"]{visibility:visible}`;
     .lf:has(#lf-step-4:checked) .lf-refused {
       animation: lf-flash 900ms ease-in-out infinite;
     }
+  }
+  .lf-offscreen .lf-dots,
+  .lf-offscreen .lf-refused {
+    animation-play-state: paused;
   }
   @media (prefers-reduced-motion: reduce) {
     .lf .lf-dots {
