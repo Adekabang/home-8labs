@@ -5,7 +5,7 @@ sidebar:
   order: 8
 ---
 
-# Configuration Backup with Git
+<span id="configuration-backup-with-git"></span>
 
 Every VyOS `commit` can trigger a script. This guide sets up a **post-commit hook** that exports your config, commits it to a local Git repo, and pushes to a remote — giving you full version history of every router change.
 

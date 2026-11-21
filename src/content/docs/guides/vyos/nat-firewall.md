@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-# NAT & Firewall
+<span id="nat--firewall"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 

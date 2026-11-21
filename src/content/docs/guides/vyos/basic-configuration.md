@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-# Basic Configuration
+<span id="basic-configuration"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ (all versions) · <sup>🟡</sup> = 1.4+ (Sagitta/Circinus) · <sup>🟣</sup> = 1.5+ (Circinus/Stream only)
 

@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-# Mount Neva Objects S3 with Rclone
+<span id="mount-neva-objects-s3-with-rclone"></span>
 
 General-purpose S3 mount for Neva Objects using Rclone + FUSE. Works as a local filesystem bridge: any app that writes to `/mnt/neva-s3` transparently uploads to your bucket.
 

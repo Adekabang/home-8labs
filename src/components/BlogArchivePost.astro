@@ -1,22 +1,33 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { getCollectionPageProps } from "@cloudflare/nimbus-docs/runtime";
-import { components } from "@/components";
-import BlogMetadata from "./BlogMetadata.astro";
+import { render, type CollectionEntry } from "astro:content";
 import { blogHref } from "@/utils/blog";
 interface Props {
   entry: CollectionEntry<"blog">;
 }
 const { entry } = Astro.props;
-// Nimbus's renderer consumes the same entry as the canonical article; archives
-// do not keep a second authored copy or replace historical section URLs.
-Astro.props.entry = entry;
-const { Content } = await getCollectionPageProps(Astro, "blog");
+const { headings } = await render(entry);
 const prefix = Astro.url.pathname.startsWith("/id/") ? "/id" : "";
+const href = `${prefix}${blogHref(entry.id)}`;
+// Old archive URLs linked to article sections on this page. Keep a small
+// fragment map instead of embedding every article and its interactive controls.
+const fragments = headings.map(({ slug }) => slug);
+for (const match of (entry.body ?? '').matchAll(/<span id="([^"]+)" data-legacy-title="true"/g)) fragments.push(match[1]);
 ---
 
 <section class="blog-summary">
-  <h2><a href={`${prefix}${blogHref(entry.id)}`}>{entry.data.title}</a></h2>
-  <BlogMetadata entry={entry} />
-  <Content components={components} />
+  <h2><a href={href} data-archive-fragments={JSON.stringify(fragments)}>{entry.data.title}</a></h2>
+  {entry.data.date && <time datetime={entry.data.date.toISOString()}>{entry.data.date.toLocaleDateString('en-GB', { dateStyle: 'long', timeZone: 'UTC' })}</time>}
+  <p>{entry.data.description}</p>
 </section>
+<script>
+  function resolveArchiveSection() {
+    let slug: string;
+    try { slug = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    if (!slug || document.getElementById(slug)) return;
+    const link = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-archive-fragments]')).find(a => JSON.parse(a.dataset.archiveFragments!).includes(slug));
+    if (link) location.replace(link.href + location.hash);
+  }
+  resolveArchiveSection();
+  document.addEventListener('astro:page-load', resolveArchiveSection);
+  window.addEventListener('hashchange', resolveArchiveSection);
+</script>

@@ -12,6 +12,8 @@ translationStatus: original
 
 Deleting does not automatically refund unused prepaid time. Customer billing is managed at [my.8labs.id](https://my.8labs.id); ask support about any billing review or service-cancellation requirement.
 
+Choose a task: [Change the server name](#change-the-display-name-or-hostname), [change sign-in settings](#update-guest-authentication), [reinstall the OS](#reinstall-from-a-template), or [delete the server](#delete-an-eligible-server).
+
 ## Audience, permissions, and prerequisites
 
 This guide is for server owners and authorized collaborators at [cloud.8labs.id](https://cloud.8labs.id). Cards, templates, ISOs, billing details, and deletion controls depend on access and hosted configuration.

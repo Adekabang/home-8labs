@@ -23,13 +23,16 @@ const { Content: ContentID } = await render(publishedLegal[1]);
       <Fragment slot="desc"> </Fragment>
     </Sectionhead>
 
-    <div
+    <nav aria-label="Document language" class="mt-5 flex gap-5 text-sm text-red-ink underline">
+      <a href="#english" lang="en">English</a><a href="#indonesia" lang="id">Bahasa Indonesia</a>
+    </nav>
+    <div id="english"
       lang="en"
       class="prose mt-10 max-w-3xl text-cool prose-headings:font-medium prose-headings:text-line prose-a:text-red-ink">
       <ContentEN />
     </div>
 
-    <section lang="id" class="mt-16 border-t border-grid pt-2">
+    <section id="indonesia" lang="id" class="mt-16 border-t border-grid pt-2">
       <Sectionhead as="h2">
         <Fragment slot="title">{dataID.title}</Fragment>
         <Fragment slot="desc"> </Fragment>

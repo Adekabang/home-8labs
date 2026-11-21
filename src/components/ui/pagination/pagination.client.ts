@@ -89,7 +89,7 @@ function initPagination(root: HTMLElement): () => void {
       .querySelector("[data-slot='pagination-key']")
       ?.setAttribute("data-down", "");
     show(item);
-    window.setTimeout(() => item.click(), 140);
+    item.click();
   };
   const keyed = items.filter((item) => item.dataset.nbShortcutFor);
   if (root.dataset.keys === "false") {

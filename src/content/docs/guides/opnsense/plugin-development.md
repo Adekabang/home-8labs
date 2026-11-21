@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-# OPNsense Plugin Development
+<span id="opnsense-plugin-development"></span>
 
 Build and package OPNsense plugins using the MVC framework (Phalcon/PHP) and the configd backend (Python). This guide walks through creating a plugin from scratch, enhancing existing plugins, and submitting pull requests.
 

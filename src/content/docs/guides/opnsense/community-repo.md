@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-# OPNsense Community Repository
+<span id="opnsense-community-repository"></span>
 
 The easiest way to add extra software to OPNsense. Maintained by [@mimugmail](https://github.com/mimugmail), this community repo provides pre-built packages and plugins not available in the official OPNsense repository.
 

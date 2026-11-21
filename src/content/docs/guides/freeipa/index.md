@@ -5,7 +5,7 @@ sidebar:
   order: 0
 ---
 
-# FreeIPA
+<span id="freeipa"></span>
 
 FreeIPA is an integrated identity management platform that bundles LDAP, Kerberos, DNS, and a certificate authority into a single solution. Instead of hand-rolling LDAP + Kerberos + DNS + CA separately, FreeIPA gives you a production-ready identity stack in one go.
 

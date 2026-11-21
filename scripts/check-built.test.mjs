@@ -3,6 +3,9 @@ import { inspectHtml, validateLocale } from "./check-built.mjs";
 import { parseContent, reviewSentences } from "./content-prose.mjs";
 
 describe("publication HTML contracts", () => {
+  test("counts page titles without counting examples inside code blocks", () => {
+    expect(inspectHtml('<h1>Guide</h1><pre>&lt;h1&gt;</pre><article><h1>Guide</h1></article>').titleCount).toBe(2);
+  });
   test("reads real rendered anchors, assets, language, and canonical", () => {
     const result = inspectHtml(
       '<html lang="id"><head><link rel="canonical" href="https://8labs.id/id/docs/servers/console/"></head><body><h2 id="koneksi">Koneksi</h2><a href="#koneksi">Buka</a><img src="/_astro/console.webp" alt="Konsol"></body></html>',

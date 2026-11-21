@@ -5,7 +5,7 @@ sidebar:
   order: 0
 ---
 
-# OPNsense
+<span id="opnsense"></span>
 
 OPNsense is a FreeBSD-based firewall and routing platform. Out of the box it ships about 800 packages. But sometimes you need more: a reverse proxy, monitoring stack, DNS ad blocker, or custom software running on that always-on firewall box.
 

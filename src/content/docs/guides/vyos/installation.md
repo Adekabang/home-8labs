@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-# Installing VyOS
+<span id="installing-vyos"></span>
 
 VyOS runs on any x86_64 system. Minimum: 2 GB RAM, 8 GB storage, 1 CPU core. For production: 4 GB RAM, 20+ GB storage.
 

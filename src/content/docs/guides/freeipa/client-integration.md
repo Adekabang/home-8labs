@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-# Client Integration
+<span id="client-integration"></span>
 
 This guide covers joining Rocky Linux client machines to an existing FreeIPA domain. Each client must be able to resolve the FreeIPA server's DNS records before enrollment.
 

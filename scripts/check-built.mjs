@@ -5,6 +5,7 @@ import { parse } from "parse5";
 export function inspectHtml(html) {
   const doc = parse(html);
   const result = {
+    titleCount: 0,
     ids: new Set(),
     links: [],
     images: [],
@@ -17,6 +18,7 @@ export function inspectHtml(html) {
     const attrs = Object.fromEntries(
       (node.attrs ?? []).map(({ name, value }) => [name, value]),
     );
+    if (node.tagName === "h1") result.titleCount++;
     if (attrs.id) result.ids.add(attrs.id);
     if (node.tagName === "html") result.language = attrs.lang;
     if (node.tagName === "a" && attrs.href) result.links.push(attrs.href);
@@ -88,10 +90,9 @@ async function main() {
   for (const name of all.filter((name) => name.endsWith(".html"))) {
     const route =
       "/" + name.replace(/index\.html$/, "").replace(/\.html$/, "/");
-    pages.set(
-      route,
-      inspectHtml(await readFile(path.join("dist", name), "utf8")),
-    );
+    const page = inspectHtml(await readFile(path.join("dist", name), "utf8"));
+    if (page.titleCount !== 1) errors.push(`${route}: expected one h1, got ${page.titleCount}`);
+    pages.set(route, page);
   }
   const registry = JSON.parse(
     await readFile("src/content/customer-migration.json", "utf8"),

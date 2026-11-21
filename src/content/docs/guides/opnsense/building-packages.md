@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-# Building Custom OPNsense Packages
+<span id="building-custom-opnsense-packages"></span>
 
 When you need software that isn't in the official repo or community repo, you can build it yourself. OPNsense provides `tools.git`, the same toolkit they use internally for building packages, ports, and release images.
 

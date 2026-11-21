@@ -2,23 +2,23 @@
 const products = [
   {
     name: "Virtual Labs",
-    use: "Learn by doing",
+    use: "For a practice VM",
     description:
-      "A VM for your next experiment. Nested virtualization makes it slower than VDL and ElasticLabs.",
+      "Learn a new stack or test a deployment. Compare sizes and check your LAB Coin usage before ordering.",
     href: "https://my.8labs.id/products/virtual-labs",
   },
   {
     name: "Virtual Dedicated Labs",
-    use: "Skip the nested layer",
+    use: "For a VM without the nested layer",
     description:
       "Your VM runs directly on a bare-metal hypervisor. Bring your stack and choose the resources it needs.",
     href: "https://my.8labs.id/products/virtual-dedicated-labs",
   },
   {
     name: "ElasticLabs",
-    use: "Match your next project",
+    use: "For a choice of resources and network access",
     description:
-      "Direct bare-metal hypervisor placement, with resource tiers and NAT or public-IP plans to compare.",
+      "Choose a resource tier for your workload. Check whether the plan offers the public address or shared access you need.",
     href: "https://my.8labs.id/products/elasticlabs",
   },
 ];
@@ -37,7 +37,7 @@ const products = [
     <a
       href="/pricing/"
       class="inline-flex min-h-[2.75rem] items-center text-sm font-medium text-line underline underline-offset-4"
-      >Compare all plans</a
+      >Compare plans</a
     >
   </div>
   <div class="mt-8 grid gap-8 md:grid-cols-3">
@@ -52,7 +52,7 @@ const products = [
           <a
             href={product.href}
             class="mt-auto inline-flex min-h-[2.75rem] items-center pt-5 text-sm font-medium text-red-ink underline underline-offset-4">
-            View plans
+            View {product.name} plans
           </a>
         </div>
       ))

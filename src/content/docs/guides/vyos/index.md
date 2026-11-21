@@ -5,7 +5,7 @@ sidebar:
   order: 0
 ---
 
-# VyOS Crash Course
+<span id="vyos-crash-course"></span>
 
 **VyOS** is an open-source network operating system based on Debian. It provides a unified CLI for routing, firewall, VPN, NAT, and more — similar to Juniper JunOS or Cisco IOS but running on standard x86 hardware or VMs.
 

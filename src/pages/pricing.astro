@@ -1,92 +1,34 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
-import PricingCard from "@components/pricing.astro";
+import Layout from '@layouts/Layout.astro';
+import Container from '@components/container.astro';
+import Sectionhead from '@components/sectionhead.astro';
 
-const pricing = [
-  {
-    name: "Virtual Labs",
-    price: "LAB Coin",
-    popular: true,
-    features: [
-      "VMs running on a nested hypervisor, with an extra virtualization layer",
-      "Small, Medium, and Large options shown in the client panel",
-      "IPv6-first options, with selected plans including IPv4",
-      "Usage is shown in LAB Coin billing units",
-      "Check current stock and final billing unit before ordering",
-    ],
-    button: {
-      text: "View Virtual Labs",
-      link: "https://my.8labs.id/products/virtual-labs",
-      target: "_blank",
-    },
-  },
-  {
-    name: "Virtual Dedicated Labs",
-    price: "IDR plans",
-    popular: false,
-    features: [
-      "VMs directly on a bare-metal hypervisor, without the nested layer",
-      "Public IPv6 address",
-      "On-server snapshots on listed plans",
-      "External backup is not implied",
-      "Suitable for predictable VM workloads",
-    ],
-    button: {
-      text: "View VDL",
-      link: "https://my.8labs.id/products/virtual-dedicated-labs",
-      target: "_blank",
-    },
-  },
-  {
-    name: "Cloud & Elastic Labs",
-    price: "IDR plans",
-    popular: false,
-    features: [
-      "CloudLabs for higher bandwidth public IPv4/IPv6 options",
-      "ElasticLabs VMs directly on a bare-metal hypervisor, with growable resource tiers",
-      "ElasticLabs NAT for lower-cost private IPv4 NAT labs",
-      "Anti-DDoS or DDoS protection where listed per product",
-      "Review product detail for location, transfer, and snapshots",
-    ],
-    button: {
-      text: "Browse Catalog",
-      link: "https://my.8labs.id",
-      target: "_blank",
-    },
-  },
+const families = [
+  {name: 'Virtual Labs', slug: 'virtual-labs', use: 'Learning and short experiments', placement: 'Nested hypervisor', network: 'IPv6 first; selected plans include IPv4', unit: 'LAB Coin'},
+  {name: 'Virtual Dedicated Labs', slug: 'virtual-dedicated-labs', use: 'Steady VM workloads', placement: 'Directly on a bare-metal hypervisor', network: 'Public IPv6', unit: 'IDR'},
+  {name: 'CloudLabs', slug: 'cloudlabs', use: 'Projects that need higher bandwidth', placement: 'Check the plan details', network: 'Public IPv4 and IPv6 options', unit: 'IDR'},
+  {name: 'ElasticLabs', slug: 'elasticlabs', use: 'Projects with growing resource needs', placement: 'Directly on a bare-metal hypervisor', network: 'Public IP options vary by plan', unit: 'IDR'},
+  {name: 'ElasticLabs NAT', slug: 'elasticlabs-nat', use: 'Lower-cost labs with shared access', placement: 'Check the plan details', network: 'Private IPv4 behind a shared public address', unit: 'IDR'},
 ];
 ---
-
 <Layout title="Pricing">
   <Container>
     <Sectionhead>
-      <Fragment slot="title">Product and pricing guide</Fragment>
-      <Fragment slot="desc">
-        8Labs pricing is finalized in the client panel. This page explains which
-        product families use LAB Coin-style usage and which ones normally show
-        IDR plans, so users know where to continue.
-      </Fragment>
+      <Fragment slot="title">Compare lab plans</Fragment>
+      <Fragment slot="desc">Check current prices and availability in Client Panel. Virtual Labs uses LAB Coin. Other families list prices in Indonesian rupiah (IDR).</Fragment>
     </Sectionhead>
-
-    <div class="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {pricing.map((item) => <PricingCard plan={item} />)}
+    <div class="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {families.map(family => <section class="flex flex-col rounded-lg border border-grid bg-panel p-6">
+        <h2 class="text-xl font-medium text-line">{family.name}</h2>
+        <dl class="my-5 grid gap-3 text-sm leading-6">
+          {Object.entries({'Best for': family.use, 'VM placement': family.placement, 'Network': family.network, 'Billing unit': family.unit}).map(([label,value]) => <div><dt class="font-medium text-line">{label}</dt><dd class="text-cool">{value}</dd></div>)}
+        </dl>
+        <a class="mt-auto inline-flex min-h-11 items-center font-medium text-red-ink underline" href={`https://my.8labs.id/products/${family.slug}`}>View {family.name} plans</a>
+      </section>)}
     </div>
-
-    <div
-      class="mt-10 max-w-3xl rounded-lg border border-grid bg-surface p-6 leading-7 text-cool sm:p-8">
-      <h2 class="font-medium text-line text-xl">Before ordering</h2>
-      <p class="mt-2">
-        Product availability, stock, billing unit, and final price can change in
-        the client panel. Use this page as a routing guide, then confirm the
-        exact plan details on my.8labs.id.
-      </p>
-      <p class="mt-2 text-sm">
-        Important data should be backed up by the user unless a product
-        explicitly states otherwise. Snapshots and external backups are not the
-        same thing.
-      </p>
-    </div>
+    <aside class="mt-10 max-w-3xl rounded-lg border border-grid bg-surface p-6 leading-7 text-cool">
+      <h2 class="text-xl font-medium text-line">Before ordering</h2>
+      <p class="mt-2">Check the location, network limits, renewal terms, and final price for the plan you select. Keep an independent backup of important data. An on-server snapshot is not an external backup.</p>
+    </aside>
   </Container>
 </Layout>

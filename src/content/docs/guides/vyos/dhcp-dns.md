@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-# DHCP & DNS
+<span id="dhcp--dns"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 

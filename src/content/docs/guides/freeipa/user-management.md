@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-# User Management
+<span id="user-management"></span>
 
 FreeIPA centralizes user and permission management. Users created on the server are immediately available on all joined clients.
 

@@ -12,6 +12,8 @@ translationStatus: translated
 
 Penghapusan tidak otomatis mengembalikan sisa waktu prabayar. Penagihan pelanggan dikelola di [my.8labs.id](https://my.8labs.id); tanyakan peninjauan tagihan atau persyaratan pembatalan layanan kepada dukungan.
 
+Pilih tugas: [ubah nama server](#mengubah-nama-tampilan-atau-hostname), [ubah cara masuk ke VM](#memperbarui-autentikasi-sistem-tamu), [instal ulang sistem operasi](#reinstall-dari-templat), atau [hapus server](#menghapus-server-yang-memenuhi-syarat).
+
 ## Pengguna, izin, dan prasyarat
 
 Panduan ini untuk pemilik dan kolaborator berwenang di [cloud.8labs.id](https://cloud.8labs.id). Kartu, templat, ISO, informasi tagihan, dan kontrol penghapusan bergantung pada akses serta konfigurasi layanan.

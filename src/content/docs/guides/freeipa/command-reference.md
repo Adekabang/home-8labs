@@ -5,7 +5,7 @@ sidebar:
   order: 6
 ---
 
-# Command Reference
+<span id="command-reference"></span>
 
 A quick reference for day-to-day FreeIPA administration tasks.
 

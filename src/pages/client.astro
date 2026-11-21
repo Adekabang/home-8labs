@@ -13,8 +13,7 @@ import Layout from "@layouts/Layout.astro";
           Continue to the client panel
         </h1>
         <p class="mt-4 text-base leading-7 text-muted">
-          This page will redirect to my.8labs.id after two seconds. If it does
-          not, use the link below.
+          Open Client Panel to manage orders, billing, and support at my.8labs.id.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-5">
           <a
@@ -30,10 +29,3 @@ import Layout from "@layouts/Layout.astro";
     </section>
   </Container>
 </Layout>
-<script is:inline>
-  window.onload = (e) => {
-    setTimeout(() => {
-      window.location.href = "https://my.8labs.id";
-    }, 2000);
-  };
-</script>

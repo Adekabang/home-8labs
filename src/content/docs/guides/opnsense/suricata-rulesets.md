@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-# Suricata RuleSets on OPNsense — Practical Guide
+<span id="suricata-rulesets-on-opnsense--practical-guide"></span>
 
 In modern network security, **Suricata IDS/IPS** is one of the most important protection layers on OPNsense. However, the Intrusion Detection UI (redesigned in OPNsense 25.x and carried forward into 26.x) presents a long list of RuleSets under the **Download** tab that can overwhelm new users.
 

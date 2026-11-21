@@ -5,7 +5,7 @@ sidebar:
   order: 7
 ---
 
-# High Availability with VRRP
+<span id="high-availability-with-vrrp"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 

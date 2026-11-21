@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-# VPN: WireGuard & IPsec
+<span id="vpn-wireguard--ipsec"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 

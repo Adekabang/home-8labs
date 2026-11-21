@@ -5,7 +5,7 @@ sidebar:
   order: 9
 ---
 
-# Automating VyOS Image Builds
+<span id="automating-vyos-image-builds"></span>
 
 The default VyOS ISO is minimal — no `git`, no `nano`, no extra tooling. Building your own image lets you bake in packages, set defaults, and automate monthly rebuilds so you're always on the latest rolling release.
 

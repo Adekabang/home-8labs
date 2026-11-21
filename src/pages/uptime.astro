@@ -13,8 +13,7 @@ import Layout from "@layouts/Layout.astro";
           Continue to service status
         </h1>
         <p class="mt-4 text-base leading-7 text-muted">
-          This page will redirect to uptime.8labs.id after two seconds. If it
-          does not, use the link below.
+          Select the link below to continue to uptime.8labs.id.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-5">
           <a
@@ -30,10 +29,3 @@ import Layout from "@layouts/Layout.astro";
     </section>
   </Container>
 </Layout>
-<script is:inline>
-  window.onload = (e) => {
-    setTimeout(() => {
-      window.location.href = "https://uptime.8labs.id";
-    }, 2000);
-  };
-</script>

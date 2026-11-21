@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-# DNS & Kerberos Verification
+<span id="dns--kerberos-verification"></span>
 
 After installing the FreeIPA server, verify that DNS and Kerberos are functioning correctly before attempting to join any clients. These two services form the backbone of FreeIPA, and issues here will cascade into every other failure.
 

@@ -5,7 +5,7 @@ sidebar:
   order: 6
 ---
 
-# Routing
+<span id="routing"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 

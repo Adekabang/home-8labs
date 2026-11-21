@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-# Troubleshooting
+<span id="troubleshooting"></span>
 
 This page covers the most common FreeIPA deployment issues, backup and recovery, and production hardening advice.
 

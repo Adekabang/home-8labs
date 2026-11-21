@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-# Server Deployment
+<span id="server-deployment"></span>
 
 This guide walks through installing and configuring a FreeIPA server on Rocky Linux 9.x. The setup includes the integrated DNS server, which is strongly recommended for service discovery.
 

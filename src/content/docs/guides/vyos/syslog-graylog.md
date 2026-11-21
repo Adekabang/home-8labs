@@ -5,7 +5,7 @@ sidebar:
   order: 10
 ---
 
-# VyOS Syslog to Graylog
+<span id="vyos-syslog-to-graylog"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 
