@@ -238,4 +238,4 @@ show ip forwarding
 
 ## Next
 
-[High Availability →](../high-availability)
+[High Availability →](../high-availability/)

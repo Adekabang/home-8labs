@@ -84,7 +84,7 @@ docker run --rm --privileged \
 
 This produces the same LTS code that subscribers get — just without commercial support. The `sagitta` branch still receives backported fixes (last updated June 2026).
 
-> Build takes 10-20 minutes. Works on any Linux with Docker. See [Image Automation](../image-automation) for automating this with cron/CI.
+> Build takes 10-20 minutes. Works on any Linux with Docker. See [Image Automation](../image-automation/) for automating this with cron/CI.
 
 ### "Stable Rolling" Strategy
 
@@ -186,4 +186,4 @@ Custom config can be injected via `config.boot.default` in the ISO root.
 
 ## Next
 
-[Basic Configuration →](../basic-configuration)
+[Basic Configuration →](../basic-configuration/)

@@ -22,16 +22,16 @@ If you've ever used EdgeOS (Ubiquiti EdgeRouter), you already know VyOS — Edge
 
 ## What you'll learn
 
-1. **[Installation](./installation)** — ISO, cloud images, VPS deployment
-2. **[Basic Configuration](./basic-configuration)** — hostname, users, interfaces, SSH
-3. **[NAT & Firewall](./nat-firewall)** — zone-based firewall, source NAT, port forwarding
-4. **[DHCP & DNS](./dhcp-dns)** — DHCP server, DNS forwarding, dynamic DNS
-5. **[VPN](./vpn)** — WireGuard, IPsec IKEv2, site-to-site and road warrior
-6. **[Routing](./routing)** — static routes, BGP, OSPF
-7. **[High Availability](./high-availability)** — VRRP, config sync, stateful failover
-8. **[Configuration Backup with Git](./configuration-backup)** — auto-backup config on every commit
-9. **[Image Automation](./image-automation)** — custom ISO builds, cron pipelines, CI/CD
-10. **[Syslog to Graylog](./syslog-graylog)** — centralized logging, Grok extractors, dashboards
+1. **[Installation](./installation/)** — ISO, cloud images, VPS deployment
+2. **[Basic Configuration](./basic-configuration/)** — hostname, users, interfaces, SSH
+3. **[NAT & Firewall](./nat-firewall/)** — zone-based firewall, source NAT, port forwarding
+4. **[DHCP & DNS](./dhcp-dns/)** — DHCP server, DNS forwarding, dynamic DNS
+5. **[VPN](./vpn/)** — WireGuard, IPsec IKEv2, site-to-site and road warrior
+6. **[Routing](./routing/)** — static routes, BGP, OSPF
+7. **[High Availability](./high-availability/)** — VRRP, config sync, stateful failover
+8. **[Configuration Backup with Git](./configuration-backup/)** — auto-backup config on every commit
+9. **[Image Automation](./image-automation/)** — custom ISO builds, cron pipelines, CI/CD
+10. **[Syslog to Graylog](./syslog-graylog/)** — centralized logging, Grok extractors, dashboards
 
 ## Release tracks
 
