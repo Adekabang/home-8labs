@@ -25,7 +25,7 @@ This guide is for server owners and authorized collaborators at [cloud.8labs.id]
 | Server ownership and deletion eligibility | Customer deletion is owner-only and depends on billing configuration. A settings grant is not deletion authority. |
 | Separate power and console permissions    | Shutdown, startup, and console recovery.                                                                          |
 
-Confirm the server identifier, record the current configuration, and test [console access](/docs/servers/console). Arrange downtime before actions that change guest access or boot behavior.
+Confirm the server identifier, record the current configuration, and test [console access](/docs/servers/console/). Arrange downtime before actions that change guest access or boot behavior.
 
 ## Find the correct section
 
@@ -33,7 +33,7 @@ Open the server's **Settings** page. The tabs are **General**, **Security**, and
 
 - **General** contains identity, available billing information, network settings, media, boot order, and eligible deletion controls.
 - **Security** contains **Authentication** and, with permission, **Reinstall Server**.
-- **Access** manages delegated server access. See [Subusers](/docs/teams/subusers) instead of sharing credentials.
+- **Access** manages delegated server access. See [Subusers](/docs/teams/subusers/) instead of sharing credentials.
 
 A missing card can reflect permissions or service availability. It is not a reason to bypass the panel's access controls.
 
@@ -49,7 +49,7 @@ The display name identifies the server in the panel. A hostname update also upda
 
 ## Change network settings
 
-Use **General → Primary IP** to select an assigned IPv4. Use **Nameservers** to change guest DNS resolver IPs. Read [network settings](/docs/servers/network) before making either change.
+Use **General → Primary IP** to select an assigned IPv4. Use **Nameservers** to change guest DNS resolver IPs. Read [network settings](/docs/servers/network/) before making either change.
 
 Nameserver application differs by guest: Linux requires shutdown followed by startup, not **Restart**; Windows should remain powered on for the update. Confirm guest behavior after the operation.
 
@@ -104,7 +104,7 @@ An invoice payment or desired plan is not proof that the VM uses the new CPU, RA
 
 If support or the current operation instructs a controlled shutdown and startup, arrange downtime and wait for confirmed shutdown before **Start**. **Restart** is not equivalent. Do not start or repeat changes while an unresolved operation owns the server.
 
-Check the applicable plan and [billing guide](/docs/billing-plans/overview). Verify the effective VM resources after completion, then inspect guest disk and partition sizes separately. If the desired target changes, refresh and request review. Do not reapply an obsolete target or resubmit an unknown mutation.
+Check the applicable plan and [billing guide](/docs/billing-plans/overview/). Verify the effective VM resources after completion, then inspect guest disk and partition sizes separately. If the desired target changes, refresh and request review. Do not reapply an obsolete target or resubmit an unknown mutation.
 
 ## Reinstall from a template
 
@@ -178,13 +178,13 @@ The UI returns to the list after an accepted deletion request. If an error or in
 | Reinstall pending or failed                                   | Record server ID, template, time, and error. Avoid another destructive request.                                    |
 | Delete unavailable or fails                                   | Confirm owner and service eligibility. Ask support; do not destroy disks to bypass the control.                    |
 
-Contact [8Labs support](/docs/help/contact) with server ID, UTC time, exact error, and the setting involved. Redact secrets. Do not send passwords, private keys, or temporary archive links.
+Contact [8Labs support](/docs/help/contact/) with server ID, UTC time, exact error, and the setting involved. Redact secrets. Do not send passwords, private keys, or temporary archive links.
 
 ## Related guides
 
-- [Backups](/docs/servers/backups)
-- [Snapshots](/docs/servers/snapshots)
-- [Network settings](/docs/servers/network)
-- [Power actions](/docs/servers/power)
-- [Account security](/docs/account/security)
-- [Subusers](/docs/teams/subusers)
+- [Backups](/docs/servers/backups/)
+- [Snapshots](/docs/servers/snapshots/)
+- [Network settings](/docs/servers/network/)
+- [Power actions](/docs/servers/power/)
+- [Account security](/docs/account/security/)
+- [Subusers](/docs/teams/subusers/)

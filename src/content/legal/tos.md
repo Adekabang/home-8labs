@@ -51,7 +51,7 @@ We collect your name, email, and payment information (for paid services).
 We collect web cookies and analytics.  
 
 ## 10. Privacy Policy
-For more information on how we handle your data, please refer to our [Privacy Policy](/privacy-policy).  
+For more information on how we handle your data, please refer to our [Privacy Policy](/privacy-policy/).
 
 ## 11. Governing Law
 These terms are governed by the laws of Indonesia.  

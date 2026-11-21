@@ -20,7 +20,7 @@ Gunakan akun sendiri, tentukan alat yang membutuhkan akses, dan siapkan penyimpa
 Status admin organisasi tidak memberikan akses ke halaman tersebut.
 Untuk skrip pelanggan, tetap gunakan **Workspace → Developers**. Tanyakan endpoint yang tidak tersedia kepada dukungan, bukan meminta kredensial seluruh platform.
 
-Pembuatan dan pencabutan key memerlukan [konfirmasi identitas sensitif](/id/docs/account/security#konfirmasikan-identitas-untuk-perubahan-sensitif). Saat TOTP aktif, gunakan hanya kode autentikator. Tanpa TOTP, akun terhubung memakai PIN Paymenter dari layanan yang cocok jika tersedia. Akun native tanpa hubungan Paymenter memakai kata sandi Panel saat ini. Jika pembuat PIN tidak tersedia, hubungi dukungan, bukan memakai kata sandi atau email untuk melewatinya.
+Pembuatan dan pencabutan key memerlukan [konfirmasi identitas sensitif](/id/docs/account/security/#konfirmasikan-identitas-untuk-perubahan-sensitif). Saat TOTP aktif, gunakan hanya kode autentikator. Tanpa TOTP, akun terhubung memakai PIN Paymenter dari layanan yang cocok jika tersedia. Akun native tanpa hubungan Paymenter memakai kata sandi Panel saat ini. Jika pembuat PIN tidak tersedia, hubungi dukungan, bukan memakai kata sandi atau email untuk melewatinya.
 
 Selesaikan persetujuan, lalu kembali ke **Create key** atau kontrol pencabutan dan kirim tindakan yang dituju secara eksplisit. Persetujuan tidak mengulang permintaan yang ditolak secara otomatis. Persetujuan kata sandi akun tidak mengizinkan pengelolaan key. Setiap persetujuan PIN mengizinkan satu perubahan terlindungi sesuai tujuannya.
 
@@ -59,7 +59,7 @@ Token aplikasi yang diterbitkan administrator memiliki perilaku masa berlaku ter
 
 Cakupan dan izin sumber daya berlaku bersama. Key full-access tidak memberikan akses ke server yang tidak dapat digunakan akun Anda. Key read-only tidak dapat menulis hanya karena Anda memiliki server tersebut.
 
-Utamakan **Read-only** jika alat hanya mengambil informasi. Tinjau [model akses tim](/id/docs/teams/overview) sebelum memberikan akses akun yang luas untuk otomatisasi.
+Utamakan **Read-only** jika alat hanya mengambil informasi. Tinjau [model akses tim](/id/docs/teams/overview/) sebelum memberikan akses akun yang luas untuk otomatisasi.
 
 <span id="using-a-key"></span>
 
@@ -88,7 +88,7 @@ Jauhkan token dari riwayat shell dan log. Pastikan endpoint tersedia melalui hal
 
 Pencabutan segera menghentikan autentikasi dengan key tersebut. Key lain tetap berlaku sesuai batasnya masing-masing. Perbarui alat terkait saat merotasi key; menghapus satu key tidak merotasi key lainnya.
 
-Jika token mungkin bocor, cabut terlebih dahulu. Jangan menunggu kedaluwarsa. Tinjau akses terkait dan hubungi [dukungan](/id/docs/help/contact) jika mencurigai tindakan tanpa izin.
+Jika token mungkin bocor, cabut terlebih dahulu. Jangan menunggu kedaluwarsa. Tinjau akses terkait dan hubungi [dukungan](/id/docs/help/contact/) jika mencurigai tindakan tanpa izin.
 
 <span id="webhooks"></span>
 
@@ -116,13 +116,13 @@ Gunakan **Pause** untuk menghentikan pengiriman tanpa menghapus konfigurasi endp
 - **Rahasia tidak tersimpan:** cabut dan ganti API key, atau rotasi rahasia webhook.
 - **URL webhook ditolak:** gunakan tujuan HTTPS publik yang dapat diresolusikan, bukan layanan internal.
 
-Jika belum selesai, hubungi [dukungan 8Labs](/id/docs/help/contact) dengan nama key atau identitas endpoint, waktu kejadian, dan pesan kesalahan tersamarkan. Jangan sertakan bearer token atau rahasia penandatanganan.
+Jika belum selesai, hubungi [dukungan 8Labs](/id/docs/help/contact/) dengan nama key atau identitas endpoint, waktu kejadian, dan pesan kesalahan tersamarkan. Jangan sertakan bearer token atau rahasia penandatanganan.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Keamanan akun](/id/docs/account/security)
-- [Ringkasan tim dan akses](/id/docs/teams/overview)
-- [Izin proyek](/id/docs/teams/projects#permission-set)
-- [Langganan notifikasi](/id/docs/account/notifications)
+- [Keamanan akun](/id/docs/account/security/)
+- [Ringkasan tim dan akses](/id/docs/teams/overview/)
+- [Izin proyek](/id/docs/teams/projects/#permission-set)
+- [Langganan notifikasi](/id/docs/account/notifications/)

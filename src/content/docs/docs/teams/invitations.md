@@ -86,13 +86,13 @@ A new-account acceptance creates the account and grants the invited access toget
 - **Copied link is unavailable:** use the pending invitation's copy action. Do not publish the token in a support ticket.
 - **Joined but cannot see a server:** check the workspace, project membership, permissions, and project contents.
 
-Treat invitation links as secrets. If shared with the wrong person, revoke the pending link and review the intended recipient and permissions. Contact the sender or [8Labs support](/docs/help/contact) for unresolved access. Provide the target name, error, and time, without the token or password.
+Treat invitation links as secrets. If shared with the wrong person, revoke the pending link and review the intended recipient and permissions. Contact the sender or [8Labs support](/docs/help/contact/) for unresolved access. Provide the target name, error, and time, without the token or password.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Organizations](/docs/teams/organizations)
-- [Projects and delegated access](/docs/teams/projects)
-- [Account security and recovery](/docs/account/security)
-- [Teams access model](/docs/teams/overview)
+- [Organizations](/docs/teams/organizations/)
+- [Projects and delegated access](/docs/teams/projects/)
+- [Account security and recovery](/docs/account/security/)
+- [Teams access model](/docs/teams/overview/)

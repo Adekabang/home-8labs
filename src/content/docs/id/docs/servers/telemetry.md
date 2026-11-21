@@ -82,14 +82,14 @@ Aktivitas panel tidak menggantikan log aplikasi, autentikasi, atau OS di sistem 
 | Akses aktivitas ditolak                        | Minta `activity.read` kepada pemilik, bukan akun bersama.                                                            |
 | Permintaan tercatat tetapi tugas masih pending | Periksa status dan bukti penyelesaian operasinya sendiri. Jangan berulang kali mengirim ulang.                       |
 
-Laporkan metrik yang terus hilang, status node tidak tersedia, atau operasi macet ke [dukungan 8Labs](/id/docs/help/contact). Sertakan ID server, waktu kejadian UTC, rentang, agregasi, kesegaran/waktu pembaruan, dan pesan kesalahan.
+Laporkan metrik yang terus hilang, status node tidak tersedia, atau operasi macet ke [dukungan 8Labs](/id/docs/help/contact/). Sertakan ID server, waktu kejadian UTC, rentang, agregasi, kesegaran/waktu pembaruan, dan pesan kesalahan.
 
 Sensor nama pengguna, IP, identitas, dan rincian aktivitas sensitif yang tidak diperlukan. Jangan kirim kata sandi, kunci privat, atau token sesi. Jangan reinstall atau menghapus server untuk memperbaiki tampilan telemetri.
 
 ## Panduan terkait
 
-- [Ringkasan server](/id/docs/servers/overview)
-- [Tindakan daya](/id/docs/servers/power)
-- [Backup dan bukti penyelesaian](/id/docs/servers/backups)
-- [Pengaturan server](/id/docs/servers/settings)
-- [Pemecahan masalah](/id/docs/troubleshooting/overview)
+- [Ringkasan server](/id/docs/servers/overview/)
+- [Tindakan daya](/id/docs/servers/power/)
+- [Backup dan bukti penyelesaian](/id/docs/servers/backups/)
+- [Pengaturan server](/id/docs/servers/settings/)
+- [Pemecahan masalah](/id/docs/troubleshooting/overview/)

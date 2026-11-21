@@ -122,7 +122,7 @@ ipactl status
 
 ## Next Step
 
-With DNS and Kerberos confirmed working, [join your first client](../client-integration) to the domain.
+With DNS and Kerberos confirmed working, [join your first client](../client-integration/) to the domain.
 
 ---
 

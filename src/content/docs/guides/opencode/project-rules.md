@@ -77,6 +77,6 @@ Keep `AGENTS.md` strict enough to help, but not so strict that it fights your ac
 
 ## Related pages
 
-- [Quick Start for the full stack](/guides/opencode/quick-start)
-- [Create custom local skills](/guides/opencode/skills-integration)
-- [Reference: Superpowers skills catalog](/guides/opencode/skills-catalog)
+- [Quick Start for the full stack](/guides/opencode/quick-start/)
+- [Create custom local skills](/guides/opencode/skills-integration/)
+- [Reference: Superpowers skills catalog](/guides/opencode/skills-catalog/)

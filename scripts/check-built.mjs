@@ -136,6 +136,8 @@ async function main() {
         ? url.pathname
         : url.pathname + "/";
       const destination = pages.get(target);
+      if (destination && target !== url.pathname && !assets.has(url.pathname))
+        errors.push(`${route}: missing trailing slash in page link ${href}`);
       // Redirected historical paths are retained in _redirects, not rewritten by content checks.
       if (!destination && !assets.has(url.pathname)) {
         const redirects = await readFile("public/_redirects", "utf8");

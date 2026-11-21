@@ -26,7 +26,7 @@ This guide is for server owners and authorized collaborators at [cloud.8labs.id]
 
 Power controls require their own permissions. The server must be idle before creation, restoration, or deletion. Restoration additionally requires **Stopped** state.
 
-Before a risky change, verify a suitable [backup](/docs/servers/backups), confirm working [console access](/docs/servers/console), and plan application consistency. A disk checkpoint does not guarantee database consistency or capture external services.
+Before a risky change, verify a suitable [backup](/docs/servers/backups/), confirm working [console access](/docs/servers/console/), and plan application consistency. A disk checkpoint does not guarantee database consistency or capture external services.
 
 ## Create a checkpoint
 
@@ -86,11 +86,11 @@ Do not delete storage files directly or use snapshot removal as a substitute for
 | Creation fails on storage                | Record the exact error and ask support about snapshot support or capacity. Do not alter the disk chain yourself. |
 | Restore remains in progress              | Record the checkpoint and start time. Ask support to inspect the hypervisor task before another action.          |
 
-Contact [8Labs support](/docs/help/contact) with server ID, checkpoint name, UTC time, status, and exact error. Remove secrets and customer data from any attached evidence.
+Contact [8Labs support](/docs/help/contact/) with server ID, checkpoint name, UTC time, status, and exact error. Remove secrets and customer data from any attached evidence.
 
 ## Related guides
 
-- [Backups and archive verification](/docs/servers/backups)
-- [Server power actions](/docs/servers/power)
-- [Console access](/docs/servers/console)
-- [Destructive server settings](/docs/servers/settings)
+- [Backups and archive verification](/docs/servers/backups/)
+- [Server power actions](/docs/servers/power/)
+- [Console access](/docs/servers/console/)
+- [Destructive server settings](/docs/servers/settings/)

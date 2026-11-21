@@ -16,7 +16,7 @@ This guide is for server owners and authorized collaborators at [cloud.8labs.id]
 
 Changing the primary IPv4 or nameservers requires `settings.manage`. This does not grant `firewall.manage` or permission to allocate new addresses.
 
-Before changes, record the existing configuration and confirm working [console access](/docs/servers/console). Arrange a maintenance window if guest changes require downtime.
+Before changes, record the existing configuration and confirm working [console access](/docs/servers/console/). Arrange a maintenance window if guest changes require downtime.
 
 ## Read assigned IPv4 and IPv6 addresses
 
@@ -65,7 +65,7 @@ Preserving policy is not a connectivity guarantee. A restrictive policy can stil
 
 ### Review a web firewall preset safely
 
-**Firewall → Review web preset** opens a review; it does not immediately apply rules. See the [firewall guide](/docs/servers/firewall) before applying it.
+**Firewall → Review web preset** opens a review; it does not immediately apply rules. See the [firewall guide](/docs/servers/firewall/) before applying it.
 
 The preset opens management, HTTP, and HTTPS ports to every source before existing rules. It can override existing source restrictions. Application is not atomic, and partial failures leave created rules in place.
 
@@ -109,15 +109,15 @@ Confirm resolution inside the guest after application. Changing resolvers does n
 | Connection refused                 | Check whether the guest service listens on the intended port. A firewall allow does not start a service.             |
 | Timeout after address change       | Inspect guest routing, panel firewall order, and guest firewall. Do not disable every firewall as a shortcut.        |
 
-Escalate persistent sync failures, missing assignments, or gateway issues to [8Labs support](/docs/help/contact). Include server ID, timestamp, endpoint, protocol, error, and redacted guest observations. Never include private keys or passwords.
+Escalate persistent sync failures, missing assignments, or gateway issues to [8Labs support](/docs/help/contact/). Include server ID, timestamp, endpoint, protocol, error, and redacted guest observations. Never include private keys or passwords.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Firewall rules](/docs/servers/firewall)
-- [Server settings](/docs/servers/settings)
-- [SSH access](/docs/getting-started/ssh)
-- [RDP access](/docs/getting-started/rdp)
-- [Organize servers](/docs/servers/folders)
-- [Troubleshooting](/docs/troubleshooting/overview)
+- [Firewall rules](/docs/servers/firewall/)
+- [Server settings](/docs/servers/settings/)
+- [SSH access](/docs/getting-started/ssh/)
+- [RDP access](/docs/getting-started/rdp/)
+- [Organize servers](/docs/servers/folders/)
+- [Troubleshooting](/docs/troubleshooting/overview/)

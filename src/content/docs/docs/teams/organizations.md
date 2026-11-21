@@ -12,7 +12,7 @@ An organization groups people and shared server projects. Its detail page brings
 
 ## Audience, availability, and prerequisites
 
-Use this guide as an organization owner, admin, or member at [cloud.8labs.id](https://cloud.8labs.id). Controls depend on your role and the hosted configuration. Contact [support](/docs/help/contact) if the documented feature is unavailable.
+Use this guide as an organization owner, admin, or member at [cloud.8labs.id](https://cloud.8labs.id). Controls depend on your role and the hosted configuration. Contact [support](/docs/help/contact/) if the documented feature is unavailable.
 
 Sign in with your own runtime account. Obtain the correct account email before adding a person. Choose an organization name your team can recognize.
 
@@ -54,9 +54,9 @@ You become the owner when creation succeeds. If the request fails, read the erro
 5. Use the inline role control to change a member's role when needed.
 6. Use the remove action to remove a membership.
 
-For someone without an account, create an [invitation](/docs/teams/invitations) instead. Existing accounts should be added directly, not invited again.
+For someone without an account, create an [invitation](/docs/teams/invitations/) instead. Existing accounts should be added directly, not invited again.
 
-Adding someone to a [project](/docs/teams/projects) also adds them to its organization as a member if necessary. You do not need to add them twice.
+Adding someone to a [project](/docs/teams/projects/) also adds them to its organization as a member if necessary. You do not need to add them twice.
 
 **Review other grants before offboarding.** Removing organization membership does not prove that server ownership, project grants, or direct subuser access has ended. Review every applicable access source.
 
@@ -84,15 +84,15 @@ Deleting an organization unlinks its projects; it does not delete their folders 
 - **Member sees no servers:** add them to the intended project and check that project's permissions and contents.
 - **Project sharing controls are missing:** ask the folder owner; organization membership is not folder ownership.
 - **Wrong server list:** select the intended workspace and check the breadcrumb.
-- **Access remains after removal:** review all [access sources](/docs/teams/overview#the-access-model-at-a-glance).
+- **Access remains after removal:** review all [access sources](/docs/teams/overview/#the-access-model-at-a-glance).
 
-Escalate unexpected membership or access to the organization owner, then [8Labs support](/docs/help/contact) if needed. Include the organization name, affected resource identifiers, and the time of the change. Never send passwords or invitation tokens.
+Escalate unexpected membership or access to the organization owner, then [8Labs support](/docs/help/contact/) if needed. Include the organization name, affected resource identifiers, and the time of the change. Never send passwords or invitation tokens.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Teams and access overview](/docs/teams/overview)
-- [Projects and delegated access](/docs/teams/projects)
-- [Invitations and registration](/docs/teams/invitations)
-- [Server subusers](/docs/teams/subusers)
+- [Teams and access overview](/docs/teams/overview/)
+- [Projects and delegated access](/docs/teams/projects/)
+- [Invitations and registration](/docs/teams/invitations/)
+- [Server subusers](/docs/teams/subusers/)

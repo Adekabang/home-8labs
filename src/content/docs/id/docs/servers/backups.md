@@ -169,14 +169,14 @@ Proses yang gagal setelah dikirim **tidak** memicu pengembalian dana otomatis. H
 | Backup terjadwal berhenti                 | Periksa hak per server, kuota nol/penuh, job pending, waktu UTC, dan saldo pembayar jika biaya berlaku.                                                                                    |
 | Jumlah retensi tetap tinggi               | Catatan terlindungi, duplikat, atau percobaan pembersihan dapat menghalangi target. Hubungi dukungan; jangan menghapus objek penyimpanan sendiri.                                          |
 
-Kirim identitas server dan backup, waktu UTC, status, serta pesan kesalahan ke [dukungan 8Labs](/id/docs/help/contact). Jangan kirim tautan arsip, kata sandi, kunci privat, atau isi sensitif yang belum disensor.
+Kirim identitas server dan backup, waktu UTC, status, serta pesan kesalahan ke [dukungan 8Labs](/id/docs/help/contact/). Jangan kirim tautan arsip, kata sandi, kunci privat, atau isi sensitif yang belum disensor.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Snapshot bukan backup eksternal](/id/docs/servers/snapshots)
-- [Tindakan daya server](/id/docs/servers/power)
-- [Pengaturan dan tindakan destruktif](/id/docs/servers/settings)
-- [Penagihan dan paket](/id/docs/billing-plans/overview)
-- [Pemecahan masalah](/id/docs/troubleshooting/overview)
+- [Snapshot bukan backup eksternal](/id/docs/servers/snapshots/)
+- [Tindakan daya server](/id/docs/servers/power/)
+- [Pengaturan dan tindakan destruktif](/id/docs/servers/settings/)
+- [Penagihan dan paket](/id/docs/billing-plans/overview/)
+- [Pemecahan masalah](/id/docs/troubleshooting/overview/)

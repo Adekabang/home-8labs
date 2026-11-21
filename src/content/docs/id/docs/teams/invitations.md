@@ -86,13 +86,13 @@ Penerimaan oleh pengguna baru membuat akun sekaligus memberikan akses undangan. 
 - **Tautan salinan tidak tersedia:** gunakan tindakan salin pada undangan tertunda. Jangan memublikasikan token dalam tiket dukungan.
 - **Sudah bergabung tetapi server tidak terlihat:** periksa ruang kerja, keanggotaan proyek, izin, dan isi proyek.
 
-Perlakukan tautan undangan sebagai rahasia. Jika salah dibagikan, cabut tautan tertunda dan tinjau penerima serta izinnya. Hubungi pengirim atau [dukungan 8Labs](/id/docs/help/contact) jika masalah akses belum selesai. Sertakan nama tujuan, pesan kesalahan, dan waktu, tanpa token atau kata sandi.
+Perlakukan tautan undangan sebagai rahasia. Jika salah dibagikan, cabut tautan tertunda dan tinjau penerima serta izinnya. Hubungi pengirim atau [dukungan 8Labs](/id/docs/help/contact/) jika masalah akses belum selesai. Sertakan nama tujuan, pesan kesalahan, dan waktu, tanpa token atau kata sandi.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Organisasi](/id/docs/teams/organizations)
-- [Proyek dan pendelegasian akses](/id/docs/teams/projects)
-- [Keamanan dan pemulihan akun](/id/docs/account/security)
-- [Model akses tim](/id/docs/teams/overview)
+- [Organisasi](/id/docs/teams/organizations/)
+- [Proyek dan pendelegasian akses](/id/docs/teams/projects/)
+- [Keamanan dan pemulihan akun](/id/docs/account/security/)
+- [Model akses tim](/id/docs/teams/overview/)

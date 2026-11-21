@@ -16,7 +16,7 @@ Panduan ini untuk pemilik server dan kolaborator berwenang di [cloud.8labs.id](h
 
 Mengubah IPv4 utama atau nameserver memerlukan `settings.manage`. Izin ini tidak memberikan `firewall.manage` atau hak mengalokasikan alamat baru.
 
-Sebelum mengubah jaringan, catat konfigurasi lama dan pastikan [konsol](/id/docs/servers/console) berfungsi. Siapkan waktu pemeliharaan jika perubahan sistem tamu memerlukan penghentian layanan.
+Sebelum mengubah jaringan, catat konfigurasi lama dan pastikan [konsol](/id/docs/servers/console/) berfungsi. Siapkan waktu pemeliharaan jika perubahan sistem tamu memerlukan penghentian layanan.
 
 ## Membaca alamat IPv4 dan IPv6
 
@@ -65,7 +65,7 @@ Kebijakan yang tetap terjaga bukan jaminan konektivitas. Kebijakan ketat tetap d
 
 ### Meninjau preset firewall web dengan aman
 
-**Firewall → Review web preset** membuka tinjauan, bukan langsung menerapkan aturan. Baca [panduan firewall](/id/docs/servers/firewall) sebelum menerapkannya.
+**Firewall → Review web preset** membuka tinjauan, bukan langsung menerapkan aturan. Baca [panduan firewall](/id/docs/servers/firewall/) sebelum menerapkannya.
 
 Preset membuka port pengelolaan, HTTP, dan HTTPS dari semua sumber sebelum aturan lama. Pembatasan sumber yang sudah ada dapat terlewati. Proses tidak atomik; aturan yang berhasil dibuat tetap ada jika sebagian proses gagal.
 
@@ -109,15 +109,15 @@ Periksa resolusi nama dalam sistem tamu setelah perubahan diterapkan. Mengubah r
 | Koneksi ditolak                               | Periksa apakah layanan tamu mendengarkan pada port tujuan. Aturan allow tidak menjalankan layanan.                  |
 | Timeout setelah alamat berubah                | Periksa rute tamu, urutan firewall panel, dan firewall tamu. Jangan mematikan semua firewall sebagai jalan pintas.  |
 
-Laporkan kegagalan sinkronisasi berulang, alokasi hilang, atau masalah gateway ke [dukungan 8Labs](/id/docs/help/contact). Sertakan ID server, waktu, endpoint, protokol, pesan kesalahan, dan hasil pengamatan yang sudah disensor. Jangan sertakan kunci privat atau kata sandi.
+Laporkan kegagalan sinkronisasi berulang, alokasi hilang, atau masalah gateway ke [dukungan 8Labs](/id/docs/help/contact/). Sertakan ID server, waktu, endpoint, protokol, pesan kesalahan, dan hasil pengamatan yang sudah disensor. Jangan sertakan kunci privat atau kata sandi.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Aturan firewall](/id/docs/servers/firewall)
-- [Pengaturan server](/id/docs/servers/settings)
-- [Akses SSH](/id/docs/getting-started/ssh)
-- [Akses RDP](/id/docs/getting-started/rdp)
-- [Mengatur server](/id/docs/servers/folders)
-- [Pemecahan masalah](/id/docs/troubleshooting/overview)
+- [Aturan firewall](/id/docs/servers/firewall/)
+- [Pengaturan server](/id/docs/servers/settings/)
+- [Akses SSH](/id/docs/getting-started/ssh/)
+- [Akses RDP](/id/docs/getting-started/rdp/)
+- [Mengatur server](/id/docs/servers/folders/)
+- [Pemecahan masalah](/id/docs/troubleshooting/overview/)

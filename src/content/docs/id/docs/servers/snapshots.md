@@ -26,7 +26,7 @@ Panduan ini untuk pemilik server dan kolaborator berwenang di [cloud.8labs.id](h
 
 Kontrol daya memerlukan izin tersendiri. Server harus tidak sedang menjalankan operasi lain sebelum pembuatan, pemulihan, atau penghapusan. Pemulihan juga memerlukan status **Stopped**.
 
-Sebelum perubahan berisiko, verifikasi [backup](/id/docs/servers/backups) yang sesuai, pastikan [konsol](/id/docs/servers/console) berfungsi, dan rencanakan konsistensi aplikasi. Checkpoint disk tidak menjamin konsistensi database atau mencakup layanan eksternal.
+Sebelum perubahan berisiko, verifikasi [backup](/id/docs/servers/backups/) yang sesuai, pastikan [konsol](/id/docs/servers/console/) berfungsi, dan rencanakan konsistensi aplikasi. Checkpoint disk tidak menjamin konsistensi database atau mencakup layanan eksternal.
 
 ## Membuat checkpoint
 
@@ -86,11 +86,11 @@ Jangan menghapus berkas penyimpanan secara langsung atau menganggap penghapusan 
 | Pembuatan gagal pada penyimpanan         | Catat pesan kesalahan dan tanyakan dukungan snapshot atau kapasitas kepada dukungan. Jangan mengubah rantai disk sendiri. |
 | Restore terus berlangsung                | Catat checkpoint dan waktu mulai. Minta dukungan memeriksa tugas hypervisor sebelum tindakan lain.                        |
 
-Hubungi [dukungan 8Labs](/id/docs/help/contact) dengan ID server, nama checkpoint, waktu UTC, status, dan pesan kesalahan. Hapus rahasia serta data pelanggan dari bukti yang dilampirkan.
+Hubungi [dukungan 8Labs](/id/docs/help/contact/) dengan ID server, nama checkpoint, waktu UTC, status, dan pesan kesalahan. Hapus rahasia serta data pelanggan dari bukti yang dilampirkan.
 
 ## Panduan terkait
 
-- [Backup dan verifikasi arsip](/id/docs/servers/backups)
-- [Tindakan daya server](/id/docs/servers/power)
-- [Akses konsol](/id/docs/servers/console)
-- [Pengaturan server yang destruktif](/id/docs/servers/settings)
+- [Backup dan verifikasi arsip](/id/docs/servers/backups/)
+- [Tindakan daya server](/id/docs/servers/power/)
+- [Akses konsol](/id/docs/servers/console/)
+- [Pengaturan server yang destruktif](/id/docs/servers/settings/)

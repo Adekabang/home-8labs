@@ -20,7 +20,7 @@ Panduan ini untuk pemilik dan kolaborator yang berwenang mengelola server di [cl
 
 Sebelum melanjutkan:
 
-- Buka dan uji [konsol server](/id/docs/servers/console).
+- Buka dan uji [konsol server](/id/docs/servers/console/).
 - Catat aturan lama. Jika tidak diketahui, pastikan kebijakan bawaan masuk dan keluar kepada dukungan.
 - Pastikan protokol pengelolaan, port sebenarnya di sistem tamu, dan alamat sumber tepercaya.
 - Periksa firewall tamu serta konfigurasi layanan secara terpisah.
@@ -64,7 +64,7 @@ Kolom alamat menerima IP, CIDR, rentang, atau daftar. Kolom port mendukung satu 
 
 Gunakan **Move up**, **Move down**, **Move First**, atau **Move Last** untuk mengubah urutan. Baca ulang rangkaian aturan terkait setelah setiap pemindahan. Pengaktifan, penonaktifan, pengeditan, dan penghapusan adalah perubahan terpisah, bukan satu transaksi.
 
-Allow tidak membuat pemetaan NAT, menjalankan layanan tamu, atau melewati semua firewall jaringan lain. Baca [akses jaringan](/id/docs/servers/network).
+Allow tidak membuat pemetaan NAT, menjalankan layanan tamu, atau melewati semua firewall jaringan lain. Baca [akses jaringan](/id/docs/servers/network/).
 
 ## Kelola templat firewall akun
 
@@ -139,12 +139,12 @@ Jika penerapan gagal, muat ulang dan periksa daftar sebenarnya sebelum mencoba l
 | Akses pengelolaan terbuka terlalu luas  | Periksa aturan preset sebelum aturan pembatasan sumber. Gunakan perubahan individual dengan konsol untuk mengembalikan pembatasan.     |
 | Konsol tidak berfungsi                  | Hentikan perubahan firewall dan hubungi dukungan sebelum mempertaruhkan akses pengelolaan.                                             |
 
-Hubungi [dukungan 8Labs](/id/docs/help/contact) untuk kebijakan bawaan yang tidak diketahui, kegagalan API berulang, atau akses hilang. Sertakan ID server, waktu UTC, protokol/port tujuan, dan urutan aturan yang disensor. Jangan sertakan kredensial atau token sesi.
+Hubungi [dukungan 8Labs](/id/docs/help/contact/) untuk kebijakan bawaan yang tidak diketahui, kegagalan API berulang, atau akses hilang. Sertakan ID server, waktu UTC, protokol/port tujuan, dan urutan aturan yang disensor. Jangan sertakan kredensial atau token sesi.
 
 ## Panduan terkait
 
-- [Akses konsol](/id/docs/servers/console)
-- [Alamat jaringan dan NAT](/id/docs/servers/network)
-- [Akses SSH](/id/docs/getting-started/ssh)
-- [Akses RDP](/id/docs/getting-started/rdp)
-- [Pemecahan masalah](/id/docs/troubleshooting/overview)
+- [Akses konsol](/id/docs/servers/console/)
+- [Alamat jaringan dan NAT](/id/docs/servers/network/)
+- [Akses SSH](/id/docs/getting-started/ssh/)
+- [Akses RDP](/id/docs/getting-started/rdp/)
+- [Pemecahan masalah](/id/docs/troubleshooting/overview/)

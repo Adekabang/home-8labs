@@ -40,11 +40,11 @@ FreeIPA is an integrated identity management platform that bundles LDAP, Kerbero
 
 This guide walks through a complete FreeIPA deployment on Rocky Linux, from initial server setup to production hardening:
 
-1. **[Server Deployment](./server-deployment)** : Install and initialize FreeIPA server step by step
-2. **[DNS & Kerberos](./dns-kerberos)** : Verify DNS records and Kerberos authentication
-3. **[Client Integration](./client-integration)** : Join Linux clients to the FreeIPA domain
-4. **[User Management](./user-management)** : Create users, groups, SSH keys, sudo rules, password policies
-5. **[Troubleshooting](./troubleshooting)** : Common errors, debugging, backup/restore, production hardening
-6. **[Command Reference](./command-reference)** : Quick reference for everyday tasks
+1. **[Server Deployment](./server-deployment/)** : Install and initialize FreeIPA server step by step
+2. **[DNS & Kerberos](./dns-kerberos/)** : Verify DNS records and Kerberos authentication
+3. **[Client Integration](./client-integration/)** : Join Linux clients to the FreeIPA domain
+4. **[User Management](./user-management/)** : Create users, groups, SSH keys, sudo rules, password policies
+5. **[Troubleshooting](./troubleshooting/)** : Common errors, debugging, backup/restore, production hardening
+6. **[Command Reference](./command-reference/)** : Quick reference for everyday tasks
 
 > Adapted from [Dawn's Blog : FreeIPA Complete Deployment Guide](https://www.acdiost.com/posts/freeipa/).

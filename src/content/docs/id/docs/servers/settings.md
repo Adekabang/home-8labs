@@ -25,7 +25,7 @@ Panduan ini untuk pemilik dan kolaborator berwenang di [cloud.8labs.id](https://
 | Kepemilikan server dan kelayakan penghapusan | Penghapusan pelanggan hanya untuk pemilik dan bergantung pada konfigurasi penagihan. Izin settings bukan hak menghapus. |
 | Izin daya dan konsol terpisah                | Shutdown, startup, dan pemulihan melalui konsol.                                                                        |
 
-Pastikan identitas server, catat konfigurasi saat ini, dan uji [akses konsol](/id/docs/servers/console). Siapkan waktu penghentian sebelum mengubah akses tamu atau perilaku boot.
+Pastikan identitas server, catat konfigurasi saat ini, dan uji [akses konsol](/id/docs/servers/console/). Siapkan waktu penghentian sebelum mengubah akses tamu atau perilaku boot.
 
 ## Menemukan bagian yang benar
 
@@ -33,7 +33,7 @@ Buka halaman **Settings** server. Tab yang tersedia adalah **General**, **Securi
 
 - **General** berisi identitas, informasi penagihan jika tersedia, jaringan, media, urutan boot, dan kontrol penghapusan yang memenuhi syarat.
 - **Security** berisi **Authentication** dan, jika diizinkan, **Reinstall Server**.
-- **Access** mengelola akses server yang didelegasikan. Baca [Subuser](/id/docs/teams/subusers), bukan membagikan kredensial.
+- **Access** mengelola akses server yang didelegasikan. Baca [Subuser](/id/docs/teams/subusers/), bukan membagikan kredensial.
 
 Kartu yang tidak muncul dapat disebabkan izin atau ketersediaan layanan. Jangan melewati pembatasan akses panel.
 
@@ -49,7 +49,7 @@ Nama tampilan mengenali server di panel. Pembaruan hostname juga mengubah konfig
 
 ## Mengubah pengaturan jaringan
 
-Gunakan **General → Primary IP** untuk memilih IPv4 yang dialokasikan. Gunakan **Nameservers** untuk mengubah IP resolver DNS tamu. Baca [pengaturan jaringan](/id/docs/servers/network) sebelum mengubahnya.
+Gunakan **General → Primary IP** untuk memilih IPv4 yang dialokasikan. Gunakan **Nameservers** untuk mengubah IP resolver DNS tamu. Baca [pengaturan jaringan](/id/docs/servers/network/) sebelum mengubahnya.
 
 Penerapan nameserver berbeda menurut tamu: Linux memerlukan shutdown lalu startup, bukan **Restart**; Windows perlu tetap menyala agar pembaruan diterapkan. Pastikan hasilnya di dalam tamu.
 
@@ -104,7 +104,7 @@ Pembayaran faktur atau paket yang dituju bukan bukti bahwa VM memakai batas CPU,
 
 Jika dukungan atau operasi saat ini mengarahkan shutdown terkendali lalu startup, siapkan waktu henti dan tunggu shutdown terkonfirmasi sebelum **Start**. **Restart** tidak setara. Jangan menyalakan atau mengulang perubahan saat operasi yang belum selesai masih menguasai server.
 
-Periksa paket dan [panduan penagihan](/id/docs/billing-plans/overview). Verifikasi sumber daya VM efektif setelah operasi selesai, lalu periksa ukuran disk dan partisi tamu secara terpisah. Jika target berubah, muat ulang dan minta peninjauan. Jangan menerapkan target lama atau mengirim ulang perubahan yang hasilnya belum diketahui.
+Periksa paket dan [panduan penagihan](/id/docs/billing-plans/overview/). Verifikasi sumber daya VM efektif setelah operasi selesai, lalu periksa ukuran disk dan partisi tamu secara terpisah. Jika target berubah, muat ulang dan minta peninjauan. Jangan menerapkan target lama atau mengirim ulang perubahan yang hasilnya belum diketahui.
 
 ## Reinstall dari templat
 
@@ -178,13 +178,13 @@ UI kembali ke daftar setelah permintaan penghapusan diterima. Jika muncul kesala
 | Reinstall pending atau gagal                                        | Catat ID server, templat, waktu, dan kesalahan. Hindari permintaan destruktif lain.                              |
 | Hapus tidak tersedia atau gagal                                     | Pastikan pemilik dan kelayakan layanan. Hubungi dukungan; jangan menghancurkan disk untuk melewati kontrol.      |
 
-Hubungi [dukungan 8Labs](/id/docs/help/contact) dengan ID server, waktu UTC, pesan kesalahan, dan pengaturan terkait. Sensor rahasia. Jangan kirim kata sandi, kunci privat, atau tautan arsip sementara.
+Hubungi [dukungan 8Labs](/id/docs/help/contact/) dengan ID server, waktu UTC, pesan kesalahan, dan pengaturan terkait. Sensor rahasia. Jangan kirim kata sandi, kunci privat, atau tautan arsip sementara.
 
 ## Panduan terkait
 
-- [Backup](/id/docs/servers/backups)
-- [Snapshot](/id/docs/servers/snapshots)
-- [Pengaturan jaringan](/id/docs/servers/network)
-- [Tindakan daya](/id/docs/servers/power)
-- [Keamanan akun](/id/docs/account/security)
-- [Subuser](/id/docs/teams/subusers)
+- [Backup](/id/docs/servers/backups/)
+- [Snapshot](/id/docs/servers/snapshots/)
+- [Pengaturan jaringan](/id/docs/servers/network/)
+- [Tindakan daya](/id/docs/servers/power/)
+- [Keamanan akun](/id/docs/account/security/)
+- [Subuser](/id/docs/teams/subusers/)

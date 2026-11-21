@@ -12,7 +12,7 @@ Organisasi mengelompokkan orang dan proyek server bersama. Halaman detailnya men
 
 ## Pengguna, ketersediaan, dan prasyarat
 
-Gunakan panduan ini sebagai pemilik, admin, atau anggota organisasi di [cloud.8labs.id](https://cloud.8labs.id). Kontrol bergantung pada peran dan konfigurasi layanan. Hubungi [dukungan](/id/docs/help/contact) jika fitur yang dijelaskan tidak tersedia.
+Gunakan panduan ini sebagai pemilik, admin, atau anggota organisasi di [cloud.8labs.id](https://cloud.8labs.id). Kontrol bergantung pada peran dan konfigurasi layanan. Hubungi [dukungan](/id/docs/help/contact/) jika fitur yang dijelaskan tidak tersedia.
 
 Masuk dengan akun runtime Anda sendiri. Pastikan alamat email akun tujuan sebelum menambahkan orang. Pilih nama organisasi yang mudah dikenali tim.
 
@@ -54,9 +54,9 @@ Anda menjadi pemilik setelah pembuatan berhasil. Jika permintaan gagal, baca pes
 5. Gunakan kontrol peran pada baris anggota untuk mengganti perannya.
 6. Gunakan tindakan hapus untuk menghapus keanggotaan.
 
-Untuk orang yang belum memiliki akun, buat [undangan](/id/docs/teams/invitations). Tambahkan akun yang sudah ada secara langsung, bukan dengan undangan baru.
+Untuk orang yang belum memiliki akun, buat [undangan](/id/docs/teams/invitations/). Tambahkan akun yang sudah ada secara langsung, bukan dengan undangan baru.
 
-Menambahkan orang ke [proyek](/id/docs/teams/projects) juga menambahkannya sebagai anggota organisasi terkait jika diperlukan. Anda tidak perlu menambahkannya di dua tempat.
+Menambahkan orang ke [proyek](/id/docs/teams/projects/) juga menambahkannya sebagai anggota organisasi terkait jika diperlukan. Anda tidak perlu menambahkannya di dua tempat.
 
 **Periksa izin lain saat mengakhiri akses.** Menghapus keanggotaan organisasi belum membuktikan bahwa kepemilikan server, izin proyek, atau akses subuser langsung sudah berakhir. Tinjau semua sumber akses yang berlaku.
 
@@ -84,15 +84,15 @@ Menghapus organisasi melepas kaitan proyeknya; folder dan server tidak dihapus. 
 - **Anggota tidak melihat server:** tambahkan ke proyek tujuan, lalu periksa izin dan isi proyek tersebut.
 - **Kontrol berbagi proyek tidak muncul:** hubungi pemilik folder; keanggotaan organisasi bukan kepemilikan folder.
 - **Daftar server tidak sesuai:** pilih ruang kerja yang benar dan periksa breadcrumb.
-- **Akses masih ada setelah penghapusan:** tinjau seluruh [sumber akses](/id/docs/teams/overview#the-access-model-at-a-glance).
+- **Akses masih ada setelah penghapusan:** tinjau seluruh [sumber akses](/id/docs/teams/overview/#the-access-model-at-a-glance).
 
-Laporkan keanggotaan atau akses yang tidak dikenal kepada pemilik organisasi, lalu [dukungan 8Labs](/id/docs/help/contact) bila diperlukan. Sertakan nama organisasi, identitas sumber daya terkait, dan waktu perubahan. Jangan kirim kata sandi atau token undangan.
+Laporkan keanggotaan atau akses yang tidak dikenal kepada pemilik organisasi, lalu [dukungan 8Labs](/id/docs/help/contact/) bila diperlukan. Sertakan nama organisasi, identitas sumber daya terkait, dan waktu perubahan. Jangan kirim kata sandi atau token undangan.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Ringkasan tim dan akses](/id/docs/teams/overview)
-- [Proyek dan pendelegasian akses](/id/docs/teams/projects)
-- [Undangan dan pendaftaran](/id/docs/teams/invitations)
-- [Subuser server](/id/docs/teams/subusers)
+- [Ringkasan tim dan akses](/id/docs/teams/overview/)
+- [Proyek dan pendelegasian akses](/id/docs/teams/projects/)
+- [Undangan dan pendaftaran](/id/docs/teams/invitations/)
+- [Subuser server](/id/docs/teams/subusers/)

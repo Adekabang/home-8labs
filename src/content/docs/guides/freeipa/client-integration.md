@@ -121,8 +121,8 @@ ipa host-del client-1.example.internal
 
 ## Next Steps
 
-- [Create users and manage permissions](../user-management) through FreeIPA
-- [Troubleshoot common issues](../troubleshooting) if something goes wrong
+- [Create users and manage permissions](../user-management/) through FreeIPA
+- [Troubleshoot common issues](../troubleshooting/) if something goes wrong
 
 ---
 

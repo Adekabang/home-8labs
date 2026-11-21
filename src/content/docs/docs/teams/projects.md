@@ -61,7 +61,7 @@ Server owners, platform root admins, and applicable organization owners/admins h
 
 Adding an existing account to a project automatically adds it to the linked organization as a **Member**, if needed. It does not promote an existing organization role. You do not need a separate organization-member step.
 
-An invitation is different from a completed membership. Share its link privately and wait for acceptance. See [invitations](/docs/teams/invitations).
+An invitation is different from a completed membership. Share its link privately and wait for acceptance. See [invitations](/docs/teams/invitations/).
 
 ## Confirm completion
 
@@ -90,16 +90,16 @@ Revoking an invitation invalidates its link; it does not remove access already g
 - **Account not found:** check the email; use an invitation only for a person without an account.
 - **User already exists or is already a member:** add the account directly or edit its existing member row.
 - **Owner cannot be added:** the folder owner already has full access.
-- **Access is broader than the picker:** review the [combined access model](/docs/teams/overview#the-access-model-at-a-glance).
+- **Access is broader than the picker:** review the [combined access model](/docs/teams/overview/#the-access-model-at-a-glance).
 
-If the saved permissions do not match observed access, stop broadening grants and contact the folder owner or [support](/docs/help/contact). Include the project and server identifiers, intended permissions, and error text. Exclude invitation tokens and API keys.
+If the saved permissions do not match observed access, stop broadening grants and contact the folder owner or [support](/docs/help/contact/). Include the project and server identifiers, intended permissions, and error text. Exclude invitation tokens and API keys.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Organizations](/docs/teams/organizations)
-- [Server subusers](/docs/teams/subusers)
-- [Invitations](/docs/teams/invitations)
-- [Personal API keys](/docs/account/api-keys): delegated resource permissions also apply to API requests.
-- [Server folders](/docs/servers/folders)
+- [Organizations](/docs/teams/organizations/)
+- [Server subusers](/docs/teams/subusers/)
+- [Invitations](/docs/teams/invitations/)
+- [Personal API keys](/docs/account/api-keys/): delegated resource permissions also apply to API requests.
+- [Server folders](/docs/servers/folders/)

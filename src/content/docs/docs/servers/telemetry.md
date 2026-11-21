@@ -82,14 +82,14 @@ Panel activity is not a replacement for guest application, authentication, or op
 | Activity access denied                    | Ask the owner for `activity.read`, not a shared login.                                                                               |
 | Request recorded, task still pending      | Review the operation's own status and completion evidence. Do not repeatedly resubmit it.                                            |
 
-Escalate persistent missing metrics, unavailable node state, or stuck operations to [8Labs support](/docs/help/contact). Include server ID, UTC incident time, timeframe, aggregation, freshness/update time, and exact error.
+Escalate persistent missing metrics, unavailable node state, or stuck operations to [8Labs support](/docs/help/contact/). Include server ID, UTC incident time, timeframe, aggregation, freshness/update time, and exact error.
 
 Redact usernames, IP addresses, identifiers, and sensitive activity details where unnecessary. Never send passwords, private keys, or session tokens. Do not reinstall or delete a server to repair a telemetry display.
 
 ## Related guides
 
-- [Servers overview](/docs/servers/overview)
-- [Power actions](/docs/servers/power)
-- [Backups and completion evidence](/docs/servers/backups)
-- [Server settings](/docs/servers/settings)
-- [Troubleshooting](/docs/troubleshooting/overview)
+- [Servers overview](/docs/servers/overview/)
+- [Power actions](/docs/servers/power/)
+- [Backups and completion evidence](/docs/servers/backups/)
+- [Server settings](/docs/servers/settings/)
+- [Troubleshooting](/docs/troubleshooting/overview/)

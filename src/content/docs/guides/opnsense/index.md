@@ -11,11 +11,11 @@ OPNsense is a FreeBSD-based firewall and routing platform. Out of the box it shi
 
 Two ways to extend OPNsense beyond stock packages:
 
-1. **[Community Repository](./community-repo)** — the easy way. Install pre-built community packages like AdGuard Home, Grafana, Caddy, Traefik, and more via mimugmail's community repo.
+1. **[Community Repository](./community-repo/)** — the easy way. Install pre-built community packages like AdGuard Home, Grafana, Caddy, Traefik, and more via mimugmail's community repo.
 
-2. **[Building Custom Packages](./building-packages)** — the advanced way. Use OPNsense's official `tools.git` to build your own packages from ports, for when you need something not in any repo.
+2. **[Building Custom Packages](./building-packages/)** — the advanced way. Use OPNsense's official `tools.git` to build your own packages from ports, for when you need something not in any repo.
 
-3. **[Plugin Development](./plugin-development)** — the native way. Build your own OPNsense plugins with full UI integration using the MVC framework, configd backend, and API endpoints.
+3. **[Plugin Development](./plugin-development/)** — the native way. Build your own OPNsense plugins with full UI integration using the MVC framework, configd backend, and API endpoints.
 
 ## Why not just install FreeBSD packages?
 

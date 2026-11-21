@@ -32,7 +32,7 @@ We want to make hands-on Linux, networking, and infrastructure education accessi
 
 ## Get started
 
-- Documentation: https://8labs.id/docs
+- Documentation: https://8labs.id/docs/
 - Cloud Panel: https://cloud.8labs.id
 - Client/Billing Panel: https://my.8labs.id
 - Main site: https://8labs.id

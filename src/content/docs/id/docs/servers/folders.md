@@ -39,7 +39,7 @@ Buka menu **⋯** folder lalu pilih **Rename** atau **Delete**. Kontrol pengelol
 
 Menghapus folder pribadi memindahkan servernya ke tingkat paling atas, bukan menghapus server. Bedakan tindakan ini dari **Delete Server** di pengaturan server.
 
-Untuk proyek yang terhubung ke organisasi, tinjau dampaknya terhadap akses bersama sebelum menghapus atau mengubah proyek. Baca [panduan proyek](/id/docs/teams/projects).
+Untuk proyek yang terhubung ke organisasi, tinjau dampaknya terhadap akses bersama sebelum menghapus atau mengubah proyek. Baca [panduan proyek](/id/docs/teams/projects/).
 
 <span id="sorting"></span>
 
@@ -57,7 +57,7 @@ Folder biasa mengatur server milik Anda sendiri. Menghubungkan folder ke organis
 
 Gunakan folder pribadi untuk pengelompokan pribadi. Gunakan proyek jika kolaborator memerlukan izin tertentu pada seluruh server di dalamnya. Nama folder bukan kebijakan akses.
 
-Baca [Proyek](/id/docs/teams/projects) dan [Organisasi](/id/docs/teams/organizations) sebelum menggunakan **Share…** atau mengubah keanggotaan organisasi.
+Baca [Proyek](/id/docs/teams/projects/) dan [Organisasi](/id/docs/teams/organizations/) sebelum menggunakan **Share…** atau mengubah keanggotaan organisasi.
 
 ## Pemecahan masalah dan eskalasi aman
 
@@ -69,13 +69,13 @@ Baca [Proyek](/id/docs/teams/projects) dan [Organisasi](/id/docs/teams/organizat
 | Folder baru belum muncul                            | Tunggu permintaan selesai, lalu muat ulang daftar sekali. Catat pesan kesalahan sebelum mencoba lagi.                     |
 | Anggota proyek memiliki akses yang tidak diharapkan | Periksa semua izin proyek, organisasi, dan subuser yang berlaku. Mencabut satu izin tidak mencabut izin dari sumber lain. |
 
-Hubungi [dukungan 8Labs](/id/docs/help/contact) jika pemindahan yang sah tetap gagal. Sertakan identitas server, nama folder, ruang kerja, waktu, dan pesan kesalahan. Jangan kirim kata sandi atau kunci privat.
+Hubungi [dukungan 8Labs](/id/docs/help/contact/) jika pemindahan yang sah tetap gagal. Sertakan identitas server, nama folder, ruang kerja, waktu, dan pesan kesalahan. Jangan kirim kata sandi atau kunci privat.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Ringkasan server](/id/docs/servers/overview)
-- [Proyek](/id/docs/teams/projects)
-- [Organisasi](/id/docs/teams/organizations)
-- [Ringkasan tim dan akses](/id/docs/teams/overview)
+- [Ringkasan server](/id/docs/servers/overview/)
+- [Proyek](/id/docs/teams/projects/)
+- [Organisasi](/id/docs/teams/organizations/)
+- [Ringkasan tim dan akses](/id/docs/teams/overview/)

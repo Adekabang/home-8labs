@@ -30,7 +30,7 @@ Sebelum penyiapan TOTP pertama, TOTP belum aktif. Karena itu, akun terhubung mem
 
 Konfirmasikan tindakan sensitif dengan kode autentikator, lalu kembali ke formulir dan simpan secara eksplisit.
 
-Pembuat PIN Paymenter pada layanan saat ini belum tersedia. Hubungi [dukungan](/id/docs/help/contact) jika metode yang dipilih memerlukannya. Langkah di bawah menjelaskan alur yang didukung setelah layanan yang cocok dan pembuat PIN tersedia. Dukungan Panel saja tidak membuktikan ketersediaan pada portal penagihan. Jangan memakai pemulihan kata sandi atau email untuk melewati persetujuan yang diwajibkan.
+Pembuat PIN Paymenter pada layanan saat ini belum tersedia. Hubungi [dukungan](/id/docs/help/contact/) jika metode yang dipilih memerlukannya. Langkah di bawah menjelaskan alur yang didukung setelah layanan yang cocok dan pembuat PIN tersedia. Dukungan Panel saja tidak membuktikan ketersediaan pada portal penagihan. Jangan memakai pemulihan kata sandi atau email untuk melewati persetujuan yang diwajibkan.
 
 1. Minta persetujuan melalui dialog identitas Panel untuk tindakan dan layanan yang dituju.
 2. Buka layanan yang sama pada akun penagihan lalu buat PIN delapan digit, jika tersedia.
@@ -55,7 +55,7 @@ Perubahan kata sandi mengeluarkan Anda dari sesi. Browser lain dengan sesi lama 
 
 ### Pulihkan kata sandi yang terlupa
 
-Pemulihan melalui email saat ini tidak tersedia pada halaman masuk layanan. Hubungi [dukungan](/id/docs/help/contact) untuk panduan pemulihan. Deployment lain dapat menyediakan **Forgot your password?** jika pemulihan diaktifkan.
+Pemulihan melalui email saat ini tidak tersedia pada halaman masuk layanan. Hubungi [dukungan](/id/docs/help/contact/) untuk panduan pemulihan. Deployment lain dapat menyediakan **Forgot your password?** jika pemulihan diaktifkan.
 
 1. Buka tautan tersebut dan masukkan email akun runtime Anda.
 2. Kirim permintaan lalu periksa kotak masuk, termasuk folder spam.
@@ -64,7 +64,7 @@ Pemulihan melalui email saat ini tidak tersedia pada halaman masuk layanan. Hubu
 
 Tautan pengaturan ulang yang didokumentasikan berlaku satu jam dan hanya sekali pakai. Pemulihan juga memerlukan pengiriman email yang berfungsi. Email tidak dijamin terkirim jika pemulihan dinonaktifkan atau layanan email tidak tersedia.
 
-Jika tautan tidak ada, kedaluwarsa, atau email tidak diterima, hubungi [dukungan](/id/docs/help/contact). Jangan kirim kata sandi atau tautan pengaturan ulang. Mengatur ulang kata sandi tidak menggantikan faktor kedua yang hilang.
+Jika tautan tidak ada, kedaluwarsa, atau email tidak diterima, hubungi [dukungan](/id/docs/help/contact/). Jangan kirim kata sandi atau tautan pengaturan ulang. Mengatur ulang kata sandi tidak menggantikan faktor kedua yang hilang.
 
 <span id="two-factor-authentication"></span>
 
@@ -151,7 +151,7 @@ Buka **Workspace → SSH Keys** pada sidebar untuk mengelola daftar kunci publik
 
 Penambahan dan penghapusan kunci SSH tersimpan juga memerlukan konfirmasi identitas sensitif. Setelah persetujuan, ulangi tindakan tambah atau hapus yang dituju secara eksplisit.
 
-Kunci SSH akun menyimpan **kunci publik** yang dapat dipilih saat deployment, jika didukung, sebagai pengganti kata sandi root. Lihat [akses SSH](/id/docs/getting-started/ssh) dan [mengakses Virtual Labs](/id/docs/getting-started/accessing-virtual-labs).
+Kunci SSH akun menyimpan **kunci publik** yang dapat dipilih saat deployment, jika didukung, sebagai pengganti kata sandi root. Lihat [akses SSH](/id/docs/getting-started/ssh/) dan [mengakses Virtual Labs](/id/docs/getting-started/accessing-virtual-labs/).
 
 Jangan pernah mengunggah kunci privat SSH. Jangan menganggap perubahan kunci publik tersimpan otomatis mengubah authorized keys pada server yang sudah dibuat.
 
@@ -173,14 +173,14 @@ Jika kunci privat bocor, hapus otorisasi kunci tersebut dalam tamu lalu buat pen
 
 ## Dugaan pengambilalihan akun
 
-Cabut sesi browser yang tidak dikenal, ganti kata sandi, lalu tinjau [API keys](/id/docs/account/api-keys) dan [akses tim](/id/docs/teams/overview). Mencabut sesi browser tidak sama dengan mencabut API key.
+Cabut sesi browser yang tidak dikenal, ganti kata sandi, lalu tinjau [API keys](/id/docs/account/api-keys/) dan [akses tim](/id/docs/teams/overview/). Mencabut sesi browser tidak sama dengan mencabut API key.
 
-Segera hubungi [dukungan 8Labs](/id/docs/help/contact) jika Anda tidak dapat mengambil kembali kendali. Sertakan identitas akun, waktu kejadian, dan pesan kesalahan yang sudah disamarkan. Jangan bagikan kata sandi, materi penyiapan TOTP, kode pemulihan, token, atau cookie.
+Segera hubungi [dukungan 8Labs](/id/docs/help/contact/) jika Anda tidak dapat mengambil kembali kendali. Sertakan identitas akun, waktu kejadian, dan pesan kesalahan yang sudah disamarkan. Jangan bagikan kata sandi, materi penyiapan TOTP, kode pemulihan, token, atau cookie.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Personal API keys](/id/docs/account/api-keys)
-- [Langganan notifikasi](/id/docs/account/notifications)
-- [Undangan dan pendaftaran](/id/docs/teams/invitations)
+- [Personal API keys](/id/docs/account/api-keys/)
+- [Langganan notifikasi](/id/docs/account/notifications/)
+- [Undangan dan pendaftaran](/id/docs/teams/invitations/)

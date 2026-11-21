@@ -214,8 +214,8 @@ firewall-cmd --list-services
 
 ## Next Steps
 
-- [Verify DNS and Kerberos](../dns-kerberos) to confirm the core services work
-- [Join client machines](../client-integration) to the FreeIPA domain
+- [Verify DNS and Kerberos](../dns-kerberos/) to confirm the core services work
+- [Join client machines](../client-integration/) to the FreeIPA domain
 
 ---
 

@@ -25,9 +25,9 @@ The **Settings → Access** controls must be available in the hosted service. Th
 | Subuser        | One server                | Server **Settings → Access** |
 | Project member | Every server in a project | Folder **Share** dialog      |
 
-Both use the same [permission set](/docs/teams/projects#permission-set). Effective access is the union of all applicable sources.
+Both use the same [permission set](/docs/teams/projects/#permission-set). Effective access is the union of all applicable sources.
 
-Choose a subuser when one server is enough. Choose a [project](/docs/teams/projects) when the same collaborator needs access across a server group.
+Choose a subuser when one server is enough. Choose a [project](/docs/teams/projects/) when the same collaborator needs access across a server group.
 
 <span id="managing-subusers"></span>
 
@@ -42,7 +42,7 @@ Choose a subuser when one server is enough. Choose a [project](/docs/teams/proje
 
 Do not add the server owner as a subuser. The owner already has full access and cannot be added to their own server.
 
-If the person has no account, direct subuser creation cannot register them. Use a [project invitation](/docs/teams/invitations), where available, or contact [support](/docs/help/contact) about onboarding.
+If the person has no account, direct subuser creation cannot register them. Use a [project invitation](/docs/teams/invitations/), where available, or contact [support](/docs/help/contact/) about onboarding.
 
 ## Edit or remove a subuser
 
@@ -60,15 +60,15 @@ An existing browser page may need to reload to display the changed controls. Do 
 - **Access controls are missing:** confirm you are the server owner. Ask the owner to make the change; do not share their credentials.
 - **Account not found:** verify the runtime email. A billing account alone does not establish runtime account availability.
 - **Required action is unavailable:** compare the intended action with the saved permissions, then inspect other relevant grants.
-- **Access remains after removal:** check the [combined access model](/docs/teams/overview#the-access-model-at-a-glance), rather than repeatedly removing the same row.
+- **Access remains after removal:** check the [combined access model](/docs/teams/overview/#the-access-model-at-a-glance), rather than repeatedly removing the same row.
 
-Console, power, restore, and reinstall access can affect running workloads or data. Grant each deliberately. For suspected misuse, remove the relevant grants and contact the server owner or [support](/docs/help/contact). Include the server identifier and time, without credentials or sensitive console output.
+Console, power, restore, and reinstall access can affect running workloads or data. Grant each deliberately. For suspected misuse, remove the relevant grants and contact the server owner or [support](/docs/help/contact/). Include the server identifier and time, without credentials or sensitive console output.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Projects and delegated access](/docs/teams/projects)
-- [Teams and access overview](/docs/teams/overview)
-- [Account security](/docs/account/security)
-- [Server settings](/docs/servers/settings)
+- [Projects and delegated access](/docs/teams/projects/)
+- [Teams and access overview](/docs/teams/overview/)
+- [Account security](/docs/account/security/)
+- [Server settings](/docs/servers/settings/)

@@ -30,7 +30,7 @@ Before initial TOTP setup, TOTP is not yet active. A linked account therefore ne
 
 Confirm a sensitive action with an authenticator code, then return to the form and explicitly save.
 
-The hosted Paymenter PIN generator is not currently available. Contact [support](/docs/help/contact) if the selected method requires it. The steps below describe the supported flow once the matching service and generator are available. Panel support alone does not establish billing-portal availability. Do not use password or email recovery to bypass the required approval.
+The hosted Paymenter PIN generator is not currently available. Contact [support](/docs/help/contact/) if the selected method requires it. The steps below describe the supported flow once the matching service and generator are available. Panel support alone does not establish billing-portal availability. Do not use password or email recovery to bypass the required approval.
 
 1. Request approval in the Panel identity dialog for the intended action and matching service.
 2. Open that same service in your billing account and generate its eight-digit PIN, if available.
@@ -55,7 +55,7 @@ Changing the password signs you out. Other browsers with stale sessions must als
 
 ### Recover a forgotten password
 
-Email recovery is currently unavailable on the hosted sign-in page. Contact [support](/docs/help/contact) for recovery guidance. Other deployments can provide **Forgot your password?** when recovery is enabled.
+Email recovery is currently unavailable on the hosted sign-in page. Contact [support](/docs/help/contact/) for recovery guidance. Other deployments can provide **Forgot your password?** when recovery is enabled.
 
 1. Open that link and enter the email associated with your runtime account.
 2. Submit the request and check that mailbox, including spam.
@@ -64,7 +64,7 @@ Email recovery is currently unavailable on the hosted sign-in page. Contact [sup
 
 The documented reset link is single-use and valid for one hour. Recovery also requires working email delivery. No email is guaranteed when the hosted service has recovery disabled or mail delivery unavailable.
 
-If the link is missing, expired, or no message arrives, contact [support](/docs/help/contact). Do not send your password or reset link. A password reset does not replace a lost second factor.
+If the link is missing, expired, or no message arrives, contact [support](/docs/help/contact/). Do not send your password or reset link. A password reset does not replace a lost second factor.
 
 <span id="two-factor-authentication"></span>
 
@@ -151,7 +151,7 @@ Open **Workspace → SSH Keys** in the sidebar to manage the saved public-key li
 
 Adding and removing saved SSH keys also require sensitive identity confirmation. After approval, explicitly repeat the intended add or remove action.
 
-Account SSH keys store **public** keys that can be selected during deployment, where supported, instead of using a root password. See [SSH access](/docs/getting-started/ssh) and [accessing Virtual Labs](/docs/getting-started/accessing-virtual-labs).
+Account SSH keys store **public** keys that can be selected during deployment, where supported, instead of using a root password. See [SSH access](/docs/getting-started/ssh/) and [accessing Virtual Labs](/docs/getting-started/accessing-virtual-labs/).
 
 Never upload your private SSH key. Do not assume changing an account's stored public keys automatically changes an already deployed server's authorized keys.
 
@@ -173,14 +173,14 @@ If a private key leaks, remove its corresponding guest authorization and replace
 
 ## Suspected account compromise
 
-Revoke unfamiliar browser sessions, change your password, and review [API keys](/docs/account/api-keys) and [team access](/docs/teams/overview). Browser-session revocation is not API-key revocation.
+Revoke unfamiliar browser sessions, change your password, and review [API keys](/docs/account/api-keys/) and [team access](/docs/teams/overview/). Browser-session revocation is not API-key revocation.
 
-Contact [8Labs support](/docs/help/contact) promptly if you cannot regain control. Share your account identifier, timestamps, and redacted errors. Never share passwords, TOTP setup material, recovery codes, tokens, or cookies.
+Contact [8Labs support](/docs/help/contact/) promptly if you cannot regain control. Share your account identifier, timestamps, and redacted errors. Never share passwords, TOTP setup material, recovery codes, tokens, or cookies.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Personal API keys](/docs/account/api-keys)
-- [Notification subscriptions](/docs/account/notifications)
-- [Invitations and registration](/docs/teams/invitations)
+- [Personal API keys](/docs/account/api-keys/)
+- [Notification subscriptions](/docs/account/notifications/)
+- [Invitations and registration](/docs/teams/invitations/)

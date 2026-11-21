@@ -20,7 +20,7 @@ Use your own account, identify the tool that needs access, and prepare a secure 
 An organization admin cannot use it merely because they administer a team.
 For customer scripts, stay in **Workspace → Developers**. Ask support about unavailable endpoints instead of requesting platform-wide credentials.
 
-Creating and revoking keys require [sensitive identity confirmation](/docs/account/security#confirm-your-identity-for-sensitive-changes). With TOTP enabled, use only the authenticator code. Without TOTP, linked accounts use an available matching-service Paymenter PIN. Unbound native accounts use their current Panel password. An unavailable PIN generator requires support, not a password or email bypass.
+Creating and revoking keys require [sensitive identity confirmation](/docs/account/security/#confirm-your-identity-for-sensitive-changes). With TOTP enabled, use only the authenticator code. Without TOTP, linked accounts use an available matching-service Paymenter PIN. Unbound native accounts use their current Panel password. An unavailable PIN generator requires support, not a password or email bypass.
 
 Complete approval, then return to **Create key** or the revoke control and explicitly submit the intended action. Approval does not automatically repeat a rejected request. Account-password approval does not authorize key management. Each PIN approval permits one protected write for its stated purpose.
 
@@ -59,7 +59,7 @@ Administrator-issued application tokens have separate lifetime behavior. Their *
 
 Scope and resource permissions apply together. A full-access key cannot grant access to a server your account cannot use. A read-only key cannot perform a write merely because you own the server.
 
-Prefer **Read-only** when a tool only retrieves information. Review the [team access model](/docs/teams/overview) before granting broad account access to automation.
+Prefer **Read-only** when a tool only retrieves information. Review the [team access model](/docs/teams/overview/) before granting broad account access to automation.
 
 <span id="using-a-key"></span>
 
@@ -88,7 +88,7 @@ Keep the token out of shell history and logs. Confirm endpoint availability on t
 
 Revocation stops that key from authenticating immediately. Other keys remain valid according to their own limits. Update dependent tools when rotating a key; deleting one key does not rotate another.
 
-If a token may have leaked, revoke it first. Do not wait for expiry. Review affected access and contact [support](/docs/help/contact) if unauthorized actions are suspected.
+If a token may have leaked, revoke it first. Do not wait for expiry. Review affected access and contact [support](/docs/help/contact/) if unauthorized actions are suspected.
 
 <span id="webhooks"></span>
 
@@ -116,13 +116,13 @@ Use **Pause** to stop deliveries without deleting the endpoint configuration. Us
 - **Secret was not saved:** revoke and replace the API key, or rotate the webhook secret.
 - **Webhook URL is rejected:** use a resolvable public HTTPS destination, not an internal service.
 
-For unresolved issues, contact [8Labs support](/docs/help/contact) with the key name or endpoint identifier, timestamp, and redacted error. Never include bearer tokens or signing secrets.
+For unresolved issues, contact [8Labs support](/docs/help/contact/) with the key name or endpoint identifier, timestamp, and redacted error. Never include bearer tokens or signing secrets.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Account security](/docs/account/security)
-- [Teams and access overview](/docs/teams/overview)
-- [Project permissions](/docs/teams/projects#permission-set)
-- [Notification subscriptions](/docs/account/notifications)
+- [Account security](/docs/account/security/)
+- [Teams and access overview](/docs/teams/overview/)
+- [Project permissions](/docs/teams/projects/#permission-set)
+- [Notification subscriptions](/docs/account/notifications/)

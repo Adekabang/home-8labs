@@ -171,14 +171,14 @@ A failed submitted run does **not** trigger an automatic refund. Contact support
 | Scheduled runs stopped              | Check per-server entitlement, zero/full quota, pending jobs, schedule UTC time, and payer balance if fees apply.                                                                           |
 | Retention count stays high          | Protected or duplicate records, or cleanup retries, can prevent the target. Ask support; do not delete storage objects yourself.                                                           |
 
-Send [8Labs support](/docs/help/contact) the server and backup identifiers, UTC time, status, and exact error. Never send archive links, passwords, private keys, or unredacted sensitive contents.
+Send [8Labs support](/docs/help/contact/) the server and backup identifiers, UTC time, status, and exact error. Never send archive links, passwords, private keys, or unredacted sensitive contents.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Snapshots are not external backups](/docs/servers/snapshots)
-- [Server power actions](/docs/servers/power)
-- [Server settings and destructive actions](/docs/servers/settings)
-- [Billing and plans](/docs/billing-plans/overview)
-- [Troubleshooting](/docs/troubleshooting/overview)
+- [Snapshots are not external backups](/docs/servers/snapshots/)
+- [Server power actions](/docs/servers/power/)
+- [Server settings and destructive actions](/docs/servers/settings/)
+- [Billing and plans](/docs/billing-plans/overview/)
+- [Troubleshooting](/docs/troubleshooting/overview/)

@@ -61,7 +61,7 @@ Pemilik server, root admin platform, serta pemilik/admin organisasi terkait memi
 
 Menambahkan akun yang sudah ada ke proyek otomatis menambahkannya sebagai **Member** organisasi terkait bila diperlukan. Tindakan ini tidak menaikkan peran organisasi yang sudah ada. Anda tidak perlu menambahkan anggota organisasi secara terpisah.
 
-Undangan berbeda dari keanggotaan yang sudah aktif. Bagikan tautan secara privat dan tunggu penerimaan. Lihat [undangan](/id/docs/teams/invitations).
+Undangan berbeda dari keanggotaan yang sudah aktif. Bagikan tautan secara privat dan tunggu penerimaan. Lihat [undangan](/id/docs/teams/invitations/).
 
 ## Pastikan proses selesai
 
@@ -90,16 +90,16 @@ Mencabut undangan membatalkan tautannya; tindakan ini tidak menghapus akses yang
 - **Akun tidak ditemukan:** periksa email; gunakan undangan hanya untuk orang yang belum memiliki akun.
 - **Pengguna sudah ada atau sudah menjadi anggota:** tambahkan akun langsung atau edit baris anggotanya.
 - **Pemilik tidak bisa ditambahkan:** pemilik folder sudah memiliki akses penuh.
-- **Akses lebih luas daripada pilihan izin:** tinjau [gabungan sumber akses](/id/docs/teams/overview#the-access-model-at-a-glance).
+- **Akses lebih luas daripada pilihan izin:** tinjau [gabungan sumber akses](/id/docs/teams/overview/#the-access-model-at-a-glance).
 
-Jika izin tersimpan tidak sesuai dengan akses yang terlihat, jangan memperluas izin. Hubungi pemilik folder atau [dukungan](/id/docs/help/contact). Sertakan identitas proyek dan server, izin yang dimaksud, serta pesan kesalahan. Jangan sertakan token undangan atau API key.
+Jika izin tersimpan tidak sesuai dengan akses yang terlihat, jangan memperluas izin. Hubungi pemilik folder atau [dukungan](/id/docs/help/contact/). Sertakan identitas proyek dan server, izin yang dimaksud, serta pesan kesalahan. Jangan sertakan token undangan atau API key.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Organisasi](/id/docs/teams/organizations)
-- [Subuser server](/id/docs/teams/subusers)
-- [Undangan](/id/docs/teams/invitations)
-- [Personal API keys](/id/docs/account/api-keys): izin sumber daya yang didelegasikan juga berlaku untuk permintaan API.
-- [Folder server](/id/docs/servers/folders)
+- [Organisasi](/id/docs/teams/organizations/)
+- [Subuser server](/id/docs/teams/subusers/)
+- [Undangan](/id/docs/teams/invitations/)
+- [Personal API keys](/id/docs/account/api-keys/): izin sumber daya yang didelegasikan juga berlaku untuk permintaan API.
+- [Folder server](/id/docs/servers/folders/)

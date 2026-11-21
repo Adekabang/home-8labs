@@ -37,4 +37,4 @@ Kami tidak mengumpulkan data dari anak-anak.
 Silakan periksa kebijakan privasi ini secara berkala untuk pembaruan.
 
 ### 7. Informasi Kontak
-Jika Anda memiliki pertanyaan atau kekhawatiran, silakan hubungi kami di [sini](https://8labs.id/contact)
+Jika Anda memiliki pertanyaan atau kekhawatiran, silakan hubungi kami di [sini](https://8labs.id/contact/)

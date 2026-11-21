@@ -278,7 +278,7 @@ Most FreeIPA failures trace back to a broken link somewhere in this chain. Start
 
 ## Next Step
 
-- [Command reference](../command-reference) for everyday FreeIPA operations
+- [Command reference](../command-reference/) for everyday FreeIPA operations
 
 ---
 

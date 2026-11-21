@@ -171,8 +171,8 @@ ipa user-del testuser
 
 ## Next Steps
 
-- [Troubleshoot issues](../troubleshooting) like login timeouts or missing users
-- Quick [command reference](../command-reference) for day-to-day operations
+- [Troubleshoot issues](../troubleshooting/) like login timeouts or missing users
+- Quick [command reference](../command-reference/) for day-to-day operations
 
 ---
 

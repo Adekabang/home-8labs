@@ -248,4 +248,4 @@ Useful commands once installed include `/audit`, `/normalize`, `/polish`, `/dist
 
 ## What to do next
 
-Once installation is done, continue with [Configure providers, agents, and models](/guides/opencode/configuration).
+Once installation is done, continue with [Configure providers, agents, and models](/guides/opencode/configuration/).

@@ -51,7 +51,7 @@ Kami mengumpulkan nama, email, dan informasi pembayaran Anda (untuk layanan berb
 Kami mengumpulkan cookies web dan analitik.  
 
 ### 10. Kebijakan Privasi
-Untuk informasi lebih lanjut tentang bagaimana kami menangani data Anda, silakan merujuk ke [Kebijakan Privasi](/privacy-policy) kami.  
+Untuk informasi lebih lanjut tentang bagaimana kami menangani data Anda, silakan merujuk ke [Kebijakan Privasi](/privacy-policy/) kami.
 
 ### 11. Hukum yang Berlaku
 Syarat-syarat ini diatur oleh hukum Indonesia.  

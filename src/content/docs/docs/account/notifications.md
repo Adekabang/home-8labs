@@ -34,7 +34,7 @@ Delivery is queued, asynchronous, and best-effort. Transient delivery failures c
 
 Operator configuration is required, but customers do not need to create a bot, supply a bot token, register webhooks, or run queue workers.
 
-If **Telegram notifications** is missing from your account settings, ask [support](/docs/help/contact) whether the feature is offered on the hosted service. Do not enter an unrelated bot token or follow an unknown bot as a workaround.
+If **Telegram notifications** is missing from your account settings, ask [support](/docs/help/contact/) whether the feature is offered on the hosted service. Do not enter an unrelated bot token or follow an unknown bot as a workaround.
 
 <span id="connecting-your-account-users"></span>
 
@@ -91,13 +91,13 @@ Connection codes are random, single-use, and short-lived, but they are still sec
 - **Still Not connected:** select **Start** in Telegram and wait for confirmation. Request a fresh link after expiry.
 - **Connected but no alert arrived:** verify the relevant event occurred in an enabled flow. Delivery is not guaranteed.
 - **Need only some alerts:** this subscription has no per-event controls; disconnect if you do not want the available set.
-- **Wrong recipient or unexpected connection:** disconnect immediately and review [account security](/docs/account/security).
+- **Wrong recipient or unexpected connection:** disconnect immediately and review [account security](/docs/account/security/).
 
-For unresolved delivery issues, send [8Labs support](/docs/help/contact) the approximate event time, connection status, and affected server identifier. Do not send connection codes, bot credentials, or unredacted private messages. Use the panel and billing portal as the authoritative places to check their respective statuses.
+For unresolved delivery issues, send [8Labs support](/docs/help/contact/) the approximate event time, connection status, and affected server identifier. Do not send connection codes, bot credentials, or unredacted private messages. Use the panel and billing portal as the authoritative places to check their respective statuses.
 
 ## Related guides
 
-- [Account security](/docs/account/security)
-- [Personal API keys and webhooks](/docs/account/api-keys)
-- [Server overview](/docs/servers/overview)
-- [Billing and plans](/docs/billing-plans/overview)
+- [Account security](/docs/account/security/)
+- [Personal API keys and webhooks](/docs/account/api-keys/)
+- [Server overview](/docs/servers/overview/)
+- [Billing and plans](/docs/billing-plans/overview/)

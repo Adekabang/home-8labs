@@ -39,7 +39,7 @@ Open the folder's **⋯** menu and select **Rename** or **Delete**. Management c
 
 Deleting a personal folder moves its servers to the root; it does not delete the servers. Do not confuse folder deletion with **Delete Server** in server settings.
 
-For organization-linked projects, review shared-access effects before deleting or changing the project. Use the [projects guide](/docs/teams/projects).
+For organization-linked projects, review shared-access effects before deleting or changing the project. Use the [projects guide](/docs/teams/projects/).
 
 <span id="sorting"></span>
 
@@ -57,7 +57,7 @@ A plain folder organizes your own servers. Linking a folder to an organization t
 
 Use personal folders for private organization. Use a project when collaborators need an explicit set of permissions across its servers. Folder names alone do not establish an access policy.
 
-See [Projects](/docs/teams/projects) and [Organizations](/docs/teams/organizations) before using **Share…** or changing organization membership.
+See [Projects](/docs/teams/projects/) and [Organizations](/docs/teams/organizations/) before using **Share…** or changing organization membership.
 
 ## Troubleshooting and safe escalation
 
@@ -69,13 +69,13 @@ See [Projects](/docs/teams/projects) and [Organizations](/docs/teams/organizatio
 | A new folder does not appear           | Wait for the request, then reload the list once. Record any error before trying again.                         |
 | Project members have unexpected access | Review all applicable project, organization, and subuser grants. Removing one grant does not remove another.   |
 
-Contact [8Labs support](/docs/help/contact) if an authorized move remains unsuccessful. Include the server identifier, folder name, workspace, time, and exact error. Do not send passwords or private keys.
+Contact [8Labs support](/docs/help/contact/) if an authorized move remains unsuccessful. Include the server identifier, folder name, workspace, time, and exact error. Do not send passwords or private keys.
 
 <span id="see-also"></span>
 
 ## Related guides
 
-- [Servers overview](/docs/servers/overview)
-- [Projects](/docs/teams/projects)
-- [Organizations](/docs/teams/organizations)
-- [Teams and access overview](/docs/teams/overview)
+- [Servers overview](/docs/servers/overview/)
+- [Projects](/docs/teams/projects/)
+- [Organizations](/docs/teams/organizations/)
+- [Teams and access overview](/docs/teams/overview/)

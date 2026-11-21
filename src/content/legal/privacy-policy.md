@@ -37,4 +37,4 @@ We do not collect any data from children.
 Please check this privacy policy regularly for updates.
 
 ## 7. Contact Information
-If you have any questions or concerns, please contact us at [here](https://8labs.id/contact)
+If you have any questions or concerns, please contact us at [here](https://8labs.id/contact/)

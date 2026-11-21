@@ -25,9 +25,9 @@ Kontrol **Settings → Access** harus tersedia pada layanan. Kolaborator harus s
 | Subuser        | Satu server                    | **Settings → Access** pada server |
 | Anggota proyek | Semua server dalam satu proyek | Dialog **Share** pada folder      |
 
-Keduanya memakai [kumpulan izin](/id/docs/teams/projects#permission-set) yang sama. Akses efektif merupakan gabungan seluruh sumber akses yang berlaku.
+Keduanya memakai [kumpulan izin](/id/docs/teams/projects/#permission-set) yang sama. Akses efektif merupakan gabungan seluruh sumber akses yang berlaku.
 
-Pilih subuser jika satu server sudah mencukupi. Pilih [proyek](/id/docs/teams/projects) jika kolaborator yang sama memerlukan akses ke sekumpulan server.
+Pilih subuser jika satu server sudah mencukupi. Pilih [proyek](/id/docs/teams/projects/) jika kolaborator yang sama memerlukan akses ke sekumpulan server.
 
 <span id="managing-subusers"></span>
 
@@ -42,7 +42,7 @@ Pilih subuser jika satu server sudah mencukupi. Pilih [proyek](/id/docs/teams/pr
 
 Jangan menambahkan pemilik server sebagai subuser. Pemilik sudah memiliki akses penuh dan tidak dapat ditambahkan ke servernya sendiri.
 
-Jika orang tersebut belum memiliki akun, pembuatan subuser tidak dapat mendaftarkannya. Gunakan [undangan proyek](/id/docs/teams/invitations), jika tersedia, atau hubungi [dukungan](/id/docs/help/contact) mengenai pembuatan akses awal.
+Jika orang tersebut belum memiliki akun, pembuatan subuser tidak dapat mendaftarkannya. Gunakan [undangan proyek](/id/docs/teams/invitations/), jika tersedia, atau hubungi [dukungan](/id/docs/help/contact/) mengenai pembuatan akses awal.
 
 ## Edit atau hapus subuser
 
@@ -60,15 +60,15 @@ Halaman browser yang sudah terbuka mungkin perlu dimuat ulang agar kontrol sesua
 - **Kontrol akses tidak muncul:** pastikan Anda pemilik server. Minta pemilik melakukan perubahan; jangan berbagi kredensialnya.
 - **Akun tidak ditemukan:** periksa email runtime. Keberadaan akun penagihan saja tidak membuktikan bahwa akun runtime tersedia.
 - **Tindakan yang dibutuhkan tidak tersedia:** bandingkan tindakan dengan izin tersimpan, lalu periksa izin terkait lainnya.
-- **Akses masih ada setelah penghapusan:** periksa [gabungan sumber akses](/id/docs/teams/overview#the-access-model-at-a-glance), bukan menghapus baris yang sama berulang kali.
+- **Akses masih ada setelah penghapusan:** periksa [gabungan sumber akses](/id/docs/teams/overview/#the-access-model-at-a-glance), bukan menghapus baris yang sama berulang kali.
 
-Akses konsol, daya, pemulihan, dan instalasi ulang dapat memengaruhi beban kerja atau data. Berikan setiap izin dengan pertimbangan. Jika mencurigai penyalahgunaan, hapus izin terkait dan hubungi pemilik server atau [dukungan](/id/docs/help/contact). Sertakan identitas server dan waktu kejadian, tanpa kredensial atau keluaran konsol sensitif.
+Akses konsol, daya, pemulihan, dan instalasi ulang dapat memengaruhi beban kerja atau data. Berikan setiap izin dengan pertimbangan. Jika mencurigai penyalahgunaan, hapus izin terkait dan hubungi pemilik server atau [dukungan](/id/docs/help/contact/). Sertakan identitas server dan waktu kejadian, tanpa kredensial atau keluaran konsol sensitif.
 
 <span id="see-also"></span>
 
 ## Panduan terkait
 
-- [Proyek dan pendelegasian akses](/id/docs/teams/projects)
-- [Ringkasan tim dan akses](/id/docs/teams/overview)
-- [Keamanan akun](/id/docs/account/security)
-- [Pengaturan server](/id/docs/servers/settings)
+- [Proyek dan pendelegasian akses](/id/docs/teams/projects/)
+- [Ringkasan tim dan akses](/id/docs/teams/overview/)
+- [Keamanan akun](/id/docs/account/security/)
+- [Pengaturan server](/id/docs/servers/settings/)

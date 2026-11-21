@@ -34,7 +34,7 @@ Pengiriman memakai antrean, berjalan asinkron, dan diupayakan tanpa jaminan sela
 
 Konfigurasi operator diperlukan, tetapi pelanggan tidak perlu membuat bot, memberikan token bot, mendaftarkan webhook, atau menjalankan pekerja antrean.
 
-Jika **Telegram notifications** tidak muncul pada pengaturan akun, tanyakan kepada [dukungan](/id/docs/help/contact) apakah fitur tersedia pada layanan. Jangan memasukkan token bot lain atau mengikuti bot yang tidak dikenal sebagai jalan pintas.
+Jika **Telegram notifications** tidak muncul pada pengaturan akun, tanyakan kepada [dukungan](/id/docs/help/contact/) apakah fitur tersedia pada layanan. Jangan memasukkan token bot lain atau mengikuti bot yang tidak dikenal sebagai jalan pintas.
 
 <span id="connecting-your-account-users"></span>
 
@@ -91,13 +91,13 @@ Kode koneksi bersifat acak, sekali pakai, dan berumur pendek, tetapi tetap merup
 - **Masih Not connected:** pilih **Start** di Telegram dan tunggu konfirmasi. Minta tautan baru jika kedaluwarsa.
 - **Connected tetapi tidak ada pemberitahuan:** pastikan peristiwa terkait terjadi pada alur yang diaktifkan. Pengiriman tidak dijamin.
 - **Hanya membutuhkan sebagian pemberitahuan:** langganan ini tidak memiliki kontrol per peristiwa; putuskan koneksi jika tidak menginginkan seluruh kumpulan yang tersedia.
-- **Penerima salah atau koneksi tidak dikenal:** segera putuskan dan tinjau [keamanan akun](/id/docs/account/security).
+- **Penerima salah atau koneksi tidak dikenal:** segera putuskan dan tinjau [keamanan akun](/id/docs/account/security/).
 
-Untuk masalah pengiriman yang belum selesai, kirim perkiraan waktu peristiwa, status koneksi, dan identitas server kepada [dukungan 8Labs](/id/docs/help/contact). Jangan kirim kode koneksi, kredensial bot, atau pesan privat tanpa penyamaran. Gunakan panel dan portal penagihan untuk memeriksa status masing-masing secara resmi.
+Untuk masalah pengiriman yang belum selesai, kirim perkiraan waktu peristiwa, status koneksi, dan identitas server kepada [dukungan 8Labs](/id/docs/help/contact/). Jangan kirim kode koneksi, kredensial bot, atau pesan privat tanpa penyamaran. Gunakan panel dan portal penagihan untuk memeriksa status masing-masing secara resmi.
 
 ## Panduan terkait
 
-- [Keamanan akun](/id/docs/account/security)
-- [Personal API keys dan webhook](/id/docs/account/api-keys)
-- [Ringkasan server](/id/docs/servers/overview)
-- [Tagihan dan paket](/id/docs/billing-plans/overview)
+- [Keamanan akun](/id/docs/account/security/)
+- [Personal API keys dan webhook](/id/docs/account/api-keys/)
+- [Ringkasan server](/id/docs/servers/overview/)
+- [Tagihan dan paket](/id/docs/billing-plans/overview/)

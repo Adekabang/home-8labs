@@ -20,7 +20,7 @@ This guide is for owners and collaborators authorized to manage a server at [clo
 
 Before proceeding:
 
-- Open and test the [server console](/docs/servers/console).
+- Open and test the [server console](/docs/servers/console/).
 - Record existing rules and confirm the inbound and outbound default policies with support if unknown.
 - Confirm the management protocol, actual guest port, and trusted source addresses.
 - Check the guest firewall and service configuration separately.
@@ -64,7 +64,7 @@ Address fields accept an IP, CIDR, range, or list. Port fields support a single 
 
 Use **Move up**, **Move down**, **Move First**, or **Move Last** to adjust order. Re-read the whole relevant sequence after each move. Enable, disable, edit, and delete operations are separate changes, not one transaction.
 
-An allow does not create a NAT mapping, start a guest service, or override every upstream firewall. See [network access](/docs/servers/network).
+An allow does not create a NAT mapping, start a guest service, or override every upstream firewall. See [network access](/docs/servers/network/).
 
 ## Manage account firewall templates
 
@@ -139,12 +139,12 @@ If application fails, refresh and inspect the actual list before retrying. A dis
 | Unexpected broad management access | Review preset rules ahead of source-restricted rules. Use console-backed individual changes to restore the intended restrictions.         |
 | No working console                 | Stop firewall changes and contact support before risking management access.                                                               |
 
-Contact [8Labs support](/docs/help/contact) for unknown defaults, persistent API failures, or lost access. Include server ID, UTC time, intended protocol/port, and redacted rule order. Do not include credentials or session tokens.
+Contact [8Labs support](/docs/help/contact/) for unknown defaults, persistent API failures, or lost access. Include server ID, UTC time, intended protocol/port, and redacted rule order. Do not include credentials or session tokens.
 
 ## Related guides
 
-- [Console access](/docs/servers/console)
-- [Network addresses and NAT](/docs/servers/network)
-- [SSH access](/docs/getting-started/ssh)
-- [RDP access](/docs/getting-started/rdp)
-- [Troubleshooting](/docs/troubleshooting/overview)
+- [Console access](/docs/servers/console/)
+- [Network addresses and NAT](/docs/servers/network/)
+- [SSH access](/docs/getting-started/ssh/)
+- [RDP access](/docs/getting-started/rdp/)
+- [Troubleshooting](/docs/troubleshooting/overview/)

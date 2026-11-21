@@ -12,21 +12,21 @@ cover:
 
 I used to keep everything in one giant setup note, but in real life it was hard to use as a daily reference. Every time I needed one specific thing (provider setup, MCP, model choice, troubleshooting), I had to scroll through a giant wall of text.
 
-So I turned it into a structured workflow map in the [OpenCode Overview](/guides/opencode/overview): install, provider strategy, configuration, tools, operation mode, and troubleshooting.
+So I turned it into a structured workflow map in the [OpenCode Overview](/guides/opencode/overview/): install, provider strategy, configuration, tools, operation mode, and troubleshooting.
 
 
 ## What Changed (TL;DR)
 
 Instead of one massive guide, it is now split into practical pages:
 
-- [Quick Start](/guides/opencode/quick-start)
-- [Installation](/guides/opencode/installation)
-- [Configuration](/guides/opencode/configuration)
-- [MCP Tools](/guides/opencode/mcp-guide)
-- [Project Rules](/guides/opencode/project-rules)
-- [Skills Integration](/guides/opencode/skills-integration)
-- [Planner Strategy](/guides/opencode/planner-strategy)
-- [Troubleshooting](/guides/opencode/troubleshooting)
+- [Quick Start](/guides/opencode/quick-start/)
+- [Installation](/guides/opencode/installation/)
+- [Configuration](/guides/opencode/configuration/)
+- [MCP Tools](/guides/opencode/mcp-guide/)
+- [Project Rules](/guides/opencode/project-rules/)
+- [Skills Integration](/guides/opencode/skills-integration/)
+- [Planner Strategy](/guides/opencode/planner-strategy/)
+- [Troubleshooting](/guides/opencode/troubleshooting/)
 
 The main goal was simple: make this usable when actually working, not just "complete on paper."
 
@@ -35,8 +35,8 @@ The main goal was simple: make this usable when actually working, not just "comp
 The guides section has been trimmed and expanded:
 
 - **Narrative content** (provider strategy philosophy, agent personalities, tool philosophy) has been distilled — the guides now focus on concrete HOWTO steps
-- **[ECC](/guides/opencode/ecc)** — Everything Claude Code: 64 agents, 262 skills, 84 commands. Production-ready agent harness across Claude Code, OpenCode, Codex, and more
-- **[Caveman](/guides/opencode/caveman)** — Token compression that cuts ~75% output tokens with zero accuracy loss. One-line install, works across 30+ agents
+- **[ECC](/guides/opencode/ecc/)** — Everything Claude Code: 64 agents, 262 skills, 84 commands. Production-ready agent harness across Claude Code, OpenCode, Codex, and more
+- **[Caveman](/guides/opencode/caveman/)** — Token compression that cuts ~75% output tokens with zero accuracy loss. One-line install, works across 30+ agents
 
 ## Workflow Mindset I'm Using Now
 
