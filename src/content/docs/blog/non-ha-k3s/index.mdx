@@ -13,6 +13,8 @@ cover:
   image: ./cover.png
 ---
 
+import Mechanism from "@/components/diagrams/Mechanism.astro";
+
 Last Update: 25 February 2025
 
 ## K3S
@@ -27,12 +29,7 @@ Last Update: 25 February 2025
 
 ## Non-HA Control Plane Setup and Configuration
 
-<figure class="flow-figure">
-  <strong>One control plane, two workers</strong>
-  <div class="flow-track"><span class="flow-node">K3s server VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Worker VM A</span></div>
-  <div class="flow-track"><span class="flow-node">K3s server VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Worker VM B</span></div>
-  <figcaption>Both workers use the same control plane on Proxmox. If the server VM stops, existing pods may keep running, but the cluster cannot schedule new ones.</figcaption>
-</figure>
+<Mechanism id="cluster" title="One control plane, two workers" caption="Both workers use the same control plane on Proxmox. If the server VM stops, existing pods may keep running, but the cluster cannot schedule new ones." />
 
 The implementation Scenario will be configured:
 
@@ -217,11 +214,7 @@ Because we disable some service in the master node. Now we are going to install 
 
 ### MetalLB - Load Balancer Installation and Configuration
 
-<figure class="flow-figure">
-  <strong>How a request reaches a pod</strong>
-  <div class="flow-track"><span class="flow-node">Client on the network</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">External service IP</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Cluster node</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Ready backend pod</span></div>
-  <figcaption>MetalLB assigns the LoadBalancer Service an address and announces it on the local network. Kubernetes routes traffic arriving at that address to a ready endpoint.</figcaption>
-</figure>
+<Mechanism id="balance" title="How a request reaches a pod" caption="MetalLB assigns the LoadBalancer Service an address and announces it on the local network. Kubernetes routes traffic arriving at that address to a ready endpoint." />
 
 #### Services
 
@@ -367,12 +360,7 @@ Because we disable some service in the master node. Now we are going to install 
 
 ### Nginx - Ingress Controller Installation and Configuration
 
-<figure class="flow-figure">
-  <strong>One ingress address, different HTTP outcomes</strong>
-  <div class="flow-track"><span class="flow-node">Host: nginx.demo.local</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Matching ingress rule</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Demo Service</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">App pod</span></div>
-  <div class="flow-track"><span class="flow-node">Unmatched host</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">NGINX controller</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Default response</span></div>
-  <figcaption>DNS points the host to the ingress address. The controller checks the HTTP host and path; reaching the IP alone does not select the demo app.</figcaption>
-</figure>
+<Mechanism id="ingress" title="One ingress address, different HTTP outcomes" caption="DNS points the host to the ingress address. The controller checks the HTTP host and path; reaching the IP alone does not select the demo app." />
 
 #### Installation Step by Step
 
@@ -508,10 +496,6 @@ Because we disable some service in the master node. Now we are going to install 
 
 ### CEPH CSI - StorageClass Installation and Configuration
 
-<figure class="flow-figure">
-  <strong>How a pod gets persistent storage</strong>
-  <div class="flow-track"><span class="flow-node">Pod requests a PVC</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Claim selects a StorageClass</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Ceph CSI provisions storage</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Bound volume mounts in the pod</span></div>
-  <figcaption>Conceptual example of dynamic provisioning. The claim names the storage it needs; the StorageClass selects the provisioner. This lab did not include a Ceph cluster.</figcaption>
-</figure>
+<Mechanism id="storage" title="How a pod gets persistent storage" caption="Conceptual example of dynamic provisioning. The claim names the storage it needs; the StorageClass selects the provisioner. This lab did not include a Ceph cluster." />
 
 This section describes the storage model only; it does not provide a tested Ceph installation procedure.

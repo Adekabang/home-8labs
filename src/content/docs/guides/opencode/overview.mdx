@@ -5,6 +5,8 @@ sidebar:
   order: 1
 ---
 
+import Mechanism from "@/components/diagrams/Mechanism.astro";
+
 This section provides a cleaner documentation map for day-to-day use. It is based on a local setup that uses **OpenCode**, **CLIProxyAPI**, and **oh-my-openagent**, with optional extras such as **Superpowers** and **Impeccable**.
 
 Instead of one long guide, the same information is organized here by task: install, configure, extend, operate, and troubleshoot.
@@ -32,11 +34,7 @@ The setup described here does **not** assume CLIProxyAPI is the only provider pa
 
 ## Architecture at a Glance
 
-<figure class="flow-figure">
-  <strong>One model request</strong>
-  <div class="flow-track"><span class="flow-node">OpenCode client</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">CLIProxyAPI</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Upstream model provider</span></div>
-  <figcaption>OpenCode sends an OpenAI-compatible request to the local proxy. The proxy authenticates to the provider.</figcaption>
-</figure>
+<Mechanism id="proxy" title="One model request" caption="OpenCode sends an OpenAI-compatible request to the local proxy. The proxy authenticates to the provider." />
 
 Local API endpoint: `http://localhost:8317/v1`.
 

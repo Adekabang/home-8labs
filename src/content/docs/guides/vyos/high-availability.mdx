@@ -5,6 +5,8 @@ sidebar:
   order: 7
 ---
 
+import Mechanism from "@/components/diagrams/Mechanism.astro";
+
 <span id="high-availability-with-vrrp"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
@@ -13,12 +15,7 @@ VRRP (Virtual Router Redundancy Protocol) lets two or more VyOS routers share a 
 
 ## Architecture
 
-<figure class="flow-figure">
-  <strong>Who owns the gateway address?</strong>
-  <div class="flow-track"><span class="flow-node">Before failure: router A (.2)</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Owns gateway 192.168.1.1</span></div>
-  <div class="flow-track"><span class="flow-node">After takeover: router B (.3)</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Owns gateway 192.168.1.1</span></div>
-  <figcaption>Clients keep the same gateway address. Takeover takes time; whether existing sessions survive also depends on synchronized state.</figcaption>
-</figure>
+<Mechanism id="failover" title="Who owns the gateway address?" caption="Clients keep the same gateway address. Takeover takes time; whether existing sessions survive also depends on synchronized state." />
 
 ## Basic VRRP <sup>🟢 1.3+</sup>
 

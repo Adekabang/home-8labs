@@ -5,6 +5,8 @@ sidebar:
   order: 10
 ---
 
+import Mechanism from "@/components/diagrams/Mechanism.astro";
+
 <span id="vyos-syslog-to-graylog"></span>
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
@@ -15,11 +17,7 @@ Based on [brav0charlie's guide](https://web.archive.org/web/20240810210425/https
 
 ## Architecture
 
-<figure class="flow-figure">
-  <strong>Where router logs go</strong>
-  <div class="flow-track"><span class="flow-node">VyOS router</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Syslog over UDP port 514</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Graylog input on the Docker host</span></div>
-  <figcaption>Graylog receives logs on its syslog input. Port 9000 serves the web interface, not incoming router logs.</figcaption>
-</figure>
+<Mechanism id="logs" title="Where router logs go" caption="Graylog receives logs on its syslog input. Port 9000 serves the web interface, not incoming router logs." />
 
 ## Prerequisites
 
@@ -178,7 +176,7 @@ volumes:
    - ✅ Store full message
 4. Click **Save** → **Start input**
 
-> **Why port 1514?** Graylog runs non-root, can't bind to ports <1024. Docker maps host 514 → container 1514.
+> **Why port 1514?** Graylog runs non-root, can't bind to ports below 1024. Docker maps host 514 → container 1514.
 
 ## VyOS → Graylog: Syslog Forwarding <sup>🟡 1.4+</sup>
 

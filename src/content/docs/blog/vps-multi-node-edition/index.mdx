@@ -9,6 +9,8 @@ cover:
   image: ./cover.png
 ---
 
+import Mechanism from "@/components/diagrams/Mechanism.astro";
+
 import { Tabs, TabItem } from "@/components/ui/tabs";
 
 <span id="production-ready-vps-multi-node-edition" data-legacy-title="true"></span>
@@ -23,20 +25,9 @@ The fix: **two VPS nodes**. But two nodes means two copies of everything, and tw
 
 ## Architecture
 
-<figure class="flow-figure">
-  <strong>Request routing</strong>
-  <div class="flow-track"><span class="flow-node">Cloudflare proxy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">VPS-1: Caddy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Local app replicas</span></div>
-  <div class="flow-track"><span class="flow-node">Cloudflare proxy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">VPS-2: Caddy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Local app replicas</span></div>
-  <figcaption>Both origins serve application traffic. The origin receiving a request does not determine which database accepts writes.</figcaption>
-</figure>
+<Mechanism id="origins" title="Request routing" caption="Both origins serve application traffic. The origin receiving a request does not determine which database accepts writes." />
 
-<figure class="flow-figure">
-  <strong>Replication between the two origins</strong>
-  <div class="flow-track"><span class="flow-node">Postgres primary on VPS-1</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">WAL stream</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Postgres standby on VPS-2</span></div>
-  <div class="flow-track"><span class="flow-node">MinIO uploads on VPS-1</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Bucket replication</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">MinIO uploads on VPS-2</span></div>
-  <div class="flow-track"><span class="flow-node">MinIO uploads on VPS-2</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Reverse bucket rule</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">MinIO uploads on VPS-1</span></div>
-  <figcaption>Postgres streams in one direction until the standby is promoted. MinIO has two bucket rules, one for each direction.</figcaption>
-</figure>
+<Mechanism id="replication" title="Replication between the two origins" caption="Postgres streams in one direction until the standby is promoted. MinIO has two bucket rules, one for each direction." />
 
 The application sends writes to VPS-1 in this setup. Database promotion is a separate operator action.
 

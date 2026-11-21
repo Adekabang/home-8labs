@@ -5,6 +5,8 @@ sidebar:
   order: 5
 ---
 
+import Mechanism from "@/components/diagrams/Mechanism.astro";
+
 > **Cakupan:** Proxmox VE standalone node dengan management interface langsung menghadap jaringan publik.
 > **Tujuan:** membatasi akses management Proxmox tanpa mengubah atau mengganggu firewall milik VM/tenant.
 
@@ -1203,12 +1205,7 @@ Jangan disable password authentication sebelum semua lokasi administrator telah 
 
 ## 37. Arsitektur Akhir
 
-<figure class="flow-figure">
-  <strong>Dua jalur firewall Proxmox</strong>
-  <div class="flow-track"><span class="flow-node">Trafik ke host</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">PVEFW-HOST-IN</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">SSH atau antarmuka web Proxmox</span></div>
-  <div class="flow-track"><span class="flow-node">Trafik ke VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">PVEFW-FWBR-*</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Antarmuka tap VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Firewall VM</span></div>
-  <figcaption>Untuk port manajemen 22 dan 8006, izinkan sumber admin dan tolak sumber lain. Aturan ini berlaku untuk host; jangan ubah aturan milik penyewa VM.</figcaption>
-</figure>
+<Mechanism id="proxmox" title="Dua jalur firewall Proxmox" caption="Untuk port manajemen 22 dan 8006, izinkan sumber admin dan tolak sumber lain. Aturan ini berlaku untuk host; jangan ubah aturan milik penyewa VM." />
 
 ## Operational Rule
 
