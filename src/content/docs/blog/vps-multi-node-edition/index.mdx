@@ -23,29 +23,22 @@ The fix: **two VPS nodes**. But two nodes means two copies of everything, and tw
 
 ## Architecture
 
-```
-                          ┌─────────────┐
-                          │ Cloudflare   │
-                          │ Orange Cloud │
-                          │ (2x A record)│
-                          └──────┬──────┘
-                                 │
-                    ┌────────────┴────────────┐
-                    │                         │
-              ┌─────▼─────┐             ┌─────▼─────┐
-              │   VPS-1   │             │   VPS-2   │
-              │   Caddy   │             │   Caddy   │
-              │  App x3   │             │  App x3   │
-              │ Watchtower│             │ Watchtower│
-              │           │             │           │
-              │ Postgres  │◇streaming◇│ Postgres  │
-              │ (PRIMARY) │◇replication◇│ (REPLICA) │
-              │           │             │           │
-              │  MinIO    │◇◀─sync────◇│  MinIO    │
-              └───────────┘             └───────────┘
-```
+<figure class="flow-figure">
+  <strong>Request routing</strong>
+  <div class="flow-track"><span class="flow-node">Cloudflare proxy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">VPS-1: Caddy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Local app replicas</span></div>
+  <div class="flow-track"><span class="flow-node">Cloudflare proxy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">VPS-2: Caddy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Local app replicas</span></div>
+  <figcaption>Both origins serve application traffic. The origin receiving a request does not determine which database accepts writes.</figcaption>
+</figure>
 
-VPS-1 is the primary: Postgres writes, MinIO writes. VPS-2 replicates both. If VPS-1 goes down, promote VPS-2 to primary. Everything lives on your own metal.
+<figure class="flow-figure">
+  <strong>Replication between the two origins</strong>
+  <div class="flow-track"><span class="flow-node">Postgres primary on VPS-1</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">WAL stream</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Postgres standby on VPS-2</span></div>
+  <div class="flow-track"><span class="flow-node">MinIO uploads on VPS-1</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Bucket replication</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">MinIO uploads on VPS-2</span></div>
+  <div class="flow-track"><span class="flow-node">MinIO uploads on VPS-2</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Reverse bucket rule</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">MinIO uploads on VPS-1</span></div>
+  <figcaption>Postgres streams in one direction until the standby is promoted. MinIO has two bucket rules, one for each direction.</figcaption>
+</figure>
+
+The application sends writes to VPS-1 in this setup. Database promotion is a separate operator action.
 
 ---
 

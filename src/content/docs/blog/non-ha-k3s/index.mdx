@@ -25,9 +25,14 @@ Last Update: 25 February 2025
 - [MetalLB: Installation with Helm](https://metallb.io/installation/#installation-with-helm)
 - [Helm: Installing from APT - Ubuntu/Debian](https://helm.sh/docs/intro/install/#from-apt-debianubuntu)
 
-## Non-HA Control Plan Setup and Configuration
+## Non-HA Control Plane Setup and Configuration
 
-![Non HA Control Plane Kubernetes](00-non-ha-control-plane-kubernetes.png)
+<figure class="flow-figure">
+  <strong>One control plane, two workers</strong>
+  <div class="flow-track"><span class="flow-node">K3s server VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Worker VM A</span></div>
+  <div class="flow-track"><span class="flow-node">K3s server VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Worker VM B</span></div>
+  <figcaption>Both workers use the same control plane on Proxmox. If the server VM stops, existing pods may keep running, but the cluster cannot schedule new ones.</figcaption>
+</figure>
 
 The implementation Scenario will be configured:
 
@@ -212,7 +217,11 @@ Because we disable some service in the master node. Now we are going to install 
 
 ### MetalLB - Load Balancer Installation and Configuration
 
-![Load Balancer Diagram](08-load-balancer-diagram.png)
+<figure class="flow-figure">
+  <strong>How a request reaches a pod</strong>
+  <div class="flow-track"><span class="flow-node">Client on the network</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">External service IP</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Cluster node</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Ready backend pod</span></div>
+  <figcaption>MetalLB assigns the LoadBalancer Service an address and announces it on the local network. Kubernetes routes traffic arriving at that address to a ready endpoint.</figcaption>
+</figure>
 
 #### Services
 
@@ -358,7 +367,12 @@ Because we disable some service in the master node. Now we are going to install 
 
 ### Nginx - Ingress Controller Installation and Configuration
 
-![Ingress Diagram](15-ingress-diagram.png)
+<figure class="flow-figure">
+  <strong>One ingress address, different HTTP outcomes</strong>
+  <div class="flow-track"><span class="flow-node">Host: nginx.demo.local</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Matching ingress rule</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Demo Service</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">App pod</span></div>
+  <div class="flow-track"><span class="flow-node">Unmatched host</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">NGINX controller</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Default response</span></div>
+  <figcaption>DNS points the host to the ingress address. The controller checks the HTTP host and path; reaching the IP alone does not select the demo app.</figcaption>
+</figure>
 
 #### Installation Step by Step
 
@@ -494,6 +508,10 @@ Because we disable some service in the master node. Now we are going to install 
 
 ### CEPH CSI - StorageClass Installation and Configuration
 
-![StorageClass Diagram](20-storageclass-diagram.png)
+<figure class="flow-figure">
+  <strong>How a pod gets persistent storage</strong>
+  <div class="flow-track"><span class="flow-node">Pod requests a PVC</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Claim selects a StorageClass</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Ceph CSI provisions storage</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Bound volume mounts in the pod</span></div>
+  <figcaption>Conceptual example of dynamic provisioning. The claim names the storage it needs; the StorageClass selects the provisioner. This lab did not include a Ceph cluster.</figcaption>
+</figure>
 
-**TODO** - i don't have CEPH cluster yet 🙈
+This section describes the storage model only; it does not provide a tested Ceph installation procedure.

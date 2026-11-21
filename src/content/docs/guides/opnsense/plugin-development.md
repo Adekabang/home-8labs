@@ -23,29 +23,11 @@ A plugin gives you: native OPNsense web UI, config.xml integration, service star
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────────┐
-│                 Frontend (PHP/Phalcon MVC)        │
-│  ┌──────────┐  ┌──────────┐  ┌────────────────┐  │
-│  │ Models   │  │ Views    │  │ Controllers    │  │
-│  │ XML+PHP  │  │ .volt    │  │ Index, Api/*   │  │
-│  │ (config  │  │ (HTML    │  │ (routing, JSON │  │
-│  │  schema) │  │  render) │  │  API endpoints)│  │
-│  └──────────┘  └──────────┘  └───────┬────────┘  │
-│                                      │            │
-├──────────────────────────────────────┼────────────┤
-│                          Unix socket │            │
-│  ┌───────────────────────────────────┴─────────┐  │
-│  │          Backend (configd / Python)          │  │
-│  │  ┌──────────┐  ┌────────────┐  ┌─────────┐ │  │
-│  │  │ Actions  │  │ Templates  │  │ Scripts │ │  │
-│  │  │ .conf    │  │ Jinja2     │  │ .py/.sh │ │  │
-│  │  │ (daemon  │  │ (config    │  │ (custom │ │  │
-│  │  │  control)│  │  generation)│  │  logic) │ │  │
-│  │  └──────────┘  └────────────┘  └─────────┘ │  │
-│  └─────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────┘
-```
+<figure class="flow-figure">
+  <strong>Trace a plugin action</strong>
+  <div class="flow-track"><span class="flow-node">Web UI or API request</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">PHP controller</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Unix socket</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">configd action</span></div>
+  <figcaption>The controller requests a backend action. Depending on the action, configd can run a script or render a configuration template.</figcaption>
+</figure>
 
 **Key principles:**
 

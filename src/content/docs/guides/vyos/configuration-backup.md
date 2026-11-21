@@ -13,18 +13,11 @@ Based on [brav0charlie's workflow](https://web.archive.org/web/20241211212218/ht
 
 ## Architecture
 
-```
-VyOS Router                          Git Server (Gitea/GitHub/GitLab)
-┌──────────────────────────┐         ┌─────────────────────┐
-│ commit                   │         │                     │
-│   ↓                      │         │  config-router01/   │
-│ post-hook script:        │  push   │  ├── router01       │
-│  1. export config        │────────▶│  │   .commands.conf │
-│  2. git add -A           │         │  │   .config.boot    │
-│  3. git commit           │         │  └── ...            │
-│  4. git push             │         │                     │
-└──────────────────────────┘         └─────────────────────┘
-```
+<figure class="flow-figure">
+  <strong>From router commit to remote backup</strong>
+  <div class="flow-track"><span class="flow-node">VyOS commit</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Post-hook exports configuration</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Git commit and push</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Remote Git repository</span></div>
+  <figcaption>The backup leaves the router only after the push succeeds.</figcaption>
+</figure>
 
 ## Prerequisites
 

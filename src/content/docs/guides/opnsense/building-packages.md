@@ -25,17 +25,11 @@ The official way is OPNsense's `tools.git`.
 
 ## Architecture
 
-```
-┌─────────────────────────┐     ┌──────────────────────┐
-│  FreeBSD 14 Build VM    │     │   OPNsense Firewall  │
-│                         │     │                      │
-│  /usr/tools (git)       │     │  pkg repo pointing   │
-│  /usr/ports (git)       │──▶──│  to build VM via     │
-│  /usr/src (git)         │     │  HTTP or NFS         │
-│                         │     │                      │
-│  make ports → packages  │     │  pkg install <pkg>   │
-└─────────────────────────┘     └──────────────────────┘
-```
+<figure class="flow-figure">
+  <strong>From build host to firewall</strong>
+  <div class="flow-track"><span class="flow-node">FreeBSD build VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Package repository</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">OPNsense firewall</span></div>
+  <figcaption>Build the package on the VM. The firewall reads the repository over HTTP or NFS and installs the package.</figcaption>
+</figure>
 
 You build on a separate machine (or VM), never directly on your production firewall. The build machine needs:
 

@@ -9,26 +9,16 @@ sidebar:
 
 > **Version key:** <sup>🟢</sup> = 1.3+ · <sup>🟡</sup> = 1.4+ · <sup>🟣</sup> = 1.5+
 
-VRRP (Virtual Router Redundancy Protocol) lets two or more VyOS routers share a **virtual IP**. If the master fails, a backup takes over — clients don't notice.
+VRRP (Virtual Router Redundancy Protocol) lets two or more VyOS routers share a **virtual IP**. If the active router fails, a backup can take ownership of the gateway address.
 
 ## Architecture
 
-```
-     ┌─────────────────────────────┐
-     │     Virtual IP: .1          │
-     │  ┌─────────┐  ┌─────────┐   │
-     │  │ Router A │  │ Router B │   │
-     │  │ MASTER   │  │ BACKUP   │   │
-     │  │ .2       │  │ .3       │   │
-     │  └────┬─────┘  └────┬─────┘   │
-     │       │             │         │
-     └───────┼─────────────┼─────────┘
-             │   SWITCH    │
-       ┌─────┴─────────────┴─────┐
-       │     192.168.1.0/24      │
-       │   Gateway: 192.168.1.1  │  ← Virtual IP
-       └─────────────────────────┘
-```
+<figure class="flow-figure">
+  <strong>Who owns the gateway address?</strong>
+  <div class="flow-track"><span class="flow-node">Before failure: router A (.2)</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Owns gateway 192.168.1.1</span></div>
+  <div class="flow-track"><span class="flow-node">After takeover: router B (.3)</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Owns gateway 192.168.1.1</span></div>
+  <figcaption>Clients keep the same gateway address. Takeover takes time; whether existing sessions survive also depends on synchronized state.</figcaption>
+</figure>
 
 ## Basic VRRP <sup>🟢 1.3+</sup>
 

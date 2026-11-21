@@ -15,18 +15,11 @@ Based on [brav0charlie's guide](https://web.archive.org/web/20240810210425/https
 
 ## Architecture
 
-```
-┌──────────┐   syslog UDP:514   ┌─────────────────────────┐
-│  VyOS    │ ──────────────────▶│  Graylog Server          │
-│  Router  │                    │  Docker Host             │
-└──────────┘                    │  ┌───────────────────┐  │
-                                │  │ graylog:6         │  │
-                                │  │ opensearch:2      │  │
-                                │  │ datanode (built-in)│  │
-                                │  └───────────────────┘  │
-                                │  Web UI: :9000          │
-                                └─────────────────────────┘
-```
+<figure class="flow-figure">
+  <strong>Where router logs go</strong>
+  <div class="flow-track"><span class="flow-node">VyOS router</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Syslog over UDP port 514</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Graylog input on the Docker host</span></div>
+  <figcaption>Graylog receives logs on its syslog input. Port 9000 serves the web interface, not incoming router logs.</figcaption>
+</figure>
 
 ## Prerequisites
 

@@ -13,16 +13,12 @@ VyOS uses a **zone-based firewall** model <sup>🟡 1.4+</sup> — you define zo
 
 ## The Zone Model
 
-```
-         ┌──────────┐
- WAN ───▶│  LOCAL   │◀─── (traffic TO the router)
-         └──────────┘
-              ▲
-              │
-         ┌────┴─────┐
- LAN ───▶│  LAN      │◀─── (traffic BETWEEN interfaces)
-         └──────────┘
-```
+<figure class="flow-figure">
+  <strong>Two packet destinations</strong>
+  <div class="flow-track"><span class="flow-node">Packet for a router address</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Local input policy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Router service</span></div>
+  <div class="flow-track"><span class="flow-node">Packet for another host</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Forward policy</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Outgoing interface</span></div>
+  <figcaption>Choose the policy by the packet’s destination: the router itself or a host beyond it.</figcaption>
+</figure>
 
 - **LOCAL** zone: traffic destined to the router itself (SSH, DNS, management)
 - **From LAN** zone: traffic from the LAN zone to WAN/LOCAL

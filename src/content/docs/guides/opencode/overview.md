@@ -32,27 +32,13 @@ The setup described here does **not** assume CLIProxyAPI is the only provider pa
 
 ## Architecture at a Glance
 
-```text
-┌─────────────────────┐
-│      OpenCode       │
-│  oh-my-openagent    │
-└─────────┬───────────┘
-          │ OpenAI-compatible API
-          │ http://localhost:8317/v1
-          ▼
-┌─────────────────────┐
-│     CLIProxyAPI     │
-│ Homebrew service    │
-│ Port 8317           │
-└─────────┬───────────┘
-          │ OAuth tokens / provider auth
-          ▼
-┌─────────────────────┐
-│ Upstream LLM models │
-│ GPT-5.x, Claude,    │
-│ Gemini, Kimi, etc.  │
-└─────────────────────┘
-```
+<figure class="flow-figure">
+  <strong>One model request</strong>
+  <div class="flow-track"><span class="flow-node">OpenCode client</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">CLIProxyAPI</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Upstream model provider</span></div>
+  <figcaption>OpenCode sends an OpenAI-compatible request to the local proxy. The proxy authenticates to the provider.</figcaption>
+</figure>
+
+Local API endpoint: `http://localhost:8317/v1`.
 
 ## What This Setup Optimizes For
 

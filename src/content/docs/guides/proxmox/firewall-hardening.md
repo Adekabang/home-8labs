@@ -1203,41 +1203,12 @@ Jangan disable password authentication sebelum semua lokasi administrator telah 
 
 ## 37. Arsitektur Akhir
 
-```text
-                         INTERNET
-                            |
-             +--------------+--------------+
-             |                             |
-        NON-ADMIN                       ADMIN
-             |                      admin_sources
-             |                             |
-        TCP/22 DROP                  TCP/22 ACCEPT
-        TCP/8006 DROP                TCP/8006 ACCEPT
-             |                             |
-             +--------------+--------------+
-                            |
-                            v
-                     +-------------+
-                     | PVE HOST    |
-                     | public mgmt |
-                     +-------------+
-                            |
-             +--------------+--------------+
-             |                             |
-             v                             v
-       HOST INPUT                     VM FORWARD
-    PVEFW-HOST-IN                   PVEFW-FWBR-*
-             |                             |
-             |                             v
-      admin-only access               tap<VMID>
-                                           |
-                                           v
-                                      VM Firewall
-                                           |
-                                    Tenant Managed
-                                           |
-                                      DO NOT MODIFY
-```
+<figure class="flow-figure">
+  <strong>Dua jalur firewall Proxmox</strong>
+  <div class="flow-track"><span class="flow-node">Trafik ke host</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">PVEFW-HOST-IN</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">SSH atau antarmuka web Proxmox</span></div>
+  <div class="flow-track"><span class="flow-node">Trafik ke VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">PVEFW-FWBR-*</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Antarmuka tap VM</span><span class="flow-edge" aria-hidden="true"></span><span class="flow-node">Firewall VM</span></div>
+  <figcaption>Untuk port manajemen 22 dan 8006, izinkan sumber admin dan tolak sumber lain. Aturan ini berlaku untuk host; jangan ubah aturan milik penyewa VM.</figcaption>
+</figure>
 
 ## Operational Rule
 

@@ -414,3 +414,34 @@
   text-decoration: none;
   margin-inline-start: 0.0625rem;
 }
+/* Article diagrams use real text and wrap within the reading column. */
+.flow-figure {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--nb-border);
+  container-type: inline-size;
+}
+.flow-figure .flow-track {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .375rem;
+  margin-block: .75rem;
+}
+.flow-figure .flow-node {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--nb-border);
+  border-inline-start: 3px solid var(--nb-brand);
+  background: var(--nb-muted);
+  padding: .5rem .75rem;
+  overflow-wrap: anywhere;
+  font: 500 .875rem/1.5 var(--font-mono, monospace);
+}
+.flow-figure .flow-edge { align-self: center; color: var(--nb-muted-foreground); }
+.flow-figure .flow-edge::before { content: '↓'; }
+.flow-figure figcaption { margin-top: .75rem; font-size: .9375rem; }
+@container (min-width: 34rem) {
+  .flow-figure .flow-track { flex-direction: row; align-items: center; }
+  .flow-figure .flow-edge::before { content: '→'; }
+}
